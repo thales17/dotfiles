@@ -45,3 +45,4 @@ filetype plugin indent on    " required
 
 inoremap jj <ESC><CR>	
 syntax on
+set noswapfile
