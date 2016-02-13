@@ -10,3 +10,5 @@ source $GOPATH/src/github.com/forestgiant/gv/go_to_gv
 
 export CLICOLOR=1
 export LSCOLORS=GxFxCxDxBxegedabagaced
+
+source ~/.bashrc
