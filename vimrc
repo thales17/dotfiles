@@ -46,3 +46,6 @@ filetype plugin indent on    " required
 inoremap jj <ESC>
 syntax on
 set noswapfile
+set tabstop=2
+set shiftwidth=2
+set expandtab
