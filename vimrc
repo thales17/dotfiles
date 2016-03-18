@@ -56,3 +56,7 @@ set foldmethod=indent
 set foldnestmax=10
 set nofoldenable
 set foldlevel=1
+
+"HTML Script Tag Indent
+let g:html_indent_script1 = "inc"
+let g:html_indent_style1 = "inc"
