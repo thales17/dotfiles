@@ -12,7 +12,7 @@ Plugin 'VundleVim/Vundle.vim'
 " The following are examples of different formats supported.
 " Keep Plugin commands between vundle#begin/end.
 " plugin on GitHub repo
-" Plugin 'tpope/vim-fugitive'
+Plugin 'tpope/vim-fugitive'
 " plugin from http://vim-scripts.org/vim/scripts.html
 " Plugin 'L9'
 " Git plugin not hosted on GitHub
@@ -25,10 +25,7 @@ Plugin 'VundleVim/Vundle.vim'
 " Avoid a name conflict with L9
 " Plugin 'user/L9', {'name': 'newL9'}
 
-Plugin 'fatih/vim-go'
-Plugin 'wookiehangover/jshint.vim'
 Plugin 'scrooloose/syntastic'
-
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -45,8 +42,6 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
 "
-
-
 inoremap jj <ESC>
 syntax on
 set noswapfile
@@ -54,13 +49,4 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set noshowmatch
-
-"Code Folding
-set foldmethod=indent
-set foldnestmax=10
-set nofoldenable
-set foldlevel=1
-
-"HTML Script Tag Indent
-let g:html_indent_script1 = "inc"
-let g:html_indent_style1 = "inc"
+set background=light
