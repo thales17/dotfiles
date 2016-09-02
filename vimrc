@@ -26,6 +26,8 @@ Plugin 'tpope/vim-fugitive'
 " Plugin 'user/L9', {'name': 'newL9'}
 
 Plugin 'scrooloose/syntastic'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
