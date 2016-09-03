@@ -28,6 +28,7 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
+Plugin 'altercation/vim-colors-solarized'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -45,10 +46,17 @@ filetype plugin indent on    " required
 " Put your non-Plugin stuff after this line
 "
 inoremap jj <ESC>
-syntax on
+syntax enable
+
+if has('gui_running')
+  set background=light
+else
+  set background=dark
+endif
+
+colorscheme solarized
 set noswapfile
 set tabstop=2
 set shiftwidth=2
 set expandtab
 set noshowmatch
-set background=light
