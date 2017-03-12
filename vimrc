@@ -49,13 +49,7 @@ filetype plugin indent on    " required
 inoremap jj <ESC>
 syntax enable
 
-if has('gui_running')
-  set background=light
-else
-  set background=dark
-endif
-
-colorscheme solarized
+set background=light
 set noswapfile
 set tabstop=2
 set shiftwidth=2
