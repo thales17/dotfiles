@@ -1,4 +1,5 @@
 #SHELL
+alias ls='ls -GlhF'
 export PS1='[\u@\h \W]\$ '
 
 #SSH

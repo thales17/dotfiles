@@ -28,8 +28,8 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'scrooloose/syntastic'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
-Plugin 'altercation/vim-colors-solarized'
 Plugin 'fatih/vim-go'
+Plugin 'Shougo/neocomplete.vim'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -55,3 +55,5 @@ set tabstop=2
 set shiftwidth=2
 set expandtab
 set noshowmatch
+
+let g:neocomplete#enable_at_startup = 1
