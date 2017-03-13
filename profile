@@ -28,6 +28,7 @@ export pedestal=$GOPATH/src/gitlab.fg/magicforest/pedestal
 export pedestalhw=$HOME/code/magicforest/pedestal-hardware
 export tl=$GOPATH/src/gitlab.fg/peabody/timeline
 export dmxlight=$GOPATH/src/gitlab.fg/peabody/dmxlight
+export pscripts=$GOPATH/src/gitlab.fg/peabody/script
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
