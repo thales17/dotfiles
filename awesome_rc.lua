@@ -100,11 +100,11 @@ myawesomemenu = {
 
 mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesome_icon },
                                     { "open terminal", terminal },
+                                    { "thunar", "thunar" },
                                     { "chromium", "chromium" },
                                     { "spotify", "spotify" },
                                     { "1Password", "wine '/home/adam/.wine/drive_c/Program Files (x86)/1Password 4/1Password.exe'" },
                                     { "YNAB", "wine '/home/adam/.wine/drive_c/Program Files (x86)/YNAB 4/YNAB 4.exe'"}
-
                                   }
                         })
 

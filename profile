@@ -24,3 +24,7 @@ export tl=$GOPATH/src/gitlab.fg/peabody/timeline
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
 export SECRET_KEY=NIRhy65ROMStmMyfm55wihLEWy4eRVxsBs4MiPib
+
+if [ "$(uname)" == "Linux" ]; then
+  dropbox &
+fi
