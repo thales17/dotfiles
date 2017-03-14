@@ -1,5 +1,9 @@
 #SHELL
 alias ls='ls -GlhF'
+if [ "$(uname)" == "Linux" ]; then
+  alias ls='ls --color=auto -GlhF'
+fi
+
 export PS1='[\u@\h \W]\$ '
 
 #SSH
