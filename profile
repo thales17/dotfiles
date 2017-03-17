@@ -29,6 +29,7 @@ export dmxlight=$GOPATH/src/gitlab.fg/peabody/dmxlight
 export pscripts=$GOPATH/src/gitlab.fg/peabody/script
 export humanlog=$GOPATH/src/github.com/aybabtme/humanlog
 export arduinolight=$GOPATH/src/gitlab.fg/peabody/arduinolight
+export pui=$GOPATH/src/gitlab.fg/peabody/ui
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
