@@ -45,6 +45,13 @@ terminal = "xterm"
 editor = os.getenv("EDITOR") or "nano"
 editor_cmd = terminal .. " -e " .. editor
 
+-- Conditional Flags for Apps
+if beautiful.xresources.get_dpi() == 192 then
+  spotify = "spotify --force-device-scale-factor=2"
+else
+  spotify = "spotify"
+end
+
 -- Default modkey.
 -- Usually, Mod4 is the key with a logo between Control and Alt.
 -- If you do not like this or do not have such a key,
@@ -102,7 +109,7 @@ mymainmenu = awful.menu({ items = { { "awesome", myawesomemenu, beautiful.awesom
                                     { "open terminal", terminal },
                                     { "thunar", "thunar" },
                                     { "chromium", "chromium" },
-                                    { "spotify", "spotify" },
+                                    { "spotify", spotify },
                                     { "1Password", "wine '/home/adam/.wine/drive_c/Program Files (x86)/1Password 4/1Password.exe'" },
                                     { "YNAB", "wine '/home/adam/.wine/drive_c/Program Files (x86)/YNAB 4/YNAB 4.exe'"}
                                   }
