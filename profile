@@ -37,4 +37,5 @@ export SECRET_KEY=NIRhy65ROMStmMyfm55wihLEWy4eRVxsBs4MiPib
 
 if [ "$(uname)" == "Linux" ]; then
   dropbox &
+  xscreensaver -no-splash &
 fi
