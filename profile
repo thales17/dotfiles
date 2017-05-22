@@ -13,7 +13,7 @@ export GOPATH=$HOME/code/go
 export PATH=$PATH:$GOPATH/bin
 
 #PROJECT DIR
-export stela=$GOPATH/src/gitlab.fg/go/stela
+export stela=$GOPATH/src/github.com/forestgiant/stela
 export iris=$GOPATH/src/gitlab.fg/otis/iris
 export slideshow=$GOPATH/src/gitlab.fg/otis/slideshow
 export magbooth=$HOME/code/magbooth/magbooth-2
@@ -30,6 +30,12 @@ export pscripts=$GOPATH/src/gitlab.fg/peabody/script
 export humanlog=$GOPATH/src/github.com/aybabtme/humanlog
 export arduinolight=$GOPATH/src/gitlab.fg/peabody/arduinolight
 export pui=$GOPATH/src/gitlab.fg/peabody/ui
+export nodevideo=$HOME/code/node-video
+export cage=$GOPATH/src/gitlab.fg/flyingaxes/cage
+export scoreboard=$GOPATH/src/gitlab.fg/flyingaxes/scoreboard
+export coach=$GOPATH/src/gitlab.fg/flyingaxes/coach
+export fascripts=$GOPATH/src/gitlab.fg/flyingaxes/scripts
+export dotfiles=$HOME/code/dotfiles
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
@@ -39,3 +45,6 @@ if [ "$(uname)" == "Linux" ]; then
   dropbox &
   xscreensaver -no-splash &
 fi
+
+export downloads=$HOME/Downloads
+export code=$HOME/code
