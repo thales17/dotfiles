@@ -37,6 +37,7 @@ export coach=$GOPATH/src/gitlab.fg/flyingaxes/coach
 export fascripts=$GOPATH/src/gitlab.fg/flyingaxes/scripts
 export dotfiles=$HOME/code/dotfiles
 export wifi=$GOPATH/src/gitlab.fg/go/wifi
+export scheduleit=$HOME/code/scheduleit
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
