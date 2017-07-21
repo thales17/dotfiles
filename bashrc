@@ -13,5 +13,7 @@ alias t='$HOME/bin/todo.txt_cli-2.10/todo.sh -d $HOME/bin/todo.txt_cli-2.10/todo
 addKey() { cat $HOME/.ssh/id_rsa.pub | ssh "$@" "mkdir -p ~/.ssh && cat >> ~/.ssh/authorized_keys"; }
 
 #PROTOBUFS
-protogo() { protoc -I ./ ./"$1" --go_out=plugins=grpc:./; }
+protogo() { protoc --proto_path=./ --go_out=plugins=grpc:./ ./"$1"; }
+
+
 
