@@ -15,5 +15,6 @@ addKey() { cat $HOME/.ssh/id_rsa.pub | ssh "$@" "mkdir -p ~/.ssh && cat >> ~/.ss
 #PROTOBUFS
 protogo() { protoc --proto_path=./ --go_out=plugins=grpc:./ ./"$1"; }
 
-
+#HUMANLOG
+alias humanlog='humanlog --light-bg'
 

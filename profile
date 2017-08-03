@@ -38,6 +38,10 @@ export fascripts=$GOPATH/src/gitlab.fg/flyingaxes/scripts
 export dotfiles=$HOME/code/dotfiles
 export wifi=$GOPATH/src/gitlab.fg/go/wifi
 export scheduleit=$HOME/code/scheduleit
+export oauthgrpc=$HOME/code/go/src/github.com/forestgiant/oauthgrpc
+export harmony=$HOME/code/go/src/gitlab.fg/otis/harmony
+export protodapui=$HOME/code/scratch/protodap-ui
+export echonat=$GOPATH/src/gitlab.fg/go/echonat
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
