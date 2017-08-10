@@ -42,6 +42,7 @@ export oauthgrpc=$HOME/code/go/src/github.com/forestgiant/oauthgrpc
 export harmony=$HOME/code/go/src/gitlab.fg/otis/harmony
 export protodapui=$HOME/code/scratch/protodap-ui
 export echonat=$GOPATH/src/gitlab.fg/go/echonat
+export storywise=$HOME/code/xcode/storywise
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
