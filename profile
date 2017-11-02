@@ -43,6 +43,13 @@ export harmony=$HOME/code/go/src/gitlab.fg/otis/harmony
 export protodapui=$HOME/code/scratch/protodap-ui
 export echonat=$GOPATH/src/gitlab.fg/go/echonat
 export storywise=$HOME/code/xcode/storywise
+export rtproto=$HOME/code/realtree/prototype
+export rtchooser=$HOME/code/realtree/rt-chooser
+export xlsx2json=$GOPATH/src/gitlab.fg/realtree/xlsx2json
+export disco=$GOPATH/src/github.com/forestgiant/disco
+export goeuler=$GOPATH/src/github.com/thales17/go-projecteuler
+export forestgiantdotcom=$HOME/code/forestgiant/forestgiant.com
+export edgemicrosite=$HOME/code/realtree/edge-microsite
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
