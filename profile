@@ -50,6 +50,7 @@ export disco=$GOPATH/src/github.com/forestgiant/disco
 export goeuler=$GOPATH/src/github.com/thales17/go-projecteuler
 export forestgiantdotcom=$HOME/code/forestgiant/forestgiant.com
 export edgemicrosite=$HOME/code/realtree/edge-microsite
+export canvastetris=$HOME/code/canvas-tetris
 
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
