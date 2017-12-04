@@ -51,7 +51,7 @@ export goeuler=$GOPATH/src/github.com/thales17/go-projecteuler
 export forestgiantdotcom=$HOME/code/forestgiant/forestgiant.com
 export edgemicrosite=$HOME/code/realtree/edge-microsite
 export canvastetris=$HOME/code/canvas-tetris
-
+export lge=$HOME/code/go/src/gitlab.fg/lge
 #MINIO
 export ACCESS_KEY=3RDSZGTI0740DBZY47SE
 export SECRET_KEY=NIRhy65ROMStmMyfm55wihLEWy4eRVxsBs4MiPib
