@@ -12,6 +12,10 @@ export PATH=$PATH:$HOME/bin
 export GOPATH=$HOME/code/go
 export PATH=$PATH:$GOPATH/bin
 
+#node
+export NPM_GLOBAL=$HOME/.npm-global
+export PATH=$PATH:$NPM_GLOBAL/bin
+
 #PROJECT DIR
 export stela=$GOPATH/src/github.com/forestgiant/stela
 export iris=$GOPATH/src/gitlab.fg/otis/iris
