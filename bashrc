@@ -18,6 +18,8 @@ protogo() { protoc --proto_path=./ --go_out=plugins=grpc:./ ./"$1"; }
 #HUMANLOG
 alias humanlog='humanlog --light-bg'
 
+#GIT
+alias gitlog='git log --oneline --decorate --all --graph'
 
 # tabtab source for serverless package
 # uninstall by removing these lines or running `tabtab uninstall serverless`
