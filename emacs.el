@@ -3,16 +3,16 @@
       (setq initial-frame-alist
             '(
               (tool-bar-lines . 0)
-              (width . 150) ; chars
-              (height . 64) ; lines
+              (width . 230) ; chars
+              (height . 50) ; lines
               ;;
               ))
 
       (setq default-frame-alist
             '(
               (tool-bar-lines . 0)
-              (width . 150)
-              (height . 64)
+              (width . 230)
+              (height . 50)
               ;;
               )))
   (progn
@@ -22,3 +22,9 @@
     (setq default-frame-alist
           '(
             (tool-bar-lines . 0)))))
+
+(require 'org)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
+(setq org-log-done t)
+(setq backup-directory-alist `(("." . "~/.saves")))
