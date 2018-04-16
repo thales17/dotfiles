@@ -1,1 +1,3 @@
-XTerm*faceName: Go Mono:size=12:antialias=true
+! URxvt
+URxvt.font: xft:Hack:size=11
+URxvt.letterSpace: -1
