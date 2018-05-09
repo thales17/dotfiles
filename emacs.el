@@ -45,3 +45,6 @@
 ;; Xah Run Current File
 (load-file "~/code/dotfiles/xah-run-current-file.el")
 (global-set-key (kbd "<f8>") 'xah-run-current-file)
+
+;; Auto reload file
+(global-auto-revert-mode 1)
