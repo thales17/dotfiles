@@ -38,3 +38,10 @@
 
 ;; Tabs
 (setq default-tab-width 2)
+
+;; Set files ending in ".p8" to open in lua-mode
+(add-to-list 'auto-mode-alist '("\\.p8\\'" . lua-mode))
+
+;; Xah Run Current File
+(load-file "~/code/dotfiles/xah-run-current-file.el")
+(global-set-key (kbd "<f8>") 'xah-run-current-file)
