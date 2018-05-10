@@ -18,14 +18,14 @@
 (setq backup-directory-alist `(("." . "~/.saves")))
 (setq auto-save-default nil)
 
-
-
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (lua-mode go-playground))))
+
+  '(package-selected-packages (quote (lua-mode typescript-mode go-playground))))
+
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -35,6 +35,7 @@
 
 ;; Always follow symlinks
 (setq vc-follow-symlinks t)
+
 
 ;; Tabs
 (setq default-tab-width 2)
@@ -48,3 +49,12 @@
 
 ;; Auto reload file
 (global-auto-revert-mode 1)
+
+
+;; Plugins
+(add-to-list 'load-path "~/.emacs.d/lisp/")
+
+;; Web Development
+(load "prettier-js.el")
+(require 'prettier-js)
+
