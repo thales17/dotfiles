@@ -33,6 +33,9 @@
  ;; If there is more than one, they won't work right.
  )
 
+;; Load Path
+(add-to-list 'load-path "~/code/dotfiles/emacs-plugins")
+
 ;; Always follow symlinks
 (setq vc-follow-symlinks t)
 
@@ -44,17 +47,40 @@
 (add-to-list 'auto-mode-alist '("\\.p8\\'" . lua-mode))
 
 ;; Xah Run Current File
-(load-file "~/code/dotfiles/xah-run-current-file.el")
+(load "xah-run-current-file.el")
 (global-set-key (kbd "<f8>") 'xah-run-current-file)
 
 ;; Auto reload file
 (global-auto-revert-mode 1)
 
-
-;; Plugins
-(add-to-list 'load-path "~/.emacs.d/lisp/")
-
 ;; Web Development
 (load "prettier-js.el")
 (require 'prettier-js)
 
+;; GUI Window Size
+(if (display-graphic-p)
+		(progn
+			(setq initial-frame-alist
+						'(
+							(tool-bar-lines . 0)
+							(width . 200) ; chars
+							(height . 68) ; lines
+							;;
+							))
+			(setq default-frame-alist
+						'(
+							(tool-bar-lines . 0)
+							(width . 200)
+							(height . 68)
+							;;
+							)))
+	(progn
+		(setq initial-frame-alist
+					'(
+						(tool-bar-lines . 0)))
+		(setq default-frame-alist
+					'(
+						(tool-bar-lines . 0)))))
+
+;; Load solarized
+(load-theme 'solarized-light t)
