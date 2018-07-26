@@ -1,7 +1,0 @@
-! URxvt
-URxvt.font: xft:Hack:size=11
-URxvt.letterSpace: -1
-URxvt.background: Black
-URxvt.foreground: White
-URxvt.scrollBar: false
-
