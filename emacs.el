@@ -60,7 +60,7 @@
  '(magit-diff-use-overlays nil)
  '(package-selected-packages
 	 (quote
-		(yaml-mode exec-path-from-shell lua-mode typescript-mode go-playground)))
+		(org-projectile org-agenda-property yaml-mode exec-path-from-shell lua-mode typescript-mode go-playground)))
  '(pos-tip-background-color "#eee8d5")
  '(pos-tip-foreground-color "#586e75")
  '(smartrep-mode-line-active-bg (solarized-color-blend "#859900" "#eee8d5" 0.2))
