@@ -1,0 +1,5 @@
+URxvt.background:black
+URxvt.foreground:white
+URxvt.font:xft:Source Code Pro:pixelsize=12
+URxvt.letterSpace:-1
+URxvt.scrollBar:false
