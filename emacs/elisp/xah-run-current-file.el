@@ -36,7 +36,12 @@ Version 2018-03-01"
 						 ("latex" . "pdflatex")
 						 ("java" . "javac")
 						 ;; ("pov" . "/usr/local/bin/povray +R2 +A0.1 +J1.2 +Am2 +Q9 +H480 +W640")
-						 ("p8" . ,(if (string-equal system-type "darwin") "~/bin/p8" "pico8 -run")) ; Pico-8
+						 ("p8" . ,
+              (if (string-equal system-type "darwin")
+                  "~/bin/p8"
+                (if (string-equal system-type "gnu/linux")
+                    "~/.pico8/pico8 -run"
+                  "pico8 -run"))) ; Pico-8
 						 ))
 					$fname
 					$fSuffix
