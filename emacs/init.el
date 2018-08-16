@@ -24,11 +24,46 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-enabled-themes (quote (tango-dark)))
+ '(elfeed-feeds
+   (quote
+    (("https://www.reddit.com/r/fightsticks/.rss" gaming)
+     ("https://www.reddit.com/r/tekken/.rss" gaming)
+     ("https://www.reddit.com/r/StreetFighter/.rss" gaming)
+     ("https://shoryuken.com/feed/" gaming)
+     ("https://www.giantbomb.com/videos/feed/hd/?api_key=e7111fb512aa82c48cfe54f51b5a69029c93c57d" gaming)
+     ("https://www.reddit.com/r/emulation/.rss" gaming)
+     ("https://www.eurogamer.net/?format=rss&topic=digital_foundry" gaming)
+     ("https://www.usgamer.net/rss" gaming)
+     ("https://www.polygon.com/rss/index.xml" gaming)
+     ("https://kotaku.com/rss" gaming)
+     ("http://rss.cnn.com/rss/money_latest.rss" news)
+     ("https://www.politico.com/rss/economy.xml" news)
+     ("https://www.politico.com/rss/defense.xml" news)
+     ("https://www.politico.com/rss/congress.xml" news)
+     ("https://www.politico.com/rss/politics08.xml" news)
+     ("https://www.theguardian.com/world/rss" news)
+     ("https://www.npr.org/rss/rss.php?id=1001" news)
+     ("https://www.phoronix.com/rss.php" tech)
+     ("http://feeds.arstechnica.com/arstechnica/features" tech)
+     ("http://feeds.arstechnica.com/arstechnica/index" tech)
+     ("https://www.theverge.com/rss/index.xml" tech)
+     ("https://www.reddit.com/r/golang/.rss" tech)
+     ("https://www.reddit.com/r/linux/.rss" tech)
+     ("https://www.reddit.com/r/emacs/.rss" tech)
+     ("http://rss.cnn.com/rss/cnn_topstories.rss" news)
+     ("https://www.slashfilm.com/feed/" film)
+     ("https://www.reddit.com/r/pico8/.rss" tech)
+     ("https://www.reddit.com/r/Louisville/.rss" news)
+     ("https://www.reddit.com/r/politics/.rss" news)
+     ("https://www.reddit.com/r/Angular2/.rss" tech)
+     ("https://news.ycombinator.com/rss" tech))))
+ 
  '(fill-column 70)
  '(helm-follow-mode-persistent t)
+ '(org-export-backends (quote (ascii html icalendar latex md odt)))
  '(package-selected-packages
    (quote
-    (dumb-jump helm-ag helm typescript-mode go-mode markdown-mode magit org runner lua-mode))))
+    (elfeed-protocol elfeed dumb-jump helm-ag helm typescript-mode go-mode markdown-mode magit org runner lua-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -115,3 +150,10 @@
 
 ;; Symlinks
 (setq vc-follow-symlinks t)
+
+;; Exec Path
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Users/adamrichardson/code/go/bin"))
+(setenv "GOPATH" "/Users/adamrichardson/code/go")
+(setq exec-path (append exec-path '("/usr/local/bin")))
+(setq exec-path (append exec-path '("/Users/adamrichardson/code/go/bin")))
+
