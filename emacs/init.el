@@ -56,6 +56,12 @@
      ("https://www.reddit.com/r/Louisville/.rss" news)
      ("https://www.reddit.com/r/politics/.rss" news)
      ("https://www.reddit.com/r/Angular2/.rss" tech)
+     ("https://boingboing.net/feed" random)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCfAPTv1LgeEWevG8X_6PUOQ" gaming)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCrIttXi0WgLXHI1poCk0D6g" gaming)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCjFaPUcJU1vwk193mnW_w1w" gaming)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCpvtp7mH0Cdq8FQUxcjDq0Q" gaming)
+     ("https://www.reddit.com/r/NintendoSwitch/.rss" gaming)
      ("https://news.ycombinator.com/rss" tech))))
  
  '(fill-column 70)
