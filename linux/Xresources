@@ -3,4 +3,8 @@ URxvt.foreground:white
 URxvt.font:xft:Source Code Pro:pixelsize=12
 URxvt.letterSpace:-1
 URxvt.scrollBar:false
-XTerm*selectToClipboard:true
+xterm*selectToClipboard:true
+xterm*faceName: Inconsolata
+xterm*faceSize: 11
+xterm*background: black
+xterm*foreground: white
