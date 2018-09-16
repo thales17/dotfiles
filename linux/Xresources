@@ -5,6 +5,6 @@ URxvt.letterSpace:-1
 URxvt.scrollBar:false
 xterm*selectToClipboard:true
 xterm*faceName: Inconsolata
-xterm*faceSize: 11
+xterm*faceSize: 14
 xterm*background: black
 xterm*foreground: white
