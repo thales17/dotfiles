@@ -110,6 +110,10 @@
 
 ;; Line Numbers
 (global-display-line-numbers-mode 1)
+(add-hook 'shell-mode-hook (lambda ()
+                             (display-line-numbers-mode 0)))
+(add-hook 'dired-mode-hook (lambda ()
+                             (display-line-numbers-mode 0)))
 
 ;; Dumb Jump
 (dumb-jump-mode 1)
@@ -119,10 +123,10 @@
 (setq vc-follow-symlinks t)
 
 ;; Exec Path
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/Users/adamrichardson/code/go/bin"))
-(setenv "GOPATH" "/Users/adamrichardson/code/go")
+(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/home/adam/code/go/bin"))
+(setenv "GOPATH" "/home/adam/code/go")
 (setq exec-path (append exec-path '("/usr/local/bin")))
-(setq exec-path (append exec-path '("/Users/adamrichardson/code/go/bin")))
+(setq exec-path (append exec-path '("/home/adam/code/go/bin")))
 
 ;; Font
 (add-to-list 'default-frame-alist '(font . "-CYRE-Inconsolata-normal-normal-normal-*-15-*-*-*-m-0-iso10646-1"))
