@@ -1,10 +1,11 @@
-URxvt.background:black
-URxvt.foreground:white
-URxvt.font:xft:Source Code Pro:pixelsize=12
-URxvt.letterSpace:-1
-URxvt.scrollBar:false
+urxvt.background:black
+urxvt.foreground:white
+urxvt.font: xft:Inconsolata:pixelsize=14,xft:Noto Color Emoji,xft:Noto Sans Symbols,xft:Noto Sans Symbols2
+urxvt.scrollBar:false
+urxvt.letterSpace: 1
 xterm*selectToClipboard:true
 xterm*faceName: Inconsolata
+xterm*locale: true
 xterm*faceSize: 14
 xterm*background: black
 xterm*foreground: white
