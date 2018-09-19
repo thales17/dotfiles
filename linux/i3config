@@ -173,3 +173,4 @@ bar {
 
 
 exec --no-startup-id dropbox start
+exec --no-startup-id xscreensaver -no-splash
