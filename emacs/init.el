@@ -24,13 +24,12 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-enabled-themes (quote (tango-dark)))
- 
  '(fill-column 70)
  '(helm-follow-mode-persistent t)
  '(org-export-backends (quote (ascii html icalendar latex md odt)))
  '(package-selected-packages
    (quote
-    (elfeed-protocol elfeed dumb-jump helm-ag helm typescript-mode go-mode markdown-mode magit org runner lua-mode))))
+    (rjsx-mode elfeed-protocol elfeed dumb-jump helm-ag helm typescript-mode go-mode markdown-mode magit org runner lua-mode))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -51,6 +50,7 @@
 ;; Tabs
 (setq default-tab-width 2)
 (setq-default tab-width 2)
+(setq typescript-indent-level 2)
 
 ;; Initial Buffer
 (setq inhibit-startup-screen t
@@ -134,3 +134,7 @@
 
 ;; Large File Warning
 (setq large-file-warning-threshold nil)
+
+;; Prettier
+(require 'prettier-js)
+(add-hook 'typescript-mode-hook 'prettier-js-mode)
