@@ -24,12 +24,55 @@
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
  '(custom-enabled-themes (quote (tango-dark)))
+ '(elfeed-feeds
+   (quote
+    (("https://www.reddit.com/r/fightsticks/.rss" gaming)
+     ("https://www.reddit.com/r/tekken/.rss" gaming)
+     ("https://www.reddit.com/r/StreetFighter/.rss" gaming)
+     ("https://shoryuken.com/feed/" gaming)
+     ("https://www.giantbomb.com/videos/feed/hd/?api_key=e7111fb512aa82c48cfe54f51b5a69029c93c57d" gaming)
+     ("https://www.reddit.com/r/emulation/.rss" gaming)
+     ("https://www.eurogamer.net/?format=rss&topic=digital_foundry" gaming)
+     ("https://www.usgamer.net/rss" gaming)
+     ("https://www.polygon.com/rss/index.xml" gaming)
+     ("https://kotaku.com/rss" gaming)
+     ("http://rss.cnn.com/rss/money_latest.rss" news)
+     ("https://www.politico.com/rss/economy.xml" news)
+     ("https://www.politico.com/rss/defense.xml" news)
+     ("https://www.politico.com/rss/congress.xml" news)
+     ("https://www.politico.com/rss/politics08.xml" news)
+     ("https://www.theguardian.com/world/rss" news)
+     ("https://www.npr.org/rss/rss.php?id=1001" news)
+     ("https://www.phoronix.com/rss.php" tech)
+     ("http://feeds.arstechnica.com/arstechnica/features" tech)
+     ("http://feeds.arstechnica.com/arstechnica/index" tech)
+     ("https://www.theverge.com/rss/index.xml" tech)
+     ("https://www.reddit.com/r/golang/.rss" tech)
+     ("https://www.reddit.com/r/linux/.rss" tech)
+     ("https://www.reddit.com/r/emacs/.rss" tech)
+     ("http://rss.cnn.com/rss/cnn_topstories.rss" news)
+     ("https://www.slashfilm.com/feed/" film)
+     ("https://www.reddit.com/r/pico8/.rss" tech)
+     ("https://www.reddit.com/r/Louisville/.rss" news)
+     ("https://www.reddit.com/r/politics/.rss" news)
+     ("https://www.reddit.com/r/Angular2/.rss" tech)
+     ("https://boingboing.net/feed" random)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCfAPTv1LgeEWevG8X_6PUOQ" gaming)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCrIttXi0WgLXHI1poCk0D6g" gaming)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCjFaPUcJU1vwk193mnW_w1w" gaming)
+     ("https://www.youtube.com/feeds/videos.xml?channel_id=UCpvtp7mH0Cdq8FQUxcjDq0Q" gaming)
+     ("https://www.reddit.com/r/NintendoSwitch/.rss" gaming)
+     ("https://news.ycombinator.com/rss" tech))))
  '(fill-column 70)
  '(helm-follow-mode-persistent t)
  '(org-export-backends (quote (ascii html icalendar latex md odt)))
  '(package-selected-packages
    (quote
+<<<<<<< HEAD
     (rjsx-mode elfeed-protocol elfeed dumb-jump helm-ag helm typescript-mode go-mode markdown-mode magit org runner lua-mode))))
+=======
+    (rust-playground rust-mode yaml-mode rjsx-mode elfeed-protocol elfeed dumb-jump helm-ag helm typescript-mode go-mode markdown-mode magit org runner lua-mode))))
+>>>>>>> Getting started with vimrc
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -65,6 +108,9 @@
 
 ;; Set files ending in ".p8" to open in lua-mode
 (add-to-list 'auto-mode-alist '("\\.p8\\'" . lua-mode))
+
+;; Set files ending in ".tsx" to open in typescript-mode
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . typescript-mode))
 
 ;(global-set-key (kbd "; Load Path
 (add-to-list 'load-path "~/.emacs.d/elisp")
@@ -126,6 +172,7 @@
 (setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin:/home/adam/code/go/bin"))
 (setenv "GOPATH" "/home/adam/code/go")
 (setq exec-path (append exec-path '("/usr/local/bin")))
+<<<<<<< HEAD
 (setq exec-path (append exec-path '("/home/adam/code/go/bin")))
 
 ;; Font
@@ -138,3 +185,6 @@
 ;; Prettier
 (require 'prettier-js)
 (add-hook 'typescript-mode-hook 'prettier-js-mode)
+=======
+(setq exec-path (append exec-path '("/Users/adamrichardson/code/go/bin")))
+>>>>>>> Getting started with vimrc
