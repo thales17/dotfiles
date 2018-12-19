@@ -9,7 +9,14 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 "My Plugins Start
 Plugin 'leafgarland/typescript-vim'
+Plugin 'godlygeek/tabular'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'fatih/vim-go'
 "My Plugins End
 
 call vundle#end()
 filetype plugin indent on
+
+set expandtab
+set tabstop=2
+set shiftwidth=2
