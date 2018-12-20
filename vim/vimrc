@@ -12,6 +12,8 @@ Plugin 'leafgarland/typescript-vim'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'fatih/vim-go'
+Plugin 'scrooloose/nerdtree'
+Plugin 'Xuyuanp/nerdtree-git-plugin'
 "My Plugins End
 
 call vundle#end()
@@ -20,3 +22,5 @@ filetype plugin indent on
 set expandtab
 set tabstop=2
 set shiftwidth=2
+
+autocmd vimenter * NERDTree
