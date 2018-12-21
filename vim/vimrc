@@ -24,3 +24,4 @@ set tabstop=2
 set shiftwidth=2
 
 autocmd vimenter * NERDTree
+set noswapfile
