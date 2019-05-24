@@ -13,6 +13,7 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'scrooloose/nerdtree'
 Plugin 'embear/vim-uncrustify'
 Plugin 'fatih/vim-go'
+Plugin 'rust-lang/rust.vim'
 "------------------
 call vundle#end()
 filetype plugin indent on
@@ -28,6 +29,7 @@ let g:syntastic_python_checkers=['python3']
 let g:uncrustify_config_file = '~/.uncrustify.cfg'
 let g:vim_markdown_folding_disabled = 1
 let g:go_fmt_command = 'goimports'
+let g:rustfmt_autosave = 1
 
 autocmd Filetype c setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8
 autocmd BufWritePre *.py execute ':Black'

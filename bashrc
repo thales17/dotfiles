@@ -10,3 +10,5 @@ PS1='[\u@\h \W]\$ '
 
 export PATH=$PATH:$HOME/.local/bin
 export LANG='en_US.UTF-8'
+
+export PATH=$PATH:$HOME/.cargo/bin
