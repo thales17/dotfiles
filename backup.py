@@ -30,6 +30,7 @@ def push_dirs():
         ("/home/adam/gaming/states/", "/ext3/backups/gaming/states"),
         ("/home/adam/code/", "/ext3/backups/ajrichpad/code"),
         ("/home/adam/docs/", "/ext3/backups/ajrichpad/docs"),
+        ("/home/adam/.config/", "/ext3/backups/ajrichpad/.config"),
     ]
 
     for d in DIRS:

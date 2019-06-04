@@ -36,3 +36,5 @@ autocmd BufWritePre *.py execute ':Black'
 autocmd Filetype c autocmd BufWritePre <buffer> call Uncrustify()
 
 map <silent> <C-n> :NERDTreeToggle<CR>
+
+set background=dark
