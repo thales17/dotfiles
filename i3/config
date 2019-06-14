@@ -181,3 +181,5 @@ bindsym XF86AudioMute exec --no-startup-id pamixer -t
 # Brightness control
 bindsym XF86MonBrightnessUp exec --no-startup-id xbacklight -inc 5
 bindsym XF86MonBrightnessDown exec --no-startup-id xbacklight -dec 5
+
+exec thunar --daemon

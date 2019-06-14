@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 import os
 
-SERVER = "retrobox"
+SERVER = "vega"
 USER = "adam"
 
 
@@ -10,8 +10,8 @@ def pull_dirs():
     DIRS = [
         ("/home/adam/music", "/ext2/music/"),
         ("/home/adam/gaming/roms", "/ext2/games/roms/"),
-        ("/home/adam/gaming/saves", "/ext3/backups/gaming/saves/"),
-        ("/home/adam/gaming/states", "/ext3/backups/gaming/states/"),
+        ("/home/adam/gaming/saves", "/ext1/backups/gaming/saves/"),
+        ("/home/adam/gaming/states", "/ext1/backups/gaming/states/"),
     ]
 
     for d in DIRS:
@@ -25,9 +25,6 @@ def push_dirs():
     TMP = 'rsync -avz -e "ssh" --progress %s %s@%s:%s'
     DIRS = [
         ("/home/adam/music/", "/ext2/music"),
-        ("/home/adam/gaming/roms/", "/ext2/games/roms"),
-        ("/home/adam/gaming/saves/", "/ext3/backups/gaming/saves"),
-        ("/home/adam/gaming/states/", "/ext3/backups/gaming/states"),
         ("/home/adam/code/", "/ext3/backups/ajrichpad/code"),
         ("/home/adam/docs/", "/ext3/backups/ajrichpad/docs"),
         ("/home/adam/.config/", "/ext3/backups/ajrichpad/.config"),
