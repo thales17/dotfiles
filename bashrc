@@ -26,5 +26,4 @@ PROMPT='[\u@\h \W]'
 PS1="${COLOR}[\u@${BOLD}${YELLOW}\h${RESET}${COLOR} \W]${PURPLE}\$${RESET} "
 
 
-
 alias suhi='sudo systemctl suspend-then-hibernate'

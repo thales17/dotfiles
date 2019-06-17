@@ -25,9 +25,9 @@ def push_dirs():
     TMP = 'rsync -avz -e "ssh" --progress %s %s@%s:%s'
     DIRS = [
         ("/home/adam/music/", "/ext2/music"),
-        ("/home/adam/code/", "/ext3/backups/ajrichpad/code"),
-        ("/home/adam/docs/", "/ext3/backups/ajrichpad/docs"),
-        ("/home/adam/.config/", "/ext3/backups/ajrichpad/.config"),
+        ("/home/adam/code/", "/ext1/backups/ajrichpad/code"),
+        ("/home/adam/docs/", "/ext1/backups/ajrichpad/docs"),
+        ("/home/adam/.config/", "/ext1/backups/ajrichpad/.config"),
     ]
 
     for d in DIRS:
