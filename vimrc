@@ -32,6 +32,7 @@ let g:go_fmt_command = 'goimports'
 let g:rustfmt_autosave = 1
 
 autocmd Filetype c setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8
+autocmd Filetype go setlocal noexpandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufWritePre *.py execute ':Black'
 autocmd Filetype c autocmd BufWritePre <buffer> call Uncrustify()
 

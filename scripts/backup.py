@@ -12,6 +12,7 @@ def pull_dirs():
         ("/home/adam/gaming/roms", "/ext2/games/roms/"),
         ("/home/adam/gaming/saves", "/ext1/backups/gaming/saves/"),
         ("/home/adam/gaming/states", "/ext1/backups/gaming/states/"),
+        ("/home/adam/reading", "/ext1/ext1/store/reading/"),
     ]
 
     for d in DIRS:
@@ -28,6 +29,9 @@ def push_dirs():
         ("/home/adam/code/", "/ext1/backups/ajrichpad/code"),
         ("/home/adam/docs/", "/ext1/backups/ajrichpad/docs"),
         ("/home/adam/.config/", "/ext1/backups/ajrichpad/.config"),
+        ("/home/adam/reading/", "/ext1/ext1/store/reading"),
+        ("/home/adam/gaming/saves", "/ext1/backups/gaming/saves/"),
+        ("/home/adam/gaming/states", "/ext1/backups/gaming/states/"),
     ]
 
     for d in DIRS:
@@ -38,5 +42,5 @@ def push_dirs():
 
 
 if __name__ == "__main__":
-    pull_dirs()
     push_dirs()
+    pull_dirs()
