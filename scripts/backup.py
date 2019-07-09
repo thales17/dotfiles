@@ -13,6 +13,7 @@ def pull_dirs():
         ("/home/adam/gaming/saves", "/ext1/backups/gaming/saves/"),
         ("/home/adam/gaming/states", "/ext1/backups/gaming/states/"),
         ("/home/adam/reading", "/ext1/ext1/store/reading/"),
+        ("/home/adam/wallpapers", "/ext1/backups/ajrichpad/wallpapers/"),
     ]
 
     for d in DIRS:
@@ -30,8 +31,9 @@ def push_dirs():
         ("/home/adam/docs/", "/ext1/backups/ajrichpad/docs"),
         ("/home/adam/.config/", "/ext1/backups/ajrichpad/.config"),
         ("/home/adam/reading/", "/ext1/ext1/store/reading"),
-        ("/home/adam/gaming/saves", "/ext1/backups/gaming/saves/"),
-        ("/home/adam/gaming/states", "/ext1/backups/gaming/states/"),
+        ("/home/adam/gaming/saves/", "/ext1/backups/gaming/saves"),
+        ("/home/adam/gaming/states/", "/ext1/backups/gaming/states"),
+        ("/home/adam/wallpapers/", "/ext1/backups/ajrichpad/wallpapers"),
     ]
 
     for d in DIRS:

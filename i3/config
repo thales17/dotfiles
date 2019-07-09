@@ -171,7 +171,8 @@ bar {
 }
 
 # Screen locking
-exec --no-startup-id xss-lock -- i3lock --color=548ca4
+#exec --no-startup-id xss-lock -- i3lock --color=548ca4
+exec --no-startup-id xscreensaver --nosplash &
 
 # Volume control
 bindsym XF86AudioRaiseVolume exec --no-startup-id pamixer -i 2 -u
