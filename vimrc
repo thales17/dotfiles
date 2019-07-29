@@ -40,3 +40,6 @@ map <silent> <C-n> :NERDTreeToggle<CR>
 map <silent> <C-x> :vert term<CR>
 
 set background=dark
+
+set laststatus=2
+set statusline=%F

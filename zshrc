@@ -16,5 +16,7 @@ export LANG='en_US.UTF-8'
 
 export PATH=$PATH:$HOME/.cargo/bin
 
+export PATH=$PATH:$HOME/code/scripts
+
 alias suhi='sudo systemctl suspend-then-hibernate'
 alias gitlog='git log --oneline --decorate --all --graph'

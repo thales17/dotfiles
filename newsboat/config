@@ -1,7 +1,8 @@
 auto-reload yes
 max-items 50
 
-browser "xdg-open %u"
+#browser "xdg-open %u"
+browser "w3m %u"
 
 unbind-key ENTER
 unbind-key j
@@ -14,4 +15,5 @@ bind-key k up
 bind-key l open
 bind-key h quit
 
-macro m set browser "mpv %u"; open-in-browser ; set browser "xdg-open %u"
+#macro m set browser "mpv %u"; open-in-browser ; set browser "xdg-open %u"
+#macro m set browser "mpv %u"; open-in-browser ; set browser "w3m %u"
