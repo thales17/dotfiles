@@ -20,3 +20,4 @@ export PATH=$PATH:$HOME/code/scripts
 
 alias suhi='sudo systemctl suspend-then-hibernate'
 alias gitlog='git log --oneline --decorate --all --graph'
+alias notez='cd ~/notes && grep --line-buffered --color=never -r "" * | fzf' 
