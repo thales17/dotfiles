@@ -18,16 +18,17 @@ set $term kitty
 # Your preferred application launcher
 # Note: it's recommended that you pass the final command to sway
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
+#set $menu mauncher
+
+font pango:Hack Regular 6
 
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg ~/wallpapers/astronomy/NGC1566_Shatz_2018d.jpg fill
 
-output eDP-1 position 0,0 resolution 1920x1080
-output HDMI-A-2 position 1920,0 resolution 1920x1080
-
-
+output eDP-1 position 0,0 resolution 1920x1080 scale 2
+output HDMI-A-2 position 960,0 resolution 1920x1080 scale 2
 #
 # Example configuration:
 #
@@ -212,7 +213,7 @@ bar {
     # The default just shows the current date and time.
     #status_command while date +'%Y-%m-%d %l:%M:%S %p'; do sleep 1; done
     status_command i3status
-
+		font pango:Hack Regular 8
     colors {
         statusline #ffffff
         background #323232
@@ -228,5 +229,9 @@ bindsym XF86AudioMute exec --no-startup-id pamixer -t
 # Brightness control
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 8 
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 8 
+
+# Fullscreen apps inhibit idle
+for_window [class="^.*"] inhibit_idle fullscreen
+for_window [app_id="^.*"] inhibit_idle fullscreen
 
 include /etc/sway/config.d/*

@@ -10,7 +10,7 @@ Plugin 'python/black'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
 Plugin 'vim-syntastic/syntastic'
-Plugin 'scrooloose/nerdtree'
+"Plugin 'scrooloose/nerdtree'
 Plugin 'embear/vim-uncrustify'
 Plugin 'fatih/vim-go'
 Plugin 'rust-lang/rust.vim'
@@ -23,7 +23,7 @@ set tabstop=2
 set shiftwidth=2
 set backspace=indent,eol,start
 
-let NERDTreeShowHidden=1
+"let NERDTreeShowHidden=1
 let g:syntastic_python_python_exec = '/usr/bin/python3'
 let g:syntastic_python_checkers=['python3']
 let g:uncrustify_config_file = '~/.uncrustify.cfg'
@@ -36,10 +36,13 @@ autocmd Filetype go setlocal noexpandtab tabstop=4 softtabstop=4 shiftwidth=4
 autocmd BufWritePre *.py execute ':Black'
 autocmd Filetype c autocmd BufWritePre <buffer> call Uncrustify()
 
-map <silent> <C-n> :NERDTreeToggle<CR>
+"map <silent> <C-n> :NERDTreeToggle<CR>
 map <silent> <C-x> :vert term<CR>
 
 set background=dark
 
 set laststatus=2
 set statusline=%F
+
+set nocp
+

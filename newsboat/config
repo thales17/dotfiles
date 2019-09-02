@@ -1,8 +1,9 @@
 auto-reload yes
 max-items 50
 
-browser "xdg-open %u"
+#browser "xdg-open %u"
 #browser "w3m %u"
+browser "fireway %u"
 
 unbind-key ENTER
 unbind-key j
