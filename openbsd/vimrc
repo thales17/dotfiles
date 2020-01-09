@@ -1,0 +1,32 @@
+syntax on
+
+"Vundle Start
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'vim-syntastic/syntastic'
+Plugin 'embear/vim-uncrustify'
+call vundle#end()
+filetype plugin indent on
+"Vundle End
+
+"Basic Vim Config
+set tabstop=2
+set noexpandtab
+set shiftwidth=2
+set backspace=indent,eol,start
+set background=light
+set noswapfile
+set backup
+set backupdir=~/.backups//
+set t_Co=256
+
+"Variables
+let g:uncrustify_config_file = '~/.uncrustify.cfg'
+
+"c 
+autocmd FileType c setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8
+autocmd Filetype c autocmd BufWritePre <buffer> call Uncrustify()
