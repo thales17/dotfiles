@@ -1,0 +1,9 @@
+export ENV=$HOME/.zshrc
+xsetroot -solid black &
+mpd &
+while xsetroot -name "`date`"
+do
+	sleep 1
+done &
+
+dwm

@@ -1,0 +1,25 @@
+#
+# ~/.zrc
+#
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+autoload -Uz compinit
+compinit
+
+PROMPT='%F{cyan}[%n%f@%F{magenta}%B%m%b%f %F{cyan}%~]%f%F{green}$%f '
+
+export LANG='en_US.UTF-8'
+
+export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$HOME/.cargo/bin
+export PATH=$PATH:$HOME/.local/sbin
+
+alias ls='ls -lh'
+alias gitlog='git log --oneline --decorate --all --graph'
+alias prettyjson='python3 -m json.tool'
+alias doom='crispy-doom -iwad doom.wad -merge sigil.wad'
+alias msync='rsync -av adam@vega2:/ext2/music/ /home/adam/media/music/flacs'
+alias wmpull='rsync -av adam@vega2:/ext2/web_music/new/ /home/adam/media/music/webrips'
+alias wmpush='rsync -av /home/adam/media/music/webrips/ adam@vega2:/ext2/web_music/new '
