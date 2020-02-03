@@ -29,4 +29,6 @@ let g:uncrustify_config_file = '~/.uncrustify.cfg'
 
 "c 
 autocmd FileType c setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8
+autocmd FileType cpp setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8
 autocmd Filetype c autocmd BufWritePre <buffer> call Uncrustify()
+autocmd Filetype cpp autocmd BufWritePre <buffer> call Uncrustify()
