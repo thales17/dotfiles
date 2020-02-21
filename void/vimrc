@@ -9,6 +9,8 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'vim-syntastic/syntastic'
 Plugin 'embear/vim-uncrustify'
+Plugin 'fatih/vim-go'
+Plugin 'cespare/vim-toml'
 call vundle#end()
 filetype plugin indent on
 "Vundle End
@@ -23,9 +25,11 @@ set noswapfile
 set backup
 set backupdir=~/.backups//
 set t_Co=256
+set background=dark
 
 "Variables
 let g:uncrustify_config_file = '~/.uncrustify.cfg'
+let g:go_fmt_command = 'goimports'
 
 "c 
 autocmd FileType c setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8

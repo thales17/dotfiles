@@ -1,3 +1,5 @@
+#!/bin/sh
+
 export ENV=$HOME/.zshrc
 xsetroot -solid black &
 mpd &

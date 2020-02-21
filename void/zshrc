@@ -12,20 +12,25 @@ PROMPT='%F{cyan}[%n%f@%F{magenta}%B%m%b%f %F{cyan}%~]%f%F{green}$%f '
 
 export LANG='en_US.UTF-8'
 
+export GOPATH=$HOME/.go
+
 export PATH=$PATH:$HOME/.local/bin
-export PATH=$PATH:$HOME/.cargo/bin
 export PATH=$PATH:$HOME/.local/sbin
+export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:/opt/texlive/2019/bin/x86_64-linux
 
 alias ls='ls -lh'
 alias gitlog='git log --oneline --decorate --all --graph'
 alias prettyjson='python3 -m json.tool'
+alias textz='grep --line-buffered --color=never -r -n "" * | fzf'
+
+# Server Alias
 alias msync='rsync -av adam@vega2:/ext2/music/ /home/adam/media/music/flacs'
 alias wmpull='rsync -av adam@vega2:/ext2/web_music/new/ /home/adam/media/music/webrips'
 alias wmpush='rsync -av /home/adam/media/music/webrips/ adam@vega2:/ext2/web_music/new '
-
-alias textz='grep --line-buffered --color=never -r -n "" * | fzf'
 
 # Games
 alias doom='crispy-doom -iwad doom.wad -merge sigil.wad'
 alias wolf='wolf3d --windowed-mouse'
 alias quake='quakespasm -basedir /usr/local/share/games/quake'
+alias quake3='cd /home/adam/src/ioquake3/build/release-linux-x86_64 && ioquake3'
