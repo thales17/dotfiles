@@ -4,11 +4,13 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
+[[ $TERM == st-256color ]] && exec tmux
+#[[ -z "$TMUX" ]] && exec tmux
 
 autoload -Uz compinit
 compinit
 
-PROMPT='%F{cyan}[%n%f@%F{magenta}%B%m%b%f %F{cyan}%~]%f%F{green}$%f '
+PROMPT='%F{yellow}[%n%f@%F{green}%B%m%b%f %F{yellow}%~]%f%F{cyan}$%f '
 
 export LANG='en_US.UTF-8'
 
@@ -17,7 +19,7 @@ export GOPATH=$HOME/.go
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$HOME/.local/sbin
 export PATH=$PATH:$GOPATH/bin
-export PATH=$PATH:/opt/texlive/2019/bin/x86_64-linux
+export PATH=$PATH:$HOME/docs/scripts
 
 alias ls='ls -lh'
 alias gitlog='git log --oneline --decorate --all --graph'
