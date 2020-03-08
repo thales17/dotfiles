@@ -4,8 +4,7 @@
 
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
-[[ $TERM == st-256color ]] && exec tmux
-#[[ -z "$TMUX" ]] && exec tmux
+[[ $TERM == st-256color ]] && exec tmux attach
 
 autoload -Uz compinit
 compinit
@@ -35,4 +34,4 @@ alias wmpush='rsync -av /home/adam/media/music/webrips/ adam@vega2:/ext2/web_mus
 alias doom='crispy-doom -iwad doom.wad -merge sigil.wad'
 alias wolf='wolf3d --windowed-mouse'
 alias quake='quakespasm -basedir /usr/local/share/games/quake'
-alias quake3='cd /home/adam/src/ioquake3/build/release-linux-x86_64 && ioquake3'
+alias quake3='cd /home/adam/src/ioquake3/build/release-linux-x86_64 && ./ioquake3'

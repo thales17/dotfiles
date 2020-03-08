@@ -11,6 +11,10 @@ Plugin 'vim-syntastic/syntastic'
 Plugin 'embear/vim-uncrustify'
 Plugin 'fatih/vim-go'
 Plugin 'cespare/vim-toml'
+Plugin 'prettier/vim-prettier'
+Plugin 'leafgarland/typescript-vim'
+Plugin 'junegunn/fzf'
+Plugin 'vim-scripts/DrawIt'
 call vundle#end()
 filetype plugin indent on
 "Vundle End
@@ -30,6 +34,8 @@ set background=dark
 "Variables
 let g:uncrustify_config_file = '~/.uncrustify.cfg'
 let g:go_fmt_command = 'goimports'
+let g:prettier#autoformat = 1
+let g:prettier#autoformat_require_pragma = 0
 
 "c 
 autocmd FileType c setlocal noexpandtab tabstop=8 softtabstop=8 shiftwidth=8

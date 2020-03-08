@@ -4,11 +4,5 @@ export ENV=$HOME/.zshrc
 xsetroot -solid "#03256C" &
 mpd ~/.mpd.conf &
 slstatus &
-#xautolock -time 10 -locker slock &
-#xscreensaver -no-splash &
-
-xset s off
-xset -dpms
-xset s noblank
 
 dwm
