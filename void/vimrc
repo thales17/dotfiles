@@ -15,6 +15,7 @@ Plugin 'prettier/vim-prettier'
 Plugin 'leafgarland/typescript-vim'
 Plugin 'junegunn/fzf'
 Plugin 'vim-scripts/DrawIt'
+Plugin 'christoomey/vim-tmux-navigator'
 call vundle#end()
 filetype plugin indent on
 "Vundle End

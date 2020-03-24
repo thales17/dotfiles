@@ -23,7 +23,8 @@ export PATH=$PATH:$HOME/docs/scripts
 alias ls='ls -lh'
 alias gitlog='git log --oneline --decorate --all --graph'
 alias prettyjson='python3 -m json.tool'
-alias textz='grep --line-buffered --color=never -r -n "" * | fzf'
+alias rg='rg --color ansi'
+alias less='less -R'
 
 # Server Alias
 alias msync='rsync -av adam@vega2:/ext2/music/ /home/adam/media/music/flacs'
@@ -35,3 +36,4 @@ alias doom='crispy-doom -iwad doom.wad -merge sigil.wad'
 alias wolf='wolf3d --windowed-mouse'
 alias quake='quakespasm -basedir /usr/local/share/games/quake'
 alias quake3='cd /home/adam/src/ioquake3/build/release-linux-x86_64 && ./ioquake3'
+alias mvc2='redream ~/games/roms/dreamcast/Marvel\ vs.\ Capcom\ 2\ \(USA\)/Marvel\ vs.\ Capcom\ 2\ \(USA\).cue'
