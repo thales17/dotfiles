@@ -1,0 +1,2 @@
+* Readme
+This repo contains a config.org. This file is used to generate all dotfiles. You will need to use emacs org mode and org-mode-tangle to generate the files
