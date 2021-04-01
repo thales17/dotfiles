@@ -1,2 +1,115 @@
 * Readme
 This repo contains a config.org. This file is used to generate all dotfiles. You will need to use emacs org mode and org-mode-tangle to generate the files
+* emacs
+** Manual
+[[https://orgmode.org/manual/index.html][Org Mode Manual]]
+*** Org-Mode Cheatsheet
+**** Links
+Press C-c C-l to (org-insert-link)
+Press C-c C-o to (org-open-at-point) (This will tell the currently running firefox to open the link)
+Add C-u before insert link to insert a file
+Two C-u will use absolute path
+[[file:todo.org][Link to todo.org]]
+**** Code and Tangles
+#+BEGIN_SRC c
+#include <stdio.h>
+
+int main () {
+    printf("Hello, world!\n");
+    return 0;
+}
+
+#+END_SRC
+
+To use a code block in a tangle first give it a name with =#+NAME: name=
+You can reference it with noweb templates for example =<<name>>=
+On the source line add the following: =:noweb yes :tangle filename.code=
+** Enable melpa
+#+NAME: melpa
+#+BEGIN_SRC emacs-lisp
+(require 'package)
+;;(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+;; Comment/uncomment this line to enable MELPA Stable if desired.  See `package-archive-priorities`
+;; and `package-pinned-packages`. Most users will not need or want to do this.
+(add-to-list 'package-archives '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+(package-initialize)
+(unless package-archive-contents
+  (package-refresh-contents))
+#+END_SRC
+** Packages
+#+NAME: packages
+#+BEGIN_SRC emacs-lisp
+(setq package-list '(magit lua-mode markdown-mode elpher))
+(dolist (package package-list)
+  (unless (package-installed-p package)
+    (package-install package)))
+#+END_SRC
+[[https://stackoverflow.com/questions/10092322/how-to-automatically-install-emacs-packages-by-specifying-a-list-of-package-name][stackoverflow: how to automatically install packages in emacs]]
+** Tabs
+[[https://www.gnu.org/software/emacs/manual/html_node/emacs/Just-Spaces.html][Emacs tabs vs. spaces]]
+[[https://stackoverflow.com/questions/8973489/emacs-tab-not-working][Emacs tab key not working]]
+[[http://ergoemacs.org/emacs/emacs_tabs_space_indentation_setup.html][ErgoEmacs: Tab/Space/Indent Setup]]
+[[https://www.gnu.org/software/emacs/manual/html_node/ccmode/Indentation-Engine-Basics.html#Indentation-Engine-Basics][CC Mode Intention basics]]
+*** =C-q Tab= will insert a =\t= all the time
+*** Seems like you want the offset or indentation level to match the tab-width
+*** This will cause the tab key to be set when indenting
+*** Syntactic indentation is cool, it will detect the opening and closing of block for a given language
+#+NAME: tabs
+#+BEGIN_SRC emacs-lisp
+(setq-default tab-width 4)
+(setq-default c-basic-offset 4)
+(setq-default lua-indent-level 4)
+;(setq c-syntactic-indentation nil)
+#+END_SRC
+** dired
+#+NAME: dired
+#+BEGIN_SRC emacs-lisp
+(setq dired-dwim-target t)
+#+END_SRC
+** Keyboard Shortcuts
+#+NAME: keyboard-shortcuts
+#+BEGIN_SRC emacs-lisp
+
+(global-set-key (kbd "<f5>") 'magit-status)
+(global-set-key (kbd "<f6>") 'magit-pull-from-upstream)
+(global-set-key (kbd "<f7>") 'magit-push-current)
+(global-set-key (kbd "<f8>") 'compile)
+(global-set-key (kbd "<f9>") 'whitespace-mode)
+
+#+END_SRC
+** Config
+#+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs
+<<melpa>>
+
+<<packages>>
+
+<<tabs>>
+
+<<dired>>
+
+<<keyboard-shortcuts>>
+
+#+END_SRC
+
+* tmux
+#+BEGIN_SRC :noweb yes :tangle ~/.tmux.conf
+# Term
+set -g default-terminal screen-256color
+set -ag terminal-overrides ",xterm-256color:Tc"
+
+# ascii fallback for ACS
+#set-option -ga terminal-overrides ',*:enacs@:smacs@:rmacs@:acsc@'
+
+# start at index 1
+set -g base-index 1
+setw -g pane-base-index 1
+
+# Change prefix key
+unbind C-b
+set-option -g prefix C-t
+bind-key C-t send-prefix
+
+# Status Bar
+set-option -g status-style bg=red
+set-option -g renumber-windows on
+#+END_SRC
