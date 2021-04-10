@@ -3,6 +3,7 @@ This repo contains a config.org. This file is used to generate all dotfiles. You
 * emacs
 ** Manual
 [[https://orgmode.org/manual/index.html][Org Mode Manual]]
+[[https://dougie.io/emacs/indent-selection/][Indenting Selection]]
 *** Org-Mode Cheatsheet
 **** Links
 Press C-c C-l to (org-insert-link)
@@ -75,7 +76,6 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 (global-set-key (kbd "<f7>") 'magit-push-current)
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
-
 #+END_SRC
 ** Config
 #+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs
