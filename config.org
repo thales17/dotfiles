@@ -66,6 +66,10 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 #+NAME: dired
 #+BEGIN_SRC emacs-lisp
 (setq dired-dwim-target t)
+(add-hook 'dired-mode-hook
+	  (lambda ()
+		(dired-hide-details-mode)
+		(dired-sort-toggle-or-edit)))
 #+END_SRC
 ** Keyboard Shortcuts
 #+NAME: keyboard-shortcuts
