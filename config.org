@@ -101,6 +101,11 @@ On the source line add the following: =:noweb yes :tangle filename.code=
  ;; If there is more than one, they won't work right.
  )
 #+END_SRC
+** Ido
+#+NAME: ido
+#+BEGIN_SRC emacs-lisp
+(ido-mode 1)
+#+END_SRC
 ** Config
 #+BEGIN_SRC emacs-lisp :noweb yes :tangle ~/.emacs
 <<melpa>>
@@ -112,6 +117,8 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 <<dired>>
 
 <<keyboard-shortcuts>>
+
+<<ido>>
 
 <<theme>>
 
