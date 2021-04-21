@@ -81,8 +81,8 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
 #+END_SRC
-** Theme
-#+NAME: theme
+** Custom Set Variables
+#+NAME: custom
 #+BEGIN_SRC emacs-lisp
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -93,7 +93,8 @@ On the source line add the following: =:noweb yes :tangle filename.code=
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(custom-enabled-themes '(deeper-blue)))
+ '(custom-enabled-themes '(deeper-blue))
+ '(initial-buffer-choice t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -120,7 +121,7 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 
 <<ido>>
 
-<<theme>>
+<<custom>>
 
 #+END_SRC
 
