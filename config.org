@@ -66,6 +66,8 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 #+NAME: dired
 #+BEGIN_SRC emacs-lisp
 (setq dired-dwim-target t)
+(setq dired-recursive-copies (quote always))
+(setq dired-recursive-deletes (quote top))
 (add-hook 'dired-mode-hook
 	  (lambda ()
 		(dired-hide-details-mode)
