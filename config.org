@@ -40,7 +40,7 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 ** Packages
 #+NAME: packages
 #+BEGIN_SRC emacs-lisp
-(setq package-list '(magit lua-mode markdown-mode dart-mode))
+(setq package-list '(magit lua-mode markdown-mode dart-mode go-mode))
 (dolist (package package-list)
   (unless (package-installed-p package)
     (package-install package)))
@@ -93,6 +93,7 @@ On the source line add the following: =:noweb yes :tangle filename.code=
    [default default default italic underline success warning error])
  '(ansi-color-names-vector
    ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
+ '(confirm-kill-emacs 'y-or-n-p)
  '(custom-enabled-themes '(deeper-blue)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
