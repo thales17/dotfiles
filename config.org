@@ -71,13 +71,14 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 		(dired-hide-details-mode)
 		(dired-sort-toggle-or-edit)))
 #+END_SRC
+** magit
+#+NAME: magit
+#+BEGIN_SRC emacs-lisp
+(require 'magit)
+#+END_SRC
 ** Keyboard Shortcuts
 #+NAME: keyboard-shortcuts
 #+BEGIN_SRC emacs-lisp
-
-(global-set-key (kbd "<f5>") 'magit-status)
-(global-set-key (kbd "<f6>") 'magit-pull-from-upstream)
-(global-set-key (kbd "<f7>") 'magit-push-current)
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
 #+END_SRC
@@ -112,6 +113,8 @@ On the source line add the following: =:noweb yes :tangle filename.code=
 <<melpa>>
 
 <<packages>>
+
+<<magit>>
 
 <<tabs>>
 
