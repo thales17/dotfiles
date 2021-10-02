@@ -1,0 +1,6 @@
+* dotfiles and notes
+** Config
+- [[file:config/config.org][Various home dir configs]]   
+- [[file:config/emacs.org][Emacs]]
+** Notes
+- [[file:notes/system_setup/archlinux.org][Arch Linux]]

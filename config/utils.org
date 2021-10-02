@@ -1,0 +1,41 @@
+* sus - Suspend
+sus is a small script that locks the screen and puts the computer into suspend mode
+#+name: sus
+#+begin_src sh :noweb yes :tangle ~/.local/bin/sus :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  xlock &
+
+  sleep 1 && systemctl suspend
+#+end_src
+
+* backup
+Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically
+#+name: backup
+#+begin_src sh :noweb yes :tangle ~/.local/bin/backup :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  SERVER=megavega
+  SERVER_PATH=/ext2/backups
+
+  TIME=$(date); echo "backup starting at $TIME"
+
+  echo "Pushing password store"
+  cd $HOME/.password-store/ && git push
+
+  echo "rsyncing home folder"
+  rsync --recursive --exclude-from $HOME/.backup_exclude $HOME $SERVER:$SERVER_PATH/$HOSTNAME/
+
+  TIME=$(date); echo "backup done at $TIME"
+
+#+end_src
+
+#+name: backup_exclude
+#+begin_src sh :noweb yes :tangle ~/.backup_exclude
+  .cache
+  .mozilla
+  .local/share/Steam
+  Music/
+  games/
+  code/mame_getter/
+#+end_src

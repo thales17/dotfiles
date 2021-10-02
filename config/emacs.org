@@ -1,0 +1,18 @@
+:NAME: dot emacs dot org
+#+PROPERTY: header-args :tangle ~/.emacs
+* Customizations
+Customizations should be stored in a separate file =~/.emacs_custom.el=
+#+begin_src elisp
+  (setq custom-file "~/.emacs-custom.el")
+  (load custom-file)
+#+end_src
+* Alt Key
+This allows the alt key to work as meta
+#+begin_src elisp
+  (setq x-alt-keysym 'meta)
+#+end_src
+* Visual line mode in text mode
+This ensures that visual line mode is enabled by default for all major modes that derive from text-mode
+#+begin_src elisp
+  (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+#+end_src

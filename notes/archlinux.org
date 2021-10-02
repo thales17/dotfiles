@@ -1,0 +1,160 @@
+* Arch Linux System Setup
+** USB Drive
+- Obtain the latest archlinux iso and verify it downloaded correctly
+- Use dd to write the image to the removable drive
+=dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/<YOUR_USB_DRIVE> conv=fsync oflag=direct status=progress=
+** Connect to Internet
+*** Wifi
+- Use =iwctl= to connect to a wifi network
+- Type =help= to see various examples of how to use iwctl
+- =station wlan0 connect <NAME_OF_NETWORK>=
+- Enter the password at the prompt
+- If it connected you can exit iwctl
+** Time
+- Set the clock to use ntp =timedatectl set-ntp true=   
+** Disks
+*** Partitioning
+**** TODO MBR
+**** UEFI
+ - Verify you booted in UEFI mode =ls /syss/firmware/efi/efivars=
+ - If you are able to run the above without errors then you are in uefi mode
+ - Use =lsblk= to view the detected harddrives
+ - Parition the main drive with =gdisk /dev/<YOUR_MAIN_DRIVE>=
+ - Delete any existing paritions
+ - Create a 512MB partition with code EF00
+ - Create a parition with the remaining space with code 8300
+ - Write the changes to disk
+*** Formatting
+**** Full Disk Encryption
+- Run =lsblk= again to see the new partition numbers
+- Run cryptsetup on the main linux parition =cryptsetup luksFormat /dev/<MAIN_DRIVE_LINUX>=
+- Open the encrypted partition as cryptroot =cryptsetup open /dev/<MAIN_DRIVE_LINUX> cryptroot=
+- Format cryptroot with ext4 =mkfs.ext4 /dev/mapper/cryptroot=
+- Mount cryptroot to /mnt =mount /dev/mapper/cryptroot /mnt=
+**** TODO Unencrypted
+**** EFI System Partition
+- Run =mkfs.fat -F32 /dev/<MAIN_DRIVE_EFI>=
+- Make mount point =mkdir /mnt/boot=
+- Mount the efi partition =mont /dev/<MAIN_DRIVE_EFI> /mnt/boot=
+** Pacstrap
+- Use pacstrap to download initial packages =pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd mg=
+** Generate fstab
+- Use genfstab to generate an fstab =genfstab -U /mnt >> /mnt/etc/fstab=   
+** Chroot
+- Use the arch-chroot command to chroot into the new partition =arch-chroot /mnt=
+** Timezone
+- Symlink your timezone to /etc/localtime =ln -sf /usr/share/zoneinfo/America/Kentucky/Louisville /etc/localtime=
+** Locale
+- Edit /etc/locale.gen and uncomment your locale
+- For example =mg /etc/locale.gen= and uncoment =en_US.UTF-8 UTF-8=
+- Generate locale =locale-gen=
+- Set the locale =localectl set-locale LANG=en_US.UTF-8=
+** Networking
+- Create the hostname file with your hostname =/etc/hostname=
+- Edit the =/etc/hosts= to like below
+#+begin_src sh
+  127.0.0.1     localhost
+  ::1           localhost
+#+end_src
+** Initramfs
+- If you are using full disk encryption you need to update the initramfs
+- Edit =/etc/mkinitcpio.conf=
+- Edit the hooks to be like this =HOOKS=(base udev autodetect modconf block keyboard encrypt filesystems fsck)=
+- Run =mkinitcpio -P= to generate the image
+** Password
+- Run =passwd= to set the root password   
+** Microcode
+- Install either =pacman -Sy intel-ucode= or =pacman -Sy amd-ucode= if that applies
+** Boot Manager
+- Run =bootctl install= to install the systemd boot manager
+- Create a boot loader entry in =/boot/loader/entries/arch.conf= with the below text
+- You can get the partition UUID from =blkid= and make sure you set the ucode to match your CPU type
+#+begin_src sh
+title   Arch Linux
+linux   /vmlinuz-linux
+initrd  /intel-ucode.img
+initrd  /initramfs-linux.img
+options cryptdevice=UUID=XXXXXXXX-XXXX-XXXX-XXXX-XXXXXXXXXXXX:cryptroot root=/dev/mapper/cryptroot rw
+#+end_src
+- Edit the =/boot/loader/loader.conf= to use your new config
+#+begin_src sh
+default      arch.conf
+timeout      5
+console-mode max
+editor       no
+#+end_src
+- You can see if it worked by running =bootctl list=
+** Enabling Services
+- Enable iwd wifi service =systemctl enable iwd=
+- Enable dhcpcd service =systemctl enable dhcpcd=
+** Rebooting
+ - Exit the chroot environment
+ - Unmount the =/mnt/boot= partition and the =/mnt= partition
+ - Run =reboot= and test out the new install
+ - Ensure that the computer doesn't try to boot the usb stick again
+** Join wifi
+- If you need to join wifi you should be able to use =iwctl= to communicate with =iwd=
+- From there it should be same as before
+- For example, =station wlan0 connect <NAME_OF_NETWORK>=
+** User accounts
+- You should create a user outside of the root user on the machine
+- Run =useradd -m -G wheel,uucp <USER_NAME>= to create a new user
+- Run =passwd <USER_NAME>= to set that new user's password
+- Install sudo if you haven't already =pacman -Sy sudo=
+- Set the EDITOR environment variable and run visudo =export EDITOR=mg && visudo=
+- From here uncomment the line that mentions the wheel group
+- After this you should be able to log in as the newly created user and run sudo commands
+** Caps Lock Control
+- Create a file named =/usr/local/share/kbd/keymaps/personal.map= (you might need to create any missing directories)
+- Give it the contents below
+#+begin_src sh
+keymaps 0-127
+keycode 58 = Control
+#+end_src
+- Edit =/etc/vconsole.conf= and set its contents to the following =KEYMAP=/usr/local/share/kbd/keymaps/personal.map=
+- After the next reboot the caps lock key should be an extra control inside the console
+** Basic Packages
+#+begin_src sh
+  pacman -Sy emacs man tmux ncdu fzf mosh
+#+end_src
+** Serial Communication
+- Install picocom =sudo pacman -Sy picocom=
+- Plug in you USB serial device and try it out
+- For example, =picocom -b 115200 /dev/ttyUSB0=
+- To find the serial device you can run dmesg and grep the output for tty =sudo dmesg | grep tty=
+- I do not recommend running picocom inside eshell, ansi-term is a better choice
+- Use =C-a C-x= to exit picocom when you are done, if inside of emacs you might need to type =C-x= twice
+- If you have issues with permissions ensure your user is in the =uucp= group with the command =groups=
+** X Windows
+- Install xorg with =sudo pacman -Sy xorg-server xorg-apps xorg-xinit=
+- Install the right graphics driver =sudo pacman -Sy xf86-video-{amdgpu, ati, intel, nouveau,=
+- Proprietary nvidia drivers are installed with =sudo pacman -Sy nvidia=
+- Based on you graphics driver you might also need to install mesa =sudo pacman -Sy mesa=
+- Install git =sudo pacman -Sy git=
+- Clone dwm =mkdir ~/src && cd ~/src && git clone https://git.suckless.org/dwm=
+- Build and install dwm =cd ~/src/dwm && sudo make install=
+- Clone dmenu =cd ~/src && git clone https://git.suckless.org/dmenu=
+- Build and install dmenu =cd ~/src/dmenu && sudo make install=
+- Clone slstatus =cd ~/src && git clone https://git.suckless.org/slstatus=
+- Build and install slstatus =cd ~/src/slstatus && sudo make install=
+- Create an .xinitrc in your homedir and set dwm and start dwm in it
+- Test out x by running =startx= from the terminal
+- Install lightdm and the gtk greeter =sudo pacman -Sy lightdm lightdm-gtk-greeter=
+- Edit the =/etc/lightdm/lightdm.conf= and uncomment greeter-session and set it to =lightdm-gtk-greeter=
+- Enable lightdm =sudo systemctl enable lightdm=
+- Create =/usr/share/xsessions/dwm.desktop= and use the below code
+#+begin_src sh
+  [Desktop Entry]
+  Name=dwm
+  Comment=Login using dwm
+  Exec=/usr/local/bin/dwm
+  TryExec=/usr/local/bin/dwm
+  Type=Application
+#+end_src
+- Start lightdm to confirm its working =sudo systemctl start lightdm=
+** Links
+- [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Ionstallation Guide]]
+- [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
+- [[https://wiki.archlinux.org/title/Working_with_the_serial_console][ArchWiki serial console]]
+- [[https://suckless.org][Suckless]]
+- [[https://wiki.archlinux.org/title/LightDM][ArchWiki LightDM]]
