@@ -11,7 +11,7 @@
 - Enter the password at the prompt
 - If it connected you can exit iwctl
 ** Time
-- Set the clock to use ntp =timedatectl set-ntp true=   
+- Set the clock to use ntp =timedatectl set-ntp true=
 ** Disks
 *** Partitioning
 **** TODO MBR
@@ -39,7 +39,7 @@
 ** Pacstrap
 - Use pacstrap to download initial packages =pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd mg=
 ** Generate fstab
-- Use genfstab to generate an fstab =genfstab -U /mnt >> /mnt/etc/fstab=   
+- Use genfstab to generate an fstab =genfstab -U /mnt >> /mnt/etc/fstab=
 ** Chroot
 - Use the arch-chroot command to chroot into the new partition =arch-chroot /mnt=
 ** Timezone
@@ -63,7 +63,7 @@
 - Edit the hooks to be like this =HOOKS=(base udev autodetect modconf block keyboard encrypt filesystems fsck)=
 - Run =mkinitcpio -P= to generate the image
 ** Password
-- Run =passwd= to set the root password   
+- Run =passwd= to set the root password
 ** Microcode
 - Install either =pacman -Sy intel-ucode= or =pacman -Sy amd-ucode= if that applies
 ** Boot Manager
@@ -180,13 +180,16 @@ keycode 58 = Control
        noto-fonts-cjk \
        noto-fonts-emoji \
        noto-fonts-extra \
-       terminus-fonts
+       terminus-fonts \
+       xorg-xbacklight \
+       pamixer
 #+end_src
 ** Sound
 - Install pulseaudio =sudo pacman -Sy pulseaudio=
 - You might need to restart for the the service to be started properly
 ** Laptop Media Keys
-- Install dunst for desktop notifications =sudo pacman -Sy dunst=   
+- Install dunst for desktop notifications =sudo pacman -Sy libnotify dunst=
+- There are various util commands that make it easy to bind to keys in dwm in the [[file:~/code/dotfiles/config/utils.org][utils.org]]
 ** Links
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Ionstallation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]

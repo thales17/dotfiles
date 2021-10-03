@@ -39,3 +39,74 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
   games/
   code/mame_getter/
 #+end_src
+
+* volume
+#+name: voldown
+#+begin_src sh :noweb yes :tangle ~/.local/bin/voldown :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  pamixer -d 5
+
+  VOL=`pamixer --get-volume`
+  BAR=$(seq --separator="─" 0 "$((VOL / 5))" | sed 's/[0-9]//g')
+
+  dunstify -i "audio-volume-high" -r 2593 -u normal "$BAR"" $VOL%"
+#+end_src
+#+name: volup
+
+#+begin_src sh :noweb yes :tangle ~/.local/bin/volup :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  pamixer -i 5
+
+  VOL=`pamixer --get-volume`
+  BAR=$(seq --separator="─" 0 "$((VOL / 5))" | sed 's/[0-9]//g')
+
+  dunstify -i "audio-volume-high" -r 2593 -u normal "$BAR"" $VOL%"
+#+end_src
+
+#+name: volmute
+#+begin_src sh :noweb yes :tangle ~/.local/bin/volmute :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  pamixer -t
+
+  if [ `pamixer --get-mute` == "true" ];
+  then
+      dunstify -i "audio-volume-muted" -r 2593 -u normal " Mute"
+  else
+      VOL=`pamixer --get-volume`
+      BAR=$(seq --separator="─" 0 "$((VOL / 5))" | sed 's/[0-9]//g')
+
+      dunstify -i "audio-volume-high" -r 2593 -u normal "$BAR"" $VOL%"
+  fi
+#+end_src
+
+* brightness
+#+name: lightdown
+#+begin_src sh :noweb yes :tangle ~/.local/bin/lightdown :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  xbacklight -dec 5
+
+  LIGHT=`xbacklight`
+  LIGHT=`printf "%.0f" $LIGHT`
+
+  BAR=$(seq --separator="─" 0 "$((LIGHT / 5))" | sed 's/[0-9]//g')
+
+  dunstify -i "system" -r 2593 -u normal "$BAR"" $LIGHT%"
+#+end_src
+
+#+name: lightup
+#+begin_src sh :noweb yes :tangle ~/.local/bin/lightup :tangle-mode (identity #o755)
+  #!/bin/bash
+
+  xbacklight -dec 5
+
+  LIGHT=`xbacklight`
+  LIGHT=`printf "%.0f" $LIGHT`
+
+  BAR=$(seq --separator="─" 0 "$((LIGHT / 5))" | sed 's/[0-9]//g')
+
+  dunstify -i "system" -r 2593 -u normal "$BAR"" $LIGHT%"
+#+end_src
