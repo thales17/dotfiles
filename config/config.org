@@ -17,8 +17,7 @@
   export PATH=$PATH:$HOME/.local/bin
 
   export EDITOR=mg
-#+end_src
-* profile
+#+end_src* profile
 #+name: .profile
 #+begin_src sh :noweb yes :tangle ~/.profile
   export PATH=$PATH:$HOME/.local/bin
@@ -78,7 +77,7 @@ This starts up various programs I want to run at login
 #+end_src
 * kitty
 #+name: kitty.conf
-#+begin_src conf :noweb yes :tangle ~/.config/kitty/kitty.conf
+#+begin_src conf :noweb yes :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   font_family      Hack
   bold_font        auto
   italic_font      auto
@@ -88,7 +87,7 @@ This starts up various programs I want to run at login
 #+end_src
 * dunst
 #+name: dunstrc
-#+begin_src conf :noweb yes :tangle ~/.config/dunst/dunstrc
+#+begin_src conf :noweb yes :tangle ~/.config/dunst/dunstrc :mkdirp yes
   [global]
       monitor = 0
       geometry = "300x5-30+20"

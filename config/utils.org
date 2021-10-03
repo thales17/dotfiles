@@ -1,7 +1,7 @@
 * sus - Suspend
 sus is a small script that locks the screen and puts the computer into suspend mode
 #+name: sus
-#+begin_src sh :noweb yes :tangle ~/.local/bin/sus :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/sus :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   xlock &
@@ -12,7 +12,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 * backup
 Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically
 #+name: backup
-#+begin_src sh :noweb yes :tangle ~/.local/bin/backup :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/backup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   SERVER=megavega
@@ -31,7 +31,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 #+end_src
 
 #+name: backup_exclude
-#+begin_src sh :noweb yes :tangle ~/.backup_exclude
+#+begin_src sh :noweb yes :tangle ~/.backup_exclude :tangle-mode (identity #o755) :mkdirp yes
   .cache
   .mozilla
   .local/share/Steam
@@ -42,7 +42,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 
 * volume
 #+name: voldown
-#+begin_src sh :noweb yes :tangle ~/.local/bin/voldown :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/voldown :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   pamixer -d 5
@@ -54,7 +54,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 #+end_src
 #+name: volup
 
-#+begin_src sh :noweb yes :tangle ~/.local/bin/volup :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/volup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   pamixer -i 5
@@ -66,7 +66,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 #+end_src
 
 #+name: volmute
-#+begin_src sh :noweb yes :tangle ~/.local/bin/volmute :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/volmute :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   pamixer -t
@@ -84,7 +84,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 
 * brightness
 #+name: lightdown
-#+begin_src sh :noweb yes :tangle ~/.local/bin/lightdown :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/lightdown :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   xbacklight -dec 5
@@ -98,7 +98,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 #+end_src
 
 #+name: lightup
-#+begin_src sh :noweb yes :tangle ~/.local/bin/lightup :tangle-mode (identity #o755)
+#+begin_src sh :noweb yes :tangle ~/.local/bin/lightup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   xbacklight -dec 5

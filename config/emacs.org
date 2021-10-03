@@ -3,7 +3,7 @@
 #+PROPERTY: header-args :tangle ~/.emacs
 * Early Init
 Disable package.el since I use straight.el
-#+begin_src elisp :tangle ~/.config/emacs/early-init.el
+#+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
   (setq package-enable-at-startup nil)
 #+end_src
 * Customizations
