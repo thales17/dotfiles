@@ -1,0 +1,7 @@
+* Gnupg
+- Obtain you backed up gpg key
+- Run =gpg --import /path/to/secret-key-backup.asc=
+- Restore gpg trust =gpg --import-ownertrust < /path/to/trustdb-backup.txt=
+- Verify everything looks right when you run =gpg --list-secret-keys=
+** Links
+- [[https://risanb.com/img/starwars.gif][Risan B's Guide on How to Backup and Restore Your GPG Key]]

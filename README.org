@@ -7,3 +7,4 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:config/utils.org][Utility Scripts]]
 ** Notes
 - [[file:notes/archlinux.org][Arch Linux]]
+- [[file:notes/gnupg.org][GnuPG]]

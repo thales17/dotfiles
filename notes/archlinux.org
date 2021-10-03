@@ -183,7 +183,8 @@ keycode 58 = Control
        noto-fonts-extra \
        terminus-fonts \
        xorg-xbacklight \
-       pamixer
+       pamixer \
+       mpv
 #+end_src
 ** Sound
 - Install pulseaudio =sudo pacman -Sy pulseaudio=
