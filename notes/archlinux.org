@@ -184,7 +184,8 @@ keycode 58 = Control
        terminus-fonts \
        xorg-xbacklight \
        pamixer \
-       mpv
+       mpv \
+       redshift
 #+end_src
 ** Sound
 - Install pulseaudio =sudo pacman -Sy pulseaudio=

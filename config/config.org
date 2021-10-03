@@ -31,7 +31,12 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
 
   # server used by the backup script
   export BACKUP_SERVER=
+
+  # location on the server where the backups should go
   export BACKUP_SERVER_PATH=
+
+  # latitude and longitude used for redshift
+  export RED_SHIFT_LAT_LONG=
 #+end_src
 
 #+name: .profile
@@ -57,6 +62,7 @@ This starts up various programs I want to run at login
 
   xss-lock -- xlock &
 
+  redshift -l $RED_SHIFT_LAT_LONG &
 #+end_src
 * Tmux
 #+name: .tmux.conf
