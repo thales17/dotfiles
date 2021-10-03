@@ -49,6 +49,7 @@
 - For example =mg /etc/locale.gen= and uncoment =en_US.UTF-8 UTF-8=
 - Generate locale =locale-gen=
 - Set the locale =localectl set-locale LANG=en_US.UTF-8=
+- Create a file =/etc/locale.conf= and set the contents to =LANG=en_US.UTF-8=
 ** Networking
 - Create the hostname file with your hostname =/etc/hostname=
 - Edit the =/etc/hosts= to like below
@@ -115,7 +116,20 @@ keycode 58 = Control
 - After the next reboot the caps lock key should be an extra control inside the console
 ** Basic Packages
 #+begin_src sh
-  pacman -Sy emacs man tmux ncdu fzf mosh
+  pacman -Sy \
+	 emacs \
+	 man \
+	 tmux \
+	 ncdu \
+	 fzf \
+	 mosh \
+	 rsync \
+	 pass \
+	 pass-otp \
+	 curl \
+	 wget \
+	 gnupg \
+	 git
 #+end_src
 ** Serial Communication
 - Install picocom =sudo pacman -Sy picocom=
@@ -152,6 +166,27 @@ keycode 58 = Control
   Type=Application
 #+end_src
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
+- Install various x programs with the below command
+#+begin_src sh
+  sudo pacman -Sy \
+       xterm \
+       firefox \
+       arandr \
+       pavucontrol \
+       xlockmore \
+       xss-lock \
+       ttf-hack \
+       noto-fonts \
+       noto-fonts-cjk \
+       noto-fonts-emoji \
+       noto-fonts-extra \
+       terminus-fonts
+#+end_src
+** Sound
+- Install pulseaudio =sudo pacman -Sy pulseaudio=
+- You might need to restart for the the service to be started properly
+** Laptop Media Keys
+- Install dunst for desktop notifications =sudo pacman -Sy dunst=   
 ** Links
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Ionstallation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]

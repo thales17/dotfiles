@@ -1,6 +1,7 @@
 * dotfiles and notes
 ** Config
-- [[file:config/config.org][Various home dir configs]]   
+- [[file:config/config.org][Various home dir configs]]
+- [[file:config/suckless.org][Suckless Programs]]
 - [[file:config/emacs.org][Emacs]]
 ** Notes
-- [[file:notes/system_setup/archlinux.org][Arch Linux]]
+- [[file:notes/archlinux.org][Arch Linux]]

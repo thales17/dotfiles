@@ -1,10 +1,34 @@
 :NAME: dot emacs dot org
+:AUTHOR: Adam Richardson
 #+PROPERTY: header-args :tangle ~/.emacs
+* Early Init
+Disable package.el since I use straight.el
+#+begin_src elisp :tangle ~/.config/emacs/early-init.el
+  (setq package-enable-at-startup nil)
+#+end_src
 * Customizations
 Customizations should be stored in a separate file =~/.emacs_custom.el=
 #+begin_src elisp
   (setq custom-file "~/.emacs-custom.el")
   (load custom-file)
+#+end_src
+* Environment
+Set various environment variables in emacs
+#+begin_src elisp
+  (setenv "LD_LIBRARY_PATH"
+	  (concat
+	   (getenv "HOME")
+	   "/.local/lib"))
+#+end_src
+* Dired Mode
+A set of customizations to dired mode to make it a little easier to use
+#+begin_src elisp
+  (setq dired-dwim-target t)
+  (setq dired-recursive-copies (quote always))
+  (setq dired-recursive-deletes (quote top))
+  (add-hook 'dired-mode-hook
+	    (lambda ()
+	      (dired-hide-details-mode)))
 #+end_src
 * Alt Key
 This allows the alt key to work as meta
@@ -15,4 +39,132 @@ This allows the alt key to work as meta
 This ensures that visual line mode is enabled by default for all major modes that derive from text-mode
 #+begin_src elisp
   (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
+#+end_src
+* Org Mode
+Customizations and global keys for org mode
+#+begin_src elisp
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+#+end_src
+* Packages
+** Setup straight.el
+This code is from the straight.el README.md in the github repo [[https://github.com/raxod502/straight.el][straight.el]]
+#+begin_src elisp
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	(bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+	  (url-retrieve-synchronously
+	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+#+end_src
+*** Upgrading
+- =M-x straight-pull-all= or =M-x straight-pull-package=
+- The packages will be rebuilt when you restart emacs or you can run =M-x straight-check-all= to rebuild them, (its probably better to restart emacs to clean the old version out)
+** Package List
+#+begin_src elisp
+  (straight-use-package 'magit)
+  (straight-use-package 'counsel)
+  (straight-use-package 'markdown-mode)
+  (straight-use-package 'geiser)
+  (straight-use-package 'geiser-guile)
+  (straight-use-package 'bongo)
+  (straight-use-package 'projectile)
+  (straight-use-package 'counsel-projectile)
+  (straight-use-package 'speed-type)
+  (straight-use-package 'paredit)
+  (straight-use-package 'elfeed)
+  (straight-use-package 'password-store)
+  (straight-use-package 'password-store-otp)
+  (straight-use-package 'lua-mode)
+#+end_src
+* Personal Elisp Files
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el
+  (defun ajr-elfeed ()
+    "My command to start and update elfeed"
+    (interactive)
+    (delete-other-windows)
+    (elfeed)
+    (elfeed-search-clear-filter)
+    (elfeed-update)
+    (beginning-of-buffer))
+
+  ;; org mode
+
+  (defun ajr-org-basic-capture (key name filename)
+    "Generates a basic capture template. It will
+  prompt you for the title of the heading and place
+  the point in the body of the heading. KEY is the
+  character that needs to be pressed in org capture
+  to use this template. NAME is the name of the capture
+  template. FILENAME is which org file in your org-directory."
+    (list key name 'entry
+	  (list 'file+headline filename name)
+	  "* %^{Title?}\n%?"))
+
+#+end_src
+Load the personal elisp files in init file
+#+begin_src elisp
+  (load "~/.emacs.d/ajr")
+#+end_src
+
+* Completion
+I use ivy for my completion framework
+#+begin_src elisp
+  (ivy-mode)
+#+end_src
+* Global Hotkeys
+#+begin_src elisp
+  (global-set-key (kbd "C-M-s") 'swiper)
+  (global-set-key (kbd "C-c r") 'ivy-resume)
+  (global-set-key (kbd "M-x") 'counsel-M-x)
+  (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+  (global-set-key (kbd "<f8>") 'compile)
+  (global-set-key (kbd "<f9>") 'whitespace-mode)
+  (global-set-key (kbd "<f10>") 'whitespace-cleanup)
+  (global-set-key (kbd "<f12>") 'comment-dwim)
+  (global-set-key (kbd "<f5>") 'ajr-elfeed)
+  (global-set-key (kbd "C-<f1>") 'password-store-copy)
+  (global-set-key (kbd "C-c m") 'bongo)
+  (global-set-key (kbd "C-x C-b") 'ibuffer)
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+#+end_src
+* Paredit
+This enables paredit mode for various lisps
+#+begin_src elisp
+  (autoload 'enable-paredit-mode "paredit"
+    "Turn on pseudo-structural editing of Lisp code." t)
+  (add-hook 'emacs-lisp-mode-hook #'enable-paredit-mode)
+  (add-hook 'eval-expression-minibuffer-setup-hook #'enable-paredit-mode)
+  (add-hook 'lisp-mode-hook #'enable-paredit-mode)
+  (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
+  (add-hook 'scheme-mode-hook #'enable-paredit-mode)
+#+end_src
+* Projectile
+Enables projectile mode and sets the project search path and command map
+#+begin_src elisp
+  (projectile-mode +1)
+  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-project-search-path '("~/code"
+					 "~/src"))
+#+end_src
+* Org Mode
+#+begin_src elisp
+  (setq org-capture-templates
+	(list (list "i" "Ideas")
+	      (ajr-org-basic-capture "ie" "Emacs" "ideas.org")
+	      (ajr-org-basic-capture "ip" "Programming Projects" "ideas.org")
+	      (ajr-org-basic-capture "io" "Org-mode" "ideas.org")
+	      (ajr-org-basic-capture "iw" "Writing" "ideas.org")
+	      (list "q" "Quick Todo" 'checkitem
+		    (list 'file "quick-todos.org") nil
+		    :prepend t)))
 #+end_src
