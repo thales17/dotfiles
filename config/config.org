@@ -17,10 +17,26 @@
   export PATH=$PATH:$HOME/.local/bin
 
   export EDITOR=mg
-#+end_src* profile
+
+  source ~/.bash_env
+#+end_src
+
+This creates a .bash_env.example that should be renamed to .bash_env and filled out.
+#+name: .bash_env
+#+begin_src sh :noweb yes :tangle ~/.bash_env.example
+  #!/bin/sh
+
+  # This file is an example and should be renamed to .bash_env
+  # Fill in values for each of the variables
+
+  # server used by the backup script
+  export BACKUP_SERVER=
+  export BACKUP_SERVER_PATH=
+#+end_src
+
 #+name: .profile
-#+begin_src sh :noweb yes :tangle ~/.profile
-  export PATH=$PATH:$HOME/.local/bin
+  #+begin_src sh :noweb yes :tangle ~/.profile
+    export PATH=$PATH:$HOME/.local/bin
 #+end_src
 * Xmodmap
 This turns the caps lock key into a control key. Sometimes this needs to be run manually after running xrandr. This can be a achieved with =xmodmap ~/.
@@ -87,7 +103,7 @@ This starts up various programs I want to run at login
 #+end_src
 * dunst
 #+name: dunstrc
-#+begin_src conf :noweb yes :tangle ~/.config/dunst/dunstrc :mkdirp yes
+#+begin_src conf :noweb yes :tangle ~/.config/dunst/dunstrc :mkdir
   [global]
       monitor = 0
       geometry = "300x5-30+20"

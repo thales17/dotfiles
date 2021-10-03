@@ -10,13 +10,11 @@ sus is a small script that locks the screen and puts the computer into suspend m
 #+end_src
 
 * backup
-Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically
+- Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically.
+- For example you could add this to your crontab =30 19 * * *	$HOME/.local/bin/backup >> $HOME/.local/log/backup.log 2>&1= to run the backup daily at 7:30pm
 #+name: backup
 #+begin_src sh :noweb yes :tangle ~/.local/bin/backup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
-
-  SERVER=megavega
-  SERVER_PATH=/ext2/backups
 
   TIME=$(date); echo "backup starting at $TIME"
 
@@ -24,7 +22,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
   cd $HOME/.password-store/ && git push
 
   echo "rsyncing home folder"
-  rsync --recursive --exclude-from $HOME/.backup_exclude $HOME $SERVER:$SERVER_PATH/$HOSTNAME/
+  rsync --recursive --exclude-from $HOME/.backup_exclude $HOME $BACKUP_SERVER:$BACKUP_SERVER_PATH/$HOSTNAME/
 
   TIME=$(date); echo "backup done at $TIME"
 
@@ -101,7 +99,7 @@ Backup script that rsyncs home dir to a remote server. Ideally a cron job is set
 #+begin_src sh :noweb yes :tangle ~/.local/bin/lightup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
-  xbacklight -dec 5
+  xbacklight -inc 5
 
   LIGHT=`xbacklight`
   LIGHT=`printf "%.0f" $LIGHT`

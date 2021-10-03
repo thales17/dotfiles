@@ -129,7 +129,8 @@ keycode 58 = Control
 	 curl \
 	 wget \
 	 gnupg \
-	 git
+	 git \
+	 cronie
 #+end_src
 ** Serial Communication
 - Install picocom =sudo pacman -Sy picocom=
