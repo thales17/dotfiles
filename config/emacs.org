@@ -83,6 +83,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'password-store)
   (straight-use-package 'password-store-otp)
   (straight-use-package 'lua-mode)
+  (straight-use-package 'ace-window)
 #+end_src
 * Personal Elisp Files
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el
@@ -95,8 +96,6 @@ This code is from the straight.el README.md in the github repo [[https://github.
     (elfeed-update)
     (beginning-of-buffer))
 
-  ;; org mode
-
   (defun ajr-org-basic-capture (key name filename)
     "Generates a basic capture template. It will
   prompt you for the title of the heading and place
@@ -108,6 +107,13 @@ This code is from the straight.el README.md in the github repo [[https://github.
 	  (list 'file+headline filename name)
 	  "* %^{Title?}\n%?"))
 
+  (defun ajr-search-web (term)
+    "Prompts the user for a search TERM. Searches
+  duckduckgo with eww for the term. Inspired by
+  https://gist.github.com/brenns10/69d39f6c46170093f73d"
+    (interactive "MSearch Web: ")
+    (eww (format "https://html.duckduckgo.com/html/?q=%s"
+		 (url-hexify-string term))))
 #+end_src
 Load the personal elisp files in init file
 #+begin_src elisp
@@ -136,6 +142,8 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
+  (global-set-key (kbd "C-x w") 'ajr-search-web)
+  (global-set-key (kbd "C-x o") 'ace-window)
 #+end_src
 * Paredit
 This enables paredit mode for various lisps
