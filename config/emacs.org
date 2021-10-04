@@ -6,12 +6,6 @@ Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
   (setq package-enable-at-startup nil)
 #+end_src
-* Customizations
-Customizations should be stored in a separate file =~/.emacs_custom.el=
-#+begin_src elisp
-  (setq custom-file "~/.emacs-custom.el")
-  (load custom-file)
-#+end_src
 * Environment
 Set various environment variables in emacs
 #+begin_src elisp
@@ -87,7 +81,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'notmuch)
 #+end_src
 * Personal Elisp Files
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
@@ -176,4 +170,12 @@ Enables projectile mode and sets the project search path and command map
 	      (list "q" "Quick Todo" 'checkitem
 		    (list 'file "quick-todos.org") nil
 		    :prepend t)))
+#+end_src
+* Customizations
+- Customizations should be stored in a separate file =~/.emacs_custom.el=
+- This should be last to ensure that the =~/.emacs-custom.el= can do any local overrides that might be needed
+
+#+begin_src elisp
+  (setq custom-file "~/.emacs-custom.el")
+  (load custom-file)
 #+end_src

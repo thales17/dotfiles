@@ -1,6 +1,8 @@
 all: config emacs utils suckless
 
 config:
+	@touch ~/.bash_env
+	@touch ~/.emacs-custom.el
 	@./tangle.sh config.org
 
 emacs:
