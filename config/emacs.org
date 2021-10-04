@@ -84,6 +84,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'password-store-otp)
   (straight-use-package 'lua-mode)
   (straight-use-package 'ace-window)
+  (straight-use-package 'notmuch)
 #+end_src
 * Personal Elisp Files
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el

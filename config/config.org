@@ -56,6 +56,8 @@ This turns the caps lock key into a control key. Sometimes this needs to be run 
 This starts up various programs I want to run at login
 #+name: .xprofile
 #+begin_src conf :noweb yes :tangle ~/.xprofile
+  source ~/.bash_env
+
   xsetroot -solid "#3b6064"
 
   slstatus &
