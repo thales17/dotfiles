@@ -45,7 +45,7 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
 #+end_src
 * Xmodmap
 This turns the caps lock key into a control key. Sometimes this needs to be run manually after running xrandr. This can be a achieved with =xmodmap ~/.
-#+name: .Xmodmap  
+#+name: .Xmodmap
 #+begin_src conf :noweb yes :tangle ~/.Xmodmap
   clear lock
   clear control
@@ -93,11 +93,14 @@ This starts up various programs I want to run at login
   set -g status-keys emacs
 #+end_src
 * Git
+All user information goes into the file .gitconfig-user, which is not part of this repo.
 #+name: .gitconfig
 #+begin_src conf :noweb yes :tangle ~/.gitconfig
-  [user]
-	  email = ajrich01@gmail.com
-	  name = Adam Richardson
+  [include]
+	  path = ~/.gitconfig-user
+
+  [pull]
+	  rebase = true
 #+end_src
 * kitty
 #+name: kitty.conf
