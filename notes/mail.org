@@ -1,5 +1,5 @@
 * Mail
-** Setting up isync
+** isync
 *** Gmail
 - For gmail the ArchWiki has a good example =~/.mbsyncrc=
 #+begin_src conf
@@ -50,6 +50,38 @@ TODO
 - After it has been setup you can run =notmuch new= for it to index your mail
 - Install the emacs package =(straight-use-package notmuch)=
 - After that you should be able to read you email in emacs with =M-x notmuch=
+** msmtp
+- Install msmtp with =sudo pacman -Sy mstmp=
+*** Gmail
+- Example config from the ArchWiki
+#+begin_src conf
+  # Set default values for all following accounts.
+  defaults
+  auth           on
+  tls            on
+  tls_trust_file /etc/ssl/certs/ca-certificates.crt
+  logfile        ~/.msmtp.log
+
+  # Gmail
+  account        gmail
+  host           smtp.gmail.com
+  port           587
+  from           username@gmail.com
+  user           username
+  passwordeval    "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.msmtp-gmail.gpg"
+
+  # A freemail service
+  account        freemail
+  host           smtp.freemail.example
+  from           joe_smith@freemail.example
+  ...
+
+  # Set a default account
+  account default : gmail
+#+end_src
+- Test it out with =printf "Subject: Test\nhello there username." | msmtp -a default username@domain.com=
 ** Links
 - [[https://wiki.archlinux.org/title/Isync][ArchWiki isync]]
 - [[https://wiki.archlinux.org/title/Notmuch][ArchWiki Notmuch]]
+- [[https://wiki.archlinux.org/title/Msmtp][ArchWiki mstmp]]
+- [[https://www.ying-ish.com/essay/emacs-notmuch-mbsync-msmtp-email/][Ying's Guide on Emacs mbsync, msmptp and notmuch]]
