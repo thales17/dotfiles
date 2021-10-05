@@ -108,3 +108,18 @@ sus is a small script that locks the screen and puts the computer into suspend m
 
   dunstify -i "system" -r 2593 -u normal "$BAR"" $LIGHT%"
 #+end_src
+* mail
+- It is probably good to sync mail down every few hours
+#+name: syncmail
+#+begin_src sh :noweb yes :tangle ~/.local/bin/syncmail :tangle-mode (identity #o755) :mkdirp yes
+  #!/bin/sh
+  TIME=$(date); echo "syncmail starting at $TIME"
+
+  # Sync all mailboxes
+  mbsync -a
+
+  # Reindex mail with notmuch
+  notmuch new
+
+  TIME=$(date); echo "syncmail ending at $TIME"
+#+end_src

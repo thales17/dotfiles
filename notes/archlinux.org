@@ -132,6 +132,8 @@ keycode 58 = Control
 	 git \
 	 cronie
 #+end_src
+- Don't forget to enable cronie =systemctl enable cronie.service=
+
 ** Serial Communication
 - Install picocom =sudo pacman -Sy picocom=
 - Plug in you USB serial device and try it out

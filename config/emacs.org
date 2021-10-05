@@ -34,13 +34,6 @@ This ensures that visual line mode is enabled by default for all major modes tha
 #+begin_src elisp
   (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 #+end_src
-* Org Mode
-Customizations and global keys for org mode
-#+begin_src elisp
-  (global-set-key (kbd "C-c l") 'org-store-link)
-  (global-set-key (kbd "C-c a") 'org-agenda)
-  (global-set-key (kbd "C-c c") 'org-capture)
-#+end_src
 * Packages
 ** Setup straight.el
 This code is from the straight.el README.md in the github repo [[https://github.com/raxod502/straight.el][straight.el]]
@@ -160,6 +153,13 @@ Enables projectile mode and sets the project search path and command map
 					 "~/src"))
 #+end_src
 * Org Mode
+Customizations and global keys for org mode
+#+begin_src elisp
+  (global-set-key (kbd "C-c l") 'org-store-link)
+  (global-set-key (kbd "C-c a") 'org-agenda)
+  (global-set-key (kbd "C-c c") 'org-capture)
+#+end_src
+
 #+begin_src elisp
   (setq org-capture-templates
 	(list (list "i" "Ideas")
@@ -167,7 +167,7 @@ Enables projectile mode and sets the project search path and command map
 	      (ajr-org-basic-capture "ip" "Programming Projects" "ideas.org")
 	      (ajr-org-basic-capture "io" "Org-mode" "ideas.org")
 	      (ajr-org-basic-capture "iw" "Writing" "ideas.org")
-	      (list "q" "Quick Todo" 'checkitem
+	      (list "t" "Quick Todo" 'checkitem
 		    (list 'file "quick-todos.org") nil
 		    :prepend t)))
 #+end_src
