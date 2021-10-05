@@ -102,6 +102,19 @@ This code is from the straight.el README.md in the github repo [[https://github.
     (interactive "MSearch Web: ")
     (eww (format "https://html.duckduckgo.com/html/?q=%s"
 		 (url-hexify-string term))))
+
+  (defun ajr-sync-mail ()
+    "Starts a process name `syncmail' and sends the output to
+  a special mode buffer. This will pop to the buffer as the
+  process is running."
+    (interactive)
+    (with-current-buffer (get-buffer-create "*syncmail*")
+      (special-mode)
+      (setq buffer-read-only nil)
+      (erase-buffer)
+      (start-process "syncmail" (current-buffer) "syncmail")
+      (setq buffer-read-only t)
+      (pop-to-buffer (current-buffer))))
 #+end_src
 Load the personal elisp files in init file
 #+begin_src elisp

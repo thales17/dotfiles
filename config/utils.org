@@ -116,7 +116,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
   TIME=$(date); echo "syncmail starting at $TIME"
 
   # Sync all mailboxes
-  mbsync -a
+  mbsync -a -q
 
   # Reindex mail with notmuch
   notmuch new
