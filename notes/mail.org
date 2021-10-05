@@ -50,6 +50,15 @@ TODO
 - After it has been setup you can run =notmuch new= for it to index your mail
 - Install the emacs package =(straight-use-package notmuch)=
 - After that you should be able to read you email in emacs with =M-x notmuch=
+** Emacs smtpmail
+#+begin_src elisp
+  (require 'smtpmail)
+  (setq smtpmail-smtp-server "smtp.gmail.com"
+	smtpmail-smtp-service 587
+	smtpmail-stream-type 'tls)
+#+end_src
+- [[https://emacs.stackexchange.com/questions/12203/sending-smtp-email-via-gmail][Stackexchange send smtp mail with emacs]]
+
 ** msmtp
 - Install msmtp with =sudo pacman -Sy mstmp=
 *** Gmail
