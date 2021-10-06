@@ -133,7 +133,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
   (global-set-key (kbd "<f8>") 'compile)
-  (global-set-key (kbd "<f9>") 'whitespace-mode)
+  (global-set-key (kbd "<f9>") 'notmuch)
   (global-set-key (kbd "<f10>") 'whitespace-cleanup)
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
@@ -183,6 +183,10 @@ Customizations and global keys for org mode
 	      (list "t" "Quick Todo" 'checkitem
 		    (list 'file "quick-todos.org") nil
 		    :prepend t)))
+#+end_src
+* Before Save Hook
+#+begin_src elisp
+  (add-hook 'before-save-hook 'whitespace-cleanup)
 #+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=

@@ -51,44 +51,23 @@ TODO
 - Install the emacs package =(straight-use-package notmuch)=
 - After that you should be able to read you email in emacs with =M-x notmuch=
 ** Emacs smtpmail
+- Emacs uses you =~/.authinfo.gpg= file to auth with the server
+- The format for authinfo is like this =machine example.org login <LOGIN_NAME> password <PASSWORD>=
+- If you add =.gpg= to the end emacs will encrypt the file
+- Once you setup your smtp server you can send messages with C-x m, or pressing m inside notmuch mode.
+*** Gmail
 #+begin_src elisp
   (require 'smtpmail)
   (setq smtpmail-smtp-server "smtp.gmail.com"
-	smtpmail-smtp-service 587
-	smtpmail-stream-type 'tls)
+	smtpmail-smtp-service 465
+	smtpmail-stream-type 'ssl
+	message-send-mail-function 'message-smtpmail-send-it)
 #+end_src
-- [[https://emacs.stackexchange.com/questions/12203/sending-smtp-email-via-gmail][Stackexchange send smtp mail with emacs]]
+ - [[https://emacs.stackexchange.com/questions/12203/sending-smtp-email-via-gmail][Stackexchange send smtp mail with emacs]]
 
-** msmtp
-- Install msmtp with =sudo pacman -Sy mstmp=
-*** Gmail
-- Example config from the ArchWiki
-#+begin_src conf
-  # Set default values for all following accounts.
-  defaults
-  auth           on
-  tls            on
-  tls_trust_file /etc/ssl/certs/ca-certificates.crt
-  logfile        ~/.msmtp.log
+** Protonmail Bridge
+- [[https://aur.archlinux.org/protonmail-bridge.git][Protonmail Bridge AUR]]
 
-  # Gmail
-  account        gmail
-  host           smtp.gmail.com
-  port           587
-  from           username@gmail.com
-  user           username
-  passwordeval    "gpg --quiet --for-your-eyes-only --no-tty --decrypt ~/.msmtp-gmail.gpg"
-
-  # A freemail service
-  account        freemail
-  host           smtp.freemail.example
-  from           joe_smith@freemail.example
-  ...
-
-  # Set a default account
-  account default : gmail
-#+end_src
-- Test it out with =printf "Subject: Test\nhello there username." | msmtp -a default username@domain.com=
 ** Links
 - [[https://wiki.archlinux.org/title/Isync][ArchWiki isync]]
 - [[https://wiki.archlinux.org/title/Notmuch][ArchWiki Notmuch]]
