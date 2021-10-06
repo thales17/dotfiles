@@ -72,6 +72,8 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'lua-mode)
   (straight-use-package 'ace-window)
   (straight-use-package 'notmuch)
+  (straight-use-package 'yasnippet)
+  (straight-use-package 'yasnippet-snippets)
 #+end_src
 * Personal Elisp Files
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
@@ -187,6 +189,10 @@ Customizations and global keys for org mode
 * Before Save Hook
 #+begin_src elisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
+#+end_src
+* YASnippet
+#+begin_src elisp
+  (yas-global-mode)
 #+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=
