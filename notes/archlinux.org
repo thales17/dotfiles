@@ -187,7 +187,8 @@ keycode 58 = Control
        xorg-xbacklight \
        pamixer \
        mpv \
-       redshift
+       redshift \
+       thunar
 #+end_src
 ** Sound
 - Install pulseaudio =sudo pacman -Sy pulseaudio=
