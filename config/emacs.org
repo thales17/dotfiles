@@ -74,6 +74,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'notmuch)
   (straight-use-package 'yasnippet)
   (straight-use-package 'yasnippet-snippets)
+  (straight-use-package 'yafolding)
 #+end_src
 * Personal Elisp Files
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
@@ -148,6 +149,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-x w") 'ajr-search-web)
   (global-set-key (kbd "C-x o") 'ace-window)
+  (global-set-key (kbd "C-<return>") 'yafolding-toggle-element)
 #+end_src
 * Paredit
 This enables paredit mode for various lisps
@@ -191,9 +193,10 @@ Customizations and global keys for org mode
 #+begin_src elisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
 #+end_src
-* YASnippet
+* Global Modes
 #+begin_src elisp
   (yas-global-mode)
+  (yafolding-mode)
 #+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=
