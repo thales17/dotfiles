@@ -130,7 +130,11 @@ keycode 58 = Control
 	 wget \
 	 gnupg \
 	 git \
-	 cronie
+	 cronie \
+	 cdparanoia \
+	 abcde \
+	 beets \
+	 python-pip
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 
