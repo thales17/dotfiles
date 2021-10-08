@@ -36,6 +36,8 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
   export BACKUP_SERVER_PATH=
 
   # latitude and longitude used for redshift
+  # use geonames.org to find a given locations latitude and longitude
+  # example, using Louisville, KY lat/lon: `export RED_SHIFT_LAT_LONG=38.25424:-85.75941`
   export RED_SHIFT_LAT_LONG=
 #+end_src
 

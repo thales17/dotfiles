@@ -1,0 +1,6 @@
+* Ubuntu System Setup
+** Packages
+#+begin_src sh
+  sudo apt install \
+       redshift
+#+end_src
