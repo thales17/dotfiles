@@ -116,25 +116,7 @@ keycode 58 = Control
 - After the next reboot the caps lock key should be an extra control inside the console
 ** Basic Packages
 #+begin_src sh
-  pacman -Sy \
-	 emacs \
-	 man \
-	 tmux \
-	 ncdu \
-	 fzf \
-	 mosh \
-	 rsync \
-	 pass \
-	 pass-otp \
-	 curl \
-	 wget \
-	 gnupg \
-	 git \
-	 cronie \
-	 cdparanoia \
-	 abcde \
-	 beets \
-	 python-pip
+  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 
@@ -175,24 +157,7 @@ keycode 58 = Control
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
 - Install various x programs with the below command
 #+begin_src sh
-  sudo pacman -Sy \
-       xterm \
-       firefox \
-       arandr \
-       pavucontrol \
-       xlockmore \
-       xss-lock \
-       ttf-hack \
-       noto-fonts \
-       noto-fonts-cjk \
-       noto-fonts-emoji \
-       noto-fonts-extra \
-       terminus-fonts \
-       xorg-xbacklight \
-       pamixer \
-       mpv \
-       redshift \
-       thunar
+  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-fonts xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb
 #+end_src
 ** Sound
 - Install pulseaudio =sudo pacman -Sy pulseaudio=
