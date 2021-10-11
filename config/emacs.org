@@ -197,6 +197,7 @@ Customizations and global keys for org mode
 #+begin_src elisp
   (yas-global-mode)
   (yafolding-mode)
+  (add-hook 'prog-mode-hook 'linum-mode)
 #+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=
