@@ -77,7 +77,9 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'yafolding)
 #+end_src
 * Personal Elisp Files
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+** elfeed
+#+name: elfeed
+#+begin_src elisp
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
@@ -86,18 +88,24 @@ This code is from the straight.el README.md in the github repo [[https://github.
     (elfeed-search-clear-filter)
     (elfeed-update)
     (beginning-of-buffer))
-
+#+end_src
+** org capture
+#+name: org-capture
+#+begin_src elisp
   (defun ajr-org-basic-capture (key name filename)
     "Generates a basic capture template. It will
-  prompt you for the title of the heading and place
-  the point in the body of the heading. KEY is the
-  character that needs to be pressed in org capture
-  to use this template. NAME is the name of the capture
-  template. FILENAME is which org file in your org-directory."
+     prompt you for the title of the heading and place
+     the point in the body of the heading. KEY is the
+     character that needs to be pressed in org capture
+     to use this template. NAME is the name of the capture
+     template. FILENAME is which org file in your org-directory."
     (list key name 'entry
 	  (list 'file+headline filename name)
 	  "* %^{Title?}\n%?"))
-
+#+end_src
+** web search
+#+name: web-search
+#+begin_src elisp
   (defun ajr-search-web (term)
     "Prompts the user for a search TERM. Searches
   duckduckgo with eww for the term. Inspired by
@@ -105,7 +113,10 @@ This code is from the straight.el README.md in the github repo [[https://github.
     (interactive "MSearch Web: ")
     (eww (format "https://html.duckduckgo.com/html/?q=%s"
 		 (url-hexify-string term))))
-
+#+end_src
+** mail
+#+name: mail
+#+begin_src elisp
   (defun ajr-sync-mail ()
     "Starts a process name `syncmail' and sends the output to
   a special mode buffer. This will pop to the buffer as the
@@ -119,10 +130,78 @@ This code is from the straight.el README.md in the github repo [[https://github.
       (setq buffer-read-only t)
       (pop-to-buffer (current-buffer))))
 #+end_src
-Load the personal elisp files in init file
+** music
+#+name: music
 #+begin_src elisp
-  (load "~/.emacs.d/ajr")
+  (setq ajr--music-dir "~/music")
+
+  (defun ajr--all-albums ()
+    "Returns a list of pairs of all available albums `(ARTIST . ALBUM)'"
+    (let ((artists (directory-files ajr--music-dir
+				    nil
+				    directory-files-no-dot-files-regexp)))
+      (mapcan (lambda (artist)
+		(let ((artist-path (string-join
+				    (list ajr--music-dir
+					  "/" artist))))
+		  (mapcar (lambda (album)
+			    `(,artist . ,album))
+			  (directory-files artist-path
+					   nil
+					   directory-files-no-dot-files-regexp))))
+	      artists)))
+
+  (defun ajr--ask-album ()
+    "Prompts the user to choose an album, returns `(ARTIST . ALBUM)"
+    (let* ((albums (ajr--all-albums))
+	   (album-display-names
+	    (mapcar (lambda (album)
+		      (format "%s - %s" (car album) (cdr album)))
+		    albums))
+	   (albums-alist (mapcar (lambda (n)
+				   `(,(nth n album-display-names) .
+				     ,(nth n albums)))
+				 (number-sequence 0 (- (length albums) 1)))))
+
+      (cdr (assoc (completing-read "Which album? "
+			       album-display-names)
+	      albums-alist))))
+
+  (defun ajr--album-path (album)
+    "Gets the path of an album from `(ARTIST . ALBUM)'"
+    (string-join (list ajr--music-dir
+		       "/"
+		       (car album)
+		       "/"
+		       (cdr album))))
+
+  (defun ajr-bongo-play-album ()
+    "Prompts the user for an album and starts playing it"
+    (interactive)
+    (let ((album (ajr--ask-album)))
+      (with-bongo-playlist-buffer
+	(bongo-stop)
+	(bongo-erase-buffer)
+	(bongo-insert-directory-tree (ajr--album-path album))
+	(goto-char (point-min))
+	(bongo-play))))
 #+end_src
+** ajr.el
+ #+begin_src elisp :noweb yes :tangle ~/.emacs.d/ajr.el :mkdirp yes
+   <<elfeed>>
+
+   <<org-capture>>
+
+   <<web-search>>
+
+   <<mail>>
+
+   <<music>>
+ #+end_src
+ Load the personal elisp files in init file
+ #+begin_src elisp
+   (load "~/.emacs.d/ajr")
+ #+end_src
 
 * Completion
 I use ivy for my completion framework
@@ -142,7 +221,12 @@ I use ivy for my completion framework
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
   (global-set-key (kbd "C-<f1>") 'password-store-copy)
-  (global-set-key (kbd "C-c m") 'bongo)
+  (define-key global-map (kbd "C-c m") (make-sparse-keymap))
+  (global-set-key (kbd "C-c m b") 'bongo-playlist)
+  (global-set-key (kbd "C-c m a") 'ajr-bongo-play-album)
+  (global-set-key (kbd "C-c m p") 'bongo-pause/resume)
+  (global-set-key (kbd "C-c m <right>") 'bongo-next)
+  (global-set-key (kbd "C-c m <left>") 'bongo-previous)
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
@@ -192,6 +276,10 @@ Customizations and global keys for org mode
 * Before Save Hook
 #+begin_src elisp
   (add-hook 'before-save-hook 'whitespace-cleanup)
+#+end_src
+* Bongo
+#+begin_src elisp
+  (require 'bongo)
 #+end_src
 * Global Modes
 #+begin_src elisp
