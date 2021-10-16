@@ -1,6 +1,6 @@
 * bashrc
 #+name: .bashrc
-#+begin_src sh :noweb yes :tangle ~/.bashrc
+#+begin_src sh :tangle ~/.bashrc
   #
   # ~/.bashrc
   #
@@ -23,7 +23,7 @@
 
 This creates a .bash_env.example that should be renamed to .bash_env and filled out.
 #+name: .bash_env
-#+begin_src sh :noweb yes :tangle ~/.bash_env.example
+#+begin_src sh :tangle ~/.bash_env.example
   #!/bin/sh
 
   # This file is an example and should be renamed to .bash_env
@@ -42,13 +42,13 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
 #+end_src
 
 #+name: .profile
-  #+begin_src sh :noweb yes :tangle ~/.profile
+  #+begin_src sh :tangle ~/.profile
     export PATH=$PATH:$HOME/.local/bin
 #+end_src
 * Xmodmap
 This turns the caps lock key into a control key. Sometimes this needs to be run manually after running xrandr. This can be a achieved with =xmodmap ~/.
 #+name: .Xmodmap
-#+begin_src conf :noweb yes :tangle ~/.Xmodmap
+#+begin_src conf :tangle ~/.Xmodmap
   clear lock
   clear control
   keycode 66 = Control_L
@@ -57,7 +57,7 @@ This turns the caps lock key into a control key. Sometimes this needs to be run 
 * Xprofile
 This starts up various programs I want to run at login
 #+name: .xprofile
-#+begin_src conf :noweb yes :tangle ~/.xprofile
+#+begin_src conf :tangle ~/.xprofile
   source ~/.bash_env
 
   xsetroot -solid "#3b6064"
@@ -67,10 +67,16 @@ This starts up various programs I want to run at login
   xss-lock -- xlock &
 
   redshift -l $RED_SHIFT_LAT_LONG &
+
+  ./.xprofile-local
+#+end_src
+#+name: .xprofile-local
+#+begin_src conf :tangle ~/.xprofile-local :tangle-mode (identity #o755)
+  # Local xconfig goes here
 #+end_src
 * Tmux
 #+name: .tmux.conf
-#+begin_src conf :noweb yes :tangle ~/.tmux.conf
+#+begin_src conf :tangle ~/.tmux.conf
   # Term
   set -g default-terminal screen-256color
   set -ag terminal-overrides ",xterm-256color:Tc"
@@ -97,7 +103,7 @@ This starts up various programs I want to run at login
 * Git
 All user information goes into the file .gitconfig-user, which is not part of this repo.
 #+name: .gitconfig
-#+begin_src conf :noweb yes :tangle ~/.gitconfig
+#+begin_src conf :tangle ~/.gitconfig
   [include]
 	  path = ~/.gitconfig-user
 
@@ -106,7 +112,7 @@ All user information goes into the file .gitconfig-user, which is not part of th
 #+end_src
 * kitty
 #+name: kitty.conf
-#+begin_src conf :noweb yes :tangle ~/.config/kitty/kitty.conf :mkdirp yes
+#+begin_src conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
   font_family      Hack
   bold_font        auto
   italic_font      auto
@@ -116,7 +122,7 @@ All user information goes into the file .gitconfig-user, which is not part of th
 #+end_src
 * dunst
 #+name: dunstrc
-#+begin_src conf :noweb yes :tangle ~/.config/dunst/dunstrc :mkdirp yes
+#+begin_src conf :tangle ~/.config/dunst/dunstrc :mkdirp yes
   [global]
       monitor = 0
       geometry = "300x5-30+20"
@@ -150,7 +156,7 @@ All user information goes into the file .gitconfig-user, which is not part of th
 #+end_src
 * Cd Ripping
 ** abcde
-#+begin_src conf :noweb yes :tangle ~/.abcde.conf
+#+begin_src conf :tangle ~/.abcde.conf
   LOWDISK=y
   CDDBMETHOD=cddb
   #CDDBMETHOD=musicbrainz
@@ -187,7 +193,7 @@ All user information goes into the file .gitconfig-user, which is not part of th
   EJECTCD=y
 #+end_src
 ** beets
-#+begin_src conf :noweb yes :tangle ~/.config/beets/config.yaml :mkdirp yes
+#+begin_src conf :tangle ~/.config/beets/config.yaml :mkdirp yes
   directory: ~/music/
   library: ~/.config/beets/data/library.db
   import:
