@@ -69,7 +69,7 @@
 ** Boot Manager
 - Run =bootctl install= to install the systemd boot manager
 - Create a boot loader entry in =/boot/loader/entries/arch.conf= with the below text
-- You can get the partition UUID from =blkid= and make sure you set the ucode to match your CPU type
+- You can get the partition UUID (not PARTUUID) from =blkid= and make sure you set the ucode to match your CPU type
 #+begin_src sh
 title   Arch Linux
 linux   /vmlinuz-linux
@@ -116,7 +116,7 @@ keycode 58 = Control
 - After the next reboot the caps lock key should be an extra control inside the console
 ** Basic Packages
 #+begin_src sh
-  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en
+  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 
@@ -130,7 +130,7 @@ keycode 58 = Control
 - If you have issues with permissions ensure your user is in the =uucp= group with the command =groups=
 ** X Windows
 - Install xorg with =sudo pacman -Sy xorg-server xorg-apps xorg-xinit=
-- Install the right graphics driver =sudo pacman -Sy xf86-video-{amdgpu, ati, intel, nouveau,=
+- Install the right graphics driver =sudo pacman -Sy xf86-video-{amdgpu, ati, intel, nouveau}=
 - Proprietary nvidia drivers are installed with =sudo pacman -Sy nvidia=
 - Based on you graphics driver you might also need to install mesa =sudo pacman -Sy mesa=
 - Install git =sudo pacman -Sy git=
@@ -154,11 +154,11 @@ keycode 58 = Control
   TryExec=/usr/local/bin/dwm
   Type=Application
 #+end_src
-- Start lightdm to confirm its working =sudo systemctl start lightdm=
 - Install various x programs with the below command
 #+begin_src sh
-  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-fonts xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb
+  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-font xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb kitty
 #+end_src
+- Start lightdm to confirm its working =sudo systemctl start lightdm=
 ** Sound
 - Install pulseaudio =sudo pacman -Sy pulseaudio=
 - You might need to restart for the the service to be started properly
@@ -166,7 +166,7 @@ keycode 58 = Control
 - Install dunst for desktop notifications =sudo pacman -Sy libnotify dunst=
 - There are various util commands that make it easy to bind to keys in dwm in the [[file:~/code/dotfiles/config/utils.org][utils.org]]
 ** Links
-- [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Ionstallation Guide]]
+- [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
 - [[https://wiki.archlinux.org/title/Working_with_the_serial_console][ArchWiki serial console]]
 - [[https://suckless.org][Suckless]]
