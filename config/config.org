@@ -70,10 +70,7 @@ This starts up various programs I want to run at login
 
   ./.xprofile-local
 #+end_src
-#+name: .xprofile-local
-#+begin_src conf :tangle ~/.xprofile-local :tangle-mode (identity #o755)
-  # Local xconfig goes here
-#+end_src
+
 * Tmux
 #+name: .tmux.conf
 #+begin_src conf :tangle ~/.tmux.conf
