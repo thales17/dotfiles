@@ -186,6 +186,45 @@ This code is from the straight.el README.md in the github repo [[https://github.
 	(goto-char (point-min))
 	(bongo-play))))
 #+end_src
+** video
+#+name: video
+#+begin_src elisp
+  (setq ajr--video-dir (concat (getenv "HOME")
+			       "/videos"))
+
+  (defun ajr--ask-video ()
+    (let ((videos (directory-files ajr--video-dir
+				   nil
+				   directory-files-no-dot-files-regexp)))
+      (completing-read "Which video? " videos)))
+
+  (defun ajr-video-play ()
+    (interactive)
+    (let ((video (ajr--ask-video)))
+      (start-process "mpv" nil "mpv" (string-join (list ajr--video-dir
+							"/"
+							video)))))
+  (defun ajr-video-dired ()
+    "Opens dired buffer to `ajr--video-dir'
+  in other window"
+    (interactive)
+    (find-file-other-window ajr--video-dir))
+
+  (require 'url-util)
+  (defun ajr-video-youtube-dl-at-point ()
+    (interactive)
+    (let ((yt-url (url-get-url-at-point)))
+      (with-current-buffer (generate-new-buffer "*youtube-dl*")
+	(special-mode)
+	(make-local-variable 'comint-inhibit-carriage-motion)
+	(setq comint-inhibit-carriage-motion t)
+	(setq buffer-read-only nil)
+	(cd ajr--video-dir)
+	(start-process (format "youtube-dl %s" yt-url)
+		       (current-buffer)
+		       "youtube-dl" "--no-progress" yt-url)
+	(pop-to-buffer (current-buffer)))))
+#+end_src
 ** ajr.el
  #+begin_src elisp :noweb yes :tangle ~/.emacs.d/ajr.el :mkdirp yes
    <<elfeed>>
@@ -221,12 +260,21 @@ I use ivy for my completion framework
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
   (global-set-key (kbd "C-<f1>") 'password-store-copy)
+
+  ;; music
   (define-key global-map (kbd "C-c m") (make-sparse-keymap))
   (global-set-key (kbd "C-c m b") 'bongo-playlist)
   (global-set-key (kbd "C-c m a") 'ajr-bongo-play-album)
   (global-set-key (kbd "C-c m p") 'bongo-pause/resume)
   (global-set-key (kbd "C-c m <right>") 'bongo-next)
   (global-set-key (kbd "C-c m <left>") 'bongo-previous)
+
+  ;; videos
+  (define-key global-map (kbd "C-c v") (make-sparse-keymap))
+  (global-set-key (kbd "C-c v p") 'ajr-video-play)
+  (global-set-key (kbd "C-c v b") 'ajr-video-dired)
+  (global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
+
   (global-set-key (kbd "C-x C-b") 'ibuffer)
   (global-set-key (kbd "C-c l") 'org-store-link)
   (global-set-key (kbd "C-c a") 'org-agenda)
