@@ -216,8 +216,6 @@ This code is from the straight.el README.md in the github repo [[https://github.
     (let ((yt-url (url-get-url-at-point)))
       (with-current-buffer (generate-new-buffer "*youtube-dl*")
 	(special-mode)
-	(make-local-variable 'comint-inhibit-carriage-motion)
-	(setq comint-inhibit-carriage-motion t)
 	(setq buffer-read-only nil)
 	(cd ajr--video-dir)
 	(start-process (format "youtube-dl %s" yt-url)
