@@ -327,6 +327,12 @@ Customizations and global keys for org mode
 #+begin_src elisp
   (require 'bongo)
 #+end_src
+* Artist Mode
+#+begin_src elisp
+  (add-hook 'artist-mode-hook
+	    (lambda ()
+	      (setq indent-tabs-mode nil)))
+#+end_src
 * Global Modes
 #+begin_src elisp
   (yas-global-mode)
