@@ -11,7 +11,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 
 * backup
 - Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically.
-- For example you could add this to your crontab =30 19 * * *	$HOME/.local/bin/backup >> $HOME/.local/log/backup.log 2>&1= to run the backup daily at 7:30pm
+- For example you could add this to your crontab =30 19 * * *	source $HOME/.bash_env && $HOME/.local/bin/backup >> $HOME/.local/log/backup.log 2>&1= to run the backup daily at 7:30pm
 #+name: backup
 #+begin_src sh :noweb yes :tangle ~/.local/bin/backup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
