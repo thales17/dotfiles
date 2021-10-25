@@ -58,6 +58,10 @@ This code is from the straight.el README.md in the github repo [[https://github.
 #+begin_src elisp
   (straight-use-package 'magit)
   (straight-use-package 'counsel)
+  (straight-use-package 'hydra)
+  (straight-use-package 'ivy-hydra)
+  (straight-use-package 'ace-window)
+  (straight-use-package 'avy)
   (straight-use-package 'markdown-mode)
   (straight-use-package 'geiser)
   (straight-use-package 'geiser-guile)
@@ -70,11 +74,11 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'password-store)
   (straight-use-package 'password-store-otp)
   (straight-use-package 'lua-mode)
-  (straight-use-package 'ace-window)
   (straight-use-package 'notmuch)
   (straight-use-package 'yasnippet)
   (straight-use-package 'yasnippet-snippets)
   (straight-use-package 'yafolding)
+  (straight-use-package 'coterm)
 #+end_src
 * Personal Elisp Files
 ** elfeed
@@ -248,6 +252,7 @@ I use ivy for my completion framework
 * Global Hotkeys
 #+begin_src elisp
   (global-set-key (kbd "C-M-s") 'swiper)
+  (global-set-key (kbd "C-M-j") 'avy-goto-char)
   (global-set-key (kbd "C-c r") 'ivy-resume)
   (global-set-key (kbd "M-x") 'counsel-M-x)
   (global-set-key (kbd "C-x C-f") 'counsel-find-file)
@@ -339,6 +344,7 @@ Customizations and global keys for org mode
   (yafolding-mode)
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
+  (coterm-mode)
 #+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=
