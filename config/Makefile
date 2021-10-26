@@ -6,6 +6,7 @@ config:
 	@touch ~/.xprofile-local
 	@chmod +x ~/.xprofile-local
 	@./tangle.sh config.org
+	@mkdir -p ~/.config/beets/data
 
 emacs:
 	@touch ~/.emacs-custom.el

@@ -83,7 +83,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 * Personal Elisp Files
 ** elfeed
 #+name: elfeed
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
@@ -95,7 +95,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 #+end_src
 ** org capture
 #+name: org-capture
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (defun ajr-org-basic-capture (key name filename)
     "Generates a basic capture template. It will
      prompt you for the title of the heading and place
@@ -109,7 +109,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 #+end_src
 ** web search
 #+name: web-search
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (defun ajr-search-web (term)
     "Prompts the user for a search TERM. Searches
   duckduckgo with eww for the term. Inspired by
@@ -120,7 +120,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 #+end_src
 ** mail
 #+name: mail
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (defun ajr-sync-mail ()
     "Starts a process name `syncmail' and sends the output to
   a special mode buffer. This will pop to the buffer as the
@@ -136,7 +136,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 #+end_src
 ** music
 #+name: music
-#+begin_src elisp
+#+begin_src elisp :tangle no
   (setq ajr--music-dir "~/music")
 
   (defun ajr--all-albums ()
@@ -191,29 +191,57 @@ This code is from the straight.el README.md in the github repo [[https://github.
 	(bongo-play))))
 #+end_src
 ** video
-#+name: video
-#+begin_src elisp
-  (setq ajr--video-dir (concat (getenv "HOME")
-			       "/videos"))
+*** Variables
+#+name: video-variables
+#+begin_src elisp :tangle no
+  (defcustom ajr-video-dir
+    (concat (getenv "HOME")
+	    "/videos")
+    "Directory where your videos are kept.
+  Used the `ajr-video-*' functions.")
 
+  (defcustom ajr-video-program
+    "mpv"
+    "Program used to play videos.
+  This program should accept the path to the video as its argument.")
+#+end_src
+*** Prompt user for video
+#+name: video-prompt
+#+begin_src elisp :tangle no
   (defun ajr--ask-video ()
-    (let ((videos (directory-files ajr--video-dir
+    ;;TODO: C-u sort by date, directory-files-and-attributes
+    (let ((videos (directory-files ajr-video-dir
 				   nil
 				   directory-files-no-dot-files-regexp)))
       (completing-read "Which video? " videos)))
 
+#+end_src
+*** Video playback
+#+name: video-playback
+#+begin_src elisp :tangle no
   (defun ajr-video-play ()
+    "Prompts the user for a video from `ajr-video-dir'.
+  Uses the `ajr-video-program' to play the video."
     (interactive)
     (let ((video (ajr--ask-video)))
-      (start-process "mpv" nil "mpv" (string-join (list ajr--video-dir
-							"/"
-							video)))))
+      (start-process ajr-video-program
+		     nil
+		     ajr-video-program
+		     (string-join (list ajr-video-dir
+					"/"
+					video)))))
+#+end_src
+*** Video dired
+#+name: video-dired
+#+begin_src elisp :tangle no
   (defun ajr-video-dired ()
-    "Opens dired buffer to `ajr--video-dir'
-  in other window"
+    "Opens dired buffer to `ajr-video-dir' in other window"
     (interactive)
-    (find-file-other-window ajr--video-dir))
-
+    (find-file-other-window ajr-video-dir))
+#+end_src
+*** Video download
+#+name: video-download
+#+begin_src elisp :tangle no
   (require 'url-util)
   (defun ajr-video-youtube-dl-at-point ()
     (interactive)
@@ -227,6 +255,20 @@ This code is from the straight.el README.md in the github repo [[https://github.
 		       "youtube-dl" "--no-progress" yt-url)
 	(pop-to-buffer (current-buffer)))))
 #+end_src
+*** All video
+#+name: video
+#+begin_src elisp :noweb yes :tangle no
+  <<video-variables>>
+
+  <<video-prompt>>
+
+  <<video-playback>>
+
+  <<video-dired>>
+
+  <<video-download>>
+#+end_src
+
 ** ajr.el
  #+begin_src elisp :noweb yes :tangle ~/.emacs.d/ajr.el :mkdirp yes
    <<elfeed>>
@@ -238,6 +280,8 @@ This code is from the straight.el README.md in the github repo [[https://github.
    <<mail>>
 
    <<music>>
+
+   <<video>>
  #+end_src
  Load the personal elisp files in init file
  #+begin_src elisp
