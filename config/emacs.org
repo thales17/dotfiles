@@ -79,6 +79,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'yasnippet-snippets)
   (straight-use-package 'yafolding)
   (straight-use-package 'coterm)
+  (straight-use-package 'disk-usage)
 #+end_src
 * Personal Elisp Files
 ** elfeed
