@@ -99,11 +99,11 @@ This code is from the straight.el README.md in the github repo [[https://github.
 #+begin_src elisp :tangle no
   (defun ajr-org-basic-capture (key name filename)
     "Generates a basic capture template. It will
-     prompt you for the title of the heading and place
-     the point in the body of the heading. KEY is the
-     character that needs to be pressed in org capture
-     to use this template. NAME is the name of the capture
-     template. FILENAME is which org file in your org-directory."
+  prompt you for the title of the heading and place
+  the point in the body of the heading. KEY is the
+  character that needs to be pressed in org capture
+  to use this template. NAME is the name of the capture
+  template. FILENAME is which org file in your org-directory."
     (list key name 'entry
 	  (list 'file+headline filename name)
 	  "* %^{Title?}\n%?"))
@@ -209,22 +209,35 @@ This code is from the straight.el README.md in the github repo [[https://github.
 *** Prompt user for video
 #+name: video-prompt
 #+begin_src elisp :tangle no
-  (defun ajr--ask-video ()
-    ;;TODO: C-u sort by date, directory-files-and-attributes
-    (let ((videos (directory-files ajr-video-dir
-				   nil
-				   directory-files-no-dot-files-regexp)))
-      (completing-read "Which video? " videos)))
+  (defun ajr--ask-video (is-by-date)
+    (let ((videos (directory-files
+		   ajr-video-dir
+		   nil
+		   directory-files-no-dot-files-regexp))
+	  (sorted-videos (mapcar 'car (sort
+				       (directory-files-and-attributes
+					ajr-video-dir
+					nil
+					directory-files-no-dot-files-regexp)
+				       (lambda (x y)
+					 (time-less-p
+					  (file-attribute-modification-time (cdr y))
+					  (file-attribute-modification-time (cdr x))))))))
+
+      (completing-read "Which video? " (if is-by-date
+					   sorted-videos
+					 videos))))
 
 #+end_src
 *** Video playback
 #+name: video-playback
 #+begin_src elisp :tangle no
-  (defun ajr-video-play ()
+  (defun ajr-video-play (arg)
     "Prompts the user for a video from `ajr-video-dir'.
-  Uses the `ajr-video-program' to play the video."
-    (interactive)
-    (let ((video (ajr--ask-video)))
+  Uses the `ajr-video-program' to play the video. Use C-u
+  to sort the videos by date (newest first)."
+    (interactive "P")
+    (let ((video (ajr--ask-video arg)))
       (start-process ajr-video-program
 		     nil
 		     ajr-video-program
@@ -250,7 +263,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
       (with-current-buffer (generate-new-buffer "*youtube-dl*")
 	(special-mode)
 	(setq buffer-read-only nil)
-	(cd ajr--video-dir)
+	(cd ajr-video-dir)
 	(start-process (format "youtube-dl %s" yt-url)
 		       (current-buffer)
 		       "youtube-dl" "--no-progress" yt-url)
