@@ -435,6 +435,12 @@ Customizations and global keys for org mode
 	    (lambda ()
 	      (setq indent-tabs-mode nil)))
 #+end_src
+* js mode (JavaScript)
+#+begin_src elisp
+  (add-hook 'js-mode-hook
+	    (lambda ()
+	      (setq indent-tabs-mode nil)))
+#+end_src
 * Global Modes
 #+begin_src elisp
   (yas-global-mode)
