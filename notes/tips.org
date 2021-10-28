@@ -1,0 +1,4 @@
+* Linux
+** Screenshots
+- =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
+- =imagemagick= has the import tool which lets you drag a box to take a screenshot, for example =import myscreenshot.png= causes the cursor to turn into a crossheirs. You then drag a box and it will be saved in the file name your specified.

@@ -296,6 +296,8 @@ This is a process filter that handles carriage returns and newlines. From this, 
       (with-current-buffer (generate-new-buffer "*youtube-dl*")
 	(special-mode)
 	(setq buffer-read-only nil)
+	(insert yt-url)
+	(newline)
 	(cd ajr-video-dir)
 	(setq proc (start-process (format "youtube-dl %s" yt-url)
 				  (current-buffer)
