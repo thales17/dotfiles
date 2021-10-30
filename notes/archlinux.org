@@ -4,7 +4,7 @@
 - Use dd to write the image to the removable drive
 =dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/<YOUR_USB_DRIVE> conv=fsync oflag=direct status=progress=
 ** Connect to Internet
-*** Wifi
+*** WiFi
 - Use =iwctl= to connect to a wifi network
 - Type =help= to see various examples of how to use iwctl
 - =station wlan0 connect <NAME_OF_NETWORK>=
@@ -16,7 +16,7 @@
 *** Partitioning
 **** TODO MBR
 **** UEFI
- - Verify you booted in UEFI mode =ls /syss/firmware/efi/efivars=
+ - Verify you booted in UEFI mode =ls /sys/firmware/efi/efivars=
  - If you are able to run the above without errors then you are in uefi mode
  - Use =lsblk= to view the detected harddrives
  - Parition the main drive with =gdisk /dev/<YOUR_MAIN_DRIVE>=
@@ -35,7 +35,7 @@
 **** EFI System Partition
 - Run =mkfs.fat -F32 /dev/<MAIN_DRIVE_EFI>=
 - Make mount point =mkdir /mnt/boot=
-- Mount the efi partition =mont /dev/<MAIN_DRIVE_EFI> /mnt/boot=
+- Mount the efi partition =mount /dev/<MAIN_DRIVE_EFI> /mnt/boot=
 ** Pacstrap
 - Use pacstrap to download initial packages =pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd mg=
 ** Generate fstab
@@ -97,6 +97,8 @@ editor       no
 - If you need to join wifi you should be able to use =iwctl= to communicate with =iwd=
 - From there it should be same as before
 - For example, =station wlan0 connect <NAME_OF_NETWORK>=
+*** Wifi interface is not visible?
+- If you are unable to see the wifi interface after rebooting try restarting the =iwd= service
 ** User accounts
 - You should create a user outside of the root user on the machine
 - Run =useradd -m -G wheel,uucp <USER_NAME>= to create a new user

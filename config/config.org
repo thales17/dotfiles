@@ -97,6 +97,7 @@ This starts up various programs I want to run at login
   set -g mode-keys emacs
   set -g status-keys emacs
 #+end_src
+- If you want to change a running session to use emacs keys use =<PREFIX>:set-option status-keys emacs= and =<PREFIX>:set-option mode-keys emacs=.
 * Git
 All user information goes into the file .gitconfig-user, which is not part of this repo.
 #+name: .gitconfig

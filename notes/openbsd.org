@@ -1,0 +1,13 @@
+* OpenBSD Setup
+** WiFi
+- [[https://www.openbsdhandbook.com/networking/wireless/][OpenBSD Handboox - Wireless]]
+- Use =ifconfig= to see what the interface name of your wireless card.
+- Next create a file named =/etc/hostname.<WIRELESS_INTERFACE>= for example =/etc/hostname.iwm0=
+- Inside this file place the connection details for your wireless network using the below template
+#+begin_src conf
+  nwid OpenNET
+  wpakey password
+  dhcp
+#+end_src
+** Format and mount external storage
+** Game Controllers
