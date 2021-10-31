@@ -2,3 +2,17 @@
 ** Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
 - =imagemagick= has the import tool which lets you drag a box to take a screenshot, for example =import myscreenshot.png= causes the cursor to turn into a crossheirs. You then drag a box and it will be saved in the file name your specified.
+* JSON
+- Use python package =demjson3= to get the jsonlint command.
+- This package is in the apt repo or can be installed via pip =pip install demjson3=
+* Youtube
+** Channel RSS feed
+*** Getting Channel Id
+- Go to the channel homepage and right click and view source
+- Search the source for ~itemprop="channelId" content="~
+- Inside the content block you will see the channel id
+*** Youtube RSS Template
+=https://youtube.com/feeds/videos.xml?channel_id=<CHANNEL_ID>=
+* Git
+** Chamge remote URL
+- =git remote set-url <REMOTE_NAME> <REMOTE_URL>
