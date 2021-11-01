@@ -16,3 +16,14 @@
 * Git
 ** Chamge remote URL
 - =git remote set-url <REMOTE_NAME> <REMOTE_URL>
+* Uncompress Examples
+** =tar.gz=
+=tar -zxvf <SOME_FILE>.tar.gz>=
+** =tar.xz=
+=tar -xvf <SOME_FILE>.tar.xz=
+* Compress Examples
+** =tar.gz=
+- If you want to compress =somdir= into =.tar.gz=
+- =tar -cvf somedir.tar somedir= this will produce the tarball
+- To make it a gz file run =gzip somedir.tar=
+- This will compress and tarball into =somedir.tar.gz=

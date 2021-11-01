@@ -457,3 +457,11 @@ Customizations and global keys for org mode
   (setq custom-file "~/.emacs-custom.el")
   (load custom-file)
 #+end_src
+* Building from source
+- clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
+- Releases are usually in a branch with the version number, for example =emacs-28=
+- Use this command to configure with native compilation =./configure --with-native-compilation=
+- This will warn you about any missing dependencies, from there you should obtain them for your OS
+- Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
+- Run =make install= with appropriate permissions to install the new version on the system
+- Use =M-x emacs-version RET= to see the current version info, including the build date

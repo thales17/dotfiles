@@ -158,7 +158,7 @@ keycode 58 = Control
 #+end_src
 *** Packages
 #+begin_src sh
-  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-fonts xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty youtube-dl imagemagick feh
+  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-fonts xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty youtube-dl imagemagick feh mupdf mupdf-tools libmupdf ghostscript
 #+end_src
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
 ** Sound
