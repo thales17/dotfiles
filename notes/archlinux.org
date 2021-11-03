@@ -70,6 +70,7 @@
 - Run =bootctl install= to install the systemd boot manager
 - Create a boot loader entry in =/boot/loader/entries/arch.conf= with the below text
 - You can get the partition UUID (not PARTUUID) from =blkid= and make sure you set the ucode to match your CPU type
+- Ensure that it is the partition UUID and not the =/dev/mapper/cryptroot= one
 #+begin_src sh
 title   Arch Linux
 linux   /vmlinuz-linux
@@ -108,6 +109,7 @@ editor       no
 - From here uncomment the line that mentions the wheel group
 - After this you should be able to log in as the newly created user and run sudo commands
 ** Caps Lock Control
+- Make the directory for keymaps =sudo mkdir -p /usr/local/share/kbd/keymaps=
 - Create a file named =/usr/local/share/kbd/keymaps/personal.map= (you might need to create any missing directories)
 - Give it the contents below
 #+begin_src sh
@@ -158,7 +160,7 @@ keycode 58 = Control
 #+end_src
 *** Packages
 #+begin_src sh
-  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-fonts xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty youtube-dl imagemagick feh mupdf mupdf-tools libmupdf ghostscript
+  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-font xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty youtube-dl imagemagick feh mupdf mupdf-tools libmupdf ghostscript
 #+end_src
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
 ** Sound
