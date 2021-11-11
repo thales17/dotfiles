@@ -37,7 +37,7 @@
 - Make mount point =mkdir /mnt/boot=
 - Mount the efi partition =mount /dev/<MAIN_DRIVE_EFI> /mnt/boot=
 ** Pacstrap
-- Use pacstrap to download initial packages =pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd mg=
+- Use pacstrap to download initial packages =pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd mg mailutils=
 ** Generate fstab
 - Use genfstab to generate an fstab =genfstab -U /mnt >> /mnt/etc/fstab=
 ** Chroot
@@ -120,7 +120,7 @@ keycode 58 = Control
 - After the next reboot the caps lock key should be an extra control inside the console
 ** Basic Packages
 #+begin_src sh
-  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip
+  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip pv nethack
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 
@@ -160,7 +160,7 @@ keycode 58 = Control
 #+end_src
 *** Packages
 #+begin_src sh
-  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-font xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty youtube-dl imagemagick feh mupdf mupdf-tools libmupdf ghostscript
+  sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-font xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty imagemagick feh mupdf mupdf-tools libmupdf ghostscript
 #+end_src
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
 ** Sound

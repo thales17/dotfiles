@@ -113,7 +113,6 @@ This is a process filter that handles carriage returns and newlines. From this, 
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
-    (delete-other-windows)
     (elfeed)
     (elfeed-search-clear-filter)
     (elfeed-update)
@@ -359,7 +358,10 @@ I use ivy for my completion framework
   (global-set-key (kbd "<f11>") 'notmuch)
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
+
+  ;; password-store
   (global-set-key (kbd "C-<f1>") 'password-store-copy)
+  (global-set-key (kbd "C-<f2>") 'password-store-otp-token-copy)
 
   ;; music
   (define-key global-map (kbd "C-c m") (make-sparse-keymap))
@@ -460,7 +462,9 @@ Customizations and global keys for org mode
 * Building from source
 - clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
 - Releases are usually in a branch with the version number, for example =emacs-28=
+- Run the =./autogen.sh= to build the configure script
 - Use this command to configure with native compilation =./configure --with-native-compilation=
+- On Arch Linux you might need to grab =libgccjit= from AUR =mkdir ~/aur && git clone https://aur.archlinux.org/libgccjit.git && cd ~/aur/libgccjit && makepkg -si=
 - This will warn you about any missing dependencies, from there you should obtain them for your OS
 - Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
 - Run =make install= with appropriate permissions to install the new version on the system

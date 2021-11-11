@@ -6,5 +6,10 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:config/emacs.org][Emacs]]
 - [[file:config/utils.org][Utility Scripts]]
 ** Notes
+- [[file:notes/tips.org][Tips]]
 - [[file:notes/archlinux.org][Arch Linux]]
+- [[file:notes/ubuntu.org][Ubuntu]]
+- [[file:notes/openbsd.org][OpenBSD]]
 - [[file:notes/gnupg.org][GnuPG]]
+- [[file:notes/mail.org][Mail]]
+- [[file:notes/nethack_notes.org][Nethack]]

@@ -1,0 +1,64 @@
+* Resources
+- [[http://www.nethack.org/v365/Guidebook.html][Official Knack 3.6.5 Guidebook]]
+- [[https://nethackwiki.com/wiki/Main_Page][Nethack Wiki]]
+- [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: Nethack from aaaa to Zruty (Youtube Playlist)]]
+
+* How to quit nethack
+- Press the =#= key and type =quit=
+- You will be prompted a few times to show stats
+- If you want to quit immediately press q
+
+* Goal of the game
+- Find the amulet of yendor and exit the dungeon
+- When you first load into the game there is a staircase leaving the dungeon
+- If you go up that staircase without the amulet you will forfeit the game
+- If you have the amulet when you start the game you win
+
+* The Player
+- The player is the =@= symbol
+
+* Dying
+- You will die frequently
+- Try to understand why you died each time it happens
+
+* Vi Movement Keys
+| y | k | u |
+|---+---+---|
+| h |   | l |
+|---+---+---|
+| b | j | n |
+
+* Staircases
+- The =<= means a staircase going up
+- The =>= means a staircase going down
+- Use the greater than or less than symbols to go up or down a staircase
+
+* Game state
+- Each time you move, the world moves as well
+- This typically only applies to the floor you are on
+- So if you are on floor 2 enemies on floor 1 do not move when you interactive with floor 2
+
+* Looking around (Far look)
+- Press the =;= key to move the cursor around
+- Highlight something and press =,= to see information about it
+
+* Inventory
+- Press the =i= key to open your inventory
+- When over an object you want to pick up press the =,= key
+- Each item in your inventory gets a letter assigned to it
+- You can view that letter here (also when you are doing the command they will sometimes let you peak at your inventory with =?=
+
+* Wielding
+- Wielding means to equip a weapon like a sword
+- Press the =W= key to wield an item
+
+* Reading
+- You can read scrolls
+- Press the =r= key to read a readable item
+
+* Nourishment
+- You will eventually get hungry and need to eat
+- You can sometimes get nourishment from corpses you have killed
+
+* Identifying
+- You need to identify items to know if they are cursed or not
