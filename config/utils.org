@@ -1,7 +1,7 @@
 * sus - Suspend
 sus is a small script that locks the screen and puts the computer into suspend mode
 #+name: sus
-#+begin_src sh :noweb yes :tangle ~/.local/bin/sus :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh  :tangle ~/.local/bin/sus :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   xlock &
@@ -13,7 +13,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 - Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically.
 - For example you could add this to your crontab =30 19 * * *	source $HOME/.bash_env && $HOME/.local/bin/backup >> $HOME/.local/log/backup.log 2>&1= to run the backup daily at 7:30pm
 #+name: backup
-#+begin_src sh :noweb yes :tangle ~/.local/bin/backup :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh  :tangle ~/.local/bin/backup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   TIME=$(date); echo "backup starting at $TIME"
@@ -29,7 +29,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 #+end_src
 
 #+name: backup_exclude
-#+begin_src sh :noweb yes :tangle ~/.backup_exclude :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh  :tangle ~/.backup_exclude :tangle-mode (identity #o755) :mkdirp yes
   .cache
   .mozilla
   .local/share/Steam
@@ -40,7 +40,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 
 * volume
 #+name: voldown
-#+begin_src sh :noweb yes :tangle ~/.local/bin/voldown :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh  :tangle ~/.local/bin/voldown :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   pamixer -d 5
@@ -52,7 +52,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 #+end_src
 #+name: volup
 
-#+begin_src sh :noweb yes :tangle ~/.local/bin/volup :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh  :tangle ~/.local/bin/volup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   pamixer -i 5
@@ -64,7 +64,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 #+end_src
 
 #+name: volmute
-#+begin_src sh :noweb yes :tangle ~/.local/bin/volmute :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh  :tangle ~/.local/bin/volmute :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   pamixer -t
@@ -82,7 +82,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 
 * brightness
 #+name: lightdown
-#+begin_src sh :noweb yes :tangle ~/.local/bin/lightdown :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh :tangle ~/.local/bin/lightdown :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   xbacklight -dec 5
@@ -96,7 +96,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 #+end_src
 
 #+name: lightup
-#+begin_src sh :noweb yes :tangle ~/.local/bin/lightup :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh :tangle ~/.local/bin/lightup :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/bash
 
   xbacklight -inc 5
@@ -111,7 +111,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
 * mail
 - It is probably good to sync mail down every few hours
 #+name: syncmail
-#+begin_src sh :noweb yes :tangle ~/.local/bin/syncmail :tangle-mode (identity #o755) :mkdirp yes
+#+begin_src sh :tangle ~/.local/bin/syncmail :tangle-mode (identity #o755) :mkdirp yes
   #!/bin/sh
   TIME=$(date); echo "syncmail starting at $TIME"
 
@@ -122,4 +122,11 @@ sus is a small script that locks the screen and puts the computer into suspend m
   notmuch new
 
   TIME=$(date); echo "syncmail ending at $TIME"
+#+end_src
+* ec =emacsclient -c=
+#+name: ec
+#+begin_src sh :tangle ~/.local/bin/ec :tangle-mode (identity #o755) :mkdirp yes
+  #!/bin/sh
+
+  emacsclient -c
 #+end_src

@@ -1,5 +1,5 @@
 * Resources
-- [[http://www.nethack.org/v365/Guidebook.html][Official Knack 3.6.5 Guidebook]]
+- [[http://www.nethack.org/v365/Guidebook.html][Official Nethack 3.6.5 Guidebook]]
 - [[https://nethackwiki.com/wiki/Main_Page][Nethack Wiki]]
 - [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: Nethack from aaaa to Zruty (Youtube Playlist)]]
 

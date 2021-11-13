@@ -267,13 +267,25 @@ This is a process filter that handles carriage returns and newlines. From this, 
   Uses the `ajr-video-program' to play the video. Use C-u
   to sort the videos by date (newest first)."
     (interactive "P")
-    (let ((video (ajr--ask-video arg)))
-      (start-process ajr-video-program
-		     nil
-		     ajr-video-program
-		     (string-join (list ajr-video-dir
+    (let* ((video (ajr--ask-video arg))
+	   (video-buffer (get-buffer-create "*video-player*"))
+	   (script-proc-buffer
+	    (make-comint-in-buffer "video-player"
+				   video-buffer
+				   ajr-video-program
+				   nil
+				   (string-join (list ajr-video-dir
 					"/"
-					video)))))
+					video))))
+	   (video-proc (get-buffer-process video-buffer)))
+      (with-current-buffer video-buffer
+	;; If the buffer was previously in special mode,
+	;; need to set read only to false
+	(setq buffer-read-only nil))
+      (set-process-sentinel video-proc
+			    (lambda (proc change)
+			      (with-current-buffer (process-buffer proc)
+				(special-mode))))))
 #+end_src
 
 *** Video dired
@@ -469,3 +481,10 @@ Customizations and global keys for org mode
 - Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
 - Run =make install= with appropriate permissions to install the new version on the system
 - Use =M-x emacs-version RET= to see the current version info, including the build date
+* Emacs Server Mode
+- You can enable the emacs server to start at login with =systemctl --user enable emacs=
+- You can connect to the server with =emacsclient -c=
+- The =-c= flag creates a new frame
+- From the [[https://wiki.archlinux.org/title/Emacs#As_a_systemd_unit][ArchWiki]] when emacs is started from systemd it doesn't source =.bash_profile=
+- Another option is the start it in your =.Xprofile= with =emacs --fg-daemon=
+- This way would inherit the environment variables
