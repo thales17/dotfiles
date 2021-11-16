@@ -1,7 +1,11 @@
+* Version
+- Notes are based on the =3.6.x= version of nethack
+
 * Resources
 - [[http://www.nethack.org/v365/Guidebook.html][Official Nethack 3.6.5 Guidebook]]
 - [[https://nethackwiki.com/wiki/Main_Page][Nethack Wiki]]
 - [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: Nethack from aaaa to Zruty (Youtube Playlist)]]
+- On most linux installs the guide book is located in =/usr/share/doc/nethack/Guidebook.txt=
 
 * How to quit nethack
 - Press the =#= key and type =quit=
@@ -32,15 +36,30 @@
 - The =<= means a staircase going up
 - The =>= means a staircase going down
 - Use the greater than or less than symbols to go up or down a staircase
+- Pets will only follow you down the staircase if they are adjacent to the player
+
+* Pets
+- You will be granted a pet at the start of each game
 
 * Game state
 - Each time you move, the world moves as well
 - This typically only applies to the floor you are on
 - So if you are on floor 2 enemies on floor 1 do not move when you interactive with floor 2
 
+* Level generation
+- When you enter a level (or floor) it is generated, the level did not exist until you entered the floor
+- When a floor is generated this also generates the enemies
+- The strength of enemies is based on the floor as well as the player strength
+- It might advantageous to generate levels as soon as possible to minimize the enemy strength scale
+- You cannot clear out all the enemies on a level
+- They will continue to spawn
+- When they spawn they will take the player level into account
+
 * Looking around (Far look)
 - Press the =;= key to move the cursor around
 - Highlight something and press =,= to see information about it
+- Alternatively you can press =/= to bring up the look menu
+- If you press =/= again from the look menu you can continue to look at things without exiting look mode after pressing =,=
 
 * Inventory
 - Press the =i= key to open your inventory
@@ -62,3 +81,36 @@
 
 * Identifying
 - You need to identify items to know if they are cursed or not
+
+* Passing time
+- If you want to advance the turn without moving press the =.= key
+- This is sometimes handy when you want to wait for a pet to be in an adjacent location before ascending or descending a staircase
+
+* Searching
+- Sometimes there are hidden items around you
+- Press the =s= key to search around
+- This will advance the turn similar to =.= but it will also search
+- You might find a hidden door
+
+* Armor Class
+- In the HUD you will see the Armor Class abbrieviated as AC: <SOME_VALUE>
+- The lower the Armor Class value the better the protection
+- 10 is the worst armor class value
+- Armor class values can go into negative numbers
+
+* Taking off worn items
+- Press the =A= key to see a menu for items that can be taken off
+
+* Adjusting item keys
+- When you press the iventory screen you will see which key maps to which item
+- If you would like to adjust the key you can by press =#= to enter the extended mode
+- From there type =adjust=
+- This will prompt you for which iventory you want to change the key and what key you want to change it to
+
+* Using tools
+- Press the =a= key to enter apply mode
+- From here press the inventory key for the item you want to use
+
+* Encumberance
+- You can pick up too many things and become encumbered
+- Encumbered state makes it harder to move
