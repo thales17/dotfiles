@@ -120,7 +120,7 @@ keycode 58 = Control
 - After the next reboot the caps lock key should be an extra control inside the console
 ** Basic Packages
 #+begin_src sh
-  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip pv nethack
+  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip pv nethack sshfs
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 

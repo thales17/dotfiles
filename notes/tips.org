@@ -2,9 +2,11 @@
 ** Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
 - =imagemagick= has the import tool which lets you drag a box to take a screenshot, for example =import myscreenshot.png= causes the cursor to turn into a crossheirs. You then drag a box and it will be saved in the file name your specified.
+
 * JSON
 - Use python package =demjson3= to get the jsonlint command.
 - This package is in the apt repo or can be installed via pip =pip install demjson3=
+
 * Youtube
 ** Channel RSS feed
 *** Getting Channel Id
@@ -13,27 +15,38 @@
 - Inside the content block you will see the channel id
 *** Youtube RSS Template
 =https://youtube.com/feeds/videos.xml?channel_id=<CHANNEL_ID>=
+
 * Git
 ** Chamge remote URL
 - =git remote set-url <REMOTE_NAME> <REMOTE_URL>
+
 * Uncompress Examples
 ** =tar.gz=
 =tar -zxvf <SOME_FILE>.tar.gz>=
 ** =tar.xz=
 =tar -xvf <SOME_FILE>.tar.xz=
+
 * Compress Examples
 ** =tar.gz=
 - If you want to compress =somdir= into =.tar.gz=
 - =tar -cvf somedir.tar somedir= this will produce the tarball
 - To make it a gz file run =gzip somedir.tar=
 - This will compress and tarball into =somedir.tar.gz=
+
 * Using =pv= to get progress of file operations
 Most examples from [[https://ostechnix.com/monitor-progress-data-pipe-using-pv-command/][here]].
 ** =pv= copy directory
 =tar c Notebooks/ | pv | tar x -C Documents/=
 This will copy the Notebooks folder to Documents/Notebooks with a progress bar
+
 * Using =iperf3= to measure speed between hosts
 More examples of using =iperf3= [[https://fasterdata.es.net/performance-testing/network-troubleshooting-tools/iperf/][here]].
 The code for =iperf3= is hosted on github [[https://github.com/esnet/iperf][here]].
 - Pick one computer to be the host and run =iperf3 -s=
 - On the client computer run =iperf -c <HOSTNAME>=
+
+*  Using =sshfs= to mount a remote folder
+- [[https://wiki.archlinux.org/title/SSHFS][ArchWiki]] docs on =sshfs=
+- Use this program to mount a remote locally
+- You do not need to be root to use this
+- Example =sshfs me@remote:/home/me/videos videos=

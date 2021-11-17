@@ -488,6 +488,7 @@ Customizations and global keys for org mode
 - Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
 - Run =make install= with appropriate permissions to install the new version on the system
 - Use =M-x emacs-version RET= to see the current version info, including the build date
+
 * Emacs Server Mode
 - You can enable the emacs server to start at login with =systemctl --user enable emacs=
 - You can connect to the server with =emacsclient -c=
@@ -495,3 +496,33 @@ Customizations and global keys for org mode
 - From the [[https://wiki.archlinux.org/title/Emacs#As_a_systemd_unit][ArchWiki]] when emacs is started from systemd it doesn't source =.bash_profile=
 - Another option is the start it in your =.Xprofile= with =emacs --fg-daemon=
 - This way would inherit the environment variables
+
+* lsp-mode
+- [[https://emacs-lsp.github.io/lsp-mode/page/performance/][lsp-mode performance docs]]
+- In addition to native compilation the =--with-json= flag can result in an almost 15x performance increase
+- This flag requires =libjansson= to be installed
+- Increasing the amount of garbage collection =cons= threshold (=gc-cons-threshold=) to 100Mb =(setq gc-cons-threshold 100000000)=
+- Increase the read brocess buffer from 4k to 1mb =(setq read-process-output-max (* 1024 1024)) ;; 1mb=
+** lsp-dart
+#+begin_src elisp :tangle no
+    ;; Dart Stuff
+  (straight-use-package 'dart-mode)
+  (straight-use-package 'lsp-mode)
+  (straight-use-package 'lsp-dart)
+  (straight-use-package 'lsp-treemacs)
+  (straight-use-package 'flycheck)
+  (straight-use-package 'company)
+  (straight-use-package 'lsp-ui)
+  (straight-use-package 'hover)
+  (straight-use-package 'lsp-ivy)
+
+  (add-hook 'dart-mode-hook 'lsp)
+
+  (setq lsp-keymap-prefix "C-c n")
+
+  (defun ajr-lsp-format-on-save-hook ()
+    (when (bound-and-true-p lsp-mode)
+      (lsp-format-buffer)))
+
+  (add-hook 'before-save-hook 'ajr-lsp-format-on-save-hook)
+#+end_src
