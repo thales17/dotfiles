@@ -4,8 +4,8 @@
 * Resources
 - [[http://www.nethack.org/v365/Guidebook.html][Official Nethack 3.6.5 Guidebook]]
 - [[https://nethackwiki.com/wiki/Main_Page][Nethack Wiki]]
-- [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: Nethack from aaaa to Zruty (Youtube Playlist)]]
-- On most linux installs the guide book is located in =/usr/share/doc/nethack/Guidebook.txt=
+- [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: Nethack from aaaa to Zruty (YouTube Playlist)]]
+- On most Linux installs the guide book is located in =/usr/share/doc/nethack/Guidebook.txt=
 
 * How to quit nethack
 - Press the =#= key and type =quit=
@@ -40,6 +40,7 @@
 
 * Pets
 - You will be granted a pet at the start of each game
+- Pets can level up, with each enemy they kill
 
 * Game state
 - Each time you move, the world moves as well
@@ -67,17 +68,24 @@
 - Each item in your inventory gets a letter assigned to it
 - You can view that letter here (also when you are doing the command they will sometimes let you peak at your inventory with =?=
 
-* Wielding
+* Wielding weapons
 - Wielding means to equip a weapon like a sword
-- Press the =W= key to wield an item
+- Press the =w= key to wield an item
+
+* Wearing armor
+- Press the =W= key to wear an item
+- It is dangerous to put on equipment that hasn't been identified
+- Cursed equipment cannot usually be taken off
 
 * Reading
 - You can read scrolls
 - Press the =r= key to read a readable item
 
-* Nourishment
+* Nourishment (Eating)
 - You will eventually get hungry and need to eat
 - You can sometimes get nourishment from corpses you have killed
+- Some enemies are poisonous (Kobolds) so be careful eating just any old corpse
+- Food rations provide the most amount of nourishment
 
 * Identifying
 - You need to identify items to know if they are cursed or not
@@ -93,7 +101,7 @@
 - You might find a hidden door
 
 * Armor Class
-- In the HUD you will see the Armor Class abbrieviated as AC: <SOME_VALUE>
+- In the HUD you will see the Armor Class abbreviated as AC: <SOME_VALUE>
 - The lower the Armor Class value the better the protection
 - 10 is the worst armor class value
 - Armor class values can go into negative numbers
@@ -102,15 +110,58 @@
 - Press the =A= key to see a menu for items that can be taken off
 
 * Adjusting item keys
-- When you press the iventory screen you will see which key maps to which item
+- When you press the inventory screen you will see which key maps to which item
 - If you would like to adjust the key you can by press =#= to enter the extended mode
 - From there type =adjust=
-- This will prompt you for which iventory you want to change the key and what key you want to change it to
+- This will prompt you for which inventory you want to change the key and what key you want to change it to
 
 * Using tools
 - Press the =a= key to enter apply mode
 - From here press the inventory key for the item you want to use
 
-* Encumberance
+* Encumbrance (Burdened)
 - You can pick up too many things and become encumbered
 - Encumbered state makes it harder to move
+- You will gain a status effect "Burdened" when you have too much stuff
+
+* Praying
+- As a last ditch effort you can use the extended menu (=#=) to =pray=
+- This could turn the tide in your favor
+- Your role (job) and alignment determine which deity you pray to
+- You should not depend on praying, you can anger your Deity
+
+* Bone Files
+- When you die on a level, the game will persist this information in a bones file on the host computer
+- The game could then use this file to expose cursed items or the player corpse in a future run
+- If you play on a shared server there could be a lot of bones files from many previous runs by other players
+
+* Directions
+- Sometimes you are prompted for a direction
+- Press the =.= to indicate the tile underfoot
+
+* Dropping items
+- Press the =d= key to drop an item, or the =D= to multi drop
+- If you drop items in the dungeon, you can come back to them later and pick them up again
+
+* Enhance
+- Use the extended (=#=) command =enhance= to view your current proficiency in the various skills
+- As you use skills more you will gain the option to increase the proficiency
+
+* Save your game
+- Press =S= to save your game
+- This will exit the game and create a save file
+- You can only have one save file at a time so the next time you start nethack it will resume where you left off
+
+* Fog of War
+- When you visit a room and it is no longer in your direct line of sight it will be on your map but marked as "dark"
+- The details you see on the map are just your memory of the room, the actual state could have changed if you return to it
+
+* Advanced movement
+- Press the =5= key followed by a direction to move in that direction until you encounter something interesting
+
+* Shops
+- To buy items in the store pick up the item with =,= the pay with =p=
+- You can pick up multiple items before paying
+- The shop keeper will block the exit of the door until you have paid for all the items that you have picked up
+- You can drop things in the store to sell them
+- Selling unidentified items and seeing how much the shop keeper offers for it is a good way to deduce the value of a unidentified item
