@@ -7,6 +7,7 @@ config:
 	@chmod +x ~/.xprofile-local
 	@./tangle.sh config.org
 	@mkdir -p ~/.config/beets/data
+	@./tangle.sh nethack.org
 
 emacs:
 	@touch ~/.emacs-custom.el

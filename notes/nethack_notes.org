@@ -12,11 +12,17 @@
 - You will be prompted a few times to show stats
 - If you want to quit immediately press q
 
+* Getting help in the game
+- Enter the extended menu with =#= then type =help=
+- You should be able to view most of what you need to know from this menu
+- You can also press =?= to see the help menu
+
 * Goal of the game
 - Find the amulet of yendor and exit the dungeon
 - When you first load into the game there is a staircase leaving the dungeon
 - If you go up that staircase without the amulet you will forfeit the game
-- If you have the amulet when you start the game you win
+- If you have the amulet when you go up the stairs, you win
+- Nethack is a "learning" game where the fun comes from discovering all the mechanics
 
 * The Player
 - The player is the =@= symbol
@@ -67,6 +73,8 @@
 - When over an object you want to pick up press the =,= key
 - Each item in your inventory gets a letter assigned to it
 - You can view that letter here (also when you are doing the command they will sometimes let you peak at your inventory with =?=
+- By default auto pickup is enabled, so when you walk over an item it will be added to your inventory.
+- Use the =@= key to toggle auto pickup
 
 * Wielding weapons
 - Wielding means to equip a weapon like a sword
@@ -86,6 +94,7 @@
 - You can sometimes get nourishment from corpses you have killed
 - Some enemies are poisonous (Kobolds) so be careful eating just any old corpse
 - Food rations provide the most amount of nourishment
+- Eating food does not restore HP, instead it nourshes you
 
 * Identifying
 - You need to identify items to know if they are cursed or not
@@ -158,6 +167,8 @@
 
 * Advanced movement
 - Press the =5= key followed by a direction to move in that direction until you encounter something interesting
+- Press the =_= key to move the cursor to where you want to go
+- The player will then move until they reach that location
 
 * Shops
 - To buy items in the store pick up the item with =,= the pay with =p=
@@ -165,3 +176,11 @@
 - The shop keeper will block the exit of the door until you have paid for all the items that you have picked up
 - You can drop things in the store to sell them
 - Selling unidentified items and seeing how much the shop keeper offers for it is a good way to deduce the value of a unidentified item
+- The shopkeeper might not be interested in the items you drop
+
+* Altars
+- Any item that you don't know if it is cursed or not you can drop on an altar and it will reveal its cursed state
+- If you pray near an altar something good might happen, especially if the altar matches your alignment
+- If you use multidrop =D= you can select items pf umknown B/C/U status
+- You can make an offering at the altar, typically this would be an enemy corpse
+- Use the extended (=#=) command and =offer= to make an offer

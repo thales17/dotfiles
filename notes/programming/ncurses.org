@@ -1,0 +1,37 @@
+* What is =ncurses=
+"new curses" is a library that allows you to manipulate the character
+display of your terminal.
+
+* Resoureces
+- [[https://www.viget.com/articles/game-programming-in-c-with-the-ncurses-library/][Game Programming in C with Ncurses Library (viget.com)]]
+
+* Basic =ncurses= program
+** Code
+#+begin_src c :tangle ~/tmp/basic_ncurses.c :mkdirp yes
+  #include <ncurses.h>
+  #include <unistd.h>
+
+  int main (int argc, char **argv) {
+    initscr();
+    noecho();
+    curs_set(FALSE);
+
+    mvprintw(0, 0, "Hello, ncurses!");
+    refresh();
+
+    sleep(1);
+
+    endwin();
+
+    return 0;
+  }
+#+end_src
+** Compiling the code
+#+begin_src sh :results silent
+  #!/bin/sh
+  set -e
+
+  ../../config/tangle.sh ncurses.org
+  cd ~/tmp
+  gcc -o basic_ncurses basic_ncurses.c -lncurses
+#+end_src

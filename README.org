@@ -1,6 +1,8 @@
 * dotfiles and notes
 ** Config
-The config dir has various org mode files that can be tangled into their correct locations. To do so go change into the config dir and run =make=
+The config dir has various org mode files that can be tangled into
+their correct locations. To do so go change into the config dir and
+run =make=
 - [[file:config/config.org][Various home dir configs]]
 - [[file:config/suckless.org][Suckless Programs]]
 - [[file:config/emacs.org][Emacs]]
@@ -13,3 +15,6 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:notes/gnupg.org][GnuPG]]
 - [[file:notes/mail.org][Mail]]
 - [[file:notes/nethack_notes.org][Nethack]]
+
+*** Programming Notes
+- [[file:notes/programming/ncurses.org][ncurses]]

@@ -1,0 +1,17 @@
+:NAME: nethack dot org
+:AUTHOR: Adam Richardson
+#+PROPERTY: header-args :tangle ~/.nethackrc
+
+* Resources
+- [[https://nethackwiki.com/wiki/Options][Nethack Wiki]] page on options
+- [[http://nethack.org/v360/Guidebook.html#_TOCentry_41][Nethack Guidebook]] section on options
+
+* Config
+#+begin_src conf
+  name=Adam
+  # Disable auto pick up
+  OPTIONS=!autopickup
+  OPTIONS=catname:Jqwellin
+  OPTIONS=dogname:TimOthy
+  OPTIONS=horsename:DeNice
+#+end_src

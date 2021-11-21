@@ -1,4 +1,4 @@
-:NAME: dot emacs dot org
+:NAME: emacs dot org
 :AUTHOR: Adam Richardson
 #+PROPERTY: header-args :tangle ~/.emacs
 * Early Init
