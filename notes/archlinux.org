@@ -169,6 +169,9 @@ keycode 58 = Control
 ** Laptop Media Keys
 - Install dunst for desktop notifications =sudo pacman -Sy libnotify dunst=
 - There are various util commands that make it easy to bind to keys in dwm in the [[file:~/code/dotfiles/config/utils.org][utils.org]]
+** Populate and refresh pacman keys
+- Sometkmes package signatures are out of date
+- To update them run =sudo pacman-key --populate= and =sudo pacman-key --refresh-keys=
 ** Links
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]

@@ -1,8 +1,11 @@
 * What is =ncurses=
 "new curses" is a library that allows you to manipulate the character
-display of your terminal.
+display of your terminal. Curses originally was pun on "cursor
+optimization". It is primarily used to create nice UIs in text mode terminals.
 
 * Resoureces
+- [[https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/][NCURSES Programming HOWTO (tldp)]]
+- [[https://www.youtube.com/watch?v=lV-OPQhPvSM&list=PL2U2TQ__OrQ8jTf0_noNKtHMuYlyxQl4v][Casual Code ncurses tutorials (YouTube Playlist)]]
 - [[https://www.viget.com/articles/game-programming-in-c-with-the-ncurses-library/][Game Programming in C with Ncurses Library (viget.com)]]
 
 * Basic =ncurses= program

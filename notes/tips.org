@@ -45,8 +45,12 @@ The code for =iperf3= is hosted on github [[https://github.com/esnet/iperf][here
 - Pick one computer to be the host and run =iperf3 -s=
 - On the client computer run =iperf -c <HOSTNAME>=
 
-*  Using =sshfs= to mount a remote folder
+* Using =sshfs= to mount a remote folder
 - [[https://wiki.archlinux.org/title/SSHFS][ArchWiki]] docs on =sshfs=
 - Use this program to mount a remote locally
 - You do not need to be root to use this
 - Example =sshfs me@remote:/home/me/videos videos=
+* Use =gerbera= as a Upnp server
+- On iOS VLC is a good client app
+- The current version of VLC is not working properly for UPnP servers on TVOS
+- Infuse is a good option for TVOS

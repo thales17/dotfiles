@@ -399,6 +399,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-c a") 'org-agenda)
   (global-set-key (kbd "C-c c") 'org-capture)
   (global-set-key (kbd "C-x w") 'ajr-search-web)
+  (global-set-key (kbd "M-o") 'other-window)
   (global-set-key (kbd "C-x o") 'ace-window)
   (global-set-key (kbd "C-<return>") 'yafolding-toggle-element)
 

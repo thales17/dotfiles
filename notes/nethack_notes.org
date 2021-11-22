@@ -184,3 +184,8 @@
 - If you use multidrop =D= you can select items pf umknown B/C/U status
 - You can make an offering at the altar, typically this would be an enemy corpse
 - Use the extended (=#=) command and =offer= to make an offer
+* Naming items
+- You can use the =C= key to name items
+- You can either name a pariticular item or all items
+- This is useful when you are pretty sure you know what an item is but haven't identified it
+- For instance you are in a scroll shop and deduce that the cheapest scroll is more than likely a scroll of identify, so you want to name it as such to make it easier to view the items in the store
