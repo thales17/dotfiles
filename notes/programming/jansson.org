@@ -1,11 +1,7 @@
 * What is =jansson=
 =jansson= is a C JSON library that is open sourced under the MIT
-license. The [[https://digip.org/jansson/][website]] contains logs of documentation on how to use it.
+license. The [[https://digip.org/jansson/][website]] contains lots of documentation on how to use it.
 You can install it on Ubuntu with =sudo apt install libjansson-dev=
-
-* What is the document?
-This is a literate programming document that shows how to use
-=libjansson= to parse a CSV into JSON
 
 * Input CSV
 The input is a CSV of food items with category information and the
@@ -105,8 +101,6 @@ The output JSON should present the hierarchy of foods like below:
   }
 #+end_src
 
-* Utility Code Blocks
-This section has a few utility code blocks that are reused across the file
 
 * Simple CSV parsing Program
 ** Code
@@ -122,7 +116,6 @@ Below is a simple example C program that parses the input CSV and outputs it as 
   #define CSV_NAME "hello_jannson_food_input.csv"
   #define COLUMN_COUNT 5
   #define MAX_STR 50
-  #define MAX_FOOD 20
 
   struct food {
     char type[MAX_STR];

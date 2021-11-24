@@ -18,3 +18,4 @@ run =make=
 
 *** Programming Notes
 - [[file:notes/programming/ncurses.org][ncurses]]
+- [[file:notes/programming/jansson.org][jansson]]
