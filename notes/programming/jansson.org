@@ -1,0 +1,355 @@
+* What is =jansson=
+=jansson= is a C JSON library that is open sourced under the MIT
+license. The [[https://digip.org/jansson/][website]] contains logs of documentation on how to use it.
+You can install it on Ubuntu with =sudo apt install libjansson-dev=
+
+* What is the document?
+This is a literate programming document that shows how to use
+=libjansson= to parse a CSV into JSON
+
+* Input CSV
+The input is a CSV of food items with category information and the
+food item name. The categories are =Food Type=, =Food Family=, =Food
+Kind=, =Food Name=, =Food Data=. The data is some random string that
+has no real meaning, just added for the example. This test csv has
+random spaces in it just to ensure that the test program can ignore
+blank lines.
+
+#+begin_src text :tangle ~/tmp/hello_jannson_food_input.csv
+  Type,Family,Kind,Name,Data
+  Produce,Fruits,Apples,Honey Crisp,ABC
+  Produce,Fruits,Apples,Gala,DEF
+
+  Produce,Fruits,Apples,Granny Smith,GHI
+  Produce,Fruits,Oranges,Tangerine,JKL
+  Produce,Fruits,Oranges,Navel,MNO
+
+  Produce,Fruits,Oranges,Clementine,PQR
+  Meats,Poultry,Chicken,Wings,STU
+  Meats,Poultry,Turkey,Legs,VWX
+
+
+  Meats,Pork,Bacon,Thick Cut,YZA
+  Meats,Pork,Ham,Glazed,BCD
+#+end_src
+
+* Output JSON
+The output JSON should present the hierarchy of foods like below:
+
+#+begin_src javascript
+  {
+    "foods": {
+      "produce": {
+	"fruits": {
+	  "apples": [
+	    {
+	      "name": "Honey Crisp",
+	      "data": "ABC"
+	    },
+	    {
+	      "name": "Gala",
+	      "data": "DEF"
+	    },
+	    {
+	      "name": "Granny Smith",
+	      "data": "GHI"
+	    }
+	  ],
+	  "oranges": [
+	    {
+	      "name": "Tangerine",
+	      "data": "JKL"
+	    },
+	    {
+	      "name": "Navel",
+	      "data": "MNO"
+	    },
+	    {
+	      "name": "Clementine",
+	      "data": "PQR"
+	    }
+	  ]
+	}
+      },
+      "meats": {
+	"poultry": {
+	  "chicken": [
+	    {
+	      "name": "Wings",
+	      "data": "STU"
+	    }
+	  ],
+	  "turkey": [
+	    {
+	      "name": "Legs",
+	      "data": "VWX"
+	    }
+	  ]
+	},
+	"pork": {
+	  "bacon": [
+	    {
+	      "name": "Thick Cut",
+	      "data": "YZA"
+	    }
+	  ],
+	  "ham": [
+	    {
+	      "name": "Glazed",
+	      "data": "BCD"
+	    }
+	  ]
+	}
+      }
+    }
+  }
+#+end_src
+
+* Utility Code Blocks
+This section has a few utility code blocks that are reused across the file
+
+* Simple CSV parsing Program
+** Code
+Below is a simple example C program that parses the input CSV and outputs it as JSON in the requested format
+
+#+begin_src c :tangle ~/tmp/hello_jannson_csv_parser.c
+  #include <stdio.h>
+  #include <stdlib.h>
+  #include <string.h>
+  #include <jansson.h>
+  #include <ctype.h>
+
+  #define CSV_NAME "hello_jannson_food_input.csv"
+  #define COLUMN_COUNT 5
+  #define MAX_STR 50
+  #define MAX_FOOD 20
+
+  struct food {
+    char type[MAX_STR];
+    char family[MAX_STR];
+    char kind[MAX_STR];
+    char name[MAX_STR];
+    char data[MAX_STR];
+  };
+
+  int is_valid_row(const char *, const int);
+  void str_lower(char *);
+
+  int main()
+  {
+    FILE *file;
+    char *line = NULL;
+    size_t len = 0;
+    ssize_t chars_read = 0;
+    int line_num = 0;
+    int i;
+
+    char *field;
+
+    json_t *foods;
+    json_t *root;
+
+    char *json_str;
+
+    root = json_object();
+    foods = json_object();
+    json_object_set(root, "foods", foods);
+
+    if ((file = fopen(CSV_NAME, "r")) == NULL) {
+      printf("Could not open %s\n", CSV_NAME);
+      exit(1);
+    }
+
+    while ((chars_read = getline(&line, &len, file)) != -1) {
+      /* Assumes the first line is the header line */
+      if (is_valid_row(line, chars_read) && line_num > 0) {
+	json_t *type_obj;
+	json_t *family_obj;
+	json_t *kind_arr;
+	json_t *food_obj;
+
+	int last_len = 0;
+	struct food f;
+
+	field = strtok(line, ",");
+	strcpy(f.type, field);
+	str_lower(&f.type);
+
+	field = strtok(NULL, ",");
+	strcpy(f.family, field);
+	str_lower(&f.family);
+
+	field = strtok(NULL, ",");
+	strcpy(f.kind, field);
+	str_lower(&f.kind);
+
+	field = strtok(NULL, ",");
+	strcpy(f.name, field);
+
+	field = strtok(NULL, ",");
+	strcpy(f.data, field);
+
+	/* Since this is the last field it will have a '\n'. Remove the
+	   last character, if it is '\n' replace with '\0'. */
+	last_len = strnlen(f.data, MAX_STR);
+	if (f.data[last_len - 1] == '\n') {
+	  f.data[last_len - 1] = '\0';
+	}
+
+	if (json_object_get(foods, f.type) == NULL) {
+	  json_object_set(foods, f.type, json_object());
+	}
+
+	type_obj = json_object_get(foods, f.type);
+
+	if (json_object_get(type_obj, f.family) == NULL) {
+	  json_object_set(type_obj, f.family, json_object());
+	}
+
+	family_obj = json_object_get(type_obj, f.family);
+
+	if (json_object_get(family_obj, f.kind) == NULL) {
+	  json_object_set(family_obj, f.kind, json_array());
+	}
+
+	kind_arr = json_object_get(family_obj, f.kind);
+
+	food_obj = json_object();
+	json_object_set(food_obj, "name", json_string(f.name));
+	json_object_set(food_obj, "data", json_string(f.data));
+
+	json_array_append(kind_arr, food_obj);
+      }
+
+      line_num++;
+    }
+
+    json_str = json_dumps(root, JSON_INDENT(2));
+
+    printf("%s\n", json_str);
+
+    free(json_str);
+
+    if (line) {
+      free(line);
+    }
+
+    fclose(file);
+
+    json_decref(root);
+  }
+
+  int is_valid_row(const char *line, const int len) {
+    int i;
+    int comma_count = 0;
+    for (i = 0; i < len; i++) {
+      if (line[i] == ',') {
+	comma_count++;
+      }
+    }
+
+    if (COLUMN_COUNT - 1 - comma_count == 0) {
+      return 1;
+    }
+
+    return 0;
+  }
+
+  void str_lower(char *s) {
+    int len = strnlen(s, MAX_STR);
+    int i;
+    for (i = 0; i < len; i++) {
+      s[i] = tolower(s[i]);
+    }
+  }
+#+end_src
+
+** Output
+Execute this code block =C-c C-c= to tangle, compile, and execute the above code block
+
+#+begin_src sh :noweb yes :results output
+  #!/bin/sh
+
+  # Exit on command failure
+  set -e
+
+  SRC=hello_jannson_csv_parser.c
+  OUTPUT=hello_jannson_csv_parser
+
+  ../../config/tangle.sh jansson.org
+
+  cd ~/tmp
+  gcc -o $OUTPUT $SRC -ljansson
+
+  ./$OUTPUT
+#+end_src
+
+#+RESULTS:
+#+begin_example
+{
+  "foods": {
+    "produce": {
+      "fruits": {
+	"apples": [
+	  {
+	    "name": "Honey Crisp",
+	    "data": "ABC"
+	  },
+	  {
+	    "name": "Gala",
+	    "data": "DEF"
+	  },
+	  {
+	    "name": "Granny Smith",
+	    "data": "GHI"
+	  }
+	],
+	"oranges": [
+	  {
+	    "name": "Tangerine",
+	    "data": "JKL"
+	  },
+	  {
+	    "name": "Navel",
+	    "data": "MNO"
+	  },
+	  {
+	    "name": "Clementine",
+	    "data": "PQR"
+	  }
+	]
+      }
+    },
+    "meats": {
+      "poultry": {
+	"chicken": [
+	  {
+	    "name": "Wings",
+	    "data": "STU"
+	  }
+	],
+	"turkey": [
+	  {
+	    "name": "Legs",
+	    "data": "VWX"
+	  }
+	]
+      },
+      "pork": {
+	"bacon": [
+	  {
+	    "name": "Thick Cut",
+	    "data": "YZA"
+	  }
+	],
+	"ham": [
+	  {
+	    "name": "Glazed",
+	    "data": "BCD"
+	  }
+	]
+      }
+    }
+  }
+}
+#+end_example
