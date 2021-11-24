@@ -32,11 +32,13 @@
 - Try to understand why you died each time it happens
 
 * Vi Movement Keys
-| y | k | u |
-|---+---+---|
-| h |   | l |
-|---+---+---|
-| b | j | n |
+#+begin_example
+y k u
+ \|/
+h-.-l
+ /|\
+b j n
+#+end_example
 
 * Staircases
 - The =<= means a staircase going up
@@ -143,6 +145,10 @@
 - When you die on a level, the game will persist this information in a bones file on the host computer
 - The game could then use this file to expose cursed items or the player corpse in a future run
 - If you play on a shared server there could be a lot of bones files from many previous runs by other players
+** Clues you might be on a bones level
+- You see a named pet walking around
+- You see a corpse with lots of items
+- If you deduce you are on a bones level, be careful something strong could be on the level that will kill you
 
 * Directions
 - Sometimes you are prompted for a direction

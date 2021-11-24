@@ -50,6 +50,8 @@ The code for =iperf3= is hosted on github [[https://github.com/esnet/iperf][here
 - Use this program to mount a remote locally
 - You do not need to be root to use this
 - Example =sshfs me@remote:/home/me/videos videos=
+- To unmount =fusermount3 -u videos=
+
 * Use =gerbera= as a Upnp server
 - On iOS VLC is a good client app
 - The current version of VLC is not working properly for UPnP servers on TVOS
