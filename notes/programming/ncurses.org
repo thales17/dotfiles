@@ -9,26 +9,82 @@ optimization". It is primarily used to create nice UIs in text mode terminals.
 - [[https://www.viget.com/articles/game-programming-in-c-with-the-ncurses-library/][Game Programming in C with Ncurses Library (viget.com)]]
 
 * Basic =ncurses= program
+** Setup
+To initialize =ncurses= you should call =initscr=
+
+** Tear down
+Make sure to call =endwin= at the end of your program to clean up =ncurses=
+
+** Hiding user key presses
+Use =noecho= and =echo= to enable or disable the keys the user types
+from showing up in the terminal.
+
+** Configuring the cursor visibility
+Use =curs_set= to set the visibility level of the cursor. It can be
+invisible <0>, visible <1>, or very visible <2>. Not all terminals
+support this feature (for instance term.el in emacs always shows the
+cursor no matter what this is set to).
+
+** Refreshing
+You will need to call =refresh= to flush the back buffer to the terminal
+
+** Printing to the screen
+You can use =printw= or =mvprintw= to print a string to the
+screen. =printw= uses the current cursor position. =mvprintw= allows
+you to specify where to print the string in the terminal. Caution the
+=ncurses= functions that accept a coordinate pair want the =y=
+coordinate before the =x=, always double check the manpage. The
+=ncurses= print functions support formats the same way =printf= does.
+
+** Moving the cursor
+Use the =move= function to set the cursor position in the
+terminal. The =y= coordinate is the first argument and represents the
+number of characters down from the top. The second argument is =x= and
+represents the number of characters from the left.
+
+** Waiting for user input
+If you want to wait for the user to press a key before continuing use
+the =getch= function. This function will also return the char that the
+user typed on the keyboard.
+
+** Clearing the screen
+Use the =clear= function to clear the screen.
+
 ** Code
 #+begin_src c :tangle ~/tmp/basic_ncurses.c :mkdirp yes
   #include <ncurses.h>
-  #include <unistd.h>
 
   int main (int argc, char **argv) {
+    char c;
+    int x, y;
+
+    x = 2;
+    y = 3;
+
     initscr();
     noecho();
-    curs_set(FALSE);
+    curs_set(0);
 
-    mvprintw(0, 0, "Hello, ncurses!");
+    move(y, x);
+    printw("Hello");
+    mvprintw(y + 1, x + 5, "ncurses!");
+
     refresh();
 
-    sleep(1);
+    c = getch();
+    clear();
+    mvprintw(0, 0, "You pressed char code: %d", c);
+    mvprintw(2, 0, "Press any key to exit");
+    refresh();
+
+    getch();
 
     endwin();
 
     return 0;
   }
 #+end_src
+
 ** Compiling the code
 #+begin_src sh :results silent
   #!/bin/sh
@@ -37,4 +93,93 @@ optimization". It is primarily used to create nice UIs in text mode terminals.
   ../../config/tangle.sh ncurses.org
   cd ~/tmp
   gcc -o basic_ncurses basic_ncurses.c -lncurses
+#+end_src
+
+* Using Windows
+
+** Windows
+In ncurses bounding rectangles are known as windows. A window can be
+created with the =newwin= function. Like most =ncurses= functions y
+comes before x and height comes before width when specifing the
+rectangle. The =newwin= function should be called after =initscr=.
+
+** Drawing a box border around a window
+Use the =box= function to draw a box border around a window. This will
+clear any characters that might be on the screen when you call it so
+make sure to draw the box before putting any content into the
+window. The box function accepts the window as well as the vertical
+and horizontal characters to use when drawing the border. Use zeroes
+as the arguments if you just want to use the terminal default border.
+
+** Refreshing the window
+An individual window can be refreshed with =wrefresh=. This function
+takes the window as an argument. Refreshing the window is needed
+anytime you draw to the window. This includes =box= or any of the w*
+functions.
+
+** Drawing in the window
+There are window equivalents of all the normal =ncurses= draw
+functions. The functions that accept coordinates will be relative to
+the window.
+
+** Code
+#+begin_src c :tangle ~/tmp/win_ncurses.c :mkdirp yes
+  #include <ncurses.h>
+
+  int main (int argc, char **argv) {
+    int c;
+
+    WINDOW *char_win;
+    WINDOW *code_win;
+
+    initscr();
+    noecho();
+    curs_set(0);
+
+    char_win = newwin(5, 10, 2, 2);
+    code_win = newwin(5, 10, 2, 14);
+
+    refresh();
+
+    box(char_win, 0, 0);
+    mvwprintw(char_win, 0, 2, "char");
+    wrefresh(char_win);
+
+    box(code_win, 0, 0);
+    mvwprintw(code_win, 0, 2, "code");
+    wrefresh(code_win);
+
+    printw("Press q to exit");
+    refresh();
+
+    do {
+      c = getch();
+
+      wclear(char_win);
+      box(char_win, 0, 0);
+      mvwprintw(char_win, 0, 2, "char");
+      mvwprintw(char_win, 2, 4, "%c", c);
+      wrefresh(char_win);
+
+      wclear(code_win);
+      box(code_win, 0, 0);
+      mvwprintw(code_win, 0, 2, "code");
+      mvwprintw(code_win, 2, 4, "%d", c);
+      wrefresh(code_win);
+    } while (c != 'q');
+
+    endwin();
+
+    return 0;
+  }
+#+end_src
+
+** Compiling the code
+#+begin_src sh :results silent
+  #!/bin/sh
+  set -e
+
+  ../../config/tangle.sh ncurses.org
+  cd ~/tmp
+  gcc -o win_ncurses win_ncurses.c -lncurses
 #+end_src

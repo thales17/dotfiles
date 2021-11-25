@@ -52,4 +52,7 @@
 
   # forgotten spell
   MENUCOLOR="[a-zA-Z] - [a-zA-Z ]+[ ]+[0-9]+\*[ ]+[a-z]+[ ]+[0-9]+%"=magenta
+
+  OPTIONS=msghistory:50
+  OPTIONS=msg_window:reversed
 #+end_src

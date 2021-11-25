@@ -195,3 +195,6 @@ b j n
 - You can either name a pariticular item or all items
 - This is useful when you are pretty sure you know what an item is but haven't identified it
 - For instance you are in a scroll shop and deduce that the cheapest scroll is more than likely a scroll of identify, so you want to name it as such to make it easier to view the items in the store
+
+* View message history
+- Use =C-p= to view the message history
