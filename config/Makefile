@@ -8,6 +8,7 @@ config:
 	@./tangle.sh config.org
 	@mkdir -p ~/.config/beets/data
 	@./tangle.sh nethack.org
+	@mkdir -p ~/.local/log
 
 emacs:
 	@touch ~/.emacs-custom.el

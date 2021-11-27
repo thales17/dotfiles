@@ -3,7 +3,7 @@
 display of your terminal. Curses originally was pun on "cursor
 optimization". It is primarily used to create nice UIs in text mode terminals.
 
-* Resoureces
+* Resources
 - [[https://tldp.org/HOWTO/NCURSES-Programming-HOWTO/][NCURSES Programming HOWTO (tldp)]]
 - [[https://www.youtube.com/watch?v=lV-OPQhPvSM&list=PL2U2TQ__OrQ8jTf0_noNKtHMuYlyxQl4v][Casual Code ncurses tutorials (YouTube Playlist)]]
 - [[https://www.viget.com/articles/game-programming-in-c-with-the-ncurses-library/][Game Programming in C with Ncurses Library (viget.com)]]
@@ -22,7 +22,7 @@ from showing up in the terminal.
 ** Configuring the cursor visibility
 Use =curs_set= to set the visibility level of the cursor. It can be
 invisible <0>, visible <1>, or very visible <2>. Not all terminals
-support this feature (for instance term.el in emacs always shows the
+support this feature (for instance term.el in Emacs always shows the
 cursor no matter what this is set to).
 
 ** Refreshing
@@ -96,11 +96,10 @@ Use the =clear= function to clear the screen.
 #+end_src
 
 * Using Windows
-
 ** Windows
 In ncurses bounding rectangles are known as windows. A window can be
 created with the =newwin= function. Like most =ncurses= functions y
-comes before x and height comes before width when specifing the
+comes before x and height comes before width when specifying the
 rectangle. The =newwin= function should be called after =initscr=.
 
 ** Drawing a box border around a window
@@ -183,3 +182,63 @@ the window.
   cd ~/tmp
   gcc -o win_ncurses win_ncurses.c -lncurses
 #+end_src
+
+* Attributes
+Use the =attron= and =attroff= function to set the desired
+attributes. Use bit-wise or to combine multiple attributes. Some
+examples of the attributes you can can are underline, bold, reverse
+(swap foreground and background colors), etc. You can see a complete
+table of the attributes in the manpage for =attron=.
+
+* Colors
+If a terminal supports colors you can change the color of various
+characters. The =has_colors= function is a good check to run to see if
+a terminal supports various colors. If you want to use colors and your
+terminal supports it use =start_color= function to initialize color
+support. From there color pairs (foreground, background) need to be
+defined with the =init_pair=. When defining a color pair you will
+specify and id. This id will be used in the attribute =COLOR_PAIR= to
+specify which color pair you are using.  Some terminals also support
+redefining colors. You can use =can_change_color= to see if you can
+redefine the color.
+
+** Example
+#+begin_src c
+  ....
+  if (!has_colors()) {
+    printw("Colors not supported");
+    getch();
+    endwin();
+    return -1;
+  }
+
+  start_color();
+
+  init_pair(1, COLOR_CYAN, COLOR_WHITE);
+
+  attron(COLOR_PAIR(1));
+  printw("Light blue");
+  attroff(COLOR_PAIR(1));
+
+  mvprintw(2, 0, "Press any key to continue");
+  getch();
+  ...
+
+#+end_src
+* Querying Cursor position
+You can query the size, cursor position, and top left offset of a
+window using =getmaxyx=, =getxy= and =getbegxy=. Each of these functions
+accepts a window as the argument but if you want to query the default
+window use =stdscr=. The =getmaxyx= using the =stdscr= is a good way to get
+the size of the current terminal window. These functions are actually
+macros and they accept as arguments the x and y variables to hold the
+return values. Since they are macros you do not need to pass by
+reference to them. So don't do this ~getmaxy(stdscr, &x, &y)~ but rather
+do this ~getmaxy(stdscr, x, y)~.
+
+* Reading non char keys
+When you run =getch= normally it will not return usefule values for the
+arrow or function keys. In order to get this information you need to
+call the =keypad= function. Once enabled you can use =wgetch= to compare
+the returned key with =KEY_UP= or =KEY_LEFT=. All the available keys are
+listed in =curses.h=.
