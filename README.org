@@ -7,6 +7,8 @@ run =make=
 - [[file:config/suckless.org][Suckless Programs]]
 - [[file:config/emacs.org][Emacs]]
 - [[file:config/utils.org][Utility Scripts]]
+- [[file:config/nethack.org][NetHack]]
+
 ** Notes
 - [[file:notes/tips.org][Tips]]
 - [[file:notes/archlinux.org][Arch Linux]]
@@ -14,7 +16,7 @@ run =make=
 - [[file:notes/openbsd.org][OpenBSD]]
 - [[file:notes/gnupg.org][GnuPG]]
 - [[file:notes/mail.org][Mail]]
-- [[file:notes/nethack_notes.org][Nethack]]
+- [[file:notes/nethack_notes.org][NetHack]]
 
 *** Programming Notes
 - [[file:notes/programming/ncurses.org][ncurses]]

@@ -15,10 +15,13 @@
 
   name=Adam
 
-  OPTIONS=!autopickup
+  # Pet names
   OPTIONS=catname:Jayqwellin
   OPTIONS=dogname:Timoethy
   OPTIONS=horsename:DeNice
+
+  OPTIONS=!autopickup
+  OPTIONS=boulder:0
 
   # Ensure changes will be shown for a few turns after they happen.
   OPTIONS=statushilites:10

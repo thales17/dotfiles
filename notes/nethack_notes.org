@@ -1,13 +1,13 @@
 * Version
-- Notes are based on the =3.6.x= version of nethack
+- Notes are based on the =3.6.x= version of NetHack
 
 * Resources
-- [[http://www.nethack.org/v365/Guidebook.html][Official Nethack 3.6.5 Guidebook]]
-- [[https://nethackwiki.com/wiki/Main_Page][Nethack Wiki]]
-- [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: Nethack from aaaa to Zruty (YouTube Playlist)]]
+- [[http://www.nethack.org/v365/Guidebook.html][Official NetHack 3.6.5 Guidebook]]
+- [[https://nethackwiki.com/wiki/Main_Page][NetHack Wiki]]
+- [[https://www.youtube.com/watch?v=eV676QuiEj8&list=PLJKEti52QnnSvxOw0U3Lw-_pKCsRbR6Zb][PC Gamer: NetHack from aaaa to Zruty (YouTube Playlist)]]
 - On most Linux installs the guide book is located in =/usr/share/doc/nethack/Guidebook.txt=
 
-* How to quit nethack
+* How to quit NetHack
 - Press the =#= key and type =quit=
 - You will be prompted a few times to show stats
 - If you want to quit immediately press q
@@ -22,7 +22,7 @@
 - When you first load into the game there is a staircase leaving the dungeon
 - If you go up that staircase without the amulet you will forfeit the game
 - If you have the amulet when you go up the stairs, you win
-- Nethack is a "learning" game where the fun comes from discovering all the mechanics
+- NetHack is a "learning" game where the fun comes from discovering all the mechanics
 
 * The Player
 - The player is the =@= symbol
@@ -81,6 +81,15 @@ b j n
 * Wielding weapons
 - Wielding means to equip a weapon like a sword
 - Press the =w= key to wield an item
+- Press the =x= key to switch to off-hand weapon
+- If you are able to dual wield you can enable it with =X=
+
+* Throwing items
+- You can throw any item with the =t= command
+- If you have arrows but are not wielding a bow you can still throw them
+- If you are wielding a bow they will go further and do more damage
+- You can quiver an item with =Q= and quickly fire it with =f=
+- Using quiver and fire saves you the step of picking which item to throw
 
 * Wearing armor
 - Press the =W= key to wear an item
@@ -96,7 +105,7 @@ b j n
 - You can sometimes get nourishment from corpses you have killed
 - Some enemies are poisonous (Kobolds) so be careful eating just any old corpse
 - Food rations provide the most amount of nourishment
-- Eating food does not restore HP, instead it nourshes you
+- Eating food does not restore HP, instead it nourishes you
 
 * Identifying
 - You need to identify items to know if they are cursed or not
@@ -145,6 +154,8 @@ b j n
 - When you die on a level, the game will persist this information in a bones file on the host computer
 - The game could then use this file to expose cursed items or the player corpse in a future run
 - If you play on a shared server there could be a lot of bones files from many previous runs by other players
+- Sometimes on bones level you will encounter a ghost of a previous player
+- Possessions of deceased players are probably cursed
 ** Clues you might be on a bones level
 - You see a named pet walking around
 - You see a corpse with lots of items
@@ -161,11 +172,13 @@ b j n
 * Enhance
 - Use the extended (=#=) command =enhance= to view your current proficiency in the various skills
 - As you use skills more you will gain the option to increase the proficiency
+- You will need to manually advance your skill to the next level
+- The reason for this is that there is a limit to the total amount of things you can have skills in
 
 * Save your game
 - Press =S= to save your game
 - This will exit the game and create a save file
-- You can only have one save file at a time so the next time you start nethack it will resume where you left off
+- You can only have one save file at a time so the next time you start NetHack it will resume where you left off
 
 * Fog of War
 - When you visit a room and it is no longer in your direct line of sight it will be on your map but marked as "dark"
@@ -187,14 +200,49 @@ b j n
 * Altars
 - Any item that you don't know if it is cursed or not you can drop on an altar and it will reveal its cursed state
 - If you pray near an altar something good might happen, especially if the altar matches your alignment
-- If you use multidrop =D= you can select items pf umknown B/C/U status
+- If you use multi-drop =D= you can select items pf unknown B/C/U status
 - You can make an offering at the altar, typically this would be an enemy corpse
 - Use the extended (=#=) command and =offer= to make an offer
+
 * Naming items
 - You can use the =C= key to name items
-- You can either name a pariticular item or all items
+- You can either name a particular item or all items
 - This is useful when you are pretty sure you know what an item is but haven't identified it
 - For instance you are in a scroll shop and deduce that the cheapest scroll is more than likely a scroll of identify, so you want to name it as such to make it easier to view the items in the store
 
 * View message history
 - Use =C-p= to view the message history
+
+* View player attributes
+- Use =C-x= to view the player stats
+
+* Sokoban
+- Sokoban is a puzzle section of the dungeon
+- They are block pushing puzzles where you want to push boulders into pits in order to get to the next floor
+- Rather than descending you are ascending the Sokoban section
+- You can get a lot of good items in the Sokoban level (especially food rations)
+- This makes it a good candidate for early in the game to not die of starvation
+- There are a total of 4 levels of Sokoban
+- If you are on the second floor or above in Sokoban and you fall into a pit, you will land on the lower floor
+- If you get stuck it is worth moving any boulder you can to see what is underneath
+
+* Curse Testing
+- If you are a priest you will know if items are cursed or not
+- If you drop an item on an alter you will then know if the item is cursed or not
+- You can use your pet to know if an item is cursed or not. Pets only move on cursed stacks "reluctantly" if you place a stack of non-food items down and the pet just walks on them, its probably not cursed.
+- Scroll of identify will tell you if an item is cursed or not
+- You can curse or uncurse items with holy or unholy water
+- Dipping =#dip= items in a fountain can sometimes tell you if they are cursed or not, and potentially remove the cursed status if they are. Make sure that exposing the item to water is OK.
+
+* Engraving "Elbereth"
+- Use =E= to start the engrave command
+- If you type "Elbereth" that will cause most monsters to stop attacking
+
+* Beginner Friendly build
+- Valkyrie, Dwarf, Female
+- Because it is a Dwarf, the gnomish mines will be friendly
+
+* Floating Eyes
+- Don't melee attack a floating eye
+- You will get paralyzed and killed by something small like a newt or grid bug
+- You should try killing it at a range

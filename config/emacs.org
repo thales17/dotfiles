@@ -373,6 +373,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "<f9>") 'whitespace-mode)
   (global-set-key (kbd "<f10>") 'whitespace-cleanup)
   (global-set-key (kbd "<f11>") 'notmuch)
+  (global-set-key (kbd "C-<f11>") 'ajr-sync-mail)
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
 
