@@ -1,0 +1,121 @@
+* What is ASCII UI?
+- A UI that is made up entirely of ascii symbols
+- The symbols are arranged in a way to represent something like a map or puzzle
+- The ASCII symbols are used in place of 2D graphics
+
+* What are some examples of ASCII UI?
+- NetHack
+- Crawl
+- Nudoku
+- 5x5 elisp game
+
+* Scope of this document
+- This org doc will show elisp necessry to display a dungeon UI similar to NetHack
+- There will be ASCII characters that represent the floor and walls
+- There will be a few symbols on the floor indicating they are items
+- The user can use =h,j,k,l,u,y,b,n= for 8-way movement
+- Some items will be different colors from others
+- You can press the interact key =,= to see a message about an item
+
+* Example UI (without color)
+#+begin_example
+
+     +--------------------+
+     |..<.................|
+     |.............(......|
+     |..........@.........|
+     |....k...............|
+     |....................|
+     |...%.........d......|
+     |....................|
+     |...............>....|
+     +--------------------+
+
+#+end_example
+
+* TODO
+** Add entities to the room
+*** Entities
+**** Player =@=
+**** Stairs up =<= and down =>=
+**** Dog =d=
+**** Ration =%=
+**** Large box =(=
+**** Kobold =k=
+*** Entity data storage
+*** Draw entities
+** Input functions
+** Keymap
+* ASCII Room
+#+name: room
+#+begin_src elisp
+  (define-derived-mode ajr-ascii-room-mode special-mode "ASCII Room"
+    "A mode for playing `ajr-ascii-room'."
+    :interactive nil
+    (setq buffer-read-only t
+	  truncate-lines   t)
+    (buffer-disable-undo))
+
+  (defun ajr--make-room (x y w h)
+    (list x y w h))
+
+  (defun ajr--room-x (room)
+    (nth 0 room))
+
+  (defun ajr--room-y (room)
+    (nth 1 room))
+
+  (defun ajr--room-w (room)
+    (nth 2 room))
+
+  (defun ajr--room-h (room)
+    (nth 3 room))
+
+  (defun ajr--clear ()
+    (erase-buffer)
+    (mapcar (lambda (n)
+	      (insert (format "%s\n" (make-string 80 ?\s))))
+	    (number-sequence 0 23)))
+
+  (defun ajr--draw-room (room)
+    (let ((x (ajr-2d--room-x room))
+	  (y (ajr-2d--room-y room))
+	  (w (ajr-2d--room-w room))
+	  (h (ajr-2d--room-h room)))
+      (goto-char (+ (* y 81) x 1))
+      (insert (format "+%s+\n" (make-string w ?.)))
+      (mapcar (lambda (n)
+		(insert (format "%s|%s|\n"
+				(make-string x ?\s)
+				(make-string w ?.))))
+	      (number-sequence 0 (- h 3)))
+      (insert (format "%s+%s+\n"
+		      (make-string x ?\s)
+		      (make-string w ?.)))))
+
+  (defun ajr--test ()
+    (interactive)
+    (message "MESSAGE!"))
+
+  (defvar ajr-ascii-room-mode-map
+    (let ((map (make-sparse-keymap)))
+      (suppress-keymap map t)
+      (define-key map "t" #'ajr--test)
+      map)
+    "Local keymap for ASCII room game")
+
+  (defun ajr-ascii-room ()
+    (interactive)
+    (let ((2d-buffer (get-buffer-create "*ascii-room*")))
+      (with-current-buffer 2d-buffer
+	(ajr-ascii-room-mode)
+	(setq buffer-read-only nil)
+	(ajr-2d--clear)
+	(ajr-2d--draw-room (ajr-2d-make-room 16 5 15 10))
+	(setq buffer-read-only t)
+	(pop-to-buffer 2d-buffer))))
+
+#+end_src
+
+#+RESULTS: room
+: ajr-ascii-room

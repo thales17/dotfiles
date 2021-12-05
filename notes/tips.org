@@ -17,8 +17,13 @@
 =https://youtube.com/feeds/videos.xml?channel_id=<CHANNEL_ID>=
 
 * Git
-** Chamge remote URL
+** Change remote URL
 - =git remote set-url <REMOTE_NAME> <REMOTE_URL>
+** Rename branch
+- If current branch =git branch -m new-name=
+- If not current branch =git -m old-name new-name=
+** Pull submodules
+- =git submodule update --init --recursive=
 
 * Uncompress Examples
 ** =tar.gz=

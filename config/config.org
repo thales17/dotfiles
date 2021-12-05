@@ -109,6 +109,9 @@ All user information goes into the file .gitconfig-user, which is not part of th
 
   [pull]
 	  rebase = true
+
+  [init]
+	  defaultBranch = main
 #+end_src
 * kitty
 #+name: kitty.conf
