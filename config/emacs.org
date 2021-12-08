@@ -1,6 +1,6 @@
 :NAME: emacs dot org
 :AUTHOR: Adam Richardson
-#+PROPERTY: header-args :tangle ~/.emacs
+#+PROPERTY: header-args :tangle ~/.emacs :results none
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -86,7 +86,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 ** shelllike filter
 This is a process filter that handles carriage returns and newlines. From this, [[https://stackoverflow.com/questions/19407278/emacs-overwrite-with-carriage-return][using process filter for carriage returns]], stack overflow.
 #+name: shelllike-filter
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-shelllike-filter (proc string)
     (let* ((buffer (process-buffer proc))
 	   (window (get-buffer-window buffer)))
@@ -110,7 +110,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 ** elfeed
 #+name: elfeed
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
@@ -122,7 +122,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 ** org capture
 #+name: org-capture
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-org-basic-capture (key name filename)
     "Generates a basic capture template. It will
   prompt you for the title of the heading and place
@@ -137,7 +137,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 ** web search
 #+name: web-search
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-search-web (term)
     "Prompts the user for a search TERM. Searches
   duckduckgo with eww for the term. Inspired by
@@ -149,7 +149,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 ** mail
 #+name: mail
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-sync-mail ()
     "Starts a process name `syncmail' and sends the output to
   a special mode buffer. This will pop to the buffer as the
@@ -166,7 +166,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 ** music
 #+name: music
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (setq ajr--music-dir "~/music")
 
   (defun ajr--all-albums ()
@@ -224,7 +224,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 ** video
 *** Variables
 #+name: video-variables
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defcustom ajr-video-dir
     (concat (getenv "HOME")
 	    "/videos")
@@ -238,7 +238,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 #+end_src
 *** Prompt user for video
 #+name: video-prompt
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr--ask-video (is-by-date)
     (let ((videos (directory-files
 		   ajr-video-dir
@@ -262,7 +262,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 *** Video playback
 #+name: video-playback
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-video-play (arg)
     "Prompts the user for a video from `ajr-video-dir'.
   Uses the `ajr-video-program' to play the video. Use C-u
@@ -291,7 +291,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 *** Video dired
 #+name: video-dired
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-video-dired ()
     "Opens dired buffer to `ajr-video-dir' in other window"
     (interactive)
@@ -300,7 +300,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 
 *** Video download
 #+name: video-download
-#+begin_src elisp :tangle no
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (require 'url-util)
   (defun ajr-video-youtube-dl-at-point ()
     (interactive)
@@ -322,36 +322,36 @@ This is a process filter that handles carriage returns and newlines. From this, 
 	(pop-to-buffer (current-buffer)))))
 #+end_src
 
-*** All video
-#+name: video
-#+begin_src elisp :noweb yes :tangle no
-  <<video-variables>>
+** mini scroll
+Based on [[https://emacsnyc.org/2021/12/06/may-2021-lightning-talks.html][2021 Emacs lightning talk, "Transient Key Maps" - Zachary Kanfer]]
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+  (defvar ajr-mini-scroll-amount 5
+    "Scroll lines used by ajr-mini-scroll.")
 
-  <<video-prompt>>
+  (defvar ajr-mini-scroll-map
+    (let ((m (make-sparse-keymap)))
+      (define-key m (kbd "<down>") 'ajr-mini-scroll-up)
+      (define-key m (kbd "<up>") 'ajr-mini-scroll-down)
+      m))
 
-  <<video-playback>>
+  (defun ajr-mini-scroll (lines)
+    "Scroll by `lines' lines"
+    (interactive)
+    (scroll-up lines)
+    (set-transient-map ajr-mini-scroll-map))
 
-  <<video-dired>>
+  (defun ajr-mini-scroll-down ()
+    "Scroll down"
+    (interactive)
+    (ajr-mini-scroll (- ajr-mini-scroll-amount)))
 
-  <<video-download>>
+  (defun ajr-mini-scroll-up ()
+    "Scroll up"
+    (interactive)
+    (ajr-mini-scroll ajr-mini-scroll-amount))
 #+end_src
 
 ** ajr.el
- #+begin_src elisp :noweb yes :tangle ~/.emacs.d/ajr.el :mkdirp yes
-   <<shelllike-filter>>
-
-   <<elfeed>>
-
-   <<org-capture>>
-
-   <<web-search>>
-
-   <<mail>>
-
-   <<music>>
-
-   <<video>>
- #+end_src
  Load the personal elisp files in init file
  #+begin_src elisp
    (load "~/.emacs.d/ajr")
@@ -405,7 +405,12 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-<return>") 'yafolding-toggle-element)
 
   (pulseaudio-control-default-keybindings)
+
+  ;; mini scroll
+  (global-set-key (kbd "C-S-v") 'ajr-mini-scroll-up)
+  (global-set-key (kbd "M-S-v") 'ajr-mini-scroll-down)
 #+end_src
+
 * Paredit
 This enables paredit mode for various lisps
 #+begin_src elisp

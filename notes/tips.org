@@ -18,7 +18,7 @@
 
 * Git
 ** Change remote URL
-- =git remote set-url <REMOTE_NAME> <REMOTE_URL>
+- =git remote set-url <REMOTE_NAME> <REMOTE_URL>=
 ** Rename branch
 - If current branch =git branch -m new-name=
 - If not current branch =git -m old-name new-name=
@@ -59,5 +59,5 @@ The code for =iperf3= is hosted on github [[https://github.com/esnet/iperf][here
 
 * Use =gerbera= as a Upnp server
 - On iOS VLC is a good client app
-- The current version of VLC is not working properly for UPnP servers on TVOS
-- Infuse is a good option for TVOS
+- The current version of VLC (tvOS) is not working properly for UPnP servers on TVOS
+- Infuse is a good option for tvOS

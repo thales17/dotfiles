@@ -260,7 +260,7 @@ Below is a simple example C program that parses the input CSV and outputs it as 
 ** Output
 Execute this code block =C-c C-c= to tangle, compile, and execute the above code block
 
-#+begin_src sh :noweb yes :results output
+#+begin_src sh :results output
   #!/bin/sh
 
   # Exit on command failure

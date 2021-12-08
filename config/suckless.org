@@ -1,7 +1,7 @@
 * dwm
-Make sure you run =cd ~/src/dwm && sudo make install= after tangling  
+Make sure you run =cd ~/src/dwm && sudo make install= after tangling
 #+name: dwm/config.h
-#+begin_src c :noweb yes :tangle ~/src/dwm/config.h
+#+begin_src c :tangle ~/src/dwm/config.h
   /* See LICENSE file for copyright and license details. */
 
   /* appearance */
@@ -132,7 +132,7 @@ Make sure you run =cd ~/src/dwm && sudo make install= after tangling
 #+end_src
 
 #+name: dwm/dwm.c
-#+begin_src c :noweb yes :tangle ~/src/dwm/dwm.c
+#+begin_src c :tangle ~/src/dwm/dwm.c
   /* See LICENSE file for copyright and license details.
    ,*
    ,* dynamic window manager is designed like any other X client as well. It is
@@ -2288,9 +2288,9 @@ Make sure you run =cd ~/src/dwm && sudo make install= after tangling
   }
 #+end_src
 * slstatus
-Make sure you run =cd ~/src/slstatus && sudo make install= after tangling    
+Make sure you run =cd ~/src/slstatus && sudo make install= after tangling
 #+name: slstatus/config.h
-#+begin_src c :noweb yes :tangle ~/src/slstatus/config.h
+#+begin_src c :tangle ~/src/slstatus/config.h
   /* See LICENSE file for copyright and license details. */
 
   /* interval between updates (in ms) */
