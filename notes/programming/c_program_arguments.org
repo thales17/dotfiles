@@ -1,0 +1,72 @@
+* Receiving arguments
+- The main should receive =argc= (argument count) and =argv= (argument variables).
+- The first argument (index 0) is usually the command run by the user to invoke the program
+** Example
+#+begin_src c :tangle ~/tmp/arg_example.c :mkdirp yes
+  #include <stdio.h>
+
+  int main(int argc, char **argv) {
+    int i;
+    printf("argc: %d\n", argc);
+    for (i = 0; i < argc; i++) {
+      printf("argv[%d]: %s\n", i, argv[i]);
+    }
+    return 0;
+  }
+#+end_src
+
+#+begin_src sh :results output
+  #!/bin/sh
+
+  # Exit on command failure
+  set -e
+
+  ../../config/tangle.sh c_program_arguments.org
+
+  cd ~/tmp
+  gcc -o arg_example arg_example.c
+  ./arg_example hello world
+#+end_src
+
+#+RESULTS:
+: argc: 3
+: argv[0]: ./arg_example
+: argv[1]: hello
+: argv[2]: world
+
+* Parsing arguments with =getopt=
+- [[https://www.gnu.org/software/libc/manual/html_node/Getopt.html][Link]] to the GNU libc manual page on =getopt=
+- The =getopt= function is in =unistd.h=
+- The =getopt_long= function is in =getopt.h=
+- Normal options are preceded by =-=
+- Long options are preceded by =--= instead of =-=
+- Long options are specified in the =struct options=
+- This struct allows for options to potentially have an argument or not
+** Example
+#+begin_src c :tangle ~/tmp/arg_getopt_example.c :mkdirp yes
+  #include <stdio.h>
+  #include <getopt.h>
+
+  int main(int argc, char **argv) {
+    int c;
+
+    static struct option long_options[] = {
+    };
+
+    return 0;
+  }
+
+#+end_src
+
+#+begin_src sh :results output
+  #!/bin/sh
+
+  # Exit on command failure
+  set -e
+
+  ../../config/tangle.sh c_program_arguments.org
+
+  cd ~/tmp
+  gcc -o arg_getopt_example arg_getopt_example.c
+  ./arg_getopt_example --hello -w
+#+end_src

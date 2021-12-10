@@ -106,7 +106,7 @@ The output JSON should present the hierarchy of foods like below:
 ** Code
 Below is a simple example C program that parses the input CSV and outputs it as JSON in the requested format
 
-#+begin_src c :tangle ~/tmp/hello_jannson_csv_parser.c
+#+begin_src c :tangle ~/tmp/hello_jannson_csv_parser.c :mkdirp yes
   #include <stdio.h>
   #include <stdlib.h>
   #include <string.h>
