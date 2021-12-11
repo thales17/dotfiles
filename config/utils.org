@@ -34,6 +34,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
   .mozilla
   .local/share/Steam
   Music/
+  music/
   games/
   code/mame_getter/
 #+end_src
