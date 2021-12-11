@@ -440,13 +440,13 @@ Customizations and global keys for org mode
 
 #+begin_src elisp
   (setq org-capture-templates
-	(list (list "i" "Ideas")
-	      (ajr-org-basic-capture "ie" "Emacs" "ideas.org")
-	      (ajr-org-basic-capture "ip" "Programming Projects" "ideas.org")
-	      (ajr-org-basic-capture "io" "Org-mode" "ideas.org")
-	      (ajr-org-basic-capture "iw" "Writing" "ideas.org")
-	      (list "t" "Quick Todo" 'checkitem
-		    (list 'file "quick-todos.org") nil
+	(list (list "t" "TODO")
+	      (list "tt" "Basic TODO" 'entry
+		    (list 'file "todos.org") "* TODO %?\n"
+		    :prepend t)
+	      (list "tl" "TODO with link to file" 'entry
+		    (list 'file "todos.org")
+		    "* TODO %?\n %a"
 		    :prepend t)))
 #+end_src
 * Before Save Hook
