@@ -42,6 +42,7 @@
 - Long options are preceded by =--= instead of =-=
 - Long options are specified in the =struct options=
 - This struct allows for options to potentially have an argument or not
+- The list of options needs to be terminated with one element containing all zeroes
 ** Example
 #+begin_src c :tangle ~/tmp/arg_getopt_example.c :mkdirp yes
   #include <stdio.h>
@@ -49,13 +50,32 @@
 
   int main(int argc, char **argv) {
     int c;
+    int option_index = 0;
 
     static struct option long_options[] = {
+      {"hello", no_argument, 0, 'h'},
+      {"world", no_argument, 0, 'w'},
+      {0, 0, 0, 0}
     };
+
+    while (1) {
+      c = getopt_long(argc, argv, "hw", long_options, &option_index);
+      if (c == -1) {
+	break;
+      }
+
+      switch(c) {
+      case 'h':
+	printf("hello ");
+	break;
+      case 'w':
+	printf("world ");
+	break;
+      }
+    }
 
     return 0;
   }
-
 #+end_src
 
 #+begin_src sh :results output
@@ -68,5 +88,8 @@
 
   cd ~/tmp
   gcc -o arg_getopt_example arg_getopt_example.c
-  ./arg_getopt_example --hello -w
+  ./arg_getopt_example -w -h --hello --world
 #+end_src
+
+#+RESULTS:
+: world hello hello world

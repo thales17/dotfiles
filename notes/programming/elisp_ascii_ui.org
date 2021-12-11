@@ -78,10 +78,10 @@
 	    (number-sequence 0 23)))
 
   (defun ajr--draw-room (room)
-    (let ((x (ajr-2d--room-x room))
-	  (y (ajr-2d--room-y room))
-	  (w (ajr-2d--room-w room))
-	  (h (ajr-2d--room-h room)))
+    (let ((x (ajr--room-x room))
+	  (y (ajr--room-y room))
+	  (w (ajr--room-w room))
+	  (h (ajr--room-h room)))
       (goto-char (+ (* y 81) x 1))
       (insert (format "+%s+\n" (make-string w ?.)))
       (mapcar (lambda (n)
@@ -106,14 +106,14 @@
 
   (defun ajr-ascii-room ()
     (interactive)
-    (let ((2d-buffer (get-buffer-create "*ascii-room*")))
-      (with-current-buffer 2d-buffer
+    (let ((room-buffer (get-buffer-create "*ascii-room*")))
+      (with-current-buffer room-buffer
 	(ajr-ascii-room-mode)
 	(setq buffer-read-only nil)
-	(ajr-2d--clear)
-	(ajr-2d--draw-room (ajr-2d-make-room 16 5 15 10))
+	(ajr--clear)
+	(ajr--draw-room (ajr--make-room 16 5 15 10))
 	(setq buffer-read-only t)
-	(pop-to-buffer 2d-buffer))))
+	(pop-to-buffer room-buffer))))
 
 #+end_src
 
