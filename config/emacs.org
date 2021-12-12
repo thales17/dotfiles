@@ -109,15 +109,24 @@ This is a process filter that handles carriage returns and newlines. From this, 
 #+end_src
 
 ** elfeed
+Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/][here]].
 #+name: elfeed
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
+    (elfeed-db-load)
     (elfeed)
     (elfeed-search-clear-filter)
+    (elfeed-search-update--force)
     (elfeed-update)
     (beginning-of-buffer))
+
+  (defun ajr-elfeed-save-db-and-bury ()
+    "Wrapper to save the efleed db to disk before burying buffer"
+    (interactive)
+    (elfeed-db-save)
+    (quit-window))
 #+end_src
 
 ** org capture
@@ -532,4 +541,10 @@ Customizations and global keys for org mode
       (lsp-format-buffer)))
 
   (add-hook 'before-save-hook 'ajr-lsp-format-on-save-hook)
+#+end_src
+* elfeed
+** Search mode map
+#+begin_src elisp
+  (eval-after-load "elfeed-search"
+    (define-key elfeed-search-mode-map "q" 'ajr-elfeed-save-db-and-bury))
 #+end_src
