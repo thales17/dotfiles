@@ -37,6 +37,7 @@ sus is a small script that locks the screen and puts the computer into suspend m
   music/
   games/
   code/mame_getter/
+  .st/
 #+end_src
 
 * volume

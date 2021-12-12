@@ -61,3 +61,6 @@ The code for =iperf3= is hosted on github [[https://github.com/esnet/iperf][here
 - On iOS VLC is a good client app
 - The current version of VLC (tvOS) is not working properly for UPnP servers on TVOS
 - Infuse is a good option for tvOS
+* Use =ssh= to forward a port from remote to local
+=ssh -L 9090:127.0.0.1:8384 user@othercomputer.example.com=
+add =-N= if you don't want to open a terminal session
