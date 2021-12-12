@@ -485,6 +485,7 @@ Customizations and global keys for org mode
   (add-hook 'prog-mode-hook 'linum-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (coterm-mode)
+  (require 'elfeed)
 #+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=
