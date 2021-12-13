@@ -232,7 +232,6 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 
 ** video
 *** Variables
-#+name: video-variables
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defcustom ajr-video-dir
     (concat (getenv "HOME")
@@ -246,18 +245,18 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
   This program should accept the path to the video as its argument.")
 #+end_src
 *** Prompt user for video
-#+name: video-prompt
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr--ask-video (is-by-date)
-    (let ((videos (directory-files
+    (let* ((video-regexp ".+\\.\\(mp4\\|webm\\|mkv\\)$")
+	  (videos (directory-files
 		   ajr-video-dir
 		   nil
-		   directory-files-no-dot-files-regexp))
+		   video-regexp))
 	  (sorted-videos (mapcar 'car (sort
 				       (directory-files-and-attributes
 					ajr-video-dir
 					nil
-					directory-files-no-dot-files-regexp)
+					video-regexp)
 				       (lambda (x y)
 					 (time-less-p
 					  (file-attribute-modification-time (cdr y))
@@ -270,7 +269,6 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 #+end_src
 
 *** Video playback
-#+name: video-playback
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-video-play (arg)
     "Prompts the user for a video from `ajr-video-dir'.
@@ -299,7 +297,6 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 #+end_src
 
 *** Video dired
-#+name: video-dired
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defun ajr-video-dired ()
     "Opens dired buffer to `ajr-video-dir' in other window"
@@ -308,7 +305,6 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 #+end_src
 
 *** Video download
-#+name: video-download
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (require 'url-util)
   (defun ajr-video-youtube-dl-at-point ()
