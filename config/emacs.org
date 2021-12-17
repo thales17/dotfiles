@@ -119,7 +119,6 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
     (elfeed)
     (elfeed-search-clear-filter)
     (elfeed-search-update--force)
-    ;; (elfeed-update)
     (beginning-of-buffer))
 
   (defun ajr-elfeed-save-db-and-bury ()
