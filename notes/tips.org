@@ -3,6 +3,9 @@
 Use =M-x find-name-dired= it will prompt you for a folder to recursively search then it prompt you for the file name.
 ** Recurively search file files with given content
 Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, followed by the wildcard of the files to include(ivy will do a completing read for this and prepend the current path but just type the wild card pretending it is not there) and lastly the base directory.
+* ImageMagick
+** Get the size of an image
+Use the =identify= command with a format. For example =identify -format "%wx%h\n" someimage.jpg=. This will print the width and height in the desired format.
 * Linux
 ** Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
