@@ -176,22 +176,29 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 ** music
 #+name: music
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-  (setq ajr--music-dir "~/music")
+  (defcustom ajr-music-dir
+    (concat (getenv "HOME")
+	    "/music")
+    "Directory where your music is kept.")
+
+  (defconst ajr--music-regexp
+    "^[^\\.].+$"
+    "Only matches files that do not start with a dot")
 
   (defun ajr--all-albums ()
     "Returns a list of pairs of all available albums `(ARTIST . ALBUM)'"
-    (let ((artists (directory-files ajr--music-dir
+    (let ((artists (directory-files ajr-music-dir
 				    nil
-				    directory-files-no-dot-files-regexp)))
+				    ajr--music-regexp)))
       (mapcan (lambda (artist)
 		(let ((artist-path (string-join
-				    (list ajr--music-dir
+				    (list ajr-music-dir
 					  "/" artist))))
 		  (mapcar (lambda (album)
 			    `(,artist . ,album))
 			  (directory-files artist-path
 					   nil
-					   directory-files-no-dot-files-regexp))))
+					   ajr--music-regexp))))
 	      artists)))
 
   (defun ajr--ask-album ()
@@ -212,7 +219,7 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 
   (defun ajr--album-path (album)
     "Gets the path of an album from `(ARTIST . ALBUM)'"
-    (string-join (list ajr--music-dir
+    (string-join (list ajr-music-dir
 		       "/"
 		       (car album)
 		       "/"
@@ -246,17 +253,20 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 #+end_src
 *** Prompt user for video
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+  (defcustom ajr-video-regexp
+    ".+\\.\\(mp4\\|webm\\|mkv\\)$"
+    "Only matches files ending in `mp4' or `webm' or `mkv'.")
+
   (defun ajr--ask-video (is-by-date)
-    (let* ((video-regexp ".+\\.\\(mp4\\|webm\\|mkv\\)$")
-	  (videos (directory-files
+    (let ((videos (directory-files
 		   ajr-video-dir
 		   nil
-		   video-regexp))
+		   ajr-video-regexp))
 	  (sorted-videos (mapcar 'car (sort
 				       (directory-files-and-attributes
 					ajr-video-dir
 					nil
-					video-regexp)
+					ajr-video-regexp)
 				       (lambda (x y)
 					 (time-less-p
 					  (file-attribute-modification-time (cdr y))
