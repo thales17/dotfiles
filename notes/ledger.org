@@ -1,0 +1,63 @@
+* What is?
+** What is Plain Text Accounting?
+- https://plaintextaccounting.org/
+- Using software the uses plain text files for accounting records
+- The primary benefit of plain text format is to ensure that account data is accessible and freely integrated with new software
+** What is Ledger?
+- https://www.ledger-cli.org/
+- A cli tool to parse plain text double entry accounting files
+- The ledger tool uses the UNIX design philosophy, so it provides no interface outside of the command line
+- Its primary purpose is to generate reports from ledger files
+- Ledger uses double-entry style bookkeeping
+- Ledger is written in C++ and is actively maintained
+- Created in 2003 and inspired a lot of =ledger-likes=, including =hledger= and =beancount=
+** What is double-entry bookkeeping?
+- This tracks transactions as an in (credits) and an out (debits)
+- The balance of all of your accounts should total to zero
+** What is =hledger=?
+- https://hledger.org/
+- hledger is written in Haskell and is actively maintained
+- It also has an active community producing videos on YouTube, [[https://www.youtube.com/channel/UCZLxXTjOqLzq4z5Jy0AyWSQ/videos][hledger fan]]
+- Provides small tools to manipulate the ledger files from the command line
+** What is =beancount=?
+- https://beancount.github.io/
+- beancount is written in Python and is actively maintained
+
+* Ledger Format
+** Transaction
+- A transaction starts with the date of the transaction, followed by a name
+- Below the transaction line you need to indicate which account was credited and which was debited
+- You can list as many accounts as necessary indicating which had a credit and which had a debit
+- For debits you can prefix the amount with a negative symbol
+- If you only show a credit the second account will automatically be debited the amount of the credit
+#+begin_src ledger
+  12-26-2021 Quick-E-Mart
+      Expenses:Everyday Items:Groceries          $3.99
+      Assets:Checking
+
+#+end_src
+** Accounts
+- Accounts can have any format but it is common to organize them into categories
+- Categories can have sub-categories typically delimitted with a ':'
+- Ledger docs recommend 5 high level categories:
+  - *Expenses*: where money goes
+  - *Assets*: where money sits
+  - *Income*: where money comes from
+  - *Liabilities*: money you owe
+  - *Equity*: the real value of your property
+** Comment Characters
+- ';' is the default comment character for ledger files.
+- Additionally '#', '|', '*' and '%' are comment characters
+#+begin_src ledger
+  ; A normal comment
+  # Another type of comment
+  | Another type of comment
+  ,* Another type of comment
+  % Another type of comment
+#+end_src
+
+* Editing Ledger Files
+
+* Ledger Reports
+
+* Encrypting Ledger Files

@@ -120,7 +120,7 @@ keycode 58 = Control
 - After the next reboot the caps lock key should be an extra control inside the console
 ** Basic Packages
 #+begin_src sh
-  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip pv nethack sshfs p7zip
+  pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip pv nethack sshfs p7zip zbar ledger
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 
@@ -172,6 +172,20 @@ keycode 58 = Control
 ** Populate and refresh pacman keys
 - Sometimes package signatures are out of date
 - To update them run =sudo pacman-key --populate= and =sudo pacman-key --refresh-keys=
+** Printing
+- [[https://wiki.archlinux.org/title/CUPS][ArchWiki]]
+- Install =cups=
+- Enable cups =sudo systemctl enable --now cups=
+- For network printing install =nss-mdns=  and =avahi= and enabled avahi =sudo systemct enable --now avahi-daemon=
+- Add =mdns_minimal [NOTFOUND=return]= to the file =/etc/nsswitch.conf= after the =mymachines= and before =resolve= and =dns=
+- Use =lpinfo -v= to see a list of printer URIs
+- Use =lpadmin= to add a printer queue, for example =lpadmin -p <PRINTER_QUEUE_NAME> -E -v "ipp://URL" -m everywhere=
+- Use =lpoptions -d <PRINTER_QUEUE_NAME>= to make the printer default
+- Enable the printer with =cupsenable <PRINT_QUEUE_NAME>=
+- Set the printer to accept jobs =cupsaccept <PRINT_QUEUE_NAME>=
+- To print a test page use =lpr /usr/share/cups/data/testprint=
+- To print a file use =lpr <SOME_FILE>= or =lpr -# <NUMBER_OF_COPIES> <SOME_FILE>=
+- cups has a web UI acceptable here [[http://localhost:631/]]
 ** Links
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
