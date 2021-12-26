@@ -26,12 +26,23 @@
 * Ledger Format
 ** Transaction
 - A transaction starts with the date of the transaction, followed by a name
+  - The format of the date should be =YEAR/MONTH/DAY=
 - Below the transaction line you need to indicate which account was credited and which was debited
 - You can list as many accounts as necessary indicating which had a credit and which had a debit
 - For debits you can prefix the amount with a negative symbol
 - If you only show a credit the second account will automatically be debited the amount of the credit
-#+begin_src ledger
-  12-26-2021 Quick-E-Mart
+#+begin_src ledger :tangle ~/tmp/example.ledger
+  account Assets:Checking
+  account Expenses:Everyday Items:Groceries
+  account Income:Paycheck
+
+  commodity $
+
+  2021/12/26 Opening Balance
+      Assets:Checking                           $50.00
+      Income:Paycheck
+
+  2021/12/26 Quick-E-Mart
       Expenses:Everyday Items:Groceries          $3.99
       Assets:Checking
 
