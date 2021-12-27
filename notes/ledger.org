@@ -1,4 +1,4 @@
-* What is?
+* What is...
 ** What is Plain Text Accounting?
 - https://plaintextaccounting.org/
 - Using software the uses plain text files for accounting records
@@ -31,13 +31,7 @@
 - You can list as many accounts as necessary indicating which had a credit and which had a debit
 - For debits you can prefix the amount with a negative symbol
 - If you only show a credit the second account will automatically be debited the amount of the credit
-#+begin_src ledger :tangle ~/tmp/example.ledger
-  account Assets:Checking
-  account Expenses:Everyday Items:Groceries
-  account Income:Paycheck
-
-  commodity $
-
+#+begin_src ledger
   2021/12/26 Opening Balance
       Assets:Checking                           $50.00
       Income:Paycheck
@@ -47,6 +41,10 @@
       Assets:Checking
 
 #+end_src
+- Transactions have can have multple state values:
+  - *uncleared* - This is the default state
+  - *cleared* - To mark a transaction as cleared but an asterisk after the date
+  - *pending* - To mark a transaction as pending but an exclamation point after the date
 ** Accounts
 - Accounts can have any format but it is common to organize them into categories
 - Categories can have sub-categories typically delimitted with a ':'
@@ -56,6 +54,20 @@
   - *Income*: where money comes from
   - *Liabilities*: money you owe
   - *Equity*: the real value of your property
+** Virtual Postings
+- Using =[ ]= around the virtual account ensures that it must balance out to zero
+- Using =( )= does not have such a requirement
+** Strict Mode
+- Strict mode is useful to verify that only accounts that are declared are used
+- The below code block shows declaring an account and commodity
+#+begin_src ledger
+  account Assets:Checking
+  account Expenses:Everyday Items:Groceries
+  account Income:Paycheck
+
+  commodity $
+
+#+end_src
 ** Comment Characters
 - ';' is the default comment character for ledger files.
 - Additionally '#', '|', '*' and '%' are comment characters
@@ -66,9 +78,26 @@
   ,* Another type of comment
   % Another type of comment
 #+end_src
+** Periodic Transactions
+- A periodic transaction starts with a tilde and specifies the frequency of repetitions
+- For example =~ Monthly=
+- This can be used to define a monthly budget
+#+begin_src ledger
+  ~ Monthly
+      Expenses:Rent                               $500
+      Expenses:Food                               $450
+      Expenses:Auto:Gas                           $120
+      Assets
+
+  ~ Yearly
+      Expenses:Auto:Repair                        $500
+      Assests
+#+end_src
 
 * Editing Ledger Files
 
 * Ledger Reports
+- To view the monthly budget run =ledger -f <SOME_FILE>.ledger --budget --monthly register ^expenses=
 
-* Encrypting Ledger Files
+* Using multiple files
+- Ledger files can have an include statement
