@@ -54,9 +54,13 @@
   - *Income*: where money comes from
   - *Liabilities*: money you owe
   - *Equity*: the real value of your property
+- This command shows using ledger to view the balance of specific accounts: =ledger bal -f <SOME_FILE>.ledger ^assets:checking ^assets:savings=
+- Ledger will show you the total of all of those accounts
+- This is good for balancing virtual accounts with real ones
 ** Virtual Postings
 - Using =[ ]= around the virtual account ensures that it must balance out to zero
 - Using =( )= does not have such a requirement
+- To generate a budget report using virual postings use the following command template =ledger --empty -S -T -f <SOME_FILE>.ledger bal ^assets:budget=
 ** Strict Mode
 - Strict mode is useful to verify that only accounts that are declared are used
 - The below code block shows declaring an account and commodity

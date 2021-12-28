@@ -367,6 +367,18 @@ Based on [[https://emacsnyc.org/2021/12/06/may-2021-lightning-talks.html][2021 E
     (ajr-mini-scroll ajr-mini-scroll-amount))
 #+end_src
 
+** Prompt before closing frame in daemon mode
+Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-prompt-me-before-closing-the-last-emacs-gui-frame-when-running
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+  (defun ajr-ask-before-closing ()
+    "Close frame only if y was pressed"
+    (interactive)
+    (if (y-or-n-p (format "Do you want to close this frame? "))
+	(save-buffers-kill-terminal)
+      (message "Ok")))
+
+#+end_src
+
 ** ajr.el
  Load the personal elisp files in init file
  #+begin_src elisp
@@ -425,6 +437,10 @@ I use ivy for my completion framework
   ;; mini scroll
   (global-set-key (kbd "C-S-v") 'ajr-mini-scroll-up)
   (global-set-key (kbd "M-S-v") 'ajr-mini-scroll-down)
+
+  ;; prompt before closing frame, only when connecting as a client
+  (when (daemonp)
+    (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))
 #+end_src
 
 * Paredit
