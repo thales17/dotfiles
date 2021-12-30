@@ -99,9 +99,10 @@
 #+end_src
 
 * Editing Ledger Files
-
+- =ledger-mode= in emacs provides a lot of nice features when editing ledger files
 * Ledger Reports
 - To view the monthly budget run =ledger -f <SOME_FILE>.ledger --budget --monthly register ^expenses=
-
+- When viewing a report in ledger mode inside emacs you can edit the report with the =e= key
+- Editing the report allows you to change the date range you are viewing
 * Using multiple files
 - Ledger files can have an include statement

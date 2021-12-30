@@ -66,8 +66,6 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'geiser)
   (straight-use-package 'geiser-guile)
   (straight-use-package 'bongo)
-  (straight-use-package 'projectile)
-  (straight-use-package 'counsel-projectile)
   (straight-use-package 'speed-type)
   (straight-use-package 'paredit)
   (straight-use-package 'elfeed)
@@ -79,7 +77,6 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'yasnippet-snippets)
   (straight-use-package 'yafolding)
   (straight-use-package 'coterm)
-  (straight-use-package 'disk-usage)
   (straight-use-package 'pulseaudio-control)
   (straight-use-package 'yaml-mode)
   (straight-use-package 'ledger-mode)
@@ -182,24 +179,31 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 	    "/music")
     "Directory where your music is kept.")
 
-  (defconst ajr--music-regexp
+  (defconst ajr--no-dot-regexp
     "^[^\\.].+$"
     "Only matches files that do not start with a dot")
 
+  (defun ajr--dir-subdirs (directory)
+    "Returns the list of sub dirs inside the argument DIRECTORY.
+  Ignores directories that start with a `.' "
+    (mapcar 'car (seq-filter (lambda (f-or-d)
+			       (not (eq (nth 1 f-or-d)
+					nil)))
+			     (directory-files-and-attributes directory
+							     nil
+							     ajr--no-dot-regexp))))
+
   (defun ajr--all-albums ()
     "Returns a list of pairs of all available albums `(ARTIST . ALBUM)'"
-    (let ((artists (directory-files ajr-music-dir
-				    nil
-				    ajr--music-regexp)))
+    (let ((artists (ajr--dir-subdirs ajr-music-dir)))
       (mapcan (lambda (artist)
 		(let ((artist-path (string-join
 				    (list ajr-music-dir
 					  "/" artist))))
 		  (mapcar (lambda (album)
 			    `(,artist . ,album))
-			  (directory-files artist-path
-					   nil
-					   ajr--music-regexp))))
+
+			  (ajr--dir-subdirs artist-path))))
 	      artists)))
 
   (defun ajr--ask-album ()
@@ -438,7 +442,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-S-v") 'ajr-mini-scroll-up)
   (global-set-key (kbd "M-S-v") 'ajr-mini-scroll-down)
 
-  ;; prompt before closing frame, only when connecting as a client
+  ;; prompt before closing frame, only when connecting as a clientq
   (when (daemonp)
     (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))
 #+end_src
@@ -453,14 +457,6 @@ This enables paredit mode for various lisps
   (add-hook 'lisp-mode-hook #'enable-paredit-mode)
   (add-hook 'lisp-interaction-mode-hook #'enable-paredit-mode)
   (add-hook 'scheme-mode-hook #'enable-paredit-mode)
-#+end_src
-* Projectile
-Enables projectile mode and sets the project search path and command map
-#+begin_src elisp
-  (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
-  (setq projectile-project-search-path '("~/code"
-					 "~/src"))
 #+end_src
 * Org Mode
 Customizations and global keys for org mode
