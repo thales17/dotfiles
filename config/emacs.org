@@ -80,6 +80,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'pulseaudio-control)
   (straight-use-package 'yaml-mode)
   (straight-use-package 'ledger-mode)
+  (straight-use-package 'slime)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -567,4 +568,8 @@ Customizations and global keys for org mode
 #+begin_src elisp
   (eval-after-load "elfeed-search"
     (define-key elfeed-search-mode-map "q" 'ajr-elfeed-save-db-and-bury))
+#+end_src
+* SLIME
+#+begin_src elisp
+  (setq inferior-lisp-program "/usr/bin/clisp")
 #+end_src

@@ -1,6 +1,80 @@
+* Source Files
+- Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
 - ANSI Common Lisp is multi paradigm
 - It supports functional, generic, object oriented and domain specific programming styles.
 * SLIME
+- Common Lisp development environment for Emacs
+- The official webpage is, https://common-lisp.net/project/slime/
+- To use with org babel ensure that =lisp= is enabled in your =org-babel-load-langauges=
+- Start slime =M-x slime= before attempting to evaluate a common lisp source block with =C-c C-c=
+- You should be able to access variables and functions inside the SLIME REPL that are defined in the source code blocks
+- Use =C-c C-d d= to view the documentation for the symbol at point
+  - This might show you a link to http://www.ai.mit.edu to get the real documentation
 * CLISP
+- Easy to use and portable common lisp compiler that runs on most operating systems
+- Also provides debugger and interpreter
 * SBCL
+- Steal Bank Common Lisp
+- Considered more heavy duty than CLISP
+- Also provides debugger and interpreter
+* Common Lisp Syntax
+** Symbols
+- Symbols in Common Lisp are case insensitive
+- It is *common* to only use lowercase when writing common lisp source code
+** Variables
+*** Globals
+- Use =defparameter= to create global variables
+  - The =defparameter= function will mutate the value of a global if it already exists
+- It is a common practice to surround global variables with earmuffs (asterisks)
+- For example a global named num would look like this =*num*=
+- Another option to create globals is =defvar=
+  - If the variable already exists =defvar= will not change the existing value
+*** Local variables
+- Use =let= function to define local variables
+*** Mutating
+- Use =setf= to change the value of an existing variable
+** Functions
+*** Globals
+- Use =defun= to define a global function
+#+begin_src lisp
+  (defun function_name (arguments)
+    ...body)
+#+end_src
+*** Local Named Functions
+- To define a local function use the =flet= form
+- =flet= is very similar to =let= for variables but instead
+#+begin_src lisp
+  (flet ((function_name (arguments)
+	   ...function body))
+    ...body)
+#+end_src
+- If you want to reference other local functions in an =flet= you should use =labels= instead
+- You can also =labels= to call a local named function recursively
+#+begin_src lisp
+  (labels ((function_a (n)
+	     (+ n 2))
+	   (function_b (n)
+	     (function_a (function_a n))))
+    (function_b 2))
+#+end_src
+
+#+RESULTS:
+: 6
+
+* Common Lisp Functions
+** Math
+*** Incrementing
+- You can use =1-= to decrement by 1, =(1- 10)= evaluates to 9
+- You can also use =1+= to increment by 1, =(1+ 9)= evaluates to 10
+*** Exponent
+- Use =expt= to raise a number to an exponent, =(expt 53 53)= raises 53 to the 53rd power
+*** Arithmetic Shift (bitwise shift)
+- https://en.wikipedia.org/wiki/Arithmetic_shift
+- Use the =ash= function which takes two arguments, the number and the amount of bits to shift left
+- To shift right use a negative number
+*** Strings
+**** Printing
+- There are multiple functions that can be used to print a string =prin1=, =print=, =princ=, =pprint=
+- They each do something slightly different that the documentation will indicate
+- =princ= produces output that is nice to read for a person, meaning there are no escape characters
