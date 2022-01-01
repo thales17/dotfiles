@@ -19,9 +19,19 @@
 - Considered more heavy duty than CLISP
 - Also provides debugger and interpreter
 * Common Lisp Syntax
+** Literals
+*** Char
+- You can represent a character literal with a =#= followed by a backward slash and the character
+- For example =#\a= is the representation of the character =a=
+*** nil
+- nil can be represented with =nil=, ='nil=, =()=, or ='()=
 ** Symbols
 - Symbols in Common Lisp are case insensitive
 - It is *common* to only use lowercase when writing common lisp source code
+** Quoting
+- Use the single quote ='= to quote a list
+- To quasiquote use the backtick =`= and the comma to unquote =,=
+- =`(one plus two is ,(+ 1 2))=
 ** Variables
 *** Globals
 - Use =defparameter= to create global variables
@@ -73,8 +83,114 @@
 - https://en.wikipedia.org/wiki/Arithmetic_shift
 - Use the =ash= function which takes two arguments, the number and the amount of bits to shift left
 - To shift right use a negative number
-*** Strings
+** Strings
 **** Printing
 - There are multiple functions that can be used to print a string =prin1=, =print=, =princ=, =pprint=
 - They each do something slightly different that the documentation will indicate
 - =princ= produces output that is nice to read for a person, meaning there are no escape characters
+** Lists
+*** member
+- Checks to see if an item is inside a list
+- =(member 1 '(1 2 3 4))=
+- This will return true when you check if =nil= is in the list
+*** find-if
+- Returns the first item in a list that satisifies the predicate
+- =(find-if #'oddp '(2 4 5 6))=
+- Returns nil if the item is not found
+- The =#= before the quote is a idiom used to indicate the quoted symbol is a function
+- This will not work when searching for =nil= in a list
+** Association Lists (alists)
+- Use =assoc= to find the value of a key in an alist
+#+begin_src lisp
+  (assoc 'mykey '((somekey (some-value))
+		  (mykey (my-value))
+		  (otherkey (other-value))))
+#+end_src
+
+#+RESULTS:
+| MYKEY | (MY-VALUE) |
+
+** Conditionals
+*** Shortcut Boolean Evaluation
+- When evaluating an =or= or =and= boolean operator lisp will stop when it encounters the first symbol that evaluates to either true or false
+- For example when evaluating an =or= the first true that is encountered causes lisp to stop
+- When evaluating an =and= the first false encounted causes lisp to stop
+- This allows you to build conditionals out of =or= or =and= statements
+**** and
+#+begin_src lisp
+  (defun pred_a ()
+    t)
+
+  (defun pred_b ()
+    t)
+
+  (defun work ()
+    'work-when)
+
+  (when (pred_a)
+      (when (pred_b)
+	  (work)))
+#+end_src
+
+#+RESULTS:
+: WORK-WHEN
+#+begin_src lisp
+  (defun pred_a ()
+    t)
+
+  (defun pred_b ()
+    t)
+
+  (defun work ()
+    'work-and)
+
+  (and (pred_a) (pred_b) (work))
+#+end_src
+
+#+RESULTS:
+: WORK-AND
+
+**** or
+#+begin_src lisp
+  (defun pred_a ()
+    nil)
+
+  (defun pred_b ()
+    nil)
+
+  (defun work ()
+    'work-unless)
+
+  (unless (pred_a)
+    (unless (pred_b)
+      (work)))
+#+end_src
+
+#+RESULTS:
+: WORK-UNLESS
+
+#+begin_src lisp
+  (defun pred_a ()
+    nil)
+
+  (defun pred_b ()
+    nil)
+
+  (defun work ()
+    'work-or)
+
+  (or (pred_a) (pred_b) (work))
+#+end_src
+
+#+RESULTS:
+: WORK-OR
+** Equality
+- Use =eq= for comparing symbols
+  - =eq= returns true when two symbols point to the same =cons=
+  - =eql= will also return true when characters and numbers are used instead of symbols
+- Use =equal= for comparing everything else
+  - =equal= will tell you if two things are isomorphic (look the same)
+  - =equalp= will return true when strings have different capitalization, or numbers are not the same type (floats vs ints)
+- The === comparison is meant primarily for numbers
+- =string-equal= is specific for strings
+- =char-equal= is specific for chars

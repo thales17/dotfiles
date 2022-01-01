@@ -19,5 +19,11 @@ run =make=
 - [[file:notes/nethack_notes.org][NetHack]]
 
 *** Programming Notes
+**** Programming Languages
+- [[file:notes/programming/elisp.org][Emacs Lisp]]
+- [[file:notes/programming/common_lisp.org][Common Lisp]]
+**** C
+- [[file:notes/programming/c_program_arguments.org][Program Arguments]]
+***** Libraries
 - [[file:notes/programming/ncurses.org][ncurses]]
 - [[file:notes/programming/jansson.org][jansson]]
