@@ -510,10 +510,13 @@ Customizations and global keys for org mode
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs_custom.el=
 - This should be last to ensure that the =~/.emacs-custom.el= can do any local overrides that might be needed
+- Elfeed feeds are defined in =~/.elfeed-feeds.el=
 
 #+begin_src elisp
   (setq custom-file "~/.emacs-custom.el")
   (load custom-file)
+
+  (load "~/.elfeed-feeds.el")
 #+end_src
 * Building from source
 - clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
