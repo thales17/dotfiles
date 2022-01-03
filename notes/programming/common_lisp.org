@@ -23,15 +23,29 @@
 *** Char
 - You can represent a character literal with a =#= followed by a backward slash and the character
 - For example =#\a= is the representation of the character =a=
+*** Newline
+- =#\newline=
+*** Tab
+- =#\tab=
+*** Space
+- =#\space=
 *** nil
 - nil can be represented with =nil=, ='nil=, =()=, or ='()=
 ** Symbols
 - Symbols in Common Lisp are case insensitive
 - It is *common* to only use lowercase when writing common lisp source code
+- To make a symbol that is case sensitive surround it with pipe, =|=, characters
+  - This also allows you to use punctuation in a symbol name
+  - =|Ca$e mATT3rz|= is an example
 ** Quoting
 - Use the single quote ='= to quote a list
 - To quasiquote use the backtick =`= and the comma to unquote =,=
 - =`(one plus two is ,(+ 1 2))=
+- The =#= before the quote is used to indicate the quoted symbol is a function
+- Common Lisp is a *LISP-2* rather than a *LISP-1* like Scheme
+  - This means it has *2* separate scope for functions and data
+  - You can have a function and data with the same symbol name
+  - The caveat is you must use the =#= when quoting a function
 ** Variables
 *** Globals
 - Use =defparameter= to create global variables
@@ -71,7 +85,13 @@
 
 #+RESULTS:
 : 6
-
+*** Argument Limits
+- There is a limit on the number of arguments a function can have
+- You can check those limits in the Common Lisp REPL with =call-arguments-limit=
+** Eval
+- You can evaluate a quoted symbol with =eval=
+- =(eval '(+ 2 2))= should return =4=
+- Like =eval= in JavaScript it can be a huge security risk in your program
 * Common Lisp Functions
 ** Math
 *** Incrementing
@@ -83,22 +103,45 @@
 - https://en.wikipedia.org/wiki/Arithmetic_shift
 - Use the =ash= function which takes two arguments, the number and the amount of bits to shift left
 - To shift right use a negative number
-** Strings
-**** Printing
-- There are multiple functions that can be used to print a string =prin1=, =print=, =princ=, =pprint=
-- They each do something slightly different that the documentation will indicate
-- =princ= produces output that is nice to read for a person, meaning there are no escape characters
 ** Lists
+*** push
+- Adds item to the beginning of a list
+- The list must be a variable
+#+begin_src lisp
+  (defparameter *some-list* nil)
+
+  (push 4 *some-list*)
+  (push 3 *some-list*)
+  (push 2 *some-list*)
+  (push 1 *some-list*)
+  ,*some-list*
+#+end_src
+
+#+RESULTS:
+| 1 | 2 | 3 | 4 |
+
 *** member
 - Checks to see if an item is inside a list
 - =(member 1 '(1 2 3 4))=
 - This will return true when you check if =nil= is in the list
+*** find
+- Use find to search through a list for the first item that matches
+- The search value is the first argument
+- The second argument is the list that is being searched
+- The keyword parameter passed with =:key= tells find how to determine if the list item matches the search
+- =(find 20 '((a 5) (b 20) (c 6) (d 20)) :key #'cadr)= should return =(b 20)=
 *** find-if
 - Returns the first item in a list that satisifies the predicate
 - =(find-if #'oddp '(2 4 5 6))=
 - Returns nil if the item is not found
-- The =#= before the quote is a idiom used to indicate the quoted symbol is a function
 - This will not work when searching for =nil= in a list
+*** mapcar
+- Use =mapcar= to run a function on each element of a list
+*** apply
+- Use =apply= to call a functions once with all the elements of a list as its arguments
+*** remove-if-not
+- Removes all items from the list that do not satisfy the predicate
+- =(remove-if-not #'oddp '(1 2 3 4 5))= should return =(1 3 5)=
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp
@@ -109,7 +152,9 @@
 
 #+RESULTS:
 | MYKEY | (MY-VALUE) |
-
+- alists can have multiple instances of a key inside them
+- When this happens =assoc= will return the first instance
+- If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
 ** Conditionals
 *** Shortcut Boolean Evaluation
 - When evaluating an =or= or =and= boolean operator lisp will stop when it encounters the first symbol that evaluates to either true or false
@@ -194,3 +239,17 @@
 - The === comparison is meant primarily for numbers
 - =string-equal= is specific for strings
 - =char-equal= is specific for chars
+** I/O
+- Use =print= to display a string on stdout
+  - This will automatically add a new line at the end of the string
+  - =prin1= and =princ= will not add the =newline=
+  - =print= will print values as they are stored in Lisp, so strings will have quotes and literals are displayed as such
+    - =(print #\newline)= will actually print =#\newline= to stdout
+  - Use =princ= to not add the quotation marks and use the characters the literals represent
+    - =(princ #\newline)= will just print an empty line
+  - The goal of =print= is to output data in a way that it could be re-read back into its internal representation
+- Use =read= to read from stdin
+  - This function is called with no arguments and returns after the user has typed something and pressed enter
+  - You can use this to assign the value into a variable: =(let ((user-input (read))))=
+- Both =print= and =read= can handle any Lisp data type, including symbols
+- Use =read-line= to read the input as a string only rather than any valid Lisp data
