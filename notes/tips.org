@@ -72,3 +72,6 @@ The code for =iperf3= is hosted on github [[https://github.com/esnet/iperf][here
 * Use =ssh= to forward a port from remote to local
 =ssh -L 9090:127.0.0.1:8384 user@othercomputer.example.com=
 add =-N= if you don't want to open a terminal session
+* Reference a secret stored in =pass= in a bash script
+- Sometimes you need to write a script that references an encrypted secret in your password manager
+- Use this template to reference a pass file =gpg2 -q --for-your-eyes-only --no-tty -d $PASS_REPO/<SOME_SECRET>.gpg=

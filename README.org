@@ -1,3 +1,4 @@
+#+TITLE: Adam Richardson's Web Page
 * dotfiles and notes
 ** Config
 The config dir has various org mode files that can be tangled into
