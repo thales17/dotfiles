@@ -25,6 +25,9 @@ A set of customizations to dired mode to make it a little easier to use
   (add-hook 'dired-mode-hook
 	    (lambda ()
 	      (dired-hide-details-mode)))
+
+  (let ((map dired-mode-map))
+    (define-key map (kbd "C-b") #'bongo-dired-dwim))
 #+end_src
 * Alt Key
 This allows the alt key to work as meta
@@ -244,7 +247,7 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 	(goto-char (point-min))
 	(bongo-play))))
 #+end_src
-** Podcasts
+** podcasts
 *** Variables
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
   (defcustom ajr-podcast-dir
