@@ -1,3 +1,4 @@
+#+title: notes/ledger
 * What is...
 ** What is Plain Text Accounting?
 - https://plaintextaccounting.org/

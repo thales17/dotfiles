@@ -1,3 +1,4 @@
+#+title: config/suckless
 * dwm
 Make sure you run =cd ~/src/dwm && sudo make install= after tangling
 #+name: dwm/config.h

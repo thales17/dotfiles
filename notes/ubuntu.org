@@ -1,3 +1,4 @@
+#+title: notes/ubuntu
 * Ubuntu System Setup
 ** Packages
 #+begin_src sh

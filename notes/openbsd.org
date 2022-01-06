@@ -1,3 +1,4 @@
+#+title: notes/openbsd
 * OpenBSD Setup
 ** WiFi
 - [[https://www.openbsdhandbook.com/networking/wireless/][OpenBSD Handboox - Wireless]]

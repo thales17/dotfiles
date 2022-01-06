@@ -1,6 +1,7 @@
-:NAME: nethack dot org
-:AUTHOR: Adam Richardson
-#+PROPERTY: header-args :tangle ~/.nethackrc
+:properties:
+:title: config/nethack
+:header-args: :tangle ~/.nethackrc
+:end:
 
 * Resources
 - [[https://nethackwiki.com/wiki/Options][Nethack Wiki]] page on options

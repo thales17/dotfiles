@@ -1,3 +1,4 @@
+#+title: notes/programming/ncurses
 * What is =ncurses=
 "new curses" is a library that allows you to manipulate the character
 display of your terminal. Curses originally was pun on "cursor

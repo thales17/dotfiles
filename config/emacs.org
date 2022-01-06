@@ -1,8 +1,8 @@
-:NAME: emacs dot org
-:AUTHOR: Adam Richardson
-:PROPERTIES:
+#+title: config/emacs
+:properties:
 :header-args: :tangle ~/.emacs :results none
-:END:
+:end:
+
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -19,6 +19,7 @@ Set various environment variables in emacs
 * Dired Mode
 A set of customizations to dired mode to make it a little easier to use
 #+begin_src elisp
+  (require 'dired)
   (setq dired-dwim-target t)
   (setq dired-recursive-copies (quote always))
   (setq dired-recursive-deletes (quote top))

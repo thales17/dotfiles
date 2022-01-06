@@ -1,3 +1,4 @@
+#+title: notes/archlinux
 * Arch Linux System Setup
 ** USB Drive
 - Obtain the latest archlinux iso and verify it downloaded correctly

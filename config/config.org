@@ -1,3 +1,4 @@
+#+title: config/config
 * bashrc
 #+name: .bashrc
 #+begin_src sh :tangle ~/.bashrc

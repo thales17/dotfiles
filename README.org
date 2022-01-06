@@ -1,4 +1,4 @@
-#+TITLE: Adam Richardson's Web Page
+#+title: Adam Richardson's Web Page
 * dotfiles and notes
 ** Config
 The config dir has various org mode files that can be tangled into
@@ -17,14 +17,16 @@ run =make=
 - [[file:notes/openbsd.org][OpenBSD]]
 - [[file:notes/gnupg.org][GnuPG]]
 - [[file:notes/mail.org][Mail]]
-- [[file:notes/nethack_notes.org][NetHack]]
+- [[file:notes/nethack.org][NetHack]]
+- [[file:notes/ledger.org][Ledger]]
 
 *** Programming Notes
 **** Programming Languages
+***** Emacs Lisp
 - [[file:notes/programming/elisp.org][Emacs Lisp]]
-- [[file:notes/programming/common_lisp.org][Common Lisp]]
-**** C
-- [[file:notes/programming/c_program_arguments.org][Program Arguments]]
-***** Libraries
+***** Common Lisp
+- [[file:notes/programming/lisp.org][Common Lisp]]
+***** C
+- [[file:notes/programming/carguments.org][Program Arguments]]
 - [[file:notes/programming/ncurses.org][ncurses]]
 - [[file:notes/programming/jansson.org][jansson]]

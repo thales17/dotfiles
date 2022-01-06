@@ -1,3 +1,4 @@
+#+title: config/utils
 * sus - Suspend
 sus is a small script that locks the screen and puts the computer into suspend mode
 #+name: sus

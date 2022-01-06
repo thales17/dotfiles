@@ -1,3 +1,4 @@
+#+title: notes/nethack
 * Version
 - Notes are based on the =3.6.x= version of NetHack
 
