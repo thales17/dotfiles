@@ -1,5 +1,5 @@
 #+title: Adam Richardson's Web Page
-Last Updated: <2022-01-07 Fri>
+<2022-01-07 Fri>
 * dotfiles, small projects and notes
 ** dotfiles
 The config dir has various org mode files that can be tangled into

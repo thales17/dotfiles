@@ -30,7 +30,9 @@
 	      ".org-comment { color: darkcyan; }"
 	      ".org-type { color: orange; font-weight: bold; }"
 	      ".org-warning { color: red; }"
-	      ".timestamp { color: black }"
+	      ".timestamp { color: black; font-size: smaller; }"
+	      ".timestamp { text-decoration: underline; }"
+	      ".timestamp:before { content: \"Last Updated: \"; }"
 	      "</style>"))
 
 (setq org-html-htmlize-output-type 'css)

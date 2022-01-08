@@ -1,5 +1,5 @@
-#+title: projects/lisp/bullsandcows.org
-Last Updated: <2022-01-08 Sat>
+#+title: projects/lisp/bullsandcows
+<2022-01-08 Sat>
 
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
@@ -49,3 +49,25 @@ Last Updated: <2022-01-08 Sat>
 
 #+RESULTS:
 : BULLS-COWS-SETUP
+** Scoring a guess
+- The player of the game can make a guess on the secret code with the =guess= function
+- An example call of the =guess= would look like this =(guess 4130)=
+- The return will be the score of the guess measured in bulls and cows
+- If the secret code is =1234= and you guess =(guess 4130)= the score should be =1B2C=
+#+begin_src lisp
+  (defun guess (code)
+    (let ((c (map 'list #'digit-char-p
+		  (write-to-string code))))
+      (when (= (length c) 4)
+	(let ((bulls 0) (cows 0))
+	  (mapcar (lambda (i)
+		    (if (= (nth i c) (nth i *secret-code*))
+			(setf bulls (1+ bulls))
+			(when (member (nth i c) *secret-code*)
+			  (setf cows (1+ cows)))))
+		  '(0 1 2 3))
+	  `(,bulls B ,cows C)))))
+#+end_src
+
+#+RESULTS:
+: GUESS
