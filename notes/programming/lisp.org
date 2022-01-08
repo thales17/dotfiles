@@ -1,4 +1,5 @@
 #+title: notes/programming/lisp
+Last Updated: <2022-01-07 Fri>
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
@@ -100,10 +101,27 @@
 - You can also use =1+= to increment by 1, =(1+ 9)= evaluates to 10
 *** Exponent
 - Use =expt= to raise a number to an exponent, =(expt 53 53)= raises 53 to the 53rd power
+*** Random numbers
+- Use the =random= function to generate a random number
+- It takes the limit as an argument which can be either an int or a float
+- If it is a float than the random number generated will also be a float
+- This has the side effect of changing the internal =random-state=
 *** Arithmetic Shift (bitwise shift)
 - https://en.wikipedia.org/wiki/Arithmetic_shift
 - Use the =ash= function which takes two arguments, the number and the amount of bits to shift left
 - To shift right use a negative number
+** Strings
+*** Concatenate
+- Use =concatenate= to join multiple strings together
+- Use the symbol ='string= as the first argument to the function
+- =(concatenate 'string "abc" "def")= should return ="abcdef"=
+*** Converting to and from character lists
+- Use =coerce= with either the =list= or =string= type
+- =(coerce "ABC" 'list)= should return =(#\A #\B #\C)=
+- =(coerce '(#\A #\B #\C) 'string)= should return ="ABC"=
+*** Converting symbols to strings
+- Use =prin1-to-string= to convert symbols to strings
+- =(prin1-to-string 'abc)= should return "ABC"
 ** Lists
 *** push
 - Adds item to the beginning of a list
@@ -143,6 +161,17 @@
 *** remove-if-not
 - Removes all items from the list that do not satisfy the predicate
 - =(remove-if-not #'oddp '(1 2 3 4 5))= should return =(1 3 5)=
+*** nth
+- Use =nth= to get the value at index n from a list
+- =(nth 2 '(7 8 9))= should return =9=
+*** use setf and nth to change list item value
+- You can use =setf= to mutate a list
+- For example if you have a list named =l= with the value =(1 1 1)=
+- =(setf (nth 2 l) 4)= should mutate =l= to be =(1 1 4)=
+*** concatenate
+- Use =concatenate= to join multiple lists together
+- Use the symbol ='list= as the first argument to the function
+- =(concatenate 'list '(1 2 3) '(4 5 6))= should return =(1 2 3 4 5 6)=
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp
@@ -254,3 +283,4 @@
   - You can use this to assign the value into a variable: =(let ((user-input (read))))=
 - Both =print= and =read= can handle any Lisp data type, including symbols
 - Use =read-line= to read the input as a string only rather than any valid Lisp data
+- Use the function =fresh-line= to print a new line: =(fresh-line)=

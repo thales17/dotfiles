@@ -1,6 +1,7 @@
 #+title: Adam Richardson's Web Page
-* dotfiles and notes
-** Config
+Last Updated: <2022-01-07 Fri>
+* dotfiles, small projects and notes
+** dotfiles
 The config dir has various org mode files that can be tangled into
 their correct locations. To do so go change into the config dir and
 run =make=
@@ -10,7 +11,11 @@ run =make=
 - [[file:config/utils.org][Utility Scripts]]
 - [[file:config/nethack.org][NetHack]]
 
-** Notes
+** small projects
+*** Lisp
+- [[file:projects/lisp/bullsandcows.org][Bulls and Cows + Solver]]
+
+** notes
 - [[file:notes/tips.org][Tips]]
 - [[file:notes/archlinux.org][Arch Linux]]
 - [[file:notes/ubuntu.org][Ubuntu]]
