@@ -1,5 +1,5 @@
 #+title: projects/lisp/bullsandcows.org
-Last Updated: <2022-01-07 Fri>
+Last Updated: <2022-01-08 Sat>
 
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
@@ -18,32 +18,32 @@ Last Updated: <2022-01-07 Fri>
 - You will be able to play the number guessing game or invoke the solver to watch the computer guess the answer
 
 * Implementation
-** TODO Setting up the game
-- Found an issue with the code gen having a duplicate digit
-
-
+** Setting up the game
 - This code defines the game setup function and global variable =*secret-code*=
 - The setup function, =bulls-cows-setup=, will generate a list of 4 random integers and store that in =*secret-code*=
+- There secret code will not have the digit zero in it
+- The algorithm for generating a random code without repeats is as follows:
+  - Start with a list of all wanted digits and the length of the secret
+  - Check the length of the secret, if =0= return =nil=
+  - Pick a random index out of the wanted digits
+  - Return the cons of the digit using the random index and a recursive call to the generate code function
+  - In the recursive call, slice the randomly picked index from the wanted digits list
+  - Additionally reduce the length by 1 in the recursive call
 - The setup function returns =t= to not spoil the secret code
 #+begin_src lisp
   (defparameter *secret-code* nil)
 
+  (defun generate-secret (digits len)
+    (unless (<= len 0)
+      (let* ((index (random (length digits)))
+	     (digit (nth index digits)))
+	(cons digit (generate-secret (concatenate 'list
+						  (subseq digits 0 index)
+						  (subseq digits (1+ index)))
+				     (- len 1))))))
+
   (defun bulls-cows-setup ()
-    (let ((digits '(0 1 2 3 4 5 6 7 8 9))
-	  (len 9)
-	  (current-digit 0))
-      (flet ((rand-digit ()
-	       (let* ((index (random (- 10 current-digit)))
-		      (digit (nth index digits))
-		      (last (nth len digits)))
-		 (setf current-digit (1+ current-digit))
-		 (setf len (1- len))
-		 (setf (nth index digits) last)
-		 digit)))
-	(setf *secret-code* (list (rand-digit)
-				  (rand-digit)
-				  (rand-digit)
-				  (rand-digit)))))
+    (setf *secret-code* (generate-secret '(1 2 3 4 5 6 7 8 9) 4))
     t)
 #+end_src
 

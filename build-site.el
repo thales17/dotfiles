@@ -19,6 +19,7 @@
 (require 'ox-publish)
 
 (setq org-html-validation-link nil)
+(setq org-html-postamble nil)
 
 (setq org-html-style
       (concat "<style>"
@@ -29,6 +30,7 @@
 	      ".org-comment { color: darkcyan; }"
 	      ".org-type { color: orange; font-weight: bold; }"
 	      ".org-warning { color: red; }"
+	      ".timestamp { color: black }"
 	      "</style>"))
 
 (setq org-html-htmlize-output-type 'css)
