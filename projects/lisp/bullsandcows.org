@@ -1,5 +1,5 @@
 #+title: projects/lisp/bullsandcows
-<2022-01-08 Sat>
+<2022-01-09 Sun>
 
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
@@ -52,22 +52,71 @@
 ** Scoring a guess
 - The player of the game can make a guess on the secret code with the =guess= function
 - An example call of the =guess= would look like this =(guess 4130)=
+  - In order to convert a number =4130= to the list =(4 1 3 0)= we can convert to string then into a list
+  - To convert string numeric characters into numbers again we can use =digit-char-p=
+  - We will leave a method that accepts the code as a list as well, this will be good for solvers
 - The return will be the score of the guess measured in bulls and cows
 - If the secret code is =1234= and you guess =(guess 4130)= the score should be =1B2C=
 #+begin_src lisp
-  (defun guess (code)
-    (let ((c (map 'list #'digit-char-p
-		  (write-to-string code))))
-      (when (= (length c) 4)
-	(let ((bulls 0) (cows 0))
-	  (mapcar (lambda (i)
-		    (if (= (nth i c) (nth i *secret-code*))
-			(setf bulls (1+ bulls))
-			(when (member (nth i c) *secret-code*)
-			  (setf cows (1+ cows)))))
-		  '(0 1 2 3))
-	  `(,bulls B ,cows C)))))
+  (defun guess-code (code)
+    (when (= (length code) 4)
+      (let ((bulls 0) (cows 0))
+	(mapcar (lambda (i)
+		  (if (= (nth i code) (nth i *secret-code*))
+		      (setf bulls (1+ bulls))
+		      (when (member (nth i code) *secret-code*)
+			(setf cows (1+ cows)))))
+		'(0 1 2 3))
+	`(,bulls B ,cows C))))
+
+  (defun guess (num)
+    (let ((code (map 'list #'digit-char-p
+		     (write-to-string num))))
+      guess-num))
 #+end_src
 
 #+RESULTS:
 : GUESS
+** Evaluating scores
+- A human player is able to interpret the output of the =guess= function to know if they have won the game or not
+- A computer will need a function to easily know if the correct guess has been encountered
+- The =equal= function can compare the symbol values with the winning score =(4 B 0 C)=
+#+begin_src lisp
+  (defun win-p (score)
+    (equal score '(4 B 0 C)))
+#+end_src
+
+#+RESULTS:
+: WIN-P
+** Solvers
+- Each of these solvers use the output of the =guess= function to try to automate finding the secret code
+- Each solver will count how many times it calls =guess= and return that number along with the secret code
+- There are 3024 different possible secret codes (nPr where n = 9 digits and r = 4 length code)
+*** Random Guesses
+- One of the simplest solvers to implement is to continue to check random guesses to see if they are correct
+- This will not be using the clues at all to inform the next guess
+- Because of this it is a very inconsistent solution for finding the right answer
+- This will use the =generate-secret= method for randomly picking a guess
+- In order to prevent a stack overflow we need to limit the number of max guesses
+- While simple to implement this solver is pretty chaotic
+  - It is random how many guesses it will take to find the answer
+  - It might not find the answer at all
+#+begin_src lisp
+  (defparameter *max-guesses* 4000)
+
+  (defun random-solver (g count)
+    (cond ((>= count *max-guesses*)
+	   nil)
+	  ((win-p (guess-code g))
+	   (list g count))
+	  (t (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) 4)
+			     (1+ count)))))
+
+  (defun run-random-solver ()
+    (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) 4)
+		   0))
+#+end_src
+
+#+RESULTS:
+: RUN-RANDOM-SOLVER
+*** Brute Force
