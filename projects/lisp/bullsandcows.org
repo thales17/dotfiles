@@ -120,3 +120,19 @@
 #+RESULTS:
 : RUN-RANDOM-SOLVER
 *** Brute Force
+- This solver will enumerate through all the possible codes and see if it is the right one
+- It will not attempt to read the score to understand how close a guess might be
+- It is definitely not an efficient method for checking for the code
+- It does have the benefit of not being random and always taking the same amount of time to find the answer
+- Additionally it should always find an answer
+**** TODO Next Permutation
+- In order to achieve this we need a function to calculate the next permutation from a given one
+- The first permutation should be =1234= the last permutation should be =9876=
+- The key to this algorithm is a predicate that verifies if a number is a valid permutation
+- If that predicate fails just increment the number and try again
+#+begin_src lisp
+  (defun valid-code-p (num)
+    (let ((code (map 'list #'digit-char-p
+		     (write-to-string num))))
+      ))
+#+end_src

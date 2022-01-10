@@ -1,5 +1,5 @@
 #+title: notes/programming/lisp
-<2022-01-08 Sat>
+<2022-01-09 Sun>
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
@@ -158,6 +158,9 @@
 - This will not work when searching for =nil= in a list
 *** mapcar
 - Use =mapcar= to run a function on each element of a list
+- =(mapcar #'(lambda (n) (1+ n)) '(1 2 3))= should return =(2 3 4)=
+- You can also run =mapcar= over multiple sequences
+- =(mapcar #'(lambda (m n) (list m n)) '(1 2 3) '(a b c))= should return =((1 a) (2 b) (3 c))=
 *** apply
 - Use =apply= to call a functions once with all the elements of a list as its arguments
 *** remove-if-not
