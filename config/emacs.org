@@ -1,5 +1,5 @@
-#+title: config/emacs
 :properties:
+:title: config/emacs
 :header-args: :tangle ~/.emacs :results none
 :end:
 
@@ -431,6 +431,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-<f11>") 'ajr-sync-mail)
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
+  (global-set-key (kbd "<f6>") 'tab-switch)
 
   ;; password-store
   (global-set-key (kbd "C-<f1>") 'password-store-copy)
