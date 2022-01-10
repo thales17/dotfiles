@@ -26,6 +26,8 @@
 	      ".org-doc { color: blue; }"
 	      ".org-keyword { color: red; }"
 	      ".org-string { color: green; }"
+	      ".org-variable-name { color: black; font-weight: bold; }"
+	      ".org-function-name { color: mediumblue; }"
 	      ".org-constant { color: purple; }"
 	      ".org-comment { color: darkcyan; }"
 	      ".org-type { color: orange; font-weight: bold; }"
