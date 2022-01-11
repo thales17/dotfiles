@@ -1,5 +1,5 @@
 #+title: notes/programming/lisp
-<2022-01-09 Sun>
+<2022-01-10 Mon>
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
@@ -94,6 +94,18 @@
 - You can evaluate a quoted symbol with =eval=
 - =(eval '(+ 2 2))= should return =4=
 - Like =eval= in JavaScript it can be a huge security risk in your program
+** Loops
+- Loops can be a good alternative to recursion, especially when using an implementation that does not have tail recursion support
+- The most basic form of the =loop= is shown below
+#+begin_src lisp
+  (loop
+    (sexp)
+    (sexp)
+    ...
+    (when (predicate)
+      (return)))
+#+end_src
+- The =return= command exits the loop
 * Common Lisp Functions
 ** Math
 *** Incrementing
@@ -203,6 +215,14 @@
 - alists can have multiple instances of a key inside them
 - When this happens =assoc= will return the first instance
 - If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
+*** Testing the values of a list with =every= =some= =notevery= =notany=
+- These functions run a predicate and return a different boolean value based on their rules
+- =every= returns nil at the first instance of a =nil= value, similar to logical and
+- =some= returns true if any of the values return true
+- =notany= returns nil if any of the values return true
+- =notevery= returns true if all the values are false
+- =(every #'identity '(t t nil)= should return nil
+- =(every #'identity '(t t t))= should return true
 ** Conditionals
 *** Shortcut Boolean Evaluation
 - When evaluating an =or= or =and= boolean operator lisp will stop when it encounters the first symbol that evaluates to either true or false

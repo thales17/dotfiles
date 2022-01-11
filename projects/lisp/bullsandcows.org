@@ -1,5 +1,5 @@
 #+title: projects/lisp/bullsandcows
-<2022-01-09 Sun>
+<2022-01-10 Mon>
 
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
@@ -32,6 +32,7 @@
 - The setup function returns =t= to not spoil the secret code
 #+begin_src lisp
   (defparameter *secret-code* nil)
+  (defparameter *code-length* 4)
 
   (defun generate-secret (digits len)
     (unless (<= len 0)
@@ -43,7 +44,7 @@
 				     (- len 1))))))
 
   (defun bulls-cows-setup ()
-    (setf *secret-code* (generate-secret '(1 2 3 4 5 6 7 8 9) 4))
+    (setf *secret-code* (generate-secret '(1 2 3 4 5 6 7 8 9) *code-length*))
     t)
 #+end_src
 
@@ -59,20 +60,21 @@
 - If the secret code is =1234= and you guess =(guess 4130)= the score should be =1B2C=
 #+begin_src lisp
   (defun guess-code (code)
-    (when (= (length code) 4)
+    (when (= (length code) *code-length*)
       (let ((bulls 0) (cows 0))
 	(mapcar (lambda (i)
 		  (if (= (nth i code) (nth i *secret-code*))
 		      (setf bulls (1+ bulls))
 		      (when (member (nth i code) *secret-code*)
 			(setf cows (1+ cows)))))
+		;; Should be a sequence generated from the *code-length*
 		'(0 1 2 3))
 	`(,bulls B ,cows C))))
 
   (defun guess (num)
     (let ((code (map 'list #'digit-char-p
 		     (write-to-string num))))
-      guess-num))
+      (guess-code code)))
 #+end_src
 
 #+RESULTS:
@@ -83,7 +85,7 @@
 - The =equal= function can compare the symbol values with the winning score =(4 B 0 C)=
 #+begin_src lisp
   (defun win-p (score)
-    (equal score '(4 B 0 C)))
+    (equal score `(,*code-length* B 0 C)))
 #+end_src
 
 #+RESULTS:
@@ -98,22 +100,23 @@
 - Because of this it is a very inconsistent solution for finding the right answer
 - This will use the =generate-secret= method for randomly picking a guess
 - In order to prevent a stack overflow we need to limit the number of max guesses
+  - I am using CLISP currently and it appears that it doesn't support tail recursion
 - While simple to implement this solver is pretty chaotic
   - It is random how many guesses it will take to find the answer
   - It might not find the answer at all
 #+begin_src lisp
-  (defparameter *max-guesses* 4000)
+  (defparameter *max-guesses* 3000)
 
   (defun random-solver (g count)
     (cond ((>= count *max-guesses*)
 	   nil)
 	  ((win-p (guess-code g))
 	   (list g count))
-	  (t (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) 4)
-			     (1+ count)))))
+	  (t (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) *code-length*)
+			    (1+ count)))))
 
   (defun run-random-solver ()
-    (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) 4)
+    (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) *code-length*)
 		   0))
 #+end_src
 
@@ -125,14 +128,54 @@
 - It is definitely not an efficient method for checking for the code
 - It does have the benefit of not being random and always taking the same amount of time to find the answer
 - Additionally it should always find an answer
-**** TODO Next Permutation
+**** Next Permutation
 - In order to achieve this we need a function to calculate the next permutation from a given one
 - The first permutation should be =1234= the last permutation should be =9876=
 - The key to this algorithm is a predicate that verifies if a number is a valid permutation
 - If that predicate fails just increment the number and try again
+- This removes one instance of the value being checked and then ensures that there is not another instance of it in the list
 #+begin_src lisp
   (defun valid-code-p (num)
-    (let ((code (map 'list #'digit-char-p
-		     (write-to-string num))))
-      ))
+    (let* ((code (map 'list #'digit-char-p
+		      (write-to-string num)))
+	   (no-repeats (every #'identity
+			      (mapcar #'(lambda (m)
+					  (not (member m
+						       (remove-if #'(lambda (n) (= n m))
+								  code :count 1))))
+				      code)))
+	   ;; This should check to make sure the code doesn't have any invalid digits
+	   (no-zeros (not (member 0 code))))
+      (and no-repeats no-zeros)))
 #+end_src
+
+#+RESULTS:
+: VALID-CODE-P
+
+- This function finds the next lexical code from a given input
+- It continuously increments the number until a valid code is found
+#+begin_src lisp
+  (defun next-code (num)
+    (cond ((valid-code-p (1+ num)) (1+ num))
+	  (t (next-code (1+ num)))))
+
+#+end_src
+
+#+RESULTS:
+: NEXT-CODE
+**** Solver
+#+begin_src lisp
+  (defun run-brute-force-solver ()
+    (let ((code 1234)
+	  (count 0))
+      (loop
+	(cond ((win-p (guess code)) (return))
+	      ((= code 9876) (return))
+	      (t (setf code (next-code code))
+		 (setf count (1+ count)))))
+      `(,code ,count)))
+
+#+end_src
+
+#+RESULTS:
+: RUN-BRUTE-FORCE-SOLVER
