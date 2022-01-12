@@ -1,5 +1,5 @@
 #+title: projects/lisp/bullsandcows
-<2022-01-10 Mon>
+<2022-01-11 Tue>
 
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
@@ -33,6 +33,9 @@
 #+begin_src lisp
   (defparameter *secret-code* nil)
   (defparameter *code-length* 4)
+  (defparameter *code-digits* '(1 2 3 4 5 6 7 8 9))
+  (defparameter *code-min* 1234)
+  (defparameter *code-max* 9876)
 
   (defun generate-secret (digits len)
     (unless (<= len 0)
@@ -44,7 +47,7 @@
 				     (- len 1))))))
 
   (defun bulls-cows-setup ()
-    (setf *secret-code* (generate-secret '(1 2 3 4 5 6 7 8 9) *code-length*))
+    (setf *secret-code* (generate-secret *code-digits* *code-length*))
     t)
 #+end_src
 
@@ -61,14 +64,16 @@
 #+begin_src lisp
   (defun guess-code (code)
     (when (= (length code) *code-length*)
-      (let ((bulls 0) (cows 0))
-	(mapcar (lambda (i)
-		  (if (= (nth i code) (nth i *secret-code*))
-		      (setf bulls (1+ bulls))
-		      (when (member (nth i code) *secret-code*)
-			(setf cows (1+ cows)))))
-		;; Should be a sequence generated from the *code-length*
-		'(0 1 2 3))
+      (let ((bulls 0) (cows 0) (i 0))
+	(loop
+	 (if (= (nth i code) (nth i *secret-code*))
+	     (setf bulls (1+ bulls))
+	     (when (member (nth i code) *secret-code*)
+	       (setf cows (1+ cows))))
+	 (when (= (1+ i) *code-length*)
+	   (return))
+	 (setf i (1+ i)))
+
 	`(,bulls B ,cows C))))
 
   (defun guess (num)
@@ -99,25 +104,24 @@
 - This will not be using the clues at all to inform the next guess
 - Because of this it is a very inconsistent solution for finding the right answer
 - This will use the =generate-secret= method for randomly picking a guess
-- In order to prevent a stack overflow we need to limit the number of max guesses
-  - I am using CLISP currently and it appears that it doesn't support tail recursion
-- While simple to implement this solver is pretty chaotic
-  - It is random how many guesses it will take to find the answer
-  - It might not find the answer at all
+- While simple to implement this solver it is random how long it will take
+- Additionally, it might not find the answer at all
 #+begin_src lisp
-  (defparameter *max-guesses* 3000)
-
-  (defun random-solver (g count)
-    (cond ((>= count *max-guesses*)
-	   nil)
-	  ((win-p (guess-code g))
-	   (list g count))
-	  (t (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) *code-length*)
-			    (1+ count)))))
+  (defparameter *max-guesses* 10000)
 
   (defun run-random-solver ()
-    (random-solver (generate-secret '(1 2 3 4 5 6 7 8 9) *code-length*)
-		   0))
+    (let ((count 0)
+	  (code (generate-secret *code-digits* *code-length*))
+	  (solution-found nil))
+      (loop
+       (cond ((>= count *max-guesses*) (return))
+	     ((win-p (guess-code code))
+	      (setf solution-found t)
+	      (return))
+	     (t  (setf count (1+ count))
+		 (setf code (generate-secret *code-digits* *code-length*)))))
+      (when solution-found
+	(list code count)))))
 #+end_src
 
 #+RESULTS:
@@ -128,7 +132,7 @@
 - It is definitely not an efficient method for checking for the code
 - It does have the benefit of not being random and always taking the same amount of time to find the answer
 - Additionally it should always find an answer
-**** Next Permutation
+**** TODO Next Permutation
 - In order to achieve this we need a function to calculate the next permutation from a given one
 - The first permutation should be =1234= the last permutation should be =9876=
 - The key to this algorithm is a predicate that verifies if a number is a valid permutation
@@ -144,7 +148,7 @@
 						       (remove-if #'(lambda (n) (= n m))
 								  code :count 1))))
 				      code)))
-	   ;; This should check to make sure the code doesn't have any invalid digits
+	   ;; TODO: This should check to make sure the code doesn't have any invalid digits
 	   (no-zeros (not (member 0 code))))
       (and no-repeats no-zeros)))
 #+end_src
@@ -166,16 +170,44 @@
 **** Solver
 #+begin_src lisp
   (defun run-brute-force-solver ()
-    (let ((code 1234)
+    (let ((code *code-min*)
 	  (count 0))
       (loop
 	(cond ((win-p (guess code)) (return))
-	      ((= code 9876) (return))
+	      ((= code *code-max*) (return))
 	      (t (setf code (next-code code))
 		 (setf count (1+ count)))))
       `(,code ,count)))
 
 #+end_src
-
 #+RESULTS:
 : RUN-BRUTE-FORCE-SOLVER
+
+*** TODO Cows Score Solver
+- This solver will use the score to determine if a digit is part of the code or not
+- It won't use the bulls portion of the score
+- It will sum the total number of digits between bulls and cows to determine if a digit is in the solution or not
+- Once the correct digits are determined, this will iterate through all possible permutations until the correct one is found
+- The below algorithm will be used to find the secret code:
+  - Start with =1234=
+  - If the score is 0 then mark all digits as not in the solution
+  - If the score is 4 then mark all as being in the solution
+  - If the score is greater than 0 and less than 4 begin testing each digit:
+    - Iterate through all digits whose included status is unknown
+    - Replace the currently tested digit with another unknown digit from the list of all possible digits
+    - If the score remains the same:
+      - replace with the unknown digit mark both the test digit and unknown digit as not included
+      - Replace the test digit with the next and repeat
+      - Ensure that the unknown digit is not already in the code being guessed
+    - If the score is reduced:
+      - Mark the test digit as not included
+    - If the score increases:
+      - Mark the unknown digit as included and the test digit as not included
+  - When the score sum is five but not winning, test each permutation of the current digits until you find a winner
+#+begin_src lisp
+  ;; (defun run-cows-solver ()
+  ;;   (let (())))
+#+end_src
+
+#+RESULTS:
+: NIL
