@@ -1,7 +1,36 @@
 #+title: notes/openbsd
+<2022-01-12 Wed>
 * OpenBSD Setup
+These are setup notes for setting up an OpenBSD workstation
+** Full Disk Encryption
+- [[https://www.openbsd.org/faq/faq14.html#softraidFDE][OpenBSD FAQ: Softraid Full Disk Encryption]]
+- When you see the welcome message press =s= to enter the shell
+- Create the =sd0= device node with, =cd /dev && sh MAKEDEV sd0=
+- Write random data to the disk with =dd if=/dev/urandom of=/dev/rsd0c bs=1m=
+- Initialize the disk with =fdisk -iy -g -b 960 sd0=
+- Use =disklabel= to create the partition layout:
+  - =disklabel -E sd0=
+  - At the =sd0>= prompt type =a a=
+    - If there were existing partitions delete them all with =z= first then type =a a=
+  - At the =offset:= prompt use the default value and press enter
+  - At the =size:= prompt type =*=
+  - At the =FS type:= prompt type =RAID=
+  - Back at the =sd0*>= prompt write the changes with =w=
+  - And finally at the =sd0>= prompt quit =disklabel= with =q=
+- To create the encrypted device with =bioctl -c C -l sd0a softraid0=
+  - This will prompt you for a passphrase for the encrypted drive
+  - Once you are done it will tell you which device the encrypted volume is attached to, usually =sd1= or =sd2=
+- Create the device node for the encrypted volume you just created =cd /dev && sh MAKEDEV sd2=
+- Write zero to the first byte of the encrypted volume, =dd if=/dev/zero of=/dev/rsd2c bs=1m count=1=
+- Finally type =exit= to get back to the installer
+- When picking your disk make sure you pick the encrypted volume that was reported after the =bioctl= command
+** Swap Caps Lock and Control
+- When prompted for your keyboard layout type =us.swapctrlcaps=
+** Networking
+- During installation it is probably easier to use a wired connection if possible
+- This is typically the =em= device
 ** WiFi
-- [[https://www.openbsdhandbook.com/networking/wireless/][OpenBSD Handboox - Wireless]]
+- [[https://www.openbsdhandbook.com/networking/wireless/][OpenBSD Handbook - Wireless]]
 - Use =ifconfig= to see what the interface name of your wireless card.
 - Next create a file named =/etc/hostname.<WIRELESS_INTERFACE>= for example =/etc/hostname.iwm0=
 - Inside this file place the connection details for your wireless network using the below template
@@ -10,5 +39,18 @@
   wpakey password
   dhcp
 #+end_src
-** Format and mount external storage
-** Game Controllers
+* OpenBSD Disks
+- [[https://www.openbsd.org/faq/faq14.html#intro][OpenBSD FAQ: Disks and Partitions]]
+- IDE drives are usually =wd*= and SCSI drives are usually =sd*=
+- Drive numbers come after the drive type
+- Drives are numbered according to how they are discovered at boot
+- Use =sysctl hw.disknames= to see a list of hard disk names
+- =disklabel= is used to manage partitions
+- A given disk can have up to 16 label partitions that use the letters =a= - =p=
+- Some labels are special
+  - The boot disk's root partition is always =a=
+  - The boot disk's swap partition is always =b=
+  - The =c= partition is always the entire disk
+- Disks have 16 digit random hex strings that serve as the Disklabel Unique Identifiers (DUIDs)
+- =sysctl hw.disknames= lists these
+- The =fstab= uses the DUIDs when specifying disks
