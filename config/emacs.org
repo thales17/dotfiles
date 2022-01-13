@@ -2,6 +2,7 @@
 :title: config/emacs
 :header-args: :tangle ~/.emacs :results none
 :end:
+<2022-01-13 Thu>
 
 * Early Init
 Disable package.el since I use straight.el
@@ -554,7 +555,22 @@ Customizations and global keys for org mode
 - Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
 - Run =make install= with appropriate permissions to install the new version on the system
 - Use =M-x emacs-version RET= to see the current version info, including the build date
-
+** Quirks for building emacs on OpenBSD
+- [[https://lars.ingebrigtsen.no/2020/08/16/building-the-development-version-of-emacs-on-openbsd/][Lars Ingebrigsten: Building the Development Version of Emacs on OpenBSD (6.7)]]
+- To build Emacs on OpenBSD ensure the following packages are installed:
+  - =git=
+  - =autoconf=
+  - =automake=
+  - =gnutls=
+  - =gmake=
+  - =gcc=
+  - =texinfo=
+- Add all the dependencies that the emacs package needs: =pkg_add `pkg_info -f emacs | grep ^@depend | sed 's/^.*://'`=
+- Once the emacs source is clone set the autoconf version to the newly installed one, =export AUTOCONF_VERSION=2.71=
+- Tell emacs to use =gmakeinfo= instead of the one OpenBSD ships with, =export MAKEINFO=gmakeinfo=
+- You should now be able to run =./autogen.sh=
+- After that is complete run configure like so: =CC=egcc ./configure - without-makeinfo=
+- OpenBSD does not have a port of libgccjit so for now omit =--with-native-compilation=
 * Emacs Server Mode
 - You can enable the emacs server to start at login with =systemctl --user enable emacs=
 - You can connect to the server with =emacsclient -c=

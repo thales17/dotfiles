@@ -1,6 +1,6 @@
 #+title: notes/openbsd
-<2022-01-12 Wed>
-* OpenBSD Setup
+<2022-01-13 Thu>
+* Setup
 These are setup notes for setting up an OpenBSD workstation
 ** Full Disk Encryption
 - [[https://www.openbsd.org/faq/faq14.html#softraidFDE][OpenBSD FAQ: Softraid Full Disk Encryption]]
@@ -30,16 +30,20 @@ These are setup notes for setting up an OpenBSD workstation
 - During installation it is probably easier to use a wired connection if possible
 - This is typically the =em= device
 ** WiFi
-- [[https://www.openbsdhandbook.com/networking/wireless/][OpenBSD Handbook - Wireless]]
+- [[https://man.openbsd.org/hostname.if.5][OpenBSD man page: hostname.if(5)]]
+- [[https://www.openbsd.org/faq/faq6.html#Wireless][OpenBSD FAQ: Wireless]]
 - Use =ifconfig= to see what the interface name of your wireless card.
 - Next create a file named =/etc/hostname.<WIRELESS_INTERFACE>= for example =/etc/hostname.iwm0=
 - Inside this file place the connection details for your wireless network using the below template
 #+begin_src conf
-  nwid OpenNET
-  wpakey password
-  dhcp
+  nwid <SSID> wpakey <PASSWORD>
+  inet autoconf
 #+end_src
-* OpenBSD Disks
+- This =hostname.if= file will ensure that =ifconfig= automatically joins the network the next time it is started up
+- To join the network now without restarting run these commands:
+  - =ifconfig <WIRELESS_DEVICE> nwid <SSID> wpakey <PASSWORD>=
+  - =ifconfig <WIRELESS_DEVICE> inet autoconf=
+* Disks
 - [[https://www.openbsd.org/faq/faq14.html#intro][OpenBSD FAQ: Disks and Partitions]]
 - IDE drives are usually =wd*= and SCSI drives are usually =sd*=
 - Drive numbers come after the drive type
@@ -54,3 +58,41 @@ These are setup notes for setting up an OpenBSD workstation
 - Disks have 16 digit random hex strings that serve as the Disklabel Unique Identifiers (DUIDs)
 - =sysctl hw.disknames= lists these
 - The =fstab= uses the DUIDs when specifying disks
+* Man Page Numbers
+- =1= - General Commands
+- =2= - System Calls
+- =3= - Library Functions
+- =3p= - Perl Library Functions
+- =4= - Device Drivers
+- =5= - File Formats
+- =6= - Games
+- =7= - Miscellaneous Information
+- =8= - System Manager's Manual
+- =9= - Kernel Developer's Manual
+* Using =rcctl= to manage services
+- [[https://man.openbsd.org/rcctl.8][OpenBSD man page: rcctl(8)]]
+- Use =rcctl ls on= to view a list of all running services
+- Use =rcctl enable <SERVICE>= to enable a service, this is the same as =rcctl set <SERVICE> status on=
+* Becoming Root with =doas=
+- [[https://man.openbsd.org/doas.conf.5][OpenBSD man page: doas.conf(5)]]
+- =doas= is the OpenBSD equivalent of =sudo=
+- The =su= command works on OpenBSD just like other Unices
+- Create the file =/etc/doas.conf= to enable =doas=
+- Add the following line to enable doas for the =wheel= group and persist the password for a bit:
+  - =permit persist :wheel=
+* Power Management
+- [[https://man.openbsd.org/apm.8][OpenBSD man page: apm(8)]]
+- Use the command =apm= to see the current power status, this will include the battery level
+- =apmd= will need to be enabled with: =rcctl enable apmd=
+- To set the apmd to automatically manage the power level set the flag on =apmd= to =-A= with =rcctl set apmd flags -A=
+- You might need to restart for changes to =apmd= to take effect
+- Use the =zzz= command to be the computer into suspend state
+* Packages
+- [[https://www.openbsd.org/faq/faq15.html][OpenBSD FAQ: Package Management]]
+- To search for a package run =pkg_info -Q <SOME_PACKAGE>=
+- To install a package run =pkg_add <SOME_PACKAGE>=
+- =pkg_add -u= will update all installed packages
+- To delete a package run =pkg_delete <SOME_PACKAGE>=
+- There might be dependecies still installed that are no longer needed, to remove them run =pkg_delete -a=
+* Resources
+- [[https://www.c0ffee.net/blog/openbsd-on-a-laptop/][c0ffee.net: openbsd on a laptop]]
