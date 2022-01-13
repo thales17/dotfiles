@@ -569,7 +569,7 @@ Customizations and global keys for org mode
 - Once the emacs source is clone set the autoconf version to the newly installed one, =export AUTOCONF_VERSION=2.71=
 - Tell emacs to use =gmakeinfo= instead of the one OpenBSD ships with, =export MAKEINFO=gmakeinfo=
 - You should now be able to run =./autogen.sh=
-- After that is complete run configure like so: =CC=egcc ./configure - without-makeinfo=
+- After that is complete run configure like so: =CC=egcc ./configure --with-json=
 - OpenBSD does not have a port of libgccjit so for now omit =--with-native-compilation=
 * Emacs Server Mode
 - You can enable the emacs server to start at login with =systemctl --user enable emacs=
@@ -584,7 +584,7 @@ Customizations and global keys for org mode
 - In addition to native compilation the =--with-json= flag can result in an almost 15x performance increase
 - This flag requires =libjansson= to be installed
 - Increasing the amount of garbage collection =cons= threshold (=gc-cons-threshold=) to 100Mb =(setq gc-cons-threshold 100000000)=
-- Increase the read brocess buffer from 4k to 1mb =(setq read-process-output-max (* 1024 1024)) ;; 1mb=
+- Increase the read brocess buffer from 4k to 1mb =(setq read-process-output-max (* 5 1024 1024)) ;; 5mb=
 ** lsp-dart
 #+begin_src elisp :tangle no
     ;; Dart Stuff
