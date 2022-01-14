@@ -94,11 +94,20 @@ These are setup notes for setting up an OpenBSD workstation
 - =pkg_add -u= will update all installed packages
 - To delete a package run =pkg_delete <SOME_PACKAGE>=
 - There might be dependecies still installed that are no longer needed, to remove them run =pkg_delete -a=
+- Sometimes individual packages have a readme that explains some info related to using it on OpenBSD
+- Those readme files are in =/usr/local/share/doc/pkg-readmes/=
 ** Packages
 #+begin_src sh
-  doas pkg_add mosh rsync nethack aspell ledger cdparanoia abcde beets zbar unzip ncdu p7zip pv gnupg fzf wget git python py3-pip password-store firefox hack-fonts noto-cjk noto-emoji noto-fonts vlc mpv redshift ImageMagick feh thunar arandr
+  doas pkg_add mosh rsync nethack aspell ledger cdparanoia abcde beets zbar unzip ncdu p7zip pv gnupg fzf wget git python py3-pip password-store firefox hack-fonts noto-cjk noto-emoji noto-fonts vlc mpv redshift ImageMagick feh thunar arandr syncthing
 #+end_src
-* Password Store
+* Syncthing
+- You might need to disable =fsWatcherEnabled= in the =~/.config/syncthing/config.xml= file after you have added shares
+* TODO Password Store
 - [[https://github.com/tadfisher/pass-otp][github: pass-otp]]
+* Disable xconsole
+- Inside the =/etc/X11/xenodm/Xsetup_0= file comment out line with =xconsole=
+- You can also change the =xsetroot= command to change the default background
 * Resources
 - [[https://www.c0ffee.net/blog/openbsd-on-a-laptop/][c0ffee.net: openbsd on a laptop]]
+- [[https://paedubucher.ch/articles/2020-09-05-openbsd-on-the-desktop-part-i.html][paedubucher.ch: OpenBSD on the desktop pt1]]
+- [[https://paedubucher.ch/articles/2020-09-12-openbsd-on-the-desktop-part-ii.html][paedubucher.ch: OpenBSD on the desktop pt2]]

@@ -3,3 +3,4 @@
 public/
 site.tar.gz
 .packages/
+*.core

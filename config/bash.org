@@ -1,0 +1,51 @@
+#+title: config/bash
+<2022-01-13 Thu>
+* bashrc
+#+name: .bashrc
+#+begin_src sh :tangle ~/.bashrc
+  #
+  # ~/.bashrc
+  #
+
+  # If not running interactively, don't do anything
+  [[ $- != *i* ]] && return
+
+  alias ls='ls --color=auto'
+  PS1='[\u@\h \W]\$ '
+
+  # Customization begins here
+  export LD_LIBRARY_PATH=$HOME/.local/lib
+
+  export PATH=$PATH:$HOME/.local/bin
+
+  export EDITOR=mg
+
+  source ~/.bash_env
+#+end_src
+
+* bash_env
+This creates a .bash_env.example that should be renamed to .bash_env and filled out.
+#+name: .bash_env
+#+begin_src sh :tangle ~/.bash_env.example
+  #!/bin/sh
+
+  # This file is an example and should be renamed to .bash_env
+  # Fill in values for each of the variables
+
+  # server used by the backup script
+  export BACKUP_SERVER=
+
+  # location on the server where the backups should go
+  export BACKUP_SERVER_PATH=
+
+  # latitude and longitude used for redshift
+  # use geonames.org to find a given locations latitude and longitude
+  # example, using Louisville, KY lat/lon: `export RED_SHIFT_LAT_LONG=38.25424:-85.75941`
+  export RED_SHIFT_LAT_LONG=
+#+end_src
+
+* profile
+#+name: .profile
+  #+begin_src sh :tangle ~/.profile
+    export PATH=$PATH:$HOME/.local/bin
+#+end_src

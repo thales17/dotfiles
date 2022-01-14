@@ -1,0 +1,12 @@
+#+title: config/xsession
+<2022-01-14 Fri>
+* Config
+- This is used primarily on OpenBSD systems
+- This file launches the window manager
+#+begin_src sh :tangle ~/.xsession
+  xsetroot -solid "#3b6064"
+
+  syncthing &
+
+  exec dwm
+#+end_src

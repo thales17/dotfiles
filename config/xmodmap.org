@@ -1,0 +1,12 @@
+#+title: config/xmodmap
+<2022-01-13 Thu>
+
+* Config
+- This turns the caps lock key into a control key. Sometimes this needs to be run manually after running xrandr. This can be a achieved with =xmodmap ~/.
+#+name: .Xmodmap
+#+begin_src conf :tangle ~/.Xmodmap
+  clear lock
+  clear control
+  keycode 66 = Control_L
+  add control = Control_L Control_R
+#+end_src

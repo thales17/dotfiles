@@ -1,0 +1,35 @@
+#+title: config/dunst
+<2022-01-13 Thu>
+* Config
+#+begin_src conf :tangle ~/.config/dunst/dunstrc :mkdirp yes
+  [global]
+      monitor = 0
+      geometry = "300x5-30+20"
+      font = Hack 14
+      frame_color = "#aaaaaa"
+      frame_width = 1
+      min_icon_size = 16
+      max_icon_size = 32
+      padding = 8
+      horizontal_padding = 8
+      text_icon_padding = 8
+      shrink = yes
+      hide_duplicate_count = true
+      stack_duplicates = true
+
+  [urgency_low]
+      background = "#000000"
+      foreground = "#ffffff"
+      timeout = 3
+
+  [urgency_normal]
+      background = "#000000"
+      foreground = "#ffffff"
+      timeout = 3
+
+  [urgency_critical]
+      background = "#900000"
+      foreground = "#ffffff"
+      frame_color = "#ff0000"
+      timeout = 0
+#+end_src

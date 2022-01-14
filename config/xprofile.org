@@ -1,0 +1,20 @@
+#+title: config/xprofile
+<2022-01-13 Thu>
+* Config
+This starts up various programs I want to run at login
+#+name: .xprofile
+#+begin_src sh :tangle ~/.xprofile
+  source ~/.bash_env
+
+  xsetroot -solid "#3b6064"
+
+  slstatus &
+
+  xss-lock -- xlock &
+
+  redshift -l $RED_SHIFT_LAT_LONG &
+
+  emacs --fg-daemon &
+
+  ./.xprofile-local
+#+end_src

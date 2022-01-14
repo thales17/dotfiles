@@ -1,0 +1,15 @@
+#+title: config/git
+<2022-01-13 Thu>
+* Config
+All user information goes into the file .gitconfig-user, which is not part of this repo.
+#+name: .gitconfig
+#+begin_src conf :tangle ~/.gitconfig
+  [include]
+	  path = ~/.gitconfig-user
+
+  [pull]
+	  rebase = true
+
+  [init]
+	  defaultBranch = main
+#+end_src

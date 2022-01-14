@@ -545,6 +545,27 @@ Customizations and global keys for org mode
 
   (load "~/.elfeed-feeds.el")
 #+end_src
+** Common Customizations
+- =confirm-kill-emacs= - =y-or-n-p=
+- Set the theme to =modus-vivendi= or =modus-operandi=
+- Change the font to Hack 12 point
+- Change the =variable-pitch= face to =Noto Serif=
+- Set the =bongo-default-directory= to =~/music=
+- Set the =bongo-enabled-backends= to =vlc=
+- Change the =browse-url-browser-function= to ='eww-browse-url=
+- Set the =efleed-sort-order= to ='ascending=
+- Set the =initial-buffer-choice= to =~/=
+- Set =menu-bar-mode= to =nil=
+- Set =tool-bar-mode= to =nil=
+- Set =tab-bar-show= to =nil=
+- Set =visible-bell= to =t=
+- Edit the =org-babel-load-languages= to enable: C, shell, ditaa, lisp
+- Set =org-hide-emphasis-markers= to =t=
+- Set =org-startup-folded= to ='content=
+- Set =org-agenda-files= to =~/org=
+- Set =save-place-mode= to =t=
+- Set =shr-image-animate= to =nil= to disable animated gifs in shr
+- Set =recenter-positions= to ='(top middle bottom)=
 * Building from source
 - clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
 - Releases are usually in a branch with the version number, for example =emacs-28=

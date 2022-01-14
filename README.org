@@ -1,13 +1,20 @@
 #+title: Adam Richardson's Web Page
-<2022-01-07 Fri>
+<2022-01-13 Thu>
 * dotfiles, small projects and notes
 ** dotfiles
-The config dir has various org mode files that can be tangled into
-their correct locations. To do so go change into the config dir and
-run =make=
-- [[file:config/config.org][Various home dir configs]]
-- [[file:config/suckless.org][Suckless Programs]]
+- The config dir has various org mode files that can be tangled into their correct locations.
+- For Linux systems run the default make target should work
+- For OpenBSD run =make openbsd=
 - [[file:config/emacs.org][Emacs]]
+- [[file:config/kitty.org][kitty]]
+- [[file:config/tmux.org][tmux]]
+- [[file:config/git.org][git]]
+- [[file:config/bash.org][bash]]
+- [[file:config/xmodmap.org][xmodmap]]
+- [[file:config/xprofile.org][xprofile]]
+- [[file:config/dunst.org][dunst]]
+- [[file:config/cdripping.org][cd ripping]]
+- [[file:config/suckless.org][Suckless Programs]]
 - [[file:config/utils.org][Utility Scripts]]
 - [[file:config/nethack.org][NetHack]]
 

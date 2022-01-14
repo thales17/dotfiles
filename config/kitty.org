@@ -1,0 +1,13 @@
+#+title: config/kitty
+<2022-01-13 Thu>
+* Config
+- This simple config sets the font in kitty terminal to 12 point =Hack=
+- [[https://sw.kovidgoyal.net/kitty/conf/][kitty.conf docs]]  
+#+begin_src conf :tangle ~/.config/kitty/kitty.conf :mkdirp yes
+  font_family      Hack
+  bold_font        auto
+  italic_font      auto
+  bold_italic_font auto
+
+  font_size 12.0
+#+end_src
