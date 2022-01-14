@@ -2,6 +2,7 @@ linux: bash git xprofile nethack log-dir beets cdripping emacs utils suckless ki
 
 git:
 	@touch ~/.gitconfig-user
+	@./tangle.sh git.org
 
 xprofile:
 	@touch ~/.xprofile-local
@@ -22,9 +23,6 @@ kitty:
 
 tmux:
 	@./tangle.sh tmux.org
-
-git:
-	@./tangle.sh git.org
 
 bash:
 	@touch ~/.bash_env
