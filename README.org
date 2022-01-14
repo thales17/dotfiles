@@ -1,10 +1,11 @@
 #+title: Adam Richardson's Web Page
 <2022-01-13 Thu>
 * dotfiles, small projects and notes
+This is repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
+
 ** dotfiles
-- The config dir has various org mode files that can be tangled into their correct locations.
-- For Linux systems run the default make target should work
-- For OpenBSD run =make openbsd=
+The config dir has various org mode files that can be tangled into their correct locations. For Linux systems run the default make target in the config directory. For OpenBSD run =make openbsd=.
+
 - [[file:config/emacs.org][Emacs]]
 - [[file:config/kitty.org][kitty]]
 - [[file:config/tmux.org][tmux]]
