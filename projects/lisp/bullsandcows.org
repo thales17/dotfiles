@@ -184,6 +184,8 @@
 : RUN-BRUTE-FORCE-SOLVER
 
 *** TODO Cows Score Solver
+
+**** Old
 - This solver will use the score to determine if a digit is part of the code or not
 - It won't use the bulls portion of the score
 - It will sum the total number of digits between bulls and cows to determine if a digit is in the solution or not
@@ -204,10 +206,69 @@
     - If the score increases:
       - Mark the unknown digit as included and the test digit as not included
   - When the score sum is five but not winning, test each permutation of the current digits until you find a winner
+**** Sub List
+- In order to rule out digits we need a way to get a consecutive sublist of digits
+- This function will get a consecutive list of count number items from a list
+- If the start index + count is greater than the length of the list it will wrap around to the beginning
 #+begin_src lisp
-  ;; (defun run-cows-solver ()
-  ;;   (let (())))
+  (defun sublist (start count list)
+    (let ((i 0)
+	  (s '()))
+      (loop
+	(when (>= i count)
+	  (return))
+	(push (mod (+ start i) (length list))
+	      (cdr (last s)))
+	(setf i (1+ i)))
+      s))
 #+end_src
 
 #+RESULTS:
-: NIL
+: SUBLIST
+
+**** Shuffle List
+- In order to shuffle a list we rotate it =n= times, where =n= is the length of the list
+- Each shuffle will randomly select two digits and swap them
+#+begin_src lisp
+  (defun shuffle-list (l)
+    (let ((i 0))
+      (loop
+	(when (>= i (length l))
+	  (return))
+	(rotatef (nth (random (length l)) l)
+		 (nth (random (length l)) l) l)
+	(set i (1+ i)))))
+#+end_src
+
+#+RESULTS:
+: SHUFFLE-LIST
+
+**** Score Total
+- This function sums the numerical portion of the bulls and cows score
+- For example =(1 B 2 C)= would total to 3
+- This is useful for determining if none of the digits tested are in the solution
+#+begin_src lisp
+  (defun score-total (score)
+    (+ (car score) (caddr score)))
+#+end_src
+
+#+RESULTS:
+: SCORE-TOTAL
+
+**** Solver
+#+begin_src lisp
+  (defun run-cows-solver ()
+    (let ((digits *code-digits*)
+	  (i 0))
+      (loop
+	(when (>= i (length digits))
+	  (return))
+	(when (= (score-total (guess-code (sublist i))) 0)
+	  (print "zero detected!"))
+	(print (list (sublist i) (guess-code (sublist i))))
+	(setf i (1+ i)))
+      (print (shuffle-list digits))))
+#+end_src
+
+#+RESULTS:
+: RUN-COWS-SOLVER

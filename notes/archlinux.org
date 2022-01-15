@@ -1,4 +1,5 @@
 #+title: notes/archlinux
+<2022-01-14 Fri>
 * Arch Linux System Setup
 ** USB Drive
 - Obtain the latest archlinux iso and verify it downloaded correctly
@@ -187,6 +188,10 @@ keycode 58 = Control
 - To print a test page use =lpr /usr/share/cups/data/testprint=
 - To print a file use =lpr <SOME_FILE>= or =lpr -# <NUMBER_OF_COPIES> <SOME_FILE>=
 - cups has a web UI acceptable here [[http://localhost:631/]]
+** OpenTTD and MIDI
+- Install OpenTTD packages: =openttd=, =openttd-opensfx=, =openttd-opengfx=
+- In order to hear music you need to download some music from the online updater in the game
+- Install the =soundfont-fluid= in order to hear the music from the game
 ** Links
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]

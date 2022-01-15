@@ -152,7 +152,13 @@
 
 #+RESULTS:
 | 1 | 2 | 3 | 4 |
-
+*** last
+- You can get the last element of a list with =last=
+*** Using push to append
+- Since a list is just a =cons= pairs, creating a new =cons= pair with the last element will append
+- The =cdr= of the last element of a list is an empty list or =nil=
+- If you =push= into that empty list you will append to the list
+- For instance if =a= is =(1 2 3)= this should append 4 to the list =(push 4 (cdr (last a)))=
 *** member
 - Checks to see if an item is inside a list
 - =(member 1 '(1 2 3 4))=
@@ -193,6 +199,7 @@
 *** Swapping list items with =rotatef=
 - If you have the list =x= with the value =(1 2 3)=
 - You can swap the 1 and with like so =(rotatef (nth 0 x) (nth 2 x))=
+  - This should return =(3 2 1)=
 - This will mutate the list
 *** concatenate
 - Use =concatenate= to join multiple lists together
@@ -202,19 +209,6 @@
 - You can generate a new list with a particular index sliced out using =concatenate= and =subseq=
 - If you have the list =d= with the value =(1 2 3 4 5)=
 - =(concatenate 'list (subseq d 0 2) (subseq d 3))= should return =(1 2 4 5)=
-** Association Lists (alists)
-- Use =assoc= to find the value of a key in an alist
-#+begin_src lisp
-  (assoc 'mykey '((somekey (some-value))
-		  (mykey (my-value))
-		  (otherkey (other-value))))
-#+end_src
-
-#+RESULTS:
-| MYKEY | (MY-VALUE) |
-- alists can have multiple instances of a key inside them
-- When this happens =assoc= will return the first instance
-- If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
 *** Testing the values of a list with =every= =some= =notevery= =notany=
 - These functions run a predicate and return a different boolean value based on their rules
 - =every= returns nil at the first instance of a =nil= value, similar to logical and
@@ -223,6 +217,19 @@
 - =notevery= returns true if all the values are false
 - =(every #'identity '(t t nil)= should return nil
 - =(every #'identity '(t t t))= should return true
+** Association Lists (alists)
+- Use =assoc= to find the value of a key in an alist
+#+begin_src lisp
+  (assoc 'mykey '((somekey (some-value))
+		  (mykey (my-value))
+		  (otherkey (other-value))))
+#+end_src
+#+RESULTS:
+| MYKEY | (MY-VALUE) |
+- alists can have multiple instances of a key inside them
+- When this happens =assoc= will return the first instance
+- If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
+- You can use =setf= to change the value of an list, =(setf (cadr (assoc '2 alist)) t)=
 ** Conditionals
 *** Shortcut Boolean Evaluation
 - When evaluating an =or= or =and= boolean operator lisp will stop when it encounters the first symbol that evaluates to either true or false
