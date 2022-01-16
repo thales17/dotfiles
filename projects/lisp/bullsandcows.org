@@ -1,5 +1,5 @@
 #+title: projects/lisp/bullsandcows
-<2022-01-11 Tue>
+<2022-01-15 Sat>
 
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
@@ -177,47 +177,35 @@
 	      ((= code *code-max*) (return))
 	      (t (setf code (next-code code))
 		 (setf count (1+ count)))))
-      `(,code ,count)))
+      (list code count)))
 
 #+end_src
 #+RESULTS:
 : RUN-BRUTE-FORCE-SOLVER
 
-*** TODO Cows Score Solver
-
-**** Old
+*** Cows Score Solver
 - This solver will use the score to determine if a digit is part of the code or not
 - It won't use the bulls portion of the score
-- It will sum the total number of digits between bulls and cows to determine if a digit is in the solution or not
-- Once the correct digits are determined, this will iterate through all possible permutations until the correct one is found
-- The below algorithm will be used to find the secret code:
-  - Start with =1234=
-  - If the score is 0 then mark all digits as not in the solution
-  - If the score is 4 then mark all as being in the solution
-  - If the score is greater than 0 and less than 4 begin testing each digit:
-    - Iterate through all digits whose included status is unknown
-    - Replace the currently tested digit with another unknown digit from the list of all possible digits
-    - If the score remains the same:
-      - replace with the unknown digit mark both the test digit and unknown digit as not included
-      - Replace the test digit with the next and repeat
-      - Ensure that the unknown digit is not already in the code being guessed
-    - If the score is reduced:
-      - Mark the test digit as not included
-    - If the score increases:
-      - Mark the unknown digit as included and the test digit as not included
-  - When the score sum is five but not winning, test each permutation of the current digits until you find a winner
+- The first step is to look for a set of =*code-length*= digits that have a score of 0 bulls and 0 cows
+  - In order to do this we iterate through consecutive sets in the list
+  - If non of them have a 0 score then we will shuffle the list and try again
+- Once the digits we are sure are not part of the solution are found we remove them from our local copy of the digit list
+- We repeat the above process until length of local digits divided by the =*code-length*= is less than 2
+  - In the case of this game we only need to find one set of zero score digits for that to be true
+- With the digit list now less that 2 * =*code-length*= we repeat the process but looking for a score totaling to =*code-length*=
+- Once we find that we shuffle that score randomly until it causes =win-p= to return true
 **** Sub List
 - In order to rule out digits we need a way to get a consecutive sublist of digits
 - This function will get a consecutive list of count number items from a list
 - If the start index + count is greater than the length of the list it will wrap around to the beginning
 #+begin_src lisp
   (defun sublist (start count list)
-    (let ((i 0)
-	  (s '()))
+    (let ((i 1)
+	  (s (list (nth start list))))
       (loop
 	(when (>= i count)
 	  (return))
-	(push (mod (+ start i) (length list))
+	(push (nth (mod (+ start i) (length list)) list)
 	      (cdr (last s)))
 	(setf i (1+ i)))
       s))
@@ -230,14 +218,15 @@
 - In order to shuffle a list we rotate it =n= times, where =n= is the length of the list
 - Each shuffle will randomly select two digits and swap them
 #+begin_src lisp
-  (defun shuffle-list (l)
+  (defun shuffle-list (list)
     (let ((i 0))
       (loop
-	(when (>= i (length l))
+	(when (>= i (length list))
 	  (return))
-	(rotatef (nth (random (length l)) l)
-		 (nth (random (length l)) l) l)
-	(set i (1+ i)))))
+	(rotatef (nth (random (length list)) list)
+		 (nth (random (length list)) list))
+	(setf i (1+ i)))
+      list))
 #+end_src
 
 #+RESULTS:
@@ -255,19 +244,64 @@
 #+RESULTS:
 : SCORE-TOTAL
 
+**** Find sublist with score total
+- This function will use consecutive sublists looking for a set that has a given score total
+- It will generate a sublist starting at each index in the list
+- If no item is found it will shuffle the list and try again
+- This function tracks how many times it calls =guess-code=
+- Once the set is found it returns a list of both the set and the guess count
+#+begin_src lisp
+  (defun find-set-with-score (search-set wanted-score)
+    (let* ((list (copy-list search-set))
+	   (count 1)
+	   (g (sublist 0 *code-length* list))
+	   (score (score-total (guess-code g))))
+      (loop
+	(when (= score wanted-score)
+	  (return))
+	(let ((i 0))
+	  (loop
+	    (when (= score wanted-score)
+	      (return))
+	    (setf i (1+ i))
+	    (when (>= i (length list))
+	      (return))
+	    (setf g (sublist i *code-length* list))
+	    (setf count (1+ count))
+	    (setf score (score-total (guess-code g)))))
+	(shuffle-list list))
+      (list g count)))
+#+end_src
+
+#+RESULTS:
+: FIND-SET-WITH-SCORE
+
 **** Solver
+- This solver puts it all together
 #+begin_src lisp
   (defun run-cows-solver ()
-    (let ((digits *code-digits*)
-	  (i 0))
+    (let ((digits (copy-list *code-digits*))
+	  (count 0)
+	  (not-code-set nil)
+	  (code-set nil)
+	  (results nil)
+	  (score nil))
+      (setf results (find-set-with-score digits 0))
+      (setf not-code-set (car results))
+      (setf count (+ count (cadr results)))
+      (remove-if #'(lambda (n)
+		     (member n not-code-set))
+		 digits)
+      (setf results (find-set-with-score digits 4))
+      (setf code-set (car results))
+      (setf count (+ count (cadr results)))
       (loop
-	(when (>= i (length digits))
+	(setf score (guess-code code-set))
+	(setf count (1+ count))
+	(when (win-p score)
 	  (return))
-	(when (= (score-total (guess-code (sublist i))) 0)
-	  (print "zero detected!"))
-	(print (list (sublist i) (guess-code (sublist i))))
-	(setf i (1+ i)))
-      (print (shuffle-list digits))))
+	(shuffle-list code-set))
+      (list code-set count)))
 #+end_src
 
 #+RESULTS:
