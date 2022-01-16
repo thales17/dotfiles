@@ -1,6 +1,6 @@
 #+title: config/bash
-<2022-01-13 Thu>
-* bashrc
+<2022-01-15 Sat>
+* =bashrc=
 #+name: .bashrc
 #+begin_src sh :tangle ~/.bashrc
   #
@@ -23,7 +23,7 @@
   source ~/.bash_env
 #+end_src
 
-* bash_env
+* =bash_env=
 This creates a .bash_env.example that should be renamed to .bash_env and filled out.
 #+name: .bash_env
 #+begin_src sh :tangle ~/.bash_env.example
@@ -44,7 +44,7 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
   export RED_SHIFT_LAT_LONG=
 #+end_src
 
-* profile
+* =profile=
 #+name: .profile
   #+begin_src sh :tangle ~/.profile
     export PATH=$PATH:$HOME/.local/bin

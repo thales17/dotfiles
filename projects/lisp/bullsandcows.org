@@ -277,7 +277,6 @@
 : FIND-SET-WITH-SCORE
 
 **** Solver
-- This solver puts it all together
 #+begin_src lisp
   (defun run-cows-solver ()
     (let ((digits (copy-list *code-digits*))
@@ -292,7 +291,7 @@
       (remove-if #'(lambda (n)
 		     (member n not-code-set))
 		 digits)
-      (setf results (find-set-with-score digits 4))
+      (setf results (find-set-with-score digits *code-length*))
       (setf code-set (car results))
       (setf count (+ count (cadr results)))
       (loop
