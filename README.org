@@ -32,6 +32,7 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:notes/mail.org][Mail]]
 - [[file:notes/nethack.org][NetHack]]
 - [[file:notes/ledger.org][Ledger]]
+- [[file:notes/orgmode.org][Org Mode]]
 
 *** Programming Notes
 **** Programming Languages

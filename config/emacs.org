@@ -88,6 +88,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'yaml-mode)
   (straight-use-package 'ledger-mode)
   (straight-use-package 'slime)
+  (straight-use-package 'gnuplot)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -635,6 +636,15 @@ Customizations and global keys for org mode
   (eval-after-load "elfeed-search"
     (define-key elfeed-search-mode-map "q" 'ajr-elfeed-save-db-and-bury))
 #+end_src
+* Desktop Save Mode
+- I enable this to persist frames, windows and buffer positions to disk
+- Emacs will search in the =desktop-path= for the desktop file at startup
+- If you have an =initial-buffer-choice= set when Emacs starts up it will always load that buffer
+  - If you don't want this to happen erase customizations for =initial-buffer-choice=
+#+begin_src elisp
+  (desktop-save-mode 1)
+#+end_src
+
 * SLIME
 #+begin_src elisp
   (setq inferior-lisp-program "/usr/bin/clisp")

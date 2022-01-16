@@ -41,11 +41,17 @@
 
 (setq org-publish-project-alist
       (list
-       (list "my-org-site"
+       (list "org-site"
 	     :recursive t
 	     :base-directory "./"
 	     :publishing-directory "./public"
-	     :publishing-function 'org-html-publish-to-html)))
+	     :publishing-function 'org-html-publish-to-html)
+       (list "org-static"
+	     :recursive t
+	     :base-directory "./"
+	     :base-extension "css\\|png\\|gif\\|jpg\\|jpeg"
+	     :publishing-directory "./public"
+	     :publishing-function 'org-publish-attachment)))
 
 (org-publish-all t)
 
