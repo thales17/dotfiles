@@ -4,3 +4,5 @@ public/
 site.tar.gz
 .packages/
 *.core
+css/
+build-site.el

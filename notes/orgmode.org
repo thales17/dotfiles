@@ -1,5 +1,5 @@
 #+title: notes/orgmode
-<2022-01-16 Sun>
+<2022-01-18 Tue>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -35,3 +35,87 @@
 #+end_src
 #+RESULTS:
 [[file:example_plot.png]]
+* Publishing
+- This section walks through how this org repository is published into an html site
+** CSS
+#+begin_src css :tangle ../css/main.css :mkdirp yes
+  .org-doc { color: blue; }
+  .org-keyword { color: red; }
+  .org-string { color: green; }
+  .org-variable-name { color: black; font-weight: bold; }
+  .org-function-name { color: mediumblue; }
+  .org-constant { color: purple; }
+  .org-comment { color: darkcyan; }
+  .org-type { color: orange; font-weight: bold; }
+  .org-warning { color: red; }
+  .timestamp { color: black; font-size: smaller; }
+  .timestamp { text-decoration: underline; }
+  .timestamp:before { content: "Last Updated: "; }
+#+end_src
+
+** Publish Script
+- [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
+*** Straight.el
+**** Setup
+#+begin_src elisp :tangle ../build-site.el
+  (defvar bootstrap-version)
+  (let ((bootstrap-file
+	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+	(bootstrap-version 5))
+    (unless (file-exists-p bootstrap-file)
+      (with-current-buffer
+	  (url-retrieve-synchronously
+	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	   'silent 'inhibit-cookies)
+	(goto-char (point-max))
+	(eval-print-last-sexp)))
+    (load bootstrap-file nil 'nomessage))
+
+  (setq straight-base-dir ".packages/")
+#+end_src
+**** Packages
+#+begin_src elisp :tangle ../build-site.el
+  (straight-use-package 'htmlize)
+#+end_src
+
+*** Ox Publish
+**** Setup
+- This disables the xhtml validation link and post amble
+- I also create a head extra that includes the custom CSS
+- To get syntax highlighting for source code blocks I set the =htmlize= output type to CSS
+#+begin_src elisp :tangle ../build-site.el
+  (require 'ox-publish)
+
+  (setq org-html-validation-link nil)
+  (setq org-html-postamble nil)
+  (setq ajr-html-head-extra
+	(concat
+	 "<link rel='stylesheet' href='/css/main.css' />\n"))
+
+  (setq org-html-htmlize-output-type 'css)
+#+end_src
+
+**** Publish Project Alist
+#+begin_src elisp :tangle ../build-site.el
+  (setq org-publish-project-alist
+	(list
+	 (list "org-site"
+	       :recursive t
+	       :base-directory "./"
+	       :publishing-directory "./public"
+	       :html-head-extra ajr-html-head-extra
+	       :publishing-function 'org-html-publish-to-html)
+	 (list "org-static"
+	       :recursive t
+	       :base-directory "./"
+	       :base-extension "css\\|png\\|gif\\|jpg\\|jpeg"
+	       :publishing-directory "./public"
+	       :publishing-function 'org-publish-attachment)))
+#+end_src
+
+**** Actually Publishing
+#+begin_src elisp :tangle ../build-site.el
+(org-publish-all t)
+
+(message "Build Complete")
+#+end_src
