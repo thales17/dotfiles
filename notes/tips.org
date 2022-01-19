@@ -78,3 +78,7 @@ add =-N= if you don't want to open a terminal session
 * Reference a secret stored in =pass= in a bash script
 - Sometimes you need to write a script that references an encrypted secret in your password manager
 - Use this template to reference a pass file =gpg2 -q --for-your-eyes-only --no-tty -d $PASS_REPO/<SOME_SECRET>.gpg=
+* One line command webserver
+- Python ships with a built in webserver you can run
+- If you run =python -m http.server= it will serve the current working directory
+- The command should tell you the port
