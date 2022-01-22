@@ -1,8 +1,8 @@
 :properties:
-:title: config/emacs
 :header-args: :tangle ~/.emacs :results none
 :end:
-<2022-01-13 Thu>
+<2022-01-22 Sat>
+#+title: config/emacs
 
 * Early Init
 Disable package.el since I use straight.el
@@ -648,4 +648,16 @@ Customizations and global keys for org mode
 * SLIME
 #+begin_src elisp
   (setq inferior-lisp-program "/usr/bin/clisp")
+#+end_src
+* Hydra
+- Use the example hydra for zooming text
+#+begin_src elisp
+  (require 'hydra)
+
+  (require 'ivy-hydra)
+
+  (defhydra hydra-zoom (global-map "<f2>")
+    "zoom"
+    ("g" text-scale-increase "in")
+    ("l" text-scale-decrease "out"))
 #+end_src
