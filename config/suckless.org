@@ -1,6 +1,9 @@
 #+title: config/suckless
+<2022-01-22 Sat>
 * dwm
-Make sure you run =cd ~/src/dwm && sudo make install= after tangling
+- [[https://ratfactor.com/dwm][Dave's Visual Guide to DWM]]
+- Make sure you run =cd ~/src/dwm && sudo make install= after tangling
+
 ** Config
 *** Colors and Font
 - This diff shows changes I make to customize the colors on DWM
