@@ -173,16 +173,25 @@ keycode 58 = Control
 - Enable bluetooth service =bluetooth.service=
 - Run =bluetoothctl= and follow the below example
 #+begin_src sh
-power on
-agent on
-default-agent
-scan on
-# Find the address of the device you want to connect to
-# Ensure the device you want to connect to is in pairing mode
-pair <ADDRESS>
-connect <ADDRESS>
-trust <ADDRESS> # this is for auto connecting
+  power on
+  agent on
+  default-agent
+  scan on
+  # Find the address of the device you want to connect to
+  # Ensure the device you want to connect to is in pairing mode
+  pair <ADDRESS>
+  connect <ADDRESS>
+  trust <ADDRESS> # this is for auto connecting
+  scan off
+  exit
 #+end_src
+- After a reboot you might need to manually power on bluetooth and set the agent
+#+begin_src sh
+  power on
+  agent on
+  default-agent
+#+end_src
+
 ** Laptop Media Keys
 - Install dunst for desktop notifications =sudo pacman -Sy libnotify dunst=
 - There are various util commands that make it easy to bind to keys in dwm in the [[file:~/code/dotfiles/config/utils.org][utils.org]]
