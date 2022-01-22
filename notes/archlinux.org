@@ -1,5 +1,5 @@
 #+title: notes/archlinux
-<2022-01-14 Fri>
+<2022-01-21 Fri>
 * Arch Linux System Setup
 ** USB Drive
 - Obtain the latest archlinux iso and verify it downloaded correctly
@@ -166,8 +166,23 @@ keycode 58 = Control
 #+end_src
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
 ** Sound
-- Install pulseaudio =sudo pacman -Sy pulseaudio=
+- Install =pipewire pipewire-docs pipewire-pulse=
 - You might need to restart for the the service to be started properly
+*** Bluetooth Audio
+- Install =bluez bluez-utils=
+- Enable bluetooth service =bluetooth.service=
+- Run =bluetoothctl= and follow the below example
+#+begin_src sh
+power on
+agent on
+default-agent
+scan on
+# Find the address of the device you want to connect to
+# Ensure the device you want to connect to is in pairing mode
+pair <ADDRESS>
+connect <ADDRESS>
+trust <ADDRESS> # this is for auto connecting
+#+end_src
 ** Laptop Media Keys
 - Install dunst for desktop notifications =sudo pacman -Sy libnotify dunst=
 - There are various util commands that make it easy to bind to keys in dwm in the [[file:~/code/dotfiles/config/utils.org][utils.org]]
