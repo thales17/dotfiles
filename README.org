@@ -1,5 +1,5 @@
 #+title: Adam Richardson's dotfiles, small projects and notes
-<2022-01-14 Fri>
+<2022-01-25 Tue>
 
 This is repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
 
@@ -20,6 +20,8 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:config/nethack.org][NetHack]]
 
 ** small projects
+*** Games
+- [[file:projects/games/perplexer.org][Perplexer]]
 *** Lisp
 - [[file:projects/lisp/bullsandcows.org][Bulls and Cows + Solver]]
 
@@ -33,6 +35,7 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:notes/nethack.org][NetHack]]
 - [[file:notes/ledger.org][Ledger]]
 - [[file:notes/orgmode.org][Org Mode]]
+- [[file:notes/emacs.org][Emacs]]
 
 *** Programming Notes
 **** Programming Languages

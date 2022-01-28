@@ -1,5 +1,5 @@
 #+title: notes/programming/lisp
-<2022-01-15 Sat>
+<2022-01-23 Sun>
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
@@ -21,6 +21,28 @@
 - Considered more heavy duty than CLISP
 - Also provides debugger and interpreter
 * Common Lisp Syntax
+** Anonymous (Lambda) Functions
+- This creates a lambda function that doubles the input =(lambda (x) (* 2 x))=
+** Cons Pairs (Dotted Lists) vs Lists
+- A list is really a chain of cons that ends with an empty list or nil
+- For exmaple ='(1 2 3)= is =equal= to =(cons 1 (cons 2 (cons 3 nil))=
+- Any cons cell that doesn't end in nil is known as a dotted list
+- =(cons 1 2)= is displayed by the REPL as =(1 . 2)=
+- You can create dotted lists with a quote as well, ='(1 . 2)=
+- You can make a list using quote and dot, ='(1 . (2 . (3 . nil)))= is equal to ='(1 2 3)=
+- =(cdr '(1 . 2))= is =2= not =(2)=
+- =(cdr '(1 2))= is =(2)= not =2=
+- Cons pairs are useful for x/y coordinates and key value pairs
+** Circular Lists
+- When using circular lists you should set the global =*print-circle*= to true, =(setf **print-circle** t)=
+- The above enables complex printing features to be enabled when using self-referential lists
+- Below is an example of creating a circular list
+#+begin_src lisp
+  (defparameter x '(1 2 3))
+  (setf (cdddr x) x)
+#+end_src
+- You can use infinitely large index values in the above example
+- For instance =(nth 1000 x)= would return =2=
 ** Literals
 *** Char
 - You can represent a character literal with a =#= followed by a backward slash and the character
@@ -230,6 +252,7 @@
 - When this happens =assoc= will return the first instance
 - If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
 - You can use =setf= to change the value of an list, =(setf (cadr (assoc '2 alist)) t)=
+- alists are not very efficient beyond a dozen items
 ** Conditionals
 *** Shortcut Boolean Evaluation
 - When evaluating an =or= or =and= boolean operator lisp will stop when it encounters the first symbol that evaluates to either true or false

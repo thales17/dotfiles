@@ -1,5 +1,5 @@
 #+title: notes/orgmode
-<2022-01-18 Tue>
+<2022-01-27 Thu>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -35,6 +35,9 @@
 #+end_src
 #+RESULTS:
 [[file:example_plot.png]]
+* Editing the Structure
+- =C-c C->= can be used to demote (add more stars) to an entire subtree
+- Similarly =C-c C-<= can be use to promote an entire subtree
 * Publishing
 - This section walks through how this org repository is published into an html site
 ** CSS
@@ -119,3 +122,9 @@
 
 (message "Build Complete")
 #+end_src
+** Appearance
+*** Pretty Entities
+- You can toggle pretty entities with =org-toggle-pretty-entites=
+- This will render ordinals and exponents using superscripts
+  - If enabled these should have superscripts, 1^{st} and x^{y}
+  - This is an example of superscript syntax, =x^{3}=

@@ -1,0 +1,23 @@
+#+title: notes/emacs
+<2022-01-25 Tue>
+* Linking to info pages
+- The info function passed with the file or node will load the info section
+#+begin_src elisp
+  (info "elisp")
+
+#+end_src
+- When you want to go to a specifc node a info file place the file name in parenthesis
+#+begin_src elisp
+  (info "(elisp) Simple Macro")
+#+end_src
+- The path to a particular node can be seen in the mode line in the info buffer
+* Keyboard Macros
+- Execute this lisp function to load the info page on keyboard macros (info "(emacs) Keyboard Macros")
+- To start recording a keyboard macro use =C-x (= or =<F3>=
+- Once recording has started you will see =Def= in the mode line
+- If you press =C-g= you will cancel recording the keyboard macro
+- Once you have finished typing the macro commands press =C-x )= or =<F4>=
+- To repeat the macro continue pressing =<F4>=
+- Use the function =name-last-kbd-macro= to give a name to the macro at the top of the ring
+- Once named you can invoke a keyboard macro like any other interactive function with =M-x <NAME_OF_MACRO>=
+- If you want to see the lisp behind the macro you can run =M-x insert-kbd-macro=

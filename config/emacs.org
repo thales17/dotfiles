@@ -661,3 +661,9 @@ Customizations and global keys for org mode
     ("g" text-scale-increase "in")
     ("l" text-scale-decrease "out"))
 #+end_src
+* Games
+** asm-blox
+- A really cool TIS-100 like game made for Emacs, [[https://github.com/zkry/asm-blox][asm-blox]]
+#+begin_src elisp
+  (straight-use-package '(asm-blox :host github :repo "zkry/asm-blox"))
+#+end_src
