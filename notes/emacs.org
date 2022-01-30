@@ -1,16 +1,16 @@
 #+title: notes/emacs
-<2022-01-25 Tue>
+<2022-01-30 Sun>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
   (info "elisp")
-
 #+end_src
 - When you want to go to a specifc node a info file place the file name in parenthesis
 #+begin_src elisp
   (info "(elisp) Simple Macro")
 #+end_src
 - The path to a particular node can be seen in the mode line in the info buffer
+
 * Keyboard Macros
 - Execute this lisp function to load the info page on keyboard macros (info "(emacs) Keyboard Macros")
 - To start recording a keyboard macro use =C-x (= or =<F3>=
@@ -21,3 +21,9 @@
 - Use the function =name-last-kbd-macro= to give a name to the macro at the top of the ring
 - Once named you can invoke a keyboard macro like any other interactive function with =M-x <NAME_OF_MACRO>=
 - If you want to see the lisp behind the macro you can run =M-x insert-kbd-macro=
+
+* Recursively search for a file by name
+Use =M-x find-name-dired= it will prompt you for a folder to recursively search then it prompt you for the file name.
+
+* Recurively search file files with given content
+Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, followed by the wildcard of the files to include(ivy will do a completing read for this and prepend the current path but just type the wild card pretending it is not there) and lastly the base directory.

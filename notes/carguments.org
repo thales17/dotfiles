@@ -1,4 +1,5 @@
-#+title: notes/programming/carguments
+#+title: notes/carguments
+<2022-01-30 Sun>
 * Receiving arguments
 - The main should receive =argc= (argument count) and =argv= (argument variables).
 - The first argument (index 0) is usually the command run by the user to invoke the program

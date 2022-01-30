@@ -1,0 +1,18 @@
+#+title: notes/git
+<2022-01-30 Sun>
+
+* Resources
+- [[https://rogerdudler.github.io/git-guide/][Roger Rudler: git-guide]]
+- [[https://git-scm.com/book/en/v2][Pro Git book]]
+- [[https://ohshitgit.com/][Oh Shit, Git!?!]]
+- [[https://www.w3schools.com/git/][w3schools: git tutorial]] (Has a cool teach yourself with exercises section)
+
+* Change remote URL
+- =git remote set-url <REMOTE_NAME> <REMOTE_URL>=
+
+* Rename branch
+- If current branch =git branch -m new-name=
+- If not current branch =git -m old-name new-name=
+
+* Pull submodules
+- =git submodule update --init --recursive=

@@ -1,23 +1,29 @@
 #+title: notes/archlinux
-<2022-01-21 Fri>
-* Arch Linux System Setup
-** USB Drive
+<2022-01-30 Sun>
+
+* Resources
+- [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
+- [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
+- [[https://wiki.archlinux.org/title/Working_with_the_serial_console][ArchWiki serial console]]
+- [[https://suckless.org][Suckless]]
+- [[https://wiki.archlinux.org/title/LightDM][ArchWiki LightDM]]
+* Setup install USB Drive
 - Obtain the latest archlinux iso and verify it downloaded correctly
 - Use dd to write the image to the removable drive
 =dd bs=4M if=path/to/archlinux-version-x86_64.iso of=/dev/<YOUR_USB_DRIVE> conv=fsync oflag=direct status=progress=
-** Connect to Internet
-*** WiFi
+* Connect to Internet
+** WiFi
 - Use =iwctl= to connect to a wifi network
 - Type =help= to see various examples of how to use iwctl
 - =station wlan0 connect <NAME_OF_NETWORK>=
 - Enter the password at the prompt
 - If it connected you can exit iwctl
-** Time
+* Time
 - Set the clock to use ntp =timedatectl set-ntp true=
-** Disks
-*** Partitioning
-**** TODO MBR
-**** UEFI
+* Disks
+** Partitioning
+*** TODO MBR
+*** UEFI
  - Verify you booted in UEFI mode =ls /sys/firmware/efi/efivars=
  - If you are able to run the above without errors then you are in uefi mode
  - Use =lsblk= to view the detected harddrives
@@ -26,49 +32,49 @@
  - Create a 512MB partition with code EF00
  - Create a parition with the remaining space with code 8300
  - Write the changes to disk
-*** Formatting
-**** Full Disk Encryption
+** Formatting
+*** Full Disk Encryption
 - Run =lsblk= again to see the new partition numbers
 - Run cryptsetup on the main linux parition =cryptsetup luksFormat /dev/<MAIN_DRIVE_LINUX>=
 - Open the encrypted partition as cryptroot =cryptsetup open /dev/<MAIN_DRIVE_LINUX> cryptroot=
 - Format cryptroot with ext4 =mkfs.ext4 /dev/mapper/cryptroot=
 - Mount cryptroot to /mnt =mount /dev/mapper/cryptroot /mnt=
-**** TODO Unencrypted
-**** EFI System Partition
+*** TODO Unencrypted
+*** EFI System Partition
 - Run =mkfs.fat -F32 /dev/<MAIN_DRIVE_EFI>=
 - Make mount point =mkdir /mnt/boot=
 - Mount the efi partition =mount /dev/<MAIN_DRIVE_EFI> /mnt/boot=
-** Pacstrap
+* Pacstrap
 - Use pacstrap to download initial packages =pacstrap /mnt base base-devel linux linux-firmware dhcpcd iwd mg mailutils=
-** Generate fstab
+* Generate fstab
 - Use genfstab to generate an fstab =genfstab -U /mnt >> /mnt/etc/fstab=
-** Chroot
+* Chroot
 - Use the arch-chroot command to chroot into the new partition =arch-chroot /mnt=
-** Timezone
+* Timezone
 - Symlink your timezone to /etc/localtime =ln -sf /usr/share/zoneinfo/America/Kentucky/Louisville /etc/localtime=
-** Locale
+* Locale
 - Edit /etc/locale.gen and uncomment your locale
 - For example =mg /etc/locale.gen= and uncoment =en_US.UTF-8 UTF-8=
 - Generate locale =locale-gen=
 - Set the locale =localectl set-locale LANG=en_US.UTF-8=
 - Create a file =/etc/locale.conf= and set the contents to =LANG=en_US.UTF-8=
-** Networking
+* Networking
 - Create the hostname file with your hostname =/etc/hostname=
 - Edit the =/etc/hosts= to like below
 #+begin_src sh
   127.0.0.1     localhost
   ::1           localhost
 #+end_src
-** Initramfs
+* Initramfs
 - If you are using full disk encryption you need to update the initramfs
 - Edit =/etc/mkinitcpio.conf=
 - Edit the hooks to be like this =HOOKS=(base udev autodetect modconf block keyboard encrypt filesystems fsck)=
 - Run =mkinitcpio -P= to generate the image
-** Password
+* Password
 - Run =passwd= to set the root password
-** Microcode
+* Microcode
 - Install either =pacman -Sy intel-ucode= or =pacman -Sy amd-ucode= if that applies
-** Boot Manager
+* Boot Manager
 - Run =bootctl install= to install the systemd boot manager
 - Create a boot loader entry in =/boot/loader/entries/arch.conf= with the below text
 - You can get the partition UUID (not PARTUUID) from =blkid= and make sure you set the ucode to match your CPU type
@@ -88,21 +94,21 @@ console-mode max
 editor       no
 #+end_src
 - You can see if it worked by running =bootctl list=
-** Enabling Services
+* Enabling Services
 - Enable iwd wifi service =systemctl enable iwd=
 - Enable dhcpcd service =systemctl enable dhcpcd=
-** Rebooting
+* Rebooting
  - Exit the chroot environment
  - Unmount the =/mnt/boot= partition and the =/mnt= partition
  - Run =reboot= and test out the new install
  - Ensure that the computer doesn't try to boot the usb stick again
-** Join wifi
+* Join wifi
 - If you need to join wifi you should be able to use =iwctl= to communicate with =iwd=
 - From there it should be same as before
 - For example, =station wlan0 connect <NAME_OF_NETWORK>=
-*** Wifi interface is not visible?
+** Wifi interface is not visible?
 - If you are unable to see the wifi interface after rebooting try restarting the =iwd= service
-** User accounts
+* User accounts
 - You should create a user outside of the root user on the machine
 - Run =useradd -m -G wheel,uucp <USER_NAME>= to create a new user
 - Run =passwd <USER_NAME>= to set that new user's password
@@ -110,7 +116,7 @@ editor       no
 - Set the EDITOR environment variable and run visudo =export EDITOR=mg && visudo=
 - From here uncomment the line that mentions the wheel group
 - After this you should be able to log in as the newly created user and run sudo commands
-** Caps Lock Control
+* Caps Lock Control
 - Make the directory for keymaps =sudo mkdir -p /usr/local/share/kbd/keymaps=
 - Create a file named =/usr/local/share/kbd/keymaps/personal.map= (you might need to create any missing directories)
 - Give it the contents below
@@ -120,13 +126,13 @@ keycode 58 = Control
 #+end_src
 - Edit =/etc/vconsole.conf= and set its contents to the following =KEYMAP=/usr/local/share/kbd/keymaps/personal.map=
 - After the next reboot the caps lock key should be an extra control inside the console
-** Basic Packages
+* Basic Packages
 #+begin_src sh
   pacman -Sy emacs man man-pages tmux ncdu fzf mosh rsync pass pass-otp curl wget gnupg git cronie cdparanoia abcde beets python-pip ctags aspell aspell-en htop unzip zip pv nethack sshfs p7zip zbar ledger
 #+end_src
 - Don't forget to enable cronie =systemctl enable cronie.service=
 
-** Serial Communication
+* Serial Communication
 - Install picocom =sudo pacman -Sy picocom=
 - Plug in you USB serial device and try it out
 - For example, =picocom -b 115200 /dev/ttyUSB0=
@@ -134,7 +140,7 @@ keycode 58 = Control
 - I do not recommend running picocom inside eshell, ansi-term is a better choice
 - Use =C-a C-x= to exit picocom when you are done, if inside of emacs you might need to type =C-x= twice
 - If you have issues with permissions ensure your user is in the =uucp= group with the command =groups=
-** X Windows
+* X Windows
 - Install xorg with =sudo pacman -Sy xorg-server xorg-apps xorg-xinit=
 - Install the right graphics driver =sudo pacman -Sy xf86-video-{amdgpu, ati, intel, nouveau}=
 - Proprietary nvidia drivers are installed with =sudo pacman -Sy nvidia=
@@ -160,15 +166,15 @@ keycode 58 = Control
   TryExec=/usr/local/bin/dwm
   Type=Application
 #+end_src
-*** Packages
+** Packages
 #+begin_src sh
   sudo pacman -Sy xterm firefox arandr pavucontrol xlockmore xss-lock ttf-hack noto-fonts noto-fonts-cjk noto-fonts-emoji noto-fonts-extra terminus-font xorg-xbacklight pamixer mpv redshift thunar zathura zathura-pdf-mupdf zathura-cb xorg-fonts xorg-fonts-100dpi xorg-fonts-75dpi xorg-fonts-misc xorg-fonts-type1 xorg-fonts-cyrillic vlc kitty imagemagick feh mupdf mupdf-tools libmupdf ghostscript
 #+end_src
 - Start lightdm to confirm its working =sudo systemctl start lightdm=
-** Sound
+* Sound
 - Install =pipewire pipewire-docs pipewire-pulse=
 - You might need to restart for the the service to be started properly
-*** Bluetooth Audio
+** Bluetooth Audio
 - Install =bluez bluez-utils=
 - Enable bluetooth service =bluetooth.service=
 - Run =bluetoothctl= and follow the below example
@@ -192,13 +198,13 @@ keycode 58 = Control
   default-agent
 #+end_src
 
-** Laptop Media Keys
+* Laptop Media Keys
 - Install dunst for desktop notifications =sudo pacman -Sy libnotify dunst=
 - There are various util commands that make it easy to bind to keys in dwm in the [[file:~/code/dotfiles/config/utils.org][utils.org]]
-** Populate and refresh pacman keys
+* Populate and refresh pacman keys
 - Sometimes package signatures are out of date
 - To update them run =sudo pacman-key --populate= and =sudo pacman-key --refresh-keys=
-** Printing
+* Printing
 - [[https://wiki.archlinux.org/title/CUPS][ArchWiki]]
 - Install =cups=
 - Enable cups =sudo systemctl enable --now cups=
@@ -212,13 +218,17 @@ keycode 58 = Control
 - To print a test page use =lpr /usr/share/cups/data/testprint=
 - To print a file use =lpr <SOME_FILE>= or =lpr -# <NUMBER_OF_COPIES> <SOME_FILE>=
 - cups has a web UI acceptable here [[http://localhost:631/]]
-** OpenTTD and MIDI
+* OpenTTD and MIDI
 - Install OpenTTD packages: =openttd=, =openttd-opensfx=, =openttd-opengfx=
 - In order to hear music you need to download some music from the online updater in the game
 - Install the =soundfont-fluid= in order to hear the music from the game
-** Links
-- [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
-- [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
-- [[https://wiki.archlinux.org/title/Working_with_the_serial_console][ArchWiki serial console]]
-- [[https://suckless.org][Suckless]]
-- [[https://wiki.archlinux.org/title/LightDM][ArchWiki LightDM]]
+* Building Emacs
+- clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
+- Releases are usually in a branch with the version number, for example =emacs-28=
+- Run the =./autogen.sh= to build the configure script
+- Use this command to configure with native compilation =./configure --with-native-compilation=
+- On Arch Linux you might need to grab =libgccjit= from AUR =mkdir ~/aur && git clone https://aur.archlinux.org/libgccjit.git && cd ~/aur/libgccjit && makepkg -si=
+- This will warn you about any missing dependencies, from there you should obtain them for your OS
+- Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
+- Run =make install= with appropriate permissions to install the new version on the system
+- Use =M-x emacs-version RET= to see the current version info, including the build date

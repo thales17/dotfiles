@@ -1,5 +1,5 @@
 #+title: notes/openbsd
-<2022-01-13 Thu>
+<2022-01-30 Sun>
 * Setup
 These are setup notes for setting up an OpenBSD workstation
 ** Full Disk Encryption
@@ -107,6 +107,22 @@ These are setup notes for setting up an OpenBSD workstation
 * Disable xconsole
 - Inside the =/etc/X11/xenodm/Xsetup_0= file comment out line with =xconsole=
 - You can also change the =xsetroot= command to change the default background
+* Building Emacs
+- [[https://lars.ingebrigtsen.no/2020/08/16/building-the-development-version-of-emacs-on-openbsd/][Lars Ingebrigsten: Building the Development Version of Emacs on OpenBSD (6.7)]]
+- To build Emacs on OpenBSD ensure the following packages are installed:
+  - =git=
+  - =autoconf=
+  - =automake=
+  - =gnutls=
+  - =gmake=
+  - =gcc=
+  - =texinfo=
+- Add all the dependencies that the emacs package needs: =pkg_add `pkg_info -f emacs | grep ^@depend | sed 's/^.*://'`=
+- Once the emacs source is clone set the autoconf version to the newly installed one, =export AUTOCONF_VERSION=2.71=
+- Tell emacs to use =gmakeinfo= instead of the one OpenBSD ships with, =export MAKEINFO=gmakeinfo=
+- You should now be able to run =./autogen.sh=
+- After that is complete run configure like so: =CC=egcc ./configure --with-json=
+- OpenBSD does not have a port of libgccjit so for now omit =--with-native-compilation=
 * Resources
 - [[https://www.c0ffee.net/blog/openbsd-on-a-laptop/][c0ffee.net: openbsd on a laptop]]
 - [[https://paedubucher.ch/articles/2020-09-05-openbsd-on-the-desktop-part-i.html][paedubucher.ch: OpenBSD on the desktop pt1]]

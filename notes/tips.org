@@ -1,14 +1,10 @@
 #+title: notes/tips
-* Emacs
-** Recursively search for a file by name
-Use =M-x find-name-dired= it will prompt you for a folder to recursively search then it prompt you for the file name.
-** Recurively search file files with given content
-Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, followed by the wildcard of the files to include(ivy will do a completing read for this and prepend the current path but just type the wild card pretending it is not there) and lastly the base directory.
+<2022-01-30 Sun>
+
 * ImageMagick
 ** Get the size of an image
 Use the =identify= command with a format. For example =identify -format "%wx%h\n" someimage.jpg=. This will print the width and height in the desired format.
-* Linux
-** Screenshots
+* Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
 - =imagemagick= has the import tool which lets you drag a box to take a screenshot, for example =import myscreenshot.png= causes the cursor to turn into a crossheirs. You then drag a box and it will be saved in the file name your specified.
 
@@ -24,15 +20,6 @@ Use the =identify= command with a format. For example =identify -format "%wx%h\n
 - Inside the content block you will see the channel id
 *** Youtube RSS Template
 =https://youtube.com/feeds/videos.xml?channel_id=<CHANNEL_ID>=
-
-* Git
-** Change remote URL
-- =git remote set-url <REMOTE_NAME> <REMOTE_URL>=
-** Rename branch
-- If current branch =git branch -m new-name=
-- If not current branch =git -m old-name new-name=
-** Pull submodules
-- =git submodule update --init --recursive=
 
 * Uncompress Examples
 ** =tar.gz=

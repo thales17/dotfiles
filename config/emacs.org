@@ -89,6 +89,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'ledger-mode)
   (straight-use-package 'slime)
   (straight-use-package 'gnuplot)
+  (straight-use-package 'graphviz-dot-mode)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -408,6 +409,15 @@ Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-promp
 
 #+end_src
 
+** Switch to Scratch
+- Function that allows me to bind switching to the scratch buffer to a key
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+  (defun ajr-scratch ()
+    "Switch to the scratch buffer"
+    (interactive)
+    (switch-to-buffer "*scratch*"))
+#+end_src
+
 ** ajr.el
  Load the personal elisp files in init file
  #+begin_src elisp
@@ -433,7 +443,7 @@ I use ivy for my completion framework
   (global-set-key (kbd "C-<f11>") 'ajr-sync-mail)
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
-  (global-set-key (kbd "<f6>") 'tab-switch)
+  (global-set-key (kbd "<f6>") 'ajr-scratch)
 
   ;; password-store
   (global-set-key (kbd "C-<f1>") 'password-store-copy)
@@ -567,32 +577,6 @@ Customizations and global keys for org mode
 - Set =save-place-mode= to =t=
 - Set =shr-image-animate= to =nil= to disable animated gifs in shr
 - Set =recenter-positions= to ='(top middle bottom)=
-* Building from source
-- clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
-- Releases are usually in a branch with the version number, for example =emacs-28=
-- Run the =./autogen.sh= to build the configure script
-- Use this command to configure with native compilation =./configure --with-native-compilation=
-- On Arch Linux you might need to grab =libgccjit= from AUR =mkdir ~/aur && git clone https://aur.archlinux.org/libgccjit.git && cd ~/aur/libgccjit && makepkg -si=
-- This will warn you about any missing dependencies, from there you should obtain them for your OS
-- Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
-- Run =make install= with appropriate permissions to install the new version on the system
-- Use =M-x emacs-version RET= to see the current version info, including the build date
-** Quirks for building emacs on OpenBSD
-- [[https://lars.ingebrigtsen.no/2020/08/16/building-the-development-version-of-emacs-on-openbsd/][Lars Ingebrigsten: Building the Development Version of Emacs on OpenBSD (6.7)]]
-- To build Emacs on OpenBSD ensure the following packages are installed:
-  - =git=
-  - =autoconf=
-  - =automake=
-  - =gnutls=
-  - =gmake=
-  - =gcc=
-  - =texinfo=
-- Add all the dependencies that the emacs package needs: =pkg_add `pkg_info -f emacs | grep ^@depend | sed 's/^.*://'`=
-- Once the emacs source is clone set the autoconf version to the newly installed one, =export AUTOCONF_VERSION=2.71=
-- Tell emacs to use =gmakeinfo= instead of the one OpenBSD ships with, =export MAKEINFO=gmakeinfo=
-- You should now be able to run =./autogen.sh=
-- After that is complete run configure like so: =CC=egcc ./configure --with-json=
-- OpenBSD does not have a port of libgccjit so for now omit =--with-native-compilation=
 * Emacs Server Mode
 - You can enable the emacs server to start at login with =systemctl --user enable emacs=
 - You can connect to the server with =emacsclient -c=
@@ -666,4 +650,9 @@ Customizations and global keys for org mode
 - A really cool TIS-100 like game made for Emacs, [[https://github.com/zkry/asm-blox][asm-blox]]
 #+begin_src elisp
   (straight-use-package '(asm-blox :host github :repo "zkry/asm-blox"))
+#+end_src
+* Graphviz
+- This sets up [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]]
+#+begin_src elisp
+  (setq graphviz-dot-indent-width 4)
 #+end_src

@@ -1,0 +1,21 @@
+#+title: notes/qemu
+<2022-01-29 Sat>
+* Documentation
+- [[https://www.qemu.org/docs/master/][Main Documentation]]
+- [[https://wiki.qemu.org/Main_Page][Community Wiki]]
+- [[https://wiki.archlinux.org/title/QEMU][ArchWiki: QEMU]]
+
+* Types of Emulation
+- *System Emulation* - emulates and entire system (CPU, Memory, Disk, etc)
+- *User Mode Emulation* - emulates a CPU only, useful when wanting to run a binary compiled for another CPU. The binary must be a linux binary however
+
+* libvirt
+- libvirt is an API to manage virtual machines
+- The primary driver for libvirt in linux is the KVM/QEMU driver
+- Many GUI clients have been written to use the libvirt API
+- virt-manager is a popular client made by Redhat
+
+* Setting up an Arch Linux Host
+- Install =qemu=, =virt-manager=
+- Open up virt-manager and add a user connection
+- From here you can follow the "New Virtual Machine" wizard

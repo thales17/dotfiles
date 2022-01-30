@@ -1,4 +1,4 @@
-#+title: notes/programming/lisp
+#+title: notes/lisp
 <2022-01-23 Sun>
 * Source Files
 - Common Lisp source files can have the =.lisp= extension

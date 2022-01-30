@@ -1,5 +1,5 @@
 #+title: notes/orgmode
-<2022-01-27 Thu>
+<2022-01-28 Fri>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -54,6 +54,23 @@
   .timestamp { color: black; font-size: smaller; }
   .timestamp { text-decoration: underline; }
   .timestamp:before { content: "Last Updated: "; }
+
+  @media only screen and (min-width: 1008px) {
+      #table-of-contents {
+	  position: fixed;
+	  left: 1em;
+	  top: 1em;
+	  bottom: 0;
+	  max-width: 25em;
+	  font-size: small;
+	  overflow-x: hidden;
+	  overflow-y: auto;
+      }
+
+      #content {
+	  margin: auto auto auto 26em;
+      }
+  }
 #+end_src
 
 ** Publish Script
@@ -128,3 +145,23 @@
 - This will render ordinals and exponents using superscripts
   - If enabled these should have superscripts, 1^{st} and x^{y}
   - This is an example of superscript syntax, =x^{3}=
+* Graphviz
+- [[https://www.orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html][Worg: Dot Source Code Blocks in Org Mode]]
+- [[https://www.graphviz.org/doc/info/lang.html][Grapviz DOT Language Documentation]]
+- Graphviz is a tool that compiles graph descriptions in the =dot= language into images
+- Org mode ships with =dot= language support, it just needs to be enabled with =org-babel-load-languages=
+- For an emacs major mode that supports graphviz use [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]]
+- Graphviz has a new layout engines: dot, neato, fdp etc.
+- To set the layout engine use =:cmd <LAYOUT_ENGINE>= in the header args of a graphviz, for example =:cmd neato= will use the neato layout engine
+- The differences between the layouts is documented [[http://graphviz.org/docs/layouts/][here]].
+#+begin_src dot :cmd neato :file example_graphviz.png :exports both
+  digraph {
+      a->b;
+      b->c;
+      c->b;
+      c->a;
+  }
+#+end_src
+
+#+RESULTS:
+[[file:example_graphviz.png]]

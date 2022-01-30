@@ -1,4 +1,4 @@
-#+title: projects/lisp/bullsandcows
+#+title: projects/bullsandcows
 <2022-01-16 Sun>
 
 * Bulls and Cows

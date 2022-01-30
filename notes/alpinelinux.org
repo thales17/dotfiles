@@ -1,0 +1,88 @@
+#+title: notes/alpinelinux
+<2022-01-29 Sat>
+
+* Documentation
+- [[https://docs.alpinelinux.org/user-handbook/0.1a/index.html][Alpine User Handbook]]
+
+* Install
+- Once booted into the live cd login with =root=, there is no password
+- Use the =setup-alpine= command to start the automated installer
+- For keyboard layout type =us=
+- For the keyboard variant type =us=
+- Set the hostname
+- Default the network device using dhcp
+- Set the root password
+- Set your timezone, for example =America/Kentucky/Louisville=
+- Select the disk you would like to use for the install
+- Select =crypt= first followed by =sys=
+- Input the password you wish to encrypt the drive with
+- The system will then be installed
+- Type =reboot= to use the new system
+
+* Package Management
+- The package manager in alpine linux is =apk=
+- Use the =add= sub command to install a package, =apk add sudo=
+- Use =apk search= to find a package
+- Use the =del= sub command to remove a package
+
+* Service management
+- Alpine uses [[https://github.com/OpenRC/openrc][openrc]] init system
+- The =rc-service= command has three sub commands, =stop=, =start=, and =status=
+  - The format for using it is =rc-service <SERVICE_NAME> <SUB_COMMAND>=
+- Enabling and disabling of services is handled with =rc-update=
+- When you enable a service you need to specify which runlevel it is going to operate under
+- To view all the services running and their runlevels use =rc-update show -v=
+- In addition to show rc-update has two command sub commands, =add= and =delete=
+  - The format for using rc-update is like this: =rc-update <SUB_COMMAND> <SERVICE_NAME> <RUN_LEVEL>=
+
+* Setup a User
+- This example creates a user =adduser -h /home/<USER> -s /bin/ash <USER>=, this will prompt you for the password
+- To give the user sudo access do the following:
+  - Install sudo with =apk add sudo=
+  - Create a sudoers file for the wheel group, =echo '%wheel ALL=(ALL) ALL' > /etc/sudoers.d/wheel=
+  - Add the newly created user to the wheel group, =adduser <USER> wheel=
+
+* Basic Packages
+- This installs basic packages that I like to have on a system
+#+begin_src sh
+  apk add mg git make gcc g++ tmux
+#+end_src
+
+* Setting up a GUI
+- Run =setup-xorg-base= to install the needed GPU drivers
+- Add the user to the input and video groups, =adduser <USER> input=, =adduser <USER> video=
+  - You might need to log out and log in for this to take effect
+- Install a few ttf fonts, =apk add ttf-hack ttf-dejavu=
+- Install the appropriate GPU driver either Intel, AMD or QXL (QEMU)
+** QEMU
+- Install the driver with, =apk add xf86-video-modesetting=
+- Ensure the host is setup with the =virtio= video driver
+- Also set the listen type on Display Spice to none
+** AMD
+- Install the video driver, =apk add xf86-video-amdgpu=
+- Install the firmware, =apk add linux-firmware-amdgpu=
+- Install mesa, =apk add mesa-dri-gallium=
+- Update the KMS setting:
+  - Add amdgpu to the kernel modules, =echo amdgpu >> /etc/modules=
+  - Add fbcon to the kernel modules, =echo fbcon >> /etc/modules=
+  - Install mkinitfs, =apk add mkinitfs=
+  - Add kms to the features list in the =/etc/mkinitfs/mkinitfs.conf=
+  - Run =mkinitfs= and reboot
+** DWM
+- Install needed libraries, =apk install libx11-dev libxft-dev ncurses libxinerama-dev adwaita-icon-theme dbus-x11=
+- Clone dwm, =git clone https://git.suckless.org/dwm=
+- Build dwm with =make && make install=
+- Clone dmenu, =git clone https://git.suckless.org/dmenu=
+- Build dmenu with =make && make install=
+- Clone st, =git clone https://git.suckless.org/st=
+- Build st with =make && make install=
+- Create a =.xinitrc= and add the line =exec dwm=
+- Create a =.profile= and add the line =startx=
+- Log out and log back in and dwm should start
+* Building Emacs
+- Install dependencies, =apk add autoconf texinfo gtk+3.0-dev libxpm-dev giflib-dev gnutls-dev ncurses-dev gawk=
+- Clone emacs with =git clone -b <BRANCH> git://git.sv.gnu.org/emacs.git=
+- Run autogen to create configure =./autogen.sh=
+- Configure emacs with =./configure=
+- Compile emacs with =make -j<NUMBER_OF_CORES+1>=
+- The busybox awk is not compatible with the install scripts. We need to tell make install to use gawk instead, =AWK=gawk sudo make install=

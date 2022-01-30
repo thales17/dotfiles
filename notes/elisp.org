@@ -1,4 +1,4 @@
-#+title: notes/programming/elisp
+#+title: notes/elisp
 * Lists
 ** Filtering a list
 - You can use the =mapcar= function to iterate through each item in the list

@@ -3,7 +3,7 @@
 
 This is repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
 
-** dotfiles
+** Dotfiles
 The config dir has various org mode files that can be tangled into their correct locations. For Linux systems run the default make target in the config directory. For OpenBSD run =make openbsd=.
 
 - [[file:config/emacs.org][Emacs]]
@@ -19,17 +19,14 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:config/utils.org][Utility Scripts]]
 - [[file:config/nethack.org][NetHack]]
 
-** small projects
-*** Games
-- [[file:projects/games/perplexer.org][Perplexer]]
-*** Lisp
-- [[file:projects/lisp/bullsandcows.org][Bulls and Cows + Solver]]
+** Small Projects
+- [[file:projects/perplexer.org][Perplexer]]
+- [[file:projects/bullsandcows.org][Bulls and Cows + Solver]]
 
-** notes
+** Notes
+*** Tools
+- [[file:notes/git.org][Git]]
 - [[file:notes/tips.org][Tips]]
-- [[file:notes/archlinux.org][Arch Linux]]
-- [[file:notes/ubuntu.org][Ubuntu]]
-- [[file:notes/openbsd.org][OpenBSD]]
 - [[file:notes/gnupg.org][GnuPG]]
 - [[file:notes/mail.org][Mail]]
 - [[file:notes/nethack.org][NetHack]]
@@ -37,13 +34,18 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:notes/orgmode.org][Org Mode]]
 - [[file:notes/emacs.org][Emacs]]
 
-*** Programming Notes
-**** Programming Languages
-***** Emacs Lisp
-- [[file:notes/programming/elisp.org][Emacs Lisp]]
-***** Common Lisp
-- [[file:notes/programming/lisp.org][Common Lisp]]
-***** C
-- [[file:notes/programming/carguments.org][Program Arguments]]
-- [[file:notes/programming/ncurses.org][ncurses]]
-- [[file:notes/programming/jansson.org][jansson]]
+*** Operating Systems
+- [[file:notes/qemu.org][QEMU]]
+- [[file:notes/alpinelinux.org][Alpine Linux]]
+- [[file:notes/openbsd.org][OpenBSD]]
+- [[file:notes/archlinux.org][Arch Linux]]
+- [[file:notes/ubuntu.org][Ubuntu]]
+
+*** Programming
+- [[file:notes/elisp.org][Emacs Lisp]]
+- [[file:notes/lisp.org][Common Lisp]]
+
+**** C
+- [[file:notes/carguments.org][Program Arguments]]
+- [[file:notes/ncurses.org][ncurses]]
+- [[file:notes/jansson.org][jansson]]

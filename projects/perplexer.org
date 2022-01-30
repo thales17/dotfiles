@@ -1,6 +1,6 @@
-#+title: projects/games/perplexer
+#+title: projects/perplexer
 #+exclude_tags: noexport
-<2022-01-28 Fri>
+<2022-01-30 Sun>
 * What is "Perplexer"?
 - This is a simple text adventure game that I made
 - It involves collecting a few keys to exit a maze
@@ -8,6 +8,46 @@
 - I originally wrote the game in [[*C Version][C]]
 - This project is remaking that C version in Lisp
 - Reading through the chapter on the text adventure game in Land of Lisp made me want to rewrite it in lisp
+* Room Layout
+- This graph visualizes the connections between the rooms in the game
+- It doesn't spoil where the keys are though
+#+begin_src dot :cmd dot :file perplexer_graph.png :exports results
+  digraph {
+      node      [shape=record];
+      nw        [label = "shredded paper pile room"];
+      w         [label = "mist room"];
+      sw        [label = "green cracked room"];
+      c         [label = "central room"];
+      s         [label = "flame access"];
+      n         [label = "printer room"];
+      e         [label = "zigzag hallway"];
+      se        [label = "perplexer room"];
+      ne        [label = "tree room"];
+      exit      [label = "end"];
+
+      nw -> w;
+      w -> nw;
+      w -> sw;
+      w -> c;
+      sw -> w;
+      c -> w;
+      c -> s;
+      c -> n;
+      c -> e;
+      n -> c;
+      s -> c;
+      e -> ne;
+      e -> se;
+      e -> c;
+      ne -> e;
+      se -> e;
+      se -> exit;
+  }
+#+end_src
+
+#+RESULTS:
+[[file:perplexer_graph.png]]
+
 * Game Descriptions                                                :noexport:
 - This section has the text that is used in the game
 ** Welcome
