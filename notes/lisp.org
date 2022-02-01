@@ -1,5 +1,5 @@
 #+title: notes/lisp
-<2022-01-23 Sun>
+<2022-01-31 Mon>
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
@@ -128,6 +128,9 @@
       (return)))
 #+end_src
 - The =return= command exits the loop
+** Nullary Functions (Thunks)
+- A nullary function is a function that has no arguments
+- They are also commonly known as thunks or suspensions
 * Common Lisp Functions
 ** Math
 *** Incrementing
@@ -201,6 +204,8 @@
 - =(mapcar #'(lambda (n) (1+ n)) '(1 2 3))= should return =(2 3 4)=
 - You can also run =mapcar= over multiple sequences
 - =(mapcar #'(lambda (m n) (list m n)) '(1 2 3) '(a b c))= should return =((1 a) (2 b) (3 c))=
+- =mapc= is a more efficient version of mapcar that does not return the list
+- =maplist= is another variant of =mapcar= that gives the remainder of the list as an argument to the function rather than a single item
 *** apply
 - Use =apply= to call a functions once with all the elements of a list as its arguments
 *** remove-if-not
@@ -239,6 +244,10 @@
 - =notevery= returns true if all the values are false
 - =(every #'identity '(t t nil)= should return nil
 - =(every #'identity '(t t t))= should return true
+*** substitute-if
+- Replaces every item in a sequence with the first argument if it passes the second argument predicate
+- For instance, =(substitute-if 0 #'oddp '(1 2 3 4 5))= will return =(0 2 0 4 0)=
+
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp
@@ -253,7 +262,10 @@
 - If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
 - You can use =setf= to change the value of an list, =(setf (cadr (assoc '2 alist)) t)=
 - alists are not very efficient beyond a dozen items
-** Conditionals
+** Logic / Conditionals
+*** Complementing Predicates
+- If you have a predicate and you want the opposite of it or complement you can use the higher order function =complement= to achieve that
+- For example =(substitute-if 0 (complement #'oddp) '(1 2 3 4 5))= should return =(1 0 3 0 5)=
 *** Shortcut Boolean Evaluation
 - When evaluating an =or= or =and= boolean operator lisp will stop when it encounters the first symbol that evaluates to either true or false
 - For example when evaluating an =or= the first true that is encountered causes lisp to stop
@@ -338,6 +350,7 @@
 - =string-equal= is specific for strings
 - =char-equal= is specific for chars
 ** I/O
+*** Printing and Reading
 - Use =print= to display a string on stdout
   - This will automatically add a new line at the end of the string
   - =prin1= and =princ= will not add the =newline=
@@ -352,3 +365,20 @@
 - Both =print= and =read= can handle any Lisp data type, including symbols
 - Use =read-line= to read the input as a string only rather than any valid Lisp data
 - Use the function =fresh-line= to print a new line: =(fresh-line)=
+*** Files
+- =with-open-file= optionally accepts a steam and file name to open a file
+- If you do not pass in an existing stream a new one is created
+- With the stream variable print functions can send their output to that file
+- If the stream is =*standard-output*= then the print functions will automatically send the output to the file
+#+begin_src lisp
+  (with-open-file (stream
+		   "~/tmp/testfile.txt"
+		   :direction :output
+		   :if-exists :supersede)
+    (princ "Hello World!" stream)
+    (princ #\newline stream))
+#+end_src
+
+#+RESULTS:
+: #\Newline
+- There is a global stream =*standard-ouput*= that represents stdout of the lisp environment

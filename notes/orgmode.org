@@ -55,6 +55,10 @@
   .timestamp { text-decoration: underline; }
   .timestamp:before { content: "Last Updated: "; }
 
+  table {
+      margin: auto;
+  }
+
   @media only screen and (min-width: 1008px) {
       #table-of-contents {
 	  position: fixed;
@@ -148,6 +152,7 @@
 * Graphviz
 - [[https://www.orgmode.org/worg/org-contrib/babel/languages/ob-doc-dot.html][Worg: Dot Source Code Blocks in Org Mode]]
 - [[https://www.graphviz.org/doc/info/lang.html][Grapviz DOT Language Documentation]]
+- [[https://renenyffenegger.ch/notes/tools/Graphviz/examples/index][Rene Nyffenegger: Graphviz Examples]]
 - Graphviz is a tool that compiles graph descriptions in the =dot= language into images
 - Org mode ships with =dot= language support, it just needs to be enabled with =org-babel-load-languages=
 - For an emacs major mode that supports graphviz use [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]]

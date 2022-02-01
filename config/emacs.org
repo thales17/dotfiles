@@ -615,6 +615,8 @@ Customizations and global keys for org mode
 
   (add-hook 'before-save-hook 'ajr-lsp-format-on-save-hook)
 #+end_src
+
+
 ** Go
 - Install the go language server =gopls=, =go get golang.org/x/tools/gopls@latest=
 #+begin_src elisp

@@ -1,5 +1,5 @@
 #+title: notes/emacs
-<2022-01-30 Sun>
+<2022-01-31 Mon>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
@@ -27,3 +27,10 @@ Use =M-x find-name-dired= it will prompt you for a folder to recursively search 
 
 * Recurively search file files with given content
 Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, followed by the wildcard of the files to include(ivy will do a completing read for this and prepend the current path but just type the wild card pretending it is not there) and lastly the base directory.
+
+* File Local Variables
+- [[https://www.emacswiki.org/emacs/FileLocalVariables][EmacsWiki: File Local Variables]]
+- It is possible to set the value of a variable local only to a file in Emacs
+- When you do this, Emacs will prompt you if you want to set those variables before actually doing it
+- This might be handy in an org mode file with a lot of code blocks, so you want to inhibit the evaluation check
+- Use =M-x add-file-local-variable= to interactively add a file local variabel to a buffer
