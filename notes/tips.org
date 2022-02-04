@@ -1,13 +1,8 @@
 #+title: notes/tips
 <2022-01-30 Sun>
 
-* ImageMagick
-** Get the size of an image
-Use the =identify= command with a format. For example =identify -format "%wx%h\n" someimage.jpg=. This will print the width and height in the desired format.
 * Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
-- =imagemagick= has the import tool which lets you drag a box to take a screenshot, for example =import myscreenshot.png= causes the cursor to turn into a crossheirs. You then drag a box and it will be saved in the file name your specified.
-
 * JSON
 - Use python package =demjson3= to get the jsonlint command.
 - This package is in the apt repo or can be installed via pip =pip install demjson3=

@@ -1,0 +1,11 @@
+#+title: notes/imagemagick
+<2022-02-04 Fri>
+
+* Get the size of an image
+Use the =identify= command with a format. For example =identify -format "%wx%h\n" someimage.jpg=. This will print the width and height in the desired format.
+
+* Take a screenshot of a section of your screen
+- =imagemagick= has the import tool which lets you drag a box to take a screenshot, for example =import myscreenshot.png= causes the cursor to turn into a cross heirs. You then drag a box and it will be saved in the file name your specified.
+
+* Reduce the image quality of image
+- =convert -quality 70 image.png image.jpg=
