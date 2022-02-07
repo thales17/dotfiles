@@ -2,6 +2,7 @@
 <2022-02-04 Fri>
 
 This is repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
+I consider this a sandbox to play with literate programming and a constant work in progress.
 
 ** Dotfiles
 The config dir has various org mode files that can be tangled into their correct locations. For Linux systems run the default make target in the config directory. For OpenBSD run =make openbsd=.
@@ -34,6 +35,7 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:notes/orgmode.org][Org Mode]]
 - [[file:notes/emacs.org][Emacs]]
 - [[file:notes/imagemagick.org][ImageMagick]]
+- [[file:notes/gimp.org][Gimp]]
 
 *** Operating Systems
 - [[file:notes/qemu.org][QEMU]]

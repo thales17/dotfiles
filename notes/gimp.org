@@ -1,0 +1,18 @@
+#+title: notes/gimp
+
+<2022-02-02 Wed>
+
+* Hotkeys
+- =/= - Allows you to search for any command in the menus
+- =M= - for the move tool
+- =Shift + C= - Crop Tool
+
+* Adding a outline around text
+- First add your text in the desired foreground color
+- With the text layer selected, in the Layers list right click the text layer and select =Alpha to Selection=
+- Use the =/= command and type =Grow=
+- Input the border pixel size you would like around the text
+- Create a new layer below the text layer
+- Select the border color you would like
+- With the "grown" text still selected on the new layer use the bucket fill tool to add the border
+- The last step is right click the original text layer and merge down into the border layer

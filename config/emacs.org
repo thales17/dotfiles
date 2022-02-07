@@ -29,7 +29,7 @@ A set of customizations to dired mode to make it a little easier to use
 	      (dired-hide-details-mode)))
 
   (let ((map dired-mode-map))
-    (define-key map (kbd "C-b") #'bongo-dired-dwim))
+    (define-key map (kbd "C-b") #'bongo-dired-append-enqueue-lines))
 #+end_src
 * Alt Key
 This allows the alt key to work as meta
@@ -88,6 +88,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'yaml-mode)
   (straight-use-package 'ledger-mode)
   (straight-use-package 'slime)
+  (straight-use-package 'sunshine)
   (straight-use-package 'gnuplot)
   (straight-use-package 'graphviz-dot-mode)
   (straight-use-package 'go-mode)

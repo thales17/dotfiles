@@ -1,8 +1,9 @@
 #+title: notes/carguments
-<2022-01-30 Sun>
+<2022-02-05 Sat>
 * Receiving arguments
 - The main should receive =argc= (argument count) and =argv= (argument variables).
 - The first argument (index 0) is usually the command run by the user to invoke the program
+- You should not assume that =argc > 0=
 ** Example
 #+begin_src c :tangle ~/tmp/arg_example.c :mkdirp yes
   #include <stdio.h>
@@ -95,3 +96,13 @@
 
 #+RESULTS:
 : world hello hello world
+* When =argc===0=
+- [[https://lwn.net/SubscriberLink/882799/cb8f313c57c6d8a6/][LWN: Handling argc==0 in the kernel]]
+- It is only a convention that =argv[0]= is the binary name being executed
+- Technically whoever calls =execve= to launch the program controls what =argv[0]= is
+- There is a third pointer for the environment that is immediately after =argv=
+- The full =main= prototype looks like this, =int main(int argc, char *argv[], char *envp[])=
+- The environment, =envp= starts immediately after =argv=
+- if =execve= called the program with =argv= as null, so =argv[1]= will actually be =envp[0]=
+- Technically the POSIX standard allows for an empty =argv=
+- The OpenBSD [[https://man.openbsd.org/execve.2][manpage]] for =execve= requires that at least one non null argument be present in =argv=

@@ -48,7 +48,10 @@
 #+RESULTS:
 [[file:perplexer_graph.png]]
 
-* Game Descriptions                                                :noexport:
+* Game Script                                                      :noexport:
+:PROPERTIES:
+:header-args: :eval no
+:END:
 - This section has the text that is used in the game
 ** Welcome
 *** Title
@@ -70,8 +73,8 @@
   You are underneath a light dangling from the ceiling by a string. North, west and east are blocked by walls. You see a pile of shredded up paper in the corner. You try to read it but are unable to piece it together. Through the east wall you hear the muffled sounds of a of a dot matrix printer. To the south you see a dark corridor and faintly hear running water.
 #+end_src
 
-*** Short Description
-#+name: nw-short-desc
+*** Location Name
+#+name: nw-location
 #+begin_src text
 shredded paper pile room
 #+end_src
@@ -79,13 +82,19 @@ shredded paper pile room
 *** Long Description
 #+name: n-desc
 #+begin_src text
-  You see a walled in room with a table in the center. On the table is a dot matrix printer constantly printing the same 10 digit number over and over again. You rip the top page and stick it in your bag.
+  You see a walled in room with a table in the center. On the table is a dot matrix printer constantly printing the same 10 digit number over and over again.
 #+end_src
 
-*** Short Description
-#+name: n-short-desc
+*** Location Name
+#+name: n-location
 #+begin_src text
   printer room
+#+end_src
+
+*** Interaction
+#+name: n-interact
+#+begin_src text
+  You rip the top page and stick it in your bag.
 #+end_src
 
 *** Unlock Description
@@ -104,13 +113,19 @@ shredded paper pile room
 *** Long Description
 #+name: ne-desc
 #+begin_src text
-  You enter a bright room filled with mist. The walls are glass and you can see the sun is out. In the center of the room is an odd tree with giant leaves. You pull one of the leaves off the tree and place it in your bag.
+  You enter a bright room filled with mist. The walls are glass and you can see the sun is out. In the center of the room is an odd tree with giant leaves.
 #+end_src
 
-*** Short Description
-#+name: ne-short-desc
+*** Location Name
+#+name: ne-location
 #+begin_src text
   tree room
+#+end_src
+
+*** Interaction
+#+name: ne-interact
+#+begin_src text
+  You pull one of the leaves off the tree and place it in your bag.
 #+end_src
 
 ** West
@@ -120,8 +135,8 @@ shredded paper pile room
   The room is pitch black and it is hard to make anything out. You feel mist hitting your face from what sounds like a waterfall to the south. To the east you hear wind rustling and see a distant light.
 #+end_src
 
-*** Short Description
-#+name: w-short-desc
+*** Location Name
+#+name: w-location
 #+begin_src text
   mist room
 #+end_src
@@ -133,8 +148,8 @@ shredded paper pile room
   You are at a central room and can move in each direction. You hear a crackling sound to the south. To the north you hear the muffled sound of a dot matrix printer. The east is an unlit corridor. You can hear what sounds like someone murmuring to themselves.
 #+end_src
 
-*** Short Description
-#+name: c-short-desc
+*** Location Name
+#+name: c-location
 #+begin_src text
   central room
 #+end_src
@@ -146,8 +161,8 @@ shredded paper pile room
   You crouch through a narrow doorway to enter a cramped hallway. The walls are painted with a black and white zigzag pattern. To the east you feel a cold wall, dead end. To the north you hear the sounds of birds chirping. The murmuring seems to be coming from the south. It sounds like they are answering questions to a quiz show but you can't hear any other voice.
 #+end_src
 
-*** Short Description
-#+name: e-short-desc
+*** Location Name
+#+name: e-location
 #+begin_src text
   zigzag hallway
 #+end_src
@@ -156,13 +171,19 @@ shredded paper pile room
 *** Long Description
 #+name: sw-desc
 #+begin_src text
-  The ground is broken and covered with cracks blasting the room with green light. You see a small red square with gold lettering on the floor. You are unable to make out the writing. You place the tablet in your bag.
+  The ground is broken and covered with cracks blasting the room with green light. You see a small red tablet with gold lettering on the floor. You are unable to make out the writing.
 #+end_src
 
-*** Short Description
-#+name: sw-short-desc
+*** Location Name
+#+name: sw-location
 #+begin_src text
   green cracked room
+#+end_src
+
+*** Interaction
+#+name: sw-interact
+#+begin_src text
+  You place the tablet in your bag.
 #+end_src
 
 *** Unlock Description
@@ -181,12 +202,17 @@ shredded paper pile room
 *** Long Description
 #+name: s-desc
 #+begin_src text
-  You see a small rectangular hole in the south wall. On the other side all you can see are flames. You pick up a branch from the floor and stick it in the hole. The branch is now a torch.
+  You see a small rectangular hole in the south wall. On the other side all you can see are flames.
 #+end_src
-*** Short Description
-#+name: s-short-desc
+*** Location Name
+#+name: s-location
 #+begin_src text
   flame access
+#+end_src
+*** Interact
+#+name: s-interact
+#+begin_src text
+  You pick up a branch from the floor and stick it in the hole. The branch is now a torch.
 #+end_src
 
 ** Southeast
@@ -196,8 +222,8 @@ shredded paper pile room
   Inside the room is a disheveled person pacing back and forth. You notice an earpiece in their ear and realize they are using that to communicate with someone. They seem to be trying to find the right words to please their captor to release them from the conversation. They do not notice you. Behind them you see an open window you could climb through and escape.
 #+end_src
 
-*** Short Description
-#+name: se-short-desc
+*** Location Name
+#+name: se-location
 #+begin_src text
   perplexer room
 #+end_src
@@ -221,8 +247,8 @@ shredded paper pile room
   Outside you are greeted by a group of lab coat wearing scientists. One scientists starts slow clapping and they all join in quickly afterwards. The hoist you up on their shoulders and start singing. You are not sure what is happening or where they are taking you.\n\n\nThe end
 #+end_src
 
-*** Short Description
-#+name: exit-short-desc
+*** Location Name
+#+name: exit-location
 #+begin_src text
 end
 #+end_src
@@ -240,7 +266,89 @@ end
 #+end_src
 
 * TODO Lisp Version
+
+** Nodes
+
+*** Descriptions
+#+begin_src lisp :noweb yes
+  (defparameter *nodes-long-description* '((northwest ("<<nw-desc>>"))
+					   (west ("<<w-desc>>"))
+					   (southwest ("<<sw-desc>>"))
+					   (north ("<<n-desc>>"))
+					   (central ("<<c-desc>>"))
+					   (south ("<<s-desc>>"))
+					   (northeast ("<<ne-desc>>"))
+					   (east ("<<e-desc>>"))
+					   (southeast ("<<se-desc>>"))
+					   (exit ("<<exit-desc>>"))))
+
+  (defparameter *nodes-location* '((northwest ("<<nw-location>>"))
+				   (west ("<<w-location>>"))
+				   (southwest ("<<sw-location>>"))
+				   (north ("<<n-location>>"))
+				   (central ("<<c-location>>"))
+				   (south ("<<s-location>>"))
+				   (northeast ("<<ne-location>>"))
+				   (east ("<<e-location>>"))
+				   (southeast ("<<se-location>>"))
+				   (exit ("<<exit-location>>"))))
+
+#+end_src
+
+*** State
+
+**** Visited
+
+**** Locked / Unlocked
+
+** Edges
+#+begin_src lisp
+  (defparameter *edges* '((northwest
+			   (west south door))
+			  (west
+			   (northwest north door)
+			   (southwest south door)
+			   (central east door))
+			  (southwest
+			   (west north door))
+			  (central
+			   (north north door)
+			   (east east door)
+			   (south south door)
+			   (west west door))
+			  (north
+			   (central south door))
+			  (south
+			   (central north door))
+			  (east
+			   (central west door)
+			   (northeast north door)
+			   (southeast south door))
+			  (northeast
+			   (east south door))
+			  (southeast
+			   (east north door)
+			   (exit south door))))
+
+#+end_src
+
+#+RESULTS:
+: *EDGES*
+
+** Objects
+#+begin_src lisp
+  (defparameter *objects* '(torch umbrella passcode question))
+
+  (defparameter *object-locations* '((torch south)
+				     (umbrella northeast)
+				     (passcode north)
+				     (question southwest)))
+#+end_src
+
 * C Version
+:PROPERTIES:
+:header-args: :eval no
+:END:
 ** Prompt
 *** Prompting the User
 - Interaction with the user happens through a custom prompt
@@ -324,7 +432,7 @@ end
 #+begin_src c
   struct room {
     const char desc[DESC_MAX];
-    const char shortDesc[30];
+    const char locationName[30];
     const char unlockDesc[DESC_MAX];
     const char lockedDesc[DESC_MAX];
     int requiredKey;
@@ -357,10 +465,12 @@ end
       "west", "w",
       "West", "W",
       "look", "l",
-      "Look", "L"
+      "Look", "L",
+      "bag", "b",
+      "Bag", "B"
     };
 
-    for (int i = 0; i < 20; i++) {
+    for (int i = 0; i < 24; i++) {
       if (strcmp(validInput[i], move) == 0) {
 	return 1;
       }
@@ -408,18 +518,177 @@ end
 
 #+end_src
 
-*** Game Loop
+*** Actions
+- Actions are either moving around, looking, interacting with the room or looking in your bag
+#+name: all-actions
+#+begin_src c
+  enum action { North, South, East, West, Look, Bag };
+#+end_src
+
+*** TODO Game Loop
 - The loop of adventure is very similar to a REPL
-- It prompts the user for an action
-- If the action is valid it performs the correct action
-- Actions are either moving around or looking
+**** Prompt the User for an Action
+- The game uses the =>= character as the prompt
+- The game supports upper or lower case for commands
+- To streamline the conditional handling we convert any upper case letters to the lower case versions
+- An easy way to do is is to add 32 to the character since all lower case letters are 32 away from their upper case
+#+name: adventure-prompt
+#+begin_src c
+  promptUser("> ", isMoveValid, moveInput, NULL);
+  char firstCh = moveInput[0];
+  if (firstCh >= 'A' && firstCh <= 'Z') {
+    firstCh += 32; // Make it lowercase
+  }
+#+end_src
+**** Converting the Action String to Enum
+- This uses the lowercase letter of the valid action the user typed with the =enum action=
+#+name: adventure-action-convert
+#+begin_src c
+  enum action a;
+  switch (firstCh) {
+   case 'n':
+     a = North;
+     break;
+   case 's':
+     a = South;
+     break;
+   case 'e':
+     a = East;
+     break;
+   case 'w':
+     a = West;
+     break;
+   case 'l':
+     a = Look;
+     break;
+   case 'b':
+     a = Bag;
+     break;
+  }
+#+end_src
+**** Handling the Action
+***** Look
+- In the case of the look action all we need to do is print the description of the current room
+#+name: adventure-handle-look
+#+begin_src c
+  printWidth(currentRoom->desc, DESC_WIDTH);
+#+end_src
+
+***** TODO Move
+
+****** Call the =move= function to get the next room
+#+name: adventure-move-next
+#+begin_src c
+  nextRoom = move(currentRoom, a);
+#+end_src
+
+****** If the =nextRoom= is the same as the =currentRoom= it is a dead end
+#+name: adventure-move-deadend
+#+begin_src c
+  if (nextRoom == currentRoom) {
+    printWidth(deadEnd, DESC_WIDTH);
+   }
+#+end_src
+
+****** If the room requires a key, is it in the bag?
+- This iterates through the keys in tha bag
+- If it finds the required key it sets the state of that room to unlocked
+- It also prints the unlock description
+- If the key is not in the bag it prints the locked description
+#+name: adventure-move-required-key
+#+begin_src c
+  int moveOk = 0;
+  if (nextRoom->requiredKey != 0) {
+    for (int i = 0; i < bagLen; i++) {
+      if (nextRoom->requiredKey == bag[i]) {
+	if (nextRoom->unlocked == 0) {
+	  printWidth(nextRoom->unlockDesc, DESC_WIDTH);
+	}
+	moveOk = 1;
+	nextRoom->unlocked = 1;
+	break;
+      }
+    }
+
+    if (moveOk == 0) {
+      printWidth(nextRoom->lockedDesc, DESC_WIDTH);
+    }
+   } else {
+    moveOk = 1;
+   }
+#+end_src
+
+****** Print the description when entering the new room
+- If the room has been visited already we just display the location name
+- If it is the first time visiting the room we want to show the full description
+#+name: adventure-move-desc
+#+begin_src c
+  if (nextRoom->visited == 0) {
+    printWidth(nextRoom->desc, DESC_WIDTH);
+   } else {
+    printWidth(nextRoom->locationName, DESC_WIDTH);
+   }
+#+end_src
+
+****** Advance the =currentRoom= to the =nextRoom=
+- Also ensure the room is marked as visited
+#+name: adventure-move-advance
+#+begin_src c
+  currentRoom = nextRoom;
+  currentRoom->visited = 1;
+#+end_src
+
+****** TODO Auto pickup key
+#+name: adventure-move-autopickup
+#+begin_src c
+  if (currentRoom->containedKey != 0) {
+    bag[bagLen] = currentRoom->containedKey;
+    bagLen++;
+   }
+#+end_src
+
+****** Deciding on whether or not to go to the next room
 - Before entering a room this function checks to see if you have the needed key
 - If you have never been to the room before it will display the long description, otherwise it will display the short
 - Once the user has reached the exit room the game ends
-#+name: adventure-loop
+****** Handle Move                                                 :noexport:
+#+name: adventure-handle-move
+#+begin_src c :noweb yes
+  <<adventure-move-next>>
+
+  <<adventure-move-deadend>> else {
+      <<adventure-move-required-key>>
+      if (moveOk) {
+	<<adventure-move-desc>>
+	<<adventure-move-advance>>
+	<<adventure-move-autopickup>>
+       }
+    }
+#+end_src
+
+***** Inventory / Bag
+#+name: adventure-handle-bag
 #+begin_src c
+  if (bagLen == 0) {
+    printf("Your bag is empty\n");
+  } else {
+    printf("In your bag you find:\n");
+    for (int i = 0; i < bagLen; i++) {
+      if (bag[i] >= 0 && bag[i] < keyCount ) {
+	printf("\t- %s\n", keyDesc[i]);
+      } else {
+	printf("\t- Error\n");
+      }
+    }
+  }
+#+end_src
+
+
+**** Full Adventure Game Loop                                      :noexport:
+#+name: adventure-loop
+#+begin_src c :noweb yes
   void adventure (struct room *startRoom, struct room *exitRoom,
-		  const char *deadEnd) {
+		  const char *deadEnd, int keyCount, const char **keyDesc) {
     struct room *currentRoom = startRoom;
     struct room *nextRoom = NULL;
 
@@ -430,71 +699,23 @@ end
     printWidth(currentRoom->desc, DESC_WIDTH);
     currentRoom->visited = 1;
     do {
-      promptUser("> ", isMoveValid, moveInput, NULL);
-      char firstCh = moveInput[0];
-      if (firstCh >= 'A' && firstCh <= 'Z') {
-	firstCh += 32; // Make it lowercase
-      }
+      <<adventure-prompt>>
 
-      enum action a;
-      switch (firstCh) {
-      case 'n':
-	a = North;
-	break;
-      case 's':
-	a = South;
-	break;
-      case 'e':
-	a = East;
-	break;
-      case 'w':
-	a = West;
-	break;
-      case 'l':
-	a = Look;
-	break;
-      }
+      <<adventure-action-convert>>
 
-      if (a == Look) {
-	printWidth(currentRoom->desc, DESC_WIDTH);
-	continue;
-      } else {
-	nextRoom = move(currentRoom, a);
-      }
-
-      if (nextRoom == currentRoom) {
-	printWidth(deadEnd, DESC_WIDTH);
-      } else {
-	if (nextRoom->requiredKey != 0) {
-	  int found = 0;
-	  for (int i = 0; i < bagLen; i++) {
-	    if (nextRoom->requiredKey == bag[i]) {
-	      if (nextRoom->unlocked == 0) {
-		printWidth(nextRoom->unlockDesc, DESC_WIDTH);
-	      }
-	      found = 1;
-	      nextRoom->unlocked = 1;
-	      break;
-	    }
-	  }
-
-	  if (found == 0) {
-	    printWidth(nextRoom->lockedDesc, DESC_WIDTH);
-	    continue;
-	  }
-	}
-	if (nextRoom->visited == 0) {
-	  printWidth(nextRoom->desc, DESC_WIDTH);
-	} else {
-	  printWidth(nextRoom->shortDesc, DESC_WIDTH);
-	}
-
-	currentRoom = nextRoom;
-	currentRoom->visited = 1;
-	if (currentRoom->containedKey != 0) {
-	  bag[bagLen] = currentRoom->containedKey;
-	  bagLen++;
-	}
+      switch (a) {
+      case Look:
+	<<adventure-handle-look>>
+	break;
+      case Bag:
+	<<adventure-handle-bag>>
+	break;
+      case North:
+      case South:
+      case East:
+      case West:
+	<<adventure-handle-move>>
+	break;
       }
     } while(currentRoom != exitRoom);
   }
@@ -510,11 +731,13 @@ end
 #+name: perplexer-main
 #+begin_src c :noweb yes
   int main (int argc, char **argv) {
-    enum key { None, Torch, Umbrella, Passcode, Question };
+    enum key { None, Torch, Umbrella, Passcode, Tablet };
+    int keyCount = 5;
+    const char *keyDesc[] = { "None", "Torch", "Umbrella", "Passcode", "Tablet" };
 
     struct room nw = {
       .desc = "<<nw-desc>>",
-      .shortDesc = "<<nw-short-desc>>",
+      .locationName = "<<nw-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
       .requiredKey = None,
@@ -523,7 +746,7 @@ end
 
     struct room n = {
       .desc = "<<n-desc>>",
-      .shortDesc = "<<n-short-desc>>",
+      .locationName = "<<n-location>>",
       .unlockDesc = "<<n-unlock-desc>>",
       .lockedDesc = "<<n-locked-desc>>",
       .requiredKey = Torch,
@@ -532,7 +755,7 @@ end
 
     struct room ne = {
       .desc = "<<ne-desc>>",
-      .shortDesc = "<<ne-short-desc>>",
+      .locationName = "<<ne-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
       .requiredKey = None,
@@ -541,7 +764,7 @@ end
 
     struct room w = {
       .desc = "<<w-desc>>",
-      .shortDesc = "<<w-short-desc>>",
+      .locationName = "<<w-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
       .requiredKey = None,
@@ -550,7 +773,7 @@ end
 
     struct room c = {
       .desc = "<<c-desc>>",
-      .shortDesc = "<<c-short-desc>>",
+      .locationName = "<<c-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
       .requiredKey = None,
@@ -559,7 +782,7 @@ end
 
     struct room e = {
       .desc = "<<e-desc>>",
-      .shortDesc = "<<e-short-desc>>",
+      .locationName = "<<e-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
       .requiredKey = None,
@@ -568,16 +791,16 @@ end
 
     struct room sw = {
       .desc = "<<sw-desc>>",
-      .shortDesc = "<<sw-short-desc>>",
+      .locationName = "<<sw-location>>",
       .unlockDesc = "<<sw-unlock-desc>>",
       .lockedDesc = "<<sw-locked-desc>>",
       .requiredKey = Umbrella,
-      .containedKey = Question
+      .containedKey = Tablet
     };
 
     struct room s = {
       .desc = "<<s-desc>>",
-      .shortDesc = "<<s-short-desc>>",
+      .locationName = "<<s-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
       .requiredKey = None,
@@ -586,7 +809,7 @@ end
 
     struct room se = {
       .desc = "<<se-desc>>",
-      .shortDesc = "<<se-short-desc>>",
+      .locationName = "<<se-location>>",
       .unlockDesc = "<<se-unlock-desc>>",
       .lockedDesc = "<<se-locked-desc>>",
       .requiredKey = Passcode,
@@ -595,10 +818,10 @@ end
 
     struct room exitRoom = {
       .desc = "<<exit-desc>>",
-      .shortDesc = "<<exit-short-desc>>",
+      .locationName = "<<exit-location>>",
       .unlockDesc = "<<exit-unlock-desc>>",
       .lockedDesc = "<<exit-locked-desc>>",
-      .requiredKey = Question,
+      .requiredKey = Tablet,
       .containedKey = None
     };
 
@@ -635,7 +858,7 @@ end
     printf("\n\n\n");
 
     adventure(&nw, &exitRoom,
-	      "A cold wall prevents you from moving in this direction.");
+	      "A cold wall prevents you from moving in this direction.", keyCount, keyDesc);
 
     return 0;
   }
@@ -707,12 +930,11 @@ end
 
   <<room-data-model>>
 
-  enum action { North, South, East, West, Look };
+  <<all-actions>>
 
   int isMoveValid (const char *, void *);
   struct room * move (struct room *, enum action);
-  void adventure (struct room *, struct room *, const char *);
-
+  void adventure (struct room *, struct room *, const char *, int, const char **);
 
   #endif
 #+end_src
@@ -743,7 +965,7 @@ end
   <<perplexer-main>>
 #+end_src
 *** Build                                                          :noexport:
-#+begin_src sh
+#+begin_src sh :eval yes
   #!/bin/sh
 
   # Exit on command failure
@@ -754,8 +976,7 @@ end
 
   rm -Rf ~/tmp/perplexer
 
-  ../../scripts/tangle.sh perplexer.org
-
+  ../scripts/tangle.sh perplexer.org
 
   cd ~/tmp/perplexer
 
@@ -763,3 +984,7 @@ end
 #+end_src
 
 #+RESULTS:
+
+# Local Variables:
+# org-confirm-babel-evaluate: nil
+# End:
