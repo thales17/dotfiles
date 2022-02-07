@@ -1,7 +1,7 @@
 #+title: Adam Richardson's dotfiles, small projects and notes
 <2022-02-04 Fri>
 
-This is repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
+This repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
 I consider this a sandbox to play with literate programming and a constant work in progress.
 
 ** Dotfiles
