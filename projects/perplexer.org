@@ -1,6 +1,6 @@
 #+title: projects/perplexer
 #+exclude_tags: noexport
-<2022-01-30 Sun>
+<2022-02-08 Tue>
 * What is "Perplexer"?
 - This is a simple text adventure game that I made
 - It involves collecting a few keys to exit a maze
@@ -8,6 +8,13 @@
 - I originally wrote the game in [[*C Version][C]]
 - This project is remaking that C version in Lisp
 - Reading through the chapter on the text adventure game in Land of Lisp made me want to rewrite it in lisp
+* Project Goals
+- I wanted to compare using Common Lisp to implement a project I had first written in C
+- A text adventure game also seems like a good chance to try more literate programming with Emacs org mode
+  - Because of this the html export of this doc does not contain the full picture of how this is put together
+  - To see all the parts you should look at the org mode source file
+- While the game design is not the most extensible, the script and the game should be separated
+- The core program of the game should be able to handle any script so long as it is structured to match the needed data
 * Room Layout
 - This graph visualizes the connections between the rooms in the game
 - It doesn't spoil where the keys are though
@@ -63,7 +70,7 @@
 *** Help
 #+name: help
 #+begin_src text
-  Use commands north, south, east, west to explore. The first time you enter a room you get a long description. After that, you will get a short description. Use the look command to read the long description again. You can also type the first letter of each command instead of the full word.
+  Use commands north, south, east, west to explore. The first time you enter a room you get a long description. After that, you will get a short description. Use the look command to read the long description again. Use the interact command to try to interact with the room. Use the quit command to exit the game. To see this message again type help.
 #+end_src
 
 ** Northwest
@@ -433,7 +440,12 @@ end
 - The "engine" of the game is called adventure
 *** Room Data Model
 - The game is divided into a series of rooms
-- Each room has a long and short description
+- Rooms can contain a variety of text:
+  - =desc= - This is the main description of the room
+  - =locationName= - This is a short description of the room
+  - =unlockDesc= - This is what is displayed when the room is unlocked
+  - =lockedDesc= - This is what is displayed when attempting to enter this room without the key
+  - =interactDesc= - If the room has a key in it this text is displayed when the player uses the =interact= command
 - The rooms can potentially contain or require keys
 - Each room has a set of 4 pointers to other rooms in the cardinal directions
 - If the direction pointer is null that indicates a dead end
@@ -480,9 +492,13 @@ end
       "Bag", "B",
       "interact", "i",
       "Interact", "I",
+      "help", "h",
+      "Help", "H",
+      "quit", "q",
+      "Quit", "Q"
     };
 
-    for (int i = 0; i < 28; i++) {
+    for (int i = 0; i < 36; i++) {
       if (strcmp(validInput[i], move) == 0) {
 	return 1;
       }
@@ -534,10 +550,20 @@ end
 - Actions are either moving around, looking, interacting with the room or looking in your bag
 #+name: all-actions
 #+begin_src c
-  enum action { North, South, East, West, Look, Bag, Interact };
+  enum action {
+    North,
+    South,
+    East,
+    West,
+    Look,
+    Bag,
+    Interact,
+    Help,
+    Quit
+  };
 #+end_src
 
-*** TODO Game Loop
+*** Game Loop
 - The loop of adventure is very similar to a REPL
 **** Prompt the User for an Action
 - The game uses the =>= character as the prompt
@@ -578,6 +604,12 @@ end
      break;
    case 'i':
      a = Interact;
+     break;
+   case 'h':
+     a = Help;
+     break;
+   case 'q':
+     a = Quit;
      break;
   }
 #+end_src
@@ -707,6 +739,21 @@ end
 
 #+end_src
 
+***** Help
+- When the user types the help command we just redisplay the help message
+#+name: adventure-handle-help
+#+begin_src c :noweb yes
+  printWidth("<<help>>", DESC_WIDTH);
+#+end_src
+
+***** Quit
+- To handle the quit action we just display a message and return from the =adventure= loop
+#+name: adventure-handle-quit
+#+begin_src c
+  printf("Goodbye!\n");
+  return;
+#+end_src
+
 
 **** Full Adventure Game Loop                                      :noexport:
 #+name: adventure-loop
@@ -736,6 +783,12 @@ end
 	break;
       case Interact:
 	<<adventure-handle-interact>>
+	break;
+      case Help:
+	<<adventure-handle-help>>
+	break;
+      case Quit:
+	<<adventure-handle-quit>>
 	break;
       case North:
       case South:
@@ -890,7 +943,6 @@ end
     se.east = &exitRoom;
 
     printf("<<title>>");
-    printWidth("<<help>>", 55);
 
     printf("\n\n\n");
 
