@@ -104,7 +104,7 @@ shredded paper pile room
 #+end_src
 
 *** Locked Description
-#+name: n-locked-description
+#+name: n-locked-desc
 #+begin_src text
   You feel a wall different from the rest. Perhaps there is a way to destroy this obstacle.
 #+end_src
@@ -173,17 +173,10 @@ shredded paper pile room
 #+begin_src text
   The ground is broken and covered with cracks blasting the room with green light. You see a small red tablet with gold lettering on the floor. You are unable to make out the writing.
 #+end_src
-
 *** Location Name
 #+name: sw-location
 #+begin_src text
   green cracked room
-#+end_src
-
-*** Interaction
-#+name: sw-interact
-#+begin_src text
-  You place the tablet in your bag.
 #+end_src
 
 *** Unlock Description
@@ -191,11 +184,16 @@ shredded paper pile room
 #+begin_src text
   Using the large leaf from your bag you hold it by the stem over your head. Jogging you are able to quickly enter the room.
 #+end_src
-
 *** Locked Description
 #+name: sw-locked-desc
 #+begin_src text
   You approach the falling water but despite being liquid it is far too cold to bear on your skin. You are unable to proceed.
+#+end_src
+
+*** Interaction
+#+name: sw-interact
+#+begin_src text
+  You place the tablet in your bag.
 #+end_src
 
 ** South
@@ -265,6 +263,17 @@ end
   Their pacing is preventing you from reaching the window.
 #+end_src
 
+** Deadend
+#+name: deadend-desc
+#+begin_src text
+  A cold wall prevents you from moving in this direction
+#+end_src
+
+** No Interaction
+#+name: no-interact-desc
+#+begin_src text
+  Nothing happened
+#+end_src
 * TODO Lisp Version
 
 ** Nodes
@@ -435,6 +444,7 @@ end
     const char locationName[30];
     const char unlockDesc[DESC_MAX];
     const char lockedDesc[DESC_MAX];
+    const char interactDesc[DESC_MAX];
     int requiredKey;
     int containedKey;
     int unlocked;
@@ -467,10 +477,12 @@ end
       "look", "l",
       "Look", "L",
       "bag", "b",
-      "Bag", "B"
+      "Bag", "B",
+      "interact", "i",
+      "Interact", "I",
     };
 
-    for (int i = 0; i < 24; i++) {
+    for (int i = 0; i < 28; i++) {
       if (strcmp(validInput[i], move) == 0) {
 	return 1;
       }
@@ -522,7 +534,7 @@ end
 - Actions are either moving around, looking, interacting with the room or looking in your bag
 #+name: all-actions
 #+begin_src c
-  enum action { North, South, East, West, Look, Bag };
+  enum action { North, South, East, West, Look, Bag, Interact };
 #+end_src
 
 *** TODO Game Loop
@@ -564,6 +576,9 @@ end
    case 'b':
      a = Bag;
      break;
+   case 'i':
+     a = Interact;
+     break;
   }
 #+end_src
 **** Handling the Action
@@ -574,7 +589,7 @@ end
   printWidth(currentRoom->desc, DESC_WIDTH);
 #+end_src
 
-***** TODO Move
+***** Move
 
 ****** Call the =move= function to get the next room
 #+name: adventure-move-next
@@ -638,15 +653,6 @@ end
   currentRoom->visited = 1;
 #+end_src
 
-****** TODO Auto pickup key
-#+name: adventure-move-autopickup
-#+begin_src c
-  if (currentRoom->containedKey != 0) {
-    bag[bagLen] = currentRoom->containedKey;
-    bagLen++;
-   }
-#+end_src
-
 ****** Deciding on whether or not to go to the next room
 - Before entering a room this function checks to see if you have the needed key
 - If you have never been to the room before it will display the long description, otherwise it will display the short
@@ -675,12 +681,30 @@ end
     printf("In your bag you find:\n");
     for (int i = 0; i < bagLen; i++) {
       if (bag[i] >= 0 && bag[i] < keyCount ) {
-	printf("\t- %s\n", keyDesc[i]);
+	printf("\t- %s\n", keyDesc[bag[i]]);
       } else {
 	printf("\t- Error\n");
       }
     }
   }
+#+end_src
+
+***** Interact
+- This will check if the room contains a key
+- If it does it will print the interaction description
+- The key will be added to the bag and the room contained key will be set to none
+#+name: adventure-handle-interact
+#+begin_src c :noweb yes
+  if (currentRoom->containedKey != 0) {
+    bag[bagLen] = currentRoom->containedKey;
+    bagLen++;
+    currentRoom->containedKey = 0;
+
+    printWidth(currentRoom->interactDesc, DESC_WIDTH);
+   } else {
+    printWidth("<<no-interact-desc>>", DESC_WIDTH);
+   }
+
 #+end_src
 
 
@@ -709,6 +733,9 @@ end
 	break;
       case Bag:
 	<<adventure-handle-bag>>
+	break;
+      case Interact:
+	<<adventure-handle-interact>>
 	break;
       case North:
       case South:
@@ -740,6 +767,7 @@ end
       .locationName = "<<nw-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
+      .interactDesc = "",
       .requiredKey = None,
       .containedKey = None
     };
@@ -749,6 +777,7 @@ end
       .locationName = "<<n-location>>",
       .unlockDesc = "<<n-unlock-desc>>",
       .lockedDesc = "<<n-locked-desc>>",
+      .interactDesc = "<<n-interact>>",
       .requiredKey = Torch,
       .containedKey = Passcode
     };
@@ -758,6 +787,7 @@ end
       .locationName = "<<ne-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
+      .interactDesc = "<<ne-interact>>",
       .requiredKey = None,
       .containedKey = Umbrella
     };
@@ -767,6 +797,7 @@ end
       .locationName = "<<w-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
+      .interactDesc = "",
       .requiredKey = None,
       .containedKey = None
     };
@@ -776,6 +807,7 @@ end
       .locationName = "<<c-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
+      .interactDesc = "",
       .requiredKey = None,
       .containedKey = None
     };
@@ -785,6 +817,7 @@ end
       .locationName = "<<e-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
+      .interactDesc = "",
       .requiredKey = None,
       .containedKey = None
     };
@@ -794,6 +827,7 @@ end
       .locationName = "<<sw-location>>",
       .unlockDesc = "<<sw-unlock-desc>>",
       .lockedDesc = "<<sw-locked-desc>>",
+      .interactDesc = "<<sw-interact>>",
       .requiredKey = Umbrella,
       .containedKey = Tablet
     };
@@ -803,6 +837,7 @@ end
       .locationName = "<<s-location>>",
       .unlockDesc = "",
       .lockedDesc = "",
+      .interactDesc = "<<s-interact>>",
       .requiredKey = None,
       .containedKey = Torch
     };
@@ -812,6 +847,7 @@ end
       .locationName = "<<se-location>>",
       .unlockDesc = "<<se-unlock-desc>>",
       .lockedDesc = "<<se-locked-desc>>",
+      .interactDesc = "",
       .requiredKey = Passcode,
       .containedKey = None
     };
@@ -821,6 +857,7 @@ end
       .locationName = "<<exit-location>>",
       .unlockDesc = "<<exit-unlock-desc>>",
       .lockedDesc = "<<exit-locked-desc>>",
+      .interactDesc = "",
       .requiredKey = Tablet,
       .containedKey = None
     };
@@ -857,8 +894,7 @@ end
 
     printf("\n\n\n");
 
-    adventure(&nw, &exitRoom,
-	      "A cold wall prevents you from moving in this direction.", keyCount, keyDesc);
+    adventure(&nw, &exitRoom, "<<deadend-desc>>", keyCount, keyDesc);
 
     return 0;
   }
