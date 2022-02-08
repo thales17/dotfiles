@@ -92,6 +92,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'gnuplot)
   (straight-use-package 'graphviz-dot-mode)
   (straight-use-package 'go-mode)
+  (straight-use-package 'olivetti)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -665,4 +666,14 @@ Customizations and global keys for org mode
 - This sets up [[https://github.com/ppareit/graphviz-dot-mode][graphviz-dot-mode]]
 #+begin_src elisp
   (setq graphviz-dot-indent-width 4)
+#+end_src
+* EWW
+- Start olivetti mode when using eww
+#+begin_src elisp
+  (defun ajr-eww-setup ()
+    (olivetti-mode)
+    (text-scale-mode)
+    (text-scale-increase 3))
+
+  (add-hook 'eww-mode-hook #'ajr-eww-setup)
 #+end_src
