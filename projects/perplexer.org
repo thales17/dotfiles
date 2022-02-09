@@ -287,29 +287,61 @@ end
 
 *** Descriptions
 #+begin_src lisp :noweb yes
-  (defparameter *nodes-long-description* '((northwest ("<<nw-desc>>"))
-					   (west ("<<w-desc>>"))
-					   (southwest ("<<sw-desc>>"))
-					   (north ("<<n-desc>>"))
-					   (central ("<<c-desc>>"))
-					   (south ("<<s-desc>>"))
-					   (northeast ("<<ne-desc>>"))
-					   (east ("<<e-desc>>"))
-					   (southeast ("<<se-desc>>"))
-					   (exit ("<<exit-desc>>"))))
-
-  (defparameter *nodes-location* '((northwest ("<<nw-location>>"))
-				   (west ("<<w-location>>"))
-				   (southwest ("<<sw-location>>"))
-				   (north ("<<n-location>>"))
-				   (central ("<<c-location>>"))
-				   (south ("<<s-location>>"))
-				   (northeast ("<<ne-location>>"))
-				   (east ("<<e-location>>"))
-				   (southeast ("<<se-location>>"))
-				   (exit ("<<exit-location>>"))))
+  (defparameter *nodes-descriptions* '((northwest
+					("<<nw-desc>>"
+					 nil
+					 nil
+					 nil))
+				       (west
+					("<<w-desc>>"
+					 nil
+					 nil
+					 nil))
+				       (southwest
+					("<<sw-desc>>"
+					 "<<sw-unlock-desc>>"
+					 "<<sw-locked-desc>>"
+					 "<<sw-interact>>"))
+				       (north
+					("<<n-desc>>"
+					 "<<n-unlock-desc>>"
+					 "<<n-locked-desc>>"
+					 "<<n-interact>>"))
+				       (central
+					("<<c-desc>>"
+					 nil
+					 nil
+					 nil))
+				       (south
+					("<<s-desc>>"
+					 nil
+					 nil
+					 "<<s-interact>>"))
+				       (northeast
+					("<<ne-desc>>"
+					 nil
+					 nil
+					 "<<ne-interact>>"))
+				       (east
+					("<<e-desc>>"
+					 nil
+					 nil
+					 nil))
+				       (southeast
+					("<<se-desc>>"
+					 "<<se-unlock-desc>>"
+					 "<<se-locked-desc>>"
+					 nil))
+				       (exit
+					("<<exit-desc>>"
+					 "<<exit-unlock-desc>>"
+					 "<<exit-locked-desc>>"
+					 nil))))
 
 #+end_src
+
+#+RESULTS:
+: *NODES-DESCRIPTIONS*
 
 *** State
 
@@ -360,6 +392,9 @@ end
 				     (passcode north)
 				     (question southwest)))
 #+end_src
+
+#+RESULTS:
+: *OBJECT-LOCATIONS*
 
 * C Version
 :PROPERTIES:

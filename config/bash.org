@@ -1,8 +1,17 @@
 #+title: config/bash
-<2022-01-15 Sat>
+<2022-02-09 Wed>
+* PATH
+#+name: path
+#+begin_src sh
+  export GOPATH=$HOME/go
+
+  export PATH=$PATH:$HOME/.local/bin
+  export PATH=$PATH:$GOPATH/bin
+#+end_src
+
 * =bashrc=
 #+name: .bashrc
-#+begin_src sh :tangle ~/.bashrc
+#+begin_src sh :tangle ~/.bashrc :noweb yes
   #
   # ~/.bashrc
   #
@@ -16,7 +25,7 @@
   # Customization begins here
   export LD_LIBRARY_PATH=$HOME/.local/lib
 
-  export PATH=$PATH:$HOME/.local/bin
+  <<path>>
 
   export EDITOR=mg
 
@@ -46,6 +55,6 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
 
 * =profile=
 #+name: .profile
-  #+begin_src sh :tangle ~/.profile
-    export PATH=$PATH:$HOME/.local/bin
+  #+begin_src sh :tangle ~/.profile :noweb yes
+  <<path>>
 #+end_src

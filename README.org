@@ -47,7 +47,7 @@ The config dir has various org mode files that can be tangled into their correct
 *** Programming
 - [[file:notes/elisp.org][Emacs Lisp]]
 - [[file:notes/lisp.org][Common Lisp]]
-
+- [[file:notes/go.org][Go]]
 **** C
 - [[file:notes/carguments.org][Program Arguments]]
 - [[file:notes/ncurses.org][ncurses]]
