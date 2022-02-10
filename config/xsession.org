@@ -1,12 +1,25 @@
 #+title: config/xsession
-<2022-01-14 Fri>
+<2022-02-09 Wed>
 * Config
 - This is used primarily on OpenBSD systems
 - This file launches the window manager
 #+begin_src sh :tangle ~/.xsession
   xsetroot -solid "#3b6064"
 
+  export $(dbus-launch)
+
   syncthing &
+
+  export GOPATH=$HOME/go
+
+  export PATH=$HOME/.local/bin:$PATH
+  export PATH=$PATH:$GOPATH/bin
+
+  export RED_SHIFT_LAT_LONG=38.25424:-85.75941
+
+  xmodmap $HOME/.Xmodmap
+
+  redshift -l $RED_SHIFT_LAT_LONG &
 
   exec dwm
 #+end_src

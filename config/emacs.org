@@ -548,38 +548,6 @@ Customizations and global keys for org mode
   (coterm-mode)
   (require 'elfeed)
 #+end_src
-* Customizations
-- Customizations should be stored in a separate file =~/.emacs_custom.el=
-- This should be last to ensure that the =~/.emacs-custom.el= can do any local overrides that might be needed
-- Elfeed feeds are defined in =~/.elfeed-feeds.el=
-
-#+begin_src elisp
-  (setq custom-file "~/.emacs-custom.el")
-  (load custom-file)
-
-  (load "~/.elfeed-feeds.el")
-#+end_src
-** Common Customizations
-- =confirm-kill-emacs= - =y-or-n-p=
-- Set the theme to =modus-vivendi= or =modus-operandi=
-- Change the font to Hack 12 point
-- Change the =variable-pitch= face to =Noto Serif=
-- Set the =bongo-default-directory= to =~/music=
-- Set the =bongo-enabled-backends= to =vlc=
-- Change the =browse-url-browser-function= to ='eww-browse-url=
-- Set the =efleed-sort-order= to ='ascending=
-- Set the =initial-buffer-choice= to =~/=
-- Set =menu-bar-mode= to =nil=
-- Set =tool-bar-mode= to =nil=
-- Set =tab-bar-show= to =nil=
-- Set =visible-bell= to =t=
-- Edit the =org-babel-load-languages= to enable: C, shell, ditaa, lisp
-- Set =org-hide-emphasis-markers= to =t=
-- Set =org-startup-folded= to ='content=
-- Set =org-agenda-files= to =~/org=
-- Set =save-place-mode= to =t=
-- Set =shr-image-animate= to =nil= to disable animated gifs in shr
-- Set =recenter-positions= to ='(top middle bottom)=
 * Emacs Server Mode
 - You can enable the emacs server to start at login with =systemctl --user enable emacs=
 - You can connect to the server with =emacsclient -c=
@@ -618,7 +586,6 @@ Customizations and global keys for org mode
   (add-hook 'before-save-hook 'ajr-lsp-format-on-save-hook)
 #+end_src
 
-
 ** Go
 - Install the go language server =gopls=, =go get golang.org/x/tools/gopls@latest=
 #+begin_src elisp
@@ -631,15 +598,6 @@ Customizations and global keys for org mode
   (eval-after-load "elfeed-search"
     (define-key elfeed-search-mode-map "q" 'ajr-elfeed-save-db-and-bury))
 #+end_src
-* Desktop Save Mode
-- I enable this to persist frames, windows and buffer positions to disk
-- Emacs will search in the =desktop-path= for the desktop file at startup
-- If you have an =initial-buffer-choice= set when Emacs starts up it will always load that buffer
-  - If you don't want this to happen erase customizations for =initial-buffer-choice=
-#+begin_src elisp
-  (desktop-save-mode 1)
-#+end_src
-
 * SLIME
 #+begin_src elisp
   (setq inferior-lisp-program "/usr/bin/clisp")
@@ -677,3 +635,35 @@ Customizations and global keys for org mode
 
   (add-hook 'eww-mode-hook #'ajr-eww-setup)
 #+end_src
+* Customizations
+- Customizations should be stored in a separate file =~/.emacs-custom.el=
+- This should be last to ensure that the =~/.emacs-custom.el= can do any local overrides that might be needed
+- Elfeed feeds are defined in =~/.elfeed-feeds.el=
+- This should be loaded last to allow for overrides in the the =.emacs-custom.el=
+#+begin_src elisp
+  (setq custom-file "~/.emacs-custom.el")
+  (load custom-file)
+
+  (load "~/.elfeed-feeds.el")
+#+end_src
+** Common Customizations
+- =confirm-kill-emacs= - =y-or-n-p=
+- Set the theme to =modus-vivendi= or =modus-operandi=
+- Change the font to Hack 12 point
+- Change the =variable-pitch= face to =Noto Serif=
+- Set the =bongo-default-directory= to =~/music=
+- Set the =bongo-enabled-backends= to =vlc=
+- Change the =browse-url-browser-function= to ='eww-browse-url=
+- Set the =efleed-sort-order= to ='ascending=
+- Set the =initial-buffer-choice= to =~/=
+- Set =menu-bar-mode= to =nil=
+- Set =tool-bar-mode= to =nil=
+- Set =tab-bar-show= to =nil=
+- Set =visible-bell= to =t=
+- Edit the =org-babel-load-languages= to enable: C, shell, ditaa, lisp
+- Set =org-hide-emphasis-markers= to =t=
+- Set =org-startup-folded= to ='content=
+- Set =org-agenda-files= to =~/org=
+- Set =save-place-mode= to =t=
+- Set =shr-image-animate= to =nil= to disable animated gifs in shr
+- Set =recenter-positions= to ='(top middle bottom)=

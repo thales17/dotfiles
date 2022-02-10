@@ -37,8 +37,8 @@ dunst:
 cdripping:
 	@../scripts/tangle.sh cdripping.org
 
-xinitrc:
-	@../scripts/tangle.sh xinitrc.org
+xsession:
+	@../scripts/tangle.sh xsession.org
 
 emacs:
 	@touch ~/.emacs-custom.el
@@ -51,4 +51,4 @@ utils:
 suckless:
 	@../scripts/tangle.sh suckless.org
 
-openbsd: emacs nethack kitty tmux git bash cdripping xinitrc
+openbsd: emacs nethack kitty tmux git bash cdripping xsession
