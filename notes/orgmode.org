@@ -170,3 +170,21 @@
 
 #+RESULTS:
 [[file:example_graphviz.png]]
+* LaTex
+- To view the Embedded LaTex section of the manual execute:
+#+begin_src elisp
+    (info "(org) Embedded LaTex")
+#+end_src
+- [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-LaTeX.html][Worg: LaTex Source Code Blocks in Org Mode]]
+- [[https://www.gnu.org/software/auctex/][AucTeX]] is an Emacs major mode for editing LaTex
+- You will need a texlive distribution (like =texlive-most= on Arch Linux) installed on your system to access the LaTex programs
+- In order to export to SVG you need to have =inkscape= installed on your computer
+- Ensure that LaTex is added to the =org-babel-load-languages=
+** Hello World
+#+name: hello-world
+#+BEGIN_SRC latex :exports both :file hello-latex.svg :buffer no
+  (a + b)^2 = a^2 +2ab + b^2
+#+END_SRC
+[[file:hello-latex.svg]]
+** TikZ
+- [[https://www.homepages.ucl.ac.uk/~ucahjde/blog/tikz.html][TikZ and org-mode]]

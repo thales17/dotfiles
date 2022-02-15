@@ -93,6 +93,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
   (straight-use-package 'graphviz-dot-mode)
   (straight-use-package 'go-mode)
   (straight-use-package 'olivetti)
+  (straight-use-package 'auctex)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -127,7 +128,6 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
   (defun ajr-elfeed ()
     "My command to start and update elfeed"
     (interactive)
-    (elfeed-db-load)
     (elfeed)
     (elfeed-search-clear-filter)
     (elfeed-search-update--force)
@@ -592,12 +592,6 @@ Customizations and global keys for org mode
   (add-hook 'go-mode-hook 'lsp-deferred)
 #+end_src
 
-* elfeed
-** Search mode map
-#+begin_src elisp
-  (eval-after-load "elfeed-search"
-    (define-key elfeed-search-mode-map "q" 'ajr-elfeed-save-db-and-bury))
-#+end_src
 * SLIME
 #+begin_src elisp
   (setq inferior-lisp-program "/usr/bin/clisp")
