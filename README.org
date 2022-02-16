@@ -38,6 +38,7 @@ The config dir has various org mode files that can be tangled into their correct
 - [[file:notes/gimp.org][Gimp]]
 
 *** Operating Systems
+- [[file:notes/debian.org][Debian]]
 - [[file:notes/qemu.org][QEMU]]
 - [[file:notes/alpinelinux.org][Alpine Linux]]
 - [[file:notes/openbsd.org][OpenBSD]]

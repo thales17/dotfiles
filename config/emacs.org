@@ -170,6 +170,10 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 ** mail
 #+name: mail
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+  (defcustom ajr-sync-mail-program
+    "syncmail"
+    "Program that syncs mail and updates notmuch")
+
   (defun ajr-sync-mail ()
     "Starts a process name `syncmail' and sends the output to
   a special mode buffer. This will pop to the buffer as the
@@ -179,7 +183,7 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
       (special-mode)
       (setq buffer-read-only nil)
       (erase-buffer)
-      (start-process "syncmail" (current-buffer) "syncmail")
+      (start-process "syncmail" (current-buffer) ajr-sync-mail-program)
       (setq buffer-read-only t)
       (pop-to-buffer (current-buffer))))
 #+end_src
@@ -442,15 +446,15 @@ I use ivy for my completion framework
   (global-set-key (kbd "<f8>") 'compile)
   (global-set-key (kbd "<f9>") 'whitespace-mode)
   (global-set-key (kbd "<f10>") 'whitespace-cleanup)
-  (global-set-key (kbd "<f11>") 'notmuch)
-  (global-set-key (kbd "C-<f11>") 'ajr-sync-mail)
+  (global-set-key (kbd "C-c n n") 'notmuch)
+  (global-set-key (kbd "C-c n u") 'ajr-sync-mail)
   (global-set-key (kbd "<f12>") 'comment-dwim)
   (global-set-key (kbd "<f5>") 'ajr-elfeed)
   (global-set-key (kbd "<f6>") 'ajr-scratch)
 
   ;; password-store
-  (global-set-key (kbd "C-<f1>") 'password-store-copy)
-  (global-set-key (kbd "C-<f2>") 'password-store-otp-token-copy)
+  (global-set-key (kbd "C-c p c") 'password-store-copy)
+  (global-set-key (kbd "C-c p o") 'password-store-otp-token-copy)
 
   ;; music
   (define-key global-map (kbd "C-c m") (make-sparse-keymap))

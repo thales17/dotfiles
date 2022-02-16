@@ -1,10 +1,6 @@
 #+title: notes/go
 <2022-02-09 Wed>
 * Setup
-** ArchLinux
-- [[https://wiki.archlinux.org/title/Go][ArchWiki: Go]]
-- The arch package is usually the latest stable release
-
 ** GOPATH
 - The default value for the =$GOPATH= environment variable is =$HOME/go=
 - Tools that are installed will be in =$GOPATH/bin= folder

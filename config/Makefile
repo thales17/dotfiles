@@ -1,4 +1,6 @@
-linux: bash git xprofile nethack log-dir beets cdripping emacs utils suckless kitty tmux git bash xmodmap dunst
+debian: git tmux emacs beets cdripping log-dir bash nethack utils
+arch-linux: bash git xprofile nethack log-dir beets cdripping emacs utils suckless kitty tmux git bash xmodmap dunst
+openbsd: emacs nethack kitty tmux git bash cdripping xsession
 
 git:
 	@touch ~/.gitconfig-user
@@ -50,5 +52,3 @@ utils:
 
 suckless:
 	@../scripts/tangle.sh suckless.org
-
-openbsd: emacs nethack kitty tmux git bash cdripping xsession

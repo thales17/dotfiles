@@ -1,12 +1,14 @@
 #+title: config/bash
 <2022-02-09 Wed>
-* PATH
-#+name: path
+* Environment Variables
+#+name: env
 #+begin_src sh
   export GOPATH=$HOME/go
 
   export PATH=$PATH:$HOME/.local/bin
   export PATH=$PATH:$GOPATH/bin
+
+  export DOTNET_CLI_TELEMETRY_OPTOUT=1
 #+end_src
 
 * =bashrc=
@@ -25,7 +27,7 @@
   # Customization begins here
   export LD_LIBRARY_PATH=$HOME/.local/lib
 
-  <<path>>
+  <<env>>
 
   export EDITOR=mg
 
@@ -56,5 +58,5 @@ This creates a .bash_env.example that should be renamed to .bash_env and filled 
 * =profile=
 #+name: .profile
   #+begin_src sh :tangle ~/.profile :noweb yes
-  <<path>>
+  <<env>>
 #+end_src
