@@ -1,5 +1,5 @@
 #+title: notes/orgmode
-<2022-01-28 Fri>
+<2022-02-16 Wed>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -132,7 +132,7 @@
 	 (list "org-static"
 	       :recursive t
 	       :base-directory "./"
-	       :base-extension "css\\|png\\|gif\\|jpg\\|jpeg"
+	       :base-extension "css\\|png\\|gif\\|jpg\\|jpeg\\|svg"
 	       :publishing-directory "./public"
 	       :publishing-function 'org-publish-attachment)))
 #+end_src

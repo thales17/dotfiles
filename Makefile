@@ -6,7 +6,7 @@ tangle:
 	@cd notes && ../scripts/tangle.sh orgmode.org
 
 upload:
-	@./upload.sh
+	@scripts/upload.sh
 
 serve:
 	@cd public && python -m http.server
