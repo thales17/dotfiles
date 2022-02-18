@@ -1,62 +1,70 @@
 #+title: config/bash
-<2022-02-09 Wed>
+<2022-02-18 Fri>
 * Environment Variables
 #+name: env
 #+begin_src sh
-  export GOPATH=$HOME/go
+export GOPATH=$HOME/go
 
-  export PATH=$PATH:$HOME/.local/bin
-  export PATH=$PATH:$GOPATH/bin
+export PATH=$PATH:$HOME/.local/bin
+export PATH=$PATH:$GOPATH/bin
 
-  export DOTNET_CLI_TELEMETRY_OPTOUT=1
+export DOTNET_CLI_TELEMETRY_OPTOUT=1
+
+export GOROOT=/usr/local/go
+export PATH=$PATH:$GOROOT/bin
+
+source $HOME/.bash_env
 #+end_src
 
 * =bashrc=
 #+name: .bashrc
 #+begin_src sh :tangle ~/.bashrc :noweb yes
-  #
-  # ~/.bashrc
-  #
+#
+# ~/.bashrc
+#
 
-  # If not running interactively, don't do anything
-  [[ $- != *i* ]] && return
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
 
-  alias ls='ls --color=auto'
-  PS1='[\u@\h \W]\$ '
+alias ls='ls --color=auto'
+PS1='[\u@\h \W]\$ '
 
-  # Customization begins here
-  export LD_LIBRARY_PATH=$HOME/.local/lib
+# Customization begins here
+export LD_LIBRARY_PATH=$HOME/.local/lib
 
-  <<env>>
+<<env>>
 
-  export EDITOR=mg
-
-  source ~/.bash_env
+export EDITOR=mg
 #+end_src
 
 * =bash_env=
 This creates a .bash_env.example that should be renamed to .bash_env and filled out.
 #+name: .bash_env
 #+begin_src sh :tangle ~/.bash_env.example
-  #!/bin/sh
+#!/bin/sh
 
-  # This file is an example and should be renamed to .bash_env
-  # Fill in values for each of the variables
+# This file is an example and should be renamed to .bash_env
+# Fill in values for each of the variables
 
-  # server used by the backup script
-  export BACKUP_SERVER=
+# server used by the backup script
+export BACKUP_SERVER=
 
-  # location on the server where the backups should go
-  export BACKUP_SERVER_PATH=
+# location on the server where the backups should go
+export BACKUP_SERVER_PATH=
 
-  # latitude and longitude used for redshift
-  # use geonames.org to find a given locations latitude and longitude
-  # example, using Louisville, KY lat/lon: `export RED_SHIFT_LAT_LONG=38.25424:-85.75941`
-  export RED_SHIFT_LAT_LONG=
+# latitude and longitude used for redshift
+# use geonames.org to find a given locations latitude and longitude
+# example, using Louisville, KY lat/lon: `export RED_SHIFT_LAT_LONG=38.25424:-85.75941`
+export RED_SHIFT_LAT_LONG=
 #+end_src
 
 * =profile=
 #+name: .profile
-  #+begin_src sh :tangle ~/.profile :noweb yes
-  <<env>>
+#+begin_src sh :tangle ~/.profile :noweb yes
+<<env>>
+#+end_src
+* =xsessionrc=
+#+name: .xsessionrc
+#+begin_src sh :tangle ~/.xsessionrc :noweb yes
+<<env>>
 #+end_src

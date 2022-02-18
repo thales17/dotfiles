@@ -1,16 +1,198 @@
 #+title: notes/go
-<2022-02-09 Wed>
+<2022-02-18 Fri>
 * Setup
+** Getting the latest release
+- [[https://www.digitalocean.com/community/tutorials/how-to-install-go-on-debian-10][Digital Ocean: How to install Go on Debian 10]]
+- The latest release of Go can be downloaded [[https://go.dev/dl/][here]]
+- Copy the =sha256= from the website to a local text file, =echo "SHA_256_FROM_WEBSITE" > go_release_sha256.txt=
+- Calculate the =shaa256= of the download and ensure it matches the value in the text file made above
+  - =sha256sum go<VERSION>.linux-amd64.tar.gz=
+- Extract the tarball with, =tar -xvf go<VERSION>.linux-amd64.tar.gz=
+- Change ownership of the =go= directory to the root user, =sudo chown -R root:root ./go=
+- Move the =go= folder to =/usr/local=, =sudo mv go /usr/local=
+- Update your path to include =/usr/local/go/bin=
+  - Typically you will set =GOROOT=/usr/local/go= then update the path to have =$GOROOT/bin=
 ** GOPATH
 - The default value for the =$GOPATH= environment variable is =$HOME/go=
 - Tools that are installed will be in =$GOPATH/bin= folder
 - It might be advantageous to add =$GOPATH/bin= to your =$PATH= environment variable
+** Hello World
+- The below code sample is a simple hello world program written in Go
+- It should go into its own project folder named =hello-go= and be named =main.go=
+#+begin_src go :tangle ~/tmp/hello-go/main.go :mkdirp yes
+package main
+
+import "fmt"
+
+func main() {
+	fmt.Printf("Hello, Go!\n")
+}
+#+end_src
+- To test out the Go install run =go install hello-go=
+- This should put a binary named =hello-go= in your path that should output "Hello, Go!" when run
+** Build                                                           :noexport:
+#+begin_src sh :results raw
+#!/bin/sh
+
+# Exit on command failure
+set -e
+
+rm -Rf ~/tmp/hello-go
+
+../scripts/tangle.sh go.org
+
+cd ~/tmp/hello-go
+
+go mod init sr.ht/~thales17/dotfiles/notes/go/hello-go
+
+go run .
+#+end_src
+
+#+RESULTS:
+Hello, Go!
 
 ** Installing Beta Versions of Go
 - If you have go installed you can install a beta version using the =go= tool
 - For example: =go install golang.org/dl/go1.18beta2@latest=
+- Before you can run the beta version you need to run =go1.18beta2 download=
+  - This will download the SDK into the =$HOME/sdk= folder
 - This will now make the beta available on your system as =go1.18beta2=. Use this as you would the =go= tool
+
+** Language Server
+- [[https://pkg.go.dev/golang.org/x/tools/gopls#section-readme][gopls]] is the official Go language server
+- You can install it with, =go install golang.org/x/tools/gopls@latest=
+- As far as I can tell the language server does not work in org babel source blocks
 
 * Generics
 - [[https://go.dev/blog/why-generics][go.dev: Why Generics]]
 - [[https://go.dev/doc/tutorial/generics][go.dev: Go Generics Tutorial]]
+** Things you can do with generics that you cannot do with interfaces
+- The =interface= type only lets you define methods
+- This means that if you have a set of structs that all have a similar property you would need to define a method to access it generically
+- Using type constraints with structs allows you to define a generic type this is the union of all the other types
+** Simple Example
+*** Non Generic Sum Functions
+- These sum functions only accept variables of a fixed type
+- These are here to contrast with the generic versions that can accept mulitple types
+- Note that the implementation of these functions is the exact same with the only difference being the type
+#+name: non-generic-sum
+#+begin_src go
+func SumInts(m map[string]int64) int64 {
+	var s int64
+	for _, v := range m {
+		s += v
+	}
+	return s
+}
+
+func SumFloats(m map[string]float64) float64 {
+	var s float64
+	for _, v := range m {
+		s += v
+	}
+
+	return s
+}
+#+end_src
+*** Generic Sum Function
+- In the square brackets below =K= and =V= are the names of the types used
+- =comparable= is a built in generic type that covers all types that support ==== and =!==
+- Go requires map keys to be comparable
+- The =V= type is the union of =int64= and =float64=, meaning only those types are allowed
+#+name: generic-sum
+#+begin_src go
+func SumIntsOrFloats[K comparable, V int64 | float64](m map[K]V) V {
+	var s V
+	for _, v := range m {
+		s += v
+	}
+
+	return s
+}
+#+end_src
+*** Generics with Type Constraint
+- You can create a named type constraint using an =interface=
+#+name: generic-constraint
+#+begin_src go
+type Number interface {
+	int64 | float64
+}
+
+func SumNumbers[K comparable, V Number](m map[K]V) V {
+	var s V
+	for _, v := range m {
+		s += v
+	}
+
+	return s
+}
+#+end_src
+
+*** Main
+- When calling a generic function you can specify the types being used in square brackets
+- For example, =SumIntsOrFloats[string, int64](ints)= is clearly stating the types used for the key and value
+- The square brackets can be omitted when the compiler is able to infer the types like the below example
+#+name: main
+#+begin_src go
+func main() {
+	ints := map[string]int64{
+		"first": 34,
+		"second": 12,
+	}
+
+	floats := map[string]float64{
+		"first": 35.98,
+		"second": 26.99,
+	}
+
+	fmt.Printf("Non-Generic Sums: %v and %v\n",
+		SumInts(ints), SumFloats(floats))
+
+	fmt.Printf("Generic Sums: %v and %v\n",
+		SumIntsOrFloats(ints),
+		SumIntsOrFloats(floats))
+
+	fmt.Printf("Generic Sums with Constraint: %v and %v\n",
+		SumNumbers(ints),
+		SumNumbers(floats))
+}
+#+end_src
+
+*** Putting it all together
+#+begin_src go :tangle ~/tmp/go-generics-simple/main.go :noweb yes :mkdirp yes
+package main
+
+import "fmt"
+
+<<non-generic-sum>>
+
+<<generic-sum>>
+
+<<generic-constraint>>
+
+<<main>>
+#+end_src
+
+*** Build                                                          :noexport:
+- Ensure the latest Go 1.8 software is installed, current that is =go1.18rc1=, =go install golang.org/dl/go1.18rc1@latest=
+#+begin_src sh :results raw
+#!/bin/sh
+
+# Exit on command failure
+set -e
+
+rm -Rf ~/tmp/go-generics-simple
+
+../scripts/tangle.sh go.org
+
+cd ~/tmp/go-generics-simple
+
+go1.18rc1 mod init sr.ht/~thales17/dotfiles/notes/go/go-generics-simple
+
+go1.18rc1 run .
+#+end_src
+
+#+RESULTS:
+Non-Generic Sums: 46 and 62.97
+Generic Sums: 46 and 62.97
+Generic Sums with Constraint: 46 and 62.97

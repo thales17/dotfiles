@@ -106,7 +106,8 @@ deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
        abcde \
        beets \
        beets-doc \
-       inkscape
+       inkscape \
+       curl
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.
