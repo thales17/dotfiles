@@ -1,5 +1,5 @@
 #+title: notes/openbsd
-<2022-02-10 Thu>
+<2022-02-20 Sun>
 * Setup
 These are setup notes for setting up an OpenBSD workstation
 ** Full Disk Encryption
@@ -137,6 +137,36 @@ These are setup notes for setting up an OpenBSD workstation
   ln -s /usr/local/bin/ggrep grep
 #+end_src
 
+* Updating
+** Patching
+- [[https://man.openbsd.org/syspatch][OpenBSD man page: syspatch]]
+- Run =syspatch -c= as root to view the available patches for the system
+- To apply the patches run =syspatch= as root with no argument
+** Upgrading
+- [[https://man.openbsd.org/sysupgrade][OpenBSD man page: sysupgrade]]
+- Use =sysupgrade= to upgrade to the next version of OpenBSD
+- To view the current version use =uname -a=
+
+* DHCP
+- [[https://man.openbsd.org/dhcpd][OpenBSD man page: DHCP]]
+- [[https://man.openbsd.org/dhcpd.conf.5][OpenBSD man page: dhcp.conf]]
+- Below is an example template of a =dhcpd.conf=
+#+begin_src conf
+  subnet 192.168.1.0 netmask 255.255.255.0 {
+	 option routers 192.168.1.1; # Gateway IP
+	 option domain-name-servers 192.168.1.1;
+	 range 192.168.1.100 192.168.1.254; # Dynamic IP Range
+	 host lan-host-1 { # Static IP for some host
+	      fixed-address 192.168.6.2;
+	      hardware ethernet 01:02:03:04:05:06;
+	 }
+	 host lan-host-2 { # Another Static IP for some host
+	      fixed-address 192.168.6.3;
+	      hardware ethernet 02:03:04:05:06:07;
+	 }
+  }
+#+end_src
+- Once you are finished editing the =dhcpd.conf= restart the service with =rcctl restart dhcpd=
 * Resources
 - [[https://www.c0ffee.net/blog/openbsd-on-a-laptop/][c0ffee.net: openbsd on a laptop]]
 - [[https://paedubucher.ch/articles/2020-09-05-openbsd-on-the-desktop-part-i.html][paedubucher.ch: OpenBSD on the desktop pt1]]

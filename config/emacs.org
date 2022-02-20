@@ -520,14 +520,12 @@ Customizations and global keys for org mode
 
 #+begin_src elisp
   (setq org-capture-templates
-	(list (list "t" "TODO")
-	      (list "tt" "Basic TODO" 'entry
-		    (list 'file "todos.org") "* TODO %?\n"
-		    :prepend t)
-	      (list "tl" "TODO with link to file" 'entry
-		    (list 'file "todos.org")
-		    "* TODO %?\n %a"
-		    :prepend t)))
+	'(("t" "TODO")
+	  ("ti" "Misc TODO" entry
+	   (file+headline "todos.org" "Misc")
+	   "* TODO %?\n"
+	   :prepend t)))
+
 #+end_src
 * Before Save Hook
 #+begin_src elisp

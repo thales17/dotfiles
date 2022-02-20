@@ -1,5 +1,5 @@
 #+title: notes/debian
-<2022-02-16 Wed>
+<2022-02-18 Fri>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -26,7 +26,8 @@ deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
 - To turn the caps lock key into control run this =setxkbmap= command when logging in, =/usr/bin/setxkbmap -option "ctrl:nocaps"=
 * Packages
 #+begin_src sh
-  sudo apt install mg \
+  sudo apt install \
+       mg \
        build-essential \
        git \
        git-gui \
@@ -107,7 +108,9 @@ deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
        beets \
        beets-doc \
        inkscape \
-       curl
+       curl \
+       ayatana-indicator-bluetooth \
+       picocom
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.
@@ -139,6 +142,8 @@ deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
 - Ensure the dependencies are installed, =sudo apt-get install build-essential nasm libgl1-mesa-dev libglu1-mesa-dev libsdl1.2-dev libsdl-mixer1.2-dev libsdl2-dev libsdl2-mixer-dev flac libflac-dev libvorbis-dev libvpx-dev libgtk2.0-dev freepats=
 - Run =make= to build =EDuke32=
 - This produces =eduke32= and =mapster32= binaries, place them in your path somewhere
+* Adding User to =uucp= group
+- =sudo usermod -a -G uucp <USER>=
 * OpenRA
 - Clone the latest code here, =git clone =https://github.com/OpenRA/OpenRA=
 - Install the dependencies, =sudo apt install libfreetype6 libopenal1 liblua5.1-0 libsdl2-2.0-0=
