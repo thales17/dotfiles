@@ -1,7 +1,7 @@
 :properties:
 :header-args: :tangle ~/.emacs :results none
 :end:
-<2022-02-18 Fri>
+<2022-02-26 Sat>
 #+title: config/emacs
 
 * Early Init
@@ -98,6 +98,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'flycheck)
 (straight-use-package 'company)
 (straight-use-package 'lsp-ui)
+(straight-use-package 'sudoku)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -123,6 +124,51 @@ This is a process filter that handles carriage returns and newlines. From this, 
     (if window
 	(with-selected-window window
 	  (goto-char (point-max))))))
+#+end_src
+
+** Start Process in Buffer
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr-start-process-in-buffer (buffer-name
+				    program-name
+				    program
+				    &optional program-dir
+				    initial-message
+				    &rest program-args)
+  "Starts a process in buffer with BUFFER-NAME. If an optional
+INITIAL-MESSAGE is supplied it will be added to the beginning of the
+buffer. If you pass the optional PROGRAM-DIR this will change to the
+argument directory before starting the program. The final arugments
+will be pass as PROGRAM-ARGS to the PROGRAM."
+  (with-current-buffer (generate-new-buffer buffer-name)
+    (special-mode)
+    (setq buffer-read-only nil)
+    (when initial-message
+      (insert initial-message)
+      (newline))
+    (when program-dir
+      (cd program-dir))
+    (let ((proc (apply 'start-process
+		       (append
+			(list
+			 program-name
+			 (current-buffer)
+			 program)
+			program-args))))
+      (set-process-filter proc 'ajr-shelllike-filter)
+      (pop-to-buffer (current-buffer)))))
+#+end_src
+
+*** Example Usage
+#+begin_src elisp :tangle no
+(ajr-start-process-in-buffer
+ "*ajr-process-example*"
+ "lsblk"
+ "lsblk"
+ nil
+ "This is an example of using the start process
+in buffer function.
+---------------------------------------------"
+ "-t")
 #+end_src
 
 ** elfeed
@@ -183,13 +229,10 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
   a special mode buffer. This will pop to the buffer as the
   process is running."
   (interactive)
-  (with-current-buffer (get-buffer-create "*syncmail*")
-    (special-mode)
-    (setq buffer-read-only nil)
-    (erase-buffer)
-    (start-process "syncmail" (current-buffer) ajr-sync-mail-program)
-    (setq buffer-read-only t)
-    (pop-to-buffer (current-buffer))))
+  (ajr-start-process-in-buffer
+   "*syncmail*"
+   "syncmail"
+   ajr-sync-mail-program))
 #+end_src
 
 ** music
@@ -286,19 +329,23 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
   (concat (getenv "HOME")
 	  "/videos")
   "Directory where your videos are kept.
-  Used the `ajr-video-*' functions.")
+  Used the `ajr-video-*' functions."
+  :type 'directory)
 
 (defcustom ajr-video-program
   "mpv"
   "Program used to play videos.
-  This program should accept the path to the video as its argument.")
+  This program should accept the path to the video as its argument."
+  :type 'string)
+
+(defcustom ajr-video-regexp
+  ".+\\.\\(mp4\\|webm\\|mkv\\)$"
+  "Only matches files ending in `mp4' or `webm' or `mkv'."
+  :type 'regexp)
+
 #+end_src
 *** Prompt user for video
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defcustom ajr-video-regexp
-  ".+\\.\\(mp4\\|webm\\|mkv\\)$"
-  "Only matches files ending in `mp4' or `webm' or `mkv'.")
-
 (defun ajr--ask-video (is-by-date)
   (let ((videos (directory-files
 		 ajr-video-dir
@@ -362,21 +409,15 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 (defun ajr-video-youtube-dl-at-point ()
   (interactive)
   (let ((yt-url (url-get-url-at-point)))
-    (with-current-buffer (generate-new-buffer "*youtube-dl*")
-      (special-mode)
-      (setq buffer-read-only nil)
-      (insert yt-url)
-      (newline)
-      (cd ajr-video-dir)
-      (setq proc (start-process (format "youtube-dl %s"
-					yt-url)
-				(current-buffer)
-				"youtube-dl"
-				"-f"
-				"best[height<=1080]"
-				yt-url))
-      (set-process-filter proc 'ajr-shelllike-filter)
-      (pop-to-buffer (current-buffer)))))
+    (ajr-start-process-in-buffer
+     "*youtube-dl*"
+     (format "youtube-dl %s" yt-url)
+     "youtube-dl"
+     ajr-video-dir
+     yt-url
+     "-f"
+     "best[height<=1080]"
+     yt-url)))
 #+end_src
 
 ** mini scroll
@@ -429,6 +470,116 @@ Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-promp
   (switch-to-buffer "*scratch*"))
 #+end_src
 
+** Emulation
+*** Variables
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+;; Game Boy
+(defcustom ajr-emu-gameboy-dir
+  (concat (getenv "HOME")
+	  "/games/gb/")
+  "Directory where your Game Boy games are kept. Used the
+`ajr-emu-gameboy-*' functions."
+  :type 'directory)
+
+(defcustom ajr-emu-gameboy-program
+  (list
+   "gambatte")
+  "Program used to play Game Boy games. The program should be the
+first item in the list. Any additional flags for the program should
+get there own list item. The path the game will be added as the
+final argument to the program but this does not need to be in the
+list"
+  :type '(repeat string))
+
+(defcustom ajr-emu-gameboy-regexp
+  ".+\\.\\(gbc\\|gb\\)$"
+  "Only matches files ending in `gbc' or `gb'"
+  :type 'regexp)
+
+;; GBA
+(defcustom ajr-emu-gba-dir
+  (concat (getenv "HOME")
+	  "/games/gba/")
+  "Directory where your Game Boy Advance games are kept. Used the
+`ajr-emu-gba-*' functions."
+  :type 'directory)
+
+(defcustom ajr-emu-gba-program
+  (list
+   "mgba")
+  "Program used to play Game Boy Advance games. The program should be
+the first item in the list. Any additional flags for the program
+should get there own list item. The path the game will be added as the
+final argument to the program but this does not need to be in the list"
+  :type '(repeat string))
+
+(defcustom ajr-emu-gba-regexp
+  ".+\\.\\(gba\\)$"
+  "Only matches files ending in `gba'"
+  :type 'regexp)
+#+end_src
+*** Prompting for a Game
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr--ask-emu (dir regexp)
+  (let ((games (directory-files
+		dir
+		nil
+		regexp)))
+    (concat dir
+	    (completing-read "Which Game? "
+			     games))))
+
+#+end_src
+
+*** Running the Emulators
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr--emu-run (buffer-name
+		     emu-program
+		     game)
+  (let ((emu (car emu-program))
+	(args (cdr emu-program))
+	(cmd-str (string-join
+		  (list
+		   (string-join emu-program " ")
+		   game)
+		  " ")))
+    (apply 'ajr-start-process-in-buffer
+	   (append (list
+		    buffer-name
+		    (format "%s %s" emu game)
+		    emu
+		    nil
+		    cmd-str)
+		   args
+		   (list game)))))
+
+#+end_src
+**** Game Boy
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr-emu-gameboy-play ()
+  "Prompts for a game in `ajr-emu-gameboy-dir' with
+`ajr-emu-gameboy-program'."
+  (interactive)
+  (let ((game (ajr--ask-emu
+	       ajr-emu-gameboy-dir
+	       ajr-emu-gameboy-regexp)))
+    (ajr--emu-run "*Game Boy*"
+		  ajr-emu-gameboy-program
+		  game)))
+#+end_src
+**** GBA
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr-emu-gba-play ()
+  "Prompts for a game in `ajr-emu-gba-dir' with
+`ajr-emu-gba-program'."
+  (interactive)
+  (let ((game (ajr--ask-emu
+	       ajr-emu-gba-dir
+	       ajr-emu-gba-regexp)))
+    (ajr--emu-run "*GBA*"
+		  ajr-emu-gba-program
+		  game)))
+#+end_src
 ** ajr.el
  Load the personal elisp files in init file
  #+begin_src elisp
@@ -477,6 +628,11 @@ I use ivy for my completion framework
 (global-set-key (kbd "C-c v b") 'ajr-video-dired)
 (global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
 
+;; emulation
+(define-key global-map (kbd "C-c e") (make-sparse-keymap))
+(global-set-key (kbd "C-c e a") 'ajr-emu-gba-play)
+(global-set-key (kbd "C-c e g") 'ajr-emu-gameboy-play)
+
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -496,7 +652,6 @@ I use ivy for my completion framework
 (when (daemonp)
   (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))
 
-(global-set-key (kbd "C-c x") 'calc)
 #+end_src
 
 * Paredit

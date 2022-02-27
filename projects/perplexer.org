@@ -284,7 +284,6 @@ end
 * TODO Lisp Version
 
 ** Nodes
-
 *** Descriptions
 #+begin_src lisp :noweb yes
   (defparameter *nodes-descriptions* '((northwest
@@ -344,11 +343,8 @@ end
 : *NODES-DESCRIPTIONS*
 
 *** State
-
 **** Visited
-
 **** Locked / Unlocked
-
 ** Edges
 #+begin_src lisp
   (defparameter *edges* '((northwest

@@ -232,3 +232,6 @@ keycode 58 = Control
 - Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
 - Run =make install= with appropriate permissions to install the new version on the system
 - Use =M-x emacs-version RET= to see the current version info, including the build date
+* XFCE4
+- [[https://wiki.archlinux.org/title/Xfce][ArchWiki: XFCE4]]
+- Install =xfce4= and =xfce4-goodies=

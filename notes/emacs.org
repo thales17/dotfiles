@@ -1,13 +1,13 @@
 #+title: notes/emacs
-<2022-02-06 Sun>
+<2022-02-25 Fri>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
-  (info "elisp")
+(info "elisp")
 #+end_src
 - When you want to go to a specifc node a info file place the file name in parenthesis
 #+begin_src elisp
-  (info "(elisp) Simple Macro")
+(info "(elisp) Simple Macro")
 #+end_src
 - The path to a particular node can be seen in the mode line in the info buffer
 
@@ -44,3 +44,45 @@ Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, fo
 - When in =c-mode= use the command =c-set-style= (=C-c .=) to change the indent style
 - =gnu= style is the default and uses 2 spaces for indent
 - The
+* Buttons
+- Info page on buttons, (info "(elisp) Buttons")
+- Below is code that creates a hello world button that displays the message "Hello, World"
+#+begin_src elisp
+(defun ajr-hello-world-button-pressed (button)
+  (message "Hello, World!"))
+
+(define-button-type 'ajr-hello-world-button
+  'action 'ajr-hello-world-button-pressed
+  'follow-link t
+  'help-echo "Click to say \"Hello, World!\"")
+
+(insert-button "Hello, World"
+	       :type 'ajr-hello-world-button)
+#+end_src
+* Optional / Variadic Function Arguments
+** Optional
+- Info page on argument lists, (info "(elisp) Argument List")
+- Use the =&optional= keyword to indicate a param is not required
+- When an optional value is not supplied it will be =nil=
+- Required arguments cannot follow optional ones in the argument list
+** Variadic / Rest
+- When the last argument of the argument list is =&rest <NAME_OF_REST_VAR>= the function will accept any number of arguments
+- The rest variables will be stored in a list with the given name
+- The below example shows using higher order functions with optional params
+#+begin_src elisp
+(defun ajr-example-opt-var-low (a b &optional c &rest d)
+  (append
+   (list a)
+   (list b)
+   (list c)
+   d))
+
+(defun ajr-example-opt-var-high (&optional c &rest d)
+  (ajr-example-opt-var-low "higher" "order" c d))
+
+
+(ajr-example-opt-var-high "args" 1 2 3 4 5 6 7 8 "...")
+#+end_src
+
+#+RESULTS:
+| higher | order | args | (1 2 3 4 5 6 7 8 ...) |
