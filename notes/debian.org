@@ -1,5 +1,5 @@
 #+title: notes/debian
-<2022-02-18 Fri>
+<2022-03-03 Thu>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -26,91 +26,92 @@ deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
 - To turn the caps lock key into control run this =setxkbmap= command when logging in, =/usr/bin/setxkbmap -option "ctrl:nocaps"=
 * Packages
 #+begin_src sh
-  sudo apt install \
-       mg \
-       build-essential \
-       git \
-       git-gui \
-       mosh \
-       tmux \
-       pass \
-       pass-extension-otp \
-       zbar-tools \
-       libgccjit-10-dev \
-       gcc-doc \
-       gcc-doc-base \
-       doc-base \
-       libjansson-dev \
-       libjansson-doc \
-       autoconf \
-       autoconf-doc \
-       texlive \
-       texlive-extra-utils \
-       texlive-latex-extra \
-       texi2html \
-       texinfo \
-       libgtk-3-dev \
-       libgtk-3-doc \
-       libxpm-dev \
-       libjpeg-dev \
-       gnutls-bin \
-       gnutls-doc \
-       libtiff-dev \
-       libtiff-doc \
-       libgif-dev \
-       libgnutls28-dev \
-       libncurses-dev \
-       imagemagick \
-       imagemagick-doc \
-       htop \
-       ncdu \
-       fonts-hack-ttf \
-       syncthing \
-       vlc \
-       mpv \
-       nethack-console \
-       ledger \
-       fonts-noto-cjk \
-       fonts-noto-cjk-extra \
-       fonts-noto-color-emoji \
-       fonts-noto-core \
-       fonts-noto-extra \
-       evince \
-       libssl-dev \
-       libssl-doc \
-       libsasl2-dev \
-       libdb-dev \
-       db \
-       libdb \
-       db5.3-doc \
-       libxapian-dev \
-       libgmime-3.0-dev \
-       libtalloc-dev \
-       zlib1g-dev \
-       clisp \
-       clisp-doc \
-       libsdl2-dev \
-       libsdl2-doc \
-       libusb-1.0-0-dev \
-       pkg-config \
-       openttd \
-       openttd-data \
-       openttd-opengfx \
-       openttd-openmsx \
-       openttd-opensfx \
-       fzf \
-       crispy-doom \
-       frotz \
-       libfreetype6 \
-       libopenal1 \
-       liblua5.1-0 \
-       abcde \
-       beets \
-       beets-doc \
-       inkscape \
-       curl \
-       ayatana-indicator-bluetooth \
-       picocom
+sudo apt install \
+     mg \
+     build-essential \
+     git \
+     git-gui \
+     mosh \
+     tmux \
+     pass \
+     pass-extension-otp \
+     zbar-tools \
+     libgccjit-10-dev \
+     gcc-doc \
+     gcc-doc-base \
+     doc-base \
+     libjansson-dev \
+     libjansson-doc \
+     autoconf \
+     autoconf-doc \
+     texlive \
+     texlive-extra-utils \
+     texlive-latex-extra \
+     texi2html \
+     texinfo \
+     libgtk-3-dev \
+     libgtk-3-doc \
+     libxpm-dev \
+     libjpeg-dev \
+     gnutls-bin \
+     gnutls-doc \
+     libtiff-dev \
+     libtiff-doc \
+     libgif-dev \
+     libgnutls28-dev \
+     libncurses-dev \
+     imagemagick \
+     imagemagick-doc \
+     htop \
+     ncdu \
+     fonts-hack-ttf \
+     syncthing \
+     vlc \
+     mpv \
+     nethack-console \
+     ledger \
+     fonts-noto-cjk \
+     fonts-noto-cjk-extra \
+     fonts-noto-color-emoji \
+     fonts-noto-core \
+     fonts-noto-extra \
+     evince \
+     libssl-dev \
+     libssl-doc \
+     libsasl2-dev \
+     libdb-dev \
+     db \
+     libdb \
+     db5.3-doc \
+     libxapian-dev \
+     libgmime-3.0-dev \
+     libtalloc-dev \
+     zlib1g-dev \
+     clisp \
+     clisp-doc \
+     libsdl2-dev \
+     libsdl2-doc \
+     libusb-1.0-0-dev \
+     pkg-config \
+     openttd \
+     openttd-data \
+     openttd-opengfx \
+     openttd-openmsx \
+     openttd-opensfx \
+     fzf \
+     crispy-doom \
+     frotz \
+     libfreetype6 \
+     libopenal1 \
+     liblua5.1-0 \
+     abcde \
+     beets \
+     beets-doc \
+     inkscape \
+     curl \
+     ayatana-indicator-bluetooth \
+     picocom \
+     rsync
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.

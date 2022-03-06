@@ -1,7 +1,7 @@
 :properties:
 :header-args: :tangle ~/.emacs :results none
 :end:
-<2022-02-26 Sat>
+<2022-03-05 Sat>
 #+title: config/emacs
 
 * Early Init
@@ -798,6 +798,36 @@ Customizations and global keys for org mode
 #+begin_src elisp
 (setq org-src-preserve-indentation t)
 (setq org-src-tab-acts-natively t)
+#+end_src
+
+* Elfeed
+** Make org mode link
+#+begin_src elisp
+(defun ajr-elfeed-copy-org-link ()
+  "Generates an org mode link from an elfeed entry"
+  (interactive)
+  (kill-new "[[")
+  (save-excursion
+    (let ((kill-elfeed-entry-field
+	   (lambda (field-name)
+	     (goto-char (point-min))
+	     (search-forward field-name)
+	     (set-mark-command nil)
+	     (move-end-of-line nil)
+	     (kill-ring-save (mark) (point))
+	     (deactivate-mark))))
+      (append-next-kill)
+      (funcall kill-elfeed-entry-field "Link: ")
+      (kill-append "][" nil)
+      (append-next-kill)
+      (funcall kill-elfeed-entry-field "Title: ")
+      (kill-append "]]" nil))))
+#+end_src
+** Elfeed Key Map
+#+begin_src elisp
+(with-eval-after-load 'elfeed
+  (define-key elfeed-show-mode-map (kbd "TAB") #'shr-next-link)
+  (define-key elfeed-show-mode-map (kbd "o") #'ajr-elfeed-copy-org-link))
 #+end_src
 
 * Customizations
