@@ -1,5 +1,5 @@
 #+title: notes/orgmode
-<2022-02-16 Wed>
+<2022-03-07 Mon>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -188,3 +188,106 @@
 [[file:hello-latex.svg]]
 ** TikZ
 - [[https://www.homepages.ucl.ac.uk/~ucahjde/blog/tikz.html][TikZ and org-mode]]
+* PlantUML
+** Setup
+- [[https://plantuml.com/emacs][PlantUML: Integration with Emacs]]
+- Install the =plantuml-mode= package from MELPA
+  - With =straight.el= ~(straight-use-package 'plantuml-mode)~
+- Download the latest PlantUML jar file from the [[https://github.com/plantuml/plantuml/releases][Github releases]] page
+- Save it to a known location, for example =~/jars/plantuml-1.2022.1.jar=
+- Set the emacs variable =org-plantuml-jar-path= to the location of the jar file
+#+begin_src elisp
+(setq org-plantuml-jar-path
+      (expand-file-name "~/jars/plantuml-1.2022.1.jar"))
+#+end_src
+- Enable =plantuml= in the =org-babel-load-languages=
+** Example
+- The example diagram was borrowed from: [[https://github.com/mattjhayes/PlantUML-Examples/blob/master/docs/Diagram-Types/source/class-diagram.md][Github mattjhayes: PlantUML Examples]]
+
+#+begin_src plantuml :file plantuml_example.png :exports both
+@startuml
+skinparam shadowing false
+
+title Class Diagram Example
+
+skinparam class {
+    BackgroundColor #94de5e
+    ArrowColor #darkblue
+    BorderColor black
+}
+
+class Vehicle {
+	speed
+    direction
+	make
+    model
+	run()
+}
+class Car {
+    driver_name
+    road
+	run()
+}
+class Plane {
+    pilot_name
+    altitude
+	run()
+}
+class Ship {
+    captain_name
+    ocean
+	run()
+}
+Vehicle <|-- Car
+Vehicle <|-- Plane : inherits
+Vehicle <|-- Ship
+
+legend
+    <size:18>Key</size>
+    |<#94de5e> Class |
+endlegend
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:plantuml_example.png]]
+** Database Example
+- [[https://raphael-leger.medium.com/automatically-generating-up-to-date-database-diagrams-with-typeorm-d1279a20545e][Raphael Leger: SQL + PlantUML: Generate Automatic Database Diagrams]]
+#+begin_src plantuml :file plantuml_sql_example.png :exports both
+@startuml
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+skinparam handwritten false
+skinparam class {
+    BackgroundColor white
+    ArrowColor #2688d4
+    BorderColor #2688d4
+}
+
+table( user ) {
+  primary_key( id ): UUID
+  column( isActive ): BOOLEAN
+  foreign_key( cityId ): INTEGER <<FK>>
+}
+
+table( city ) {
+  primary_key( id ): UUID
+  column( name ): CHARACTER VARYING
+  column( country ): CHARACTER VARYING
+  column( postCode ): INTEGER
+}
+
+user }|--|| city
+
+@enduml
+#+end_src
+
+#+RESULTS:
+[[file:plantuml_sql_example.png]]

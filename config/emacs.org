@@ -99,6 +99,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'company)
 (straight-use-package 'lsp-ui)
 (straight-use-package 'sudoku)
+(straight-use-package 'plantuml-mode)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -172,6 +173,7 @@ in buffer function.
 #+end_src
 
 ** elfeed
+*** Syncing
 Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/][here]].
 #+name: elfeed
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
@@ -190,6 +192,28 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
   (quit-window))
 #+end_src
 
+*** Make org mode link
+#+begin_src elisp
+(defun ajr-elfeed-copy-org-link ()
+  "Generates an org mode link from an elfeed entry"
+  (interactive)
+  (kill-new "[[")
+  (save-excursion
+    (let ((kill-elfeed-entry-field
+	   (lambda (field-name)
+	     (goto-char (point-min))
+	     (search-forward field-name)
+	     (set-mark-command nil)
+	     (move-end-of-line nil)
+	     (kill-ring-save (mark) (point))
+	     (deactivate-mark))))
+      (append-next-kill)
+      (funcall kill-elfeed-entry-field "Link: ")
+      (kill-append "][" nil)
+      (append-next-kill)
+      (funcall kill-elfeed-entry-field "Title: ")
+      (kill-append "]]" nil))))
+#+end_src
 ** org capture
 #+name: org-capture
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
@@ -801,35 +825,12 @@ Customizations and global keys for org mode
 #+end_src
 
 * Elfeed
-** Make org mode link
-#+begin_src elisp
-(defun ajr-elfeed-copy-org-link ()
-  "Generates an org mode link from an elfeed entry"
-  (interactive)
-  (kill-new "[[")
-  (save-excursion
-    (let ((kill-elfeed-entry-field
-	   (lambda (field-name)
-	     (goto-char (point-min))
-	     (search-forward field-name)
-	     (set-mark-command nil)
-	     (move-end-of-line nil)
-	     (kill-ring-save (mark) (point))
-	     (deactivate-mark))))
-      (append-next-kill)
-      (funcall kill-elfeed-entry-field "Link: ")
-      (kill-append "][" nil)
-      (append-next-kill)
-      (funcall kill-elfeed-entry-field "Title: ")
-      (kill-append "]]" nil))))
-#+end_src
 ** Elfeed Key Map
 #+begin_src elisp
 (with-eval-after-load 'elfeed
   (define-key elfeed-show-mode-map (kbd "TAB") #'shr-next-link)
   (define-key elfeed-show-mode-map (kbd "o") #'ajr-elfeed-copy-org-link))
 #+end_src
-
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs-custom.el=
 - This should be last to ensure that the =~/.emacs-custom.el= can do any local overrides that might be needed
