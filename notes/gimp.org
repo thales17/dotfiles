@@ -1,11 +1,14 @@
 #+title: notes/gimp
 
-<2022-02-02 Wed>
+<2022-02-14 Mon>
 
 * Hotkeys
 - =/= - Allows you to search for any command in the menus
 - =M= - for the move tool
 - =Shift + C= - Crop Tool
+- =Shift + S= - Scale Tool
+- =Shift + T= - Transform Tool
+- =Ctrl + Alt + O= - Open as Layer
 
 * Adding a outline around text
 - First add your text in the desired foreground color
@@ -16,3 +19,9 @@
 - Select the border color you would like
 - With the "grown" text still selected on the new layer use the bucket fill tool to add the border
 - The last step is right click the original text layer and merge down into the border layer
+
+* Inserting an Image
+- Add the image as a new layer with =File/Open As Layer=
+- The image will be added at its natural size which could be way bigger than the canvas
+- If you need to resize it use the scale tool
+- You might need to scale a bit then move the new image and scale again, since it might get positioned off the edge of the canvas
