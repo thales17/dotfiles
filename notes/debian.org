@@ -1,5 +1,5 @@
 #+title: notes/debian
-<2022-03-03 Thu>
+<2022-03-07 Mon>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -111,7 +111,10 @@ sudo apt install \
      curl \
      ayatana-indicator-bluetooth \
      picocom \
-     rsync
+     rsync \
+     default-jre \
+     graphviz \
+     info
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.

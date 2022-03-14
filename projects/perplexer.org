@@ -1,6 +1,9 @@
+:properties:
+:header-args: :results none
+:end:
 #+title: projects/perplexer
 #+exclude_tags: noexport
-<2022-03-06 Sun>
+<2022-03-14 Mon>
 * What is "Perplexer"?
 - This is a simple text adventure game that I made
 - It involves collecting a few keys to exit a maze
@@ -74,26 +77,26 @@ Use commands north, south, east, west to explore. The first time you enter a roo
 #+end_src
 
 ** Northwest
-*** Long Description
+*** Description
 #+name: nw-desc
 #+begin_src text
 You are underneath a light dangling from the ceiling by a string. North, west and east are blocked by walls. You see a pile of shredded up paper in the corner. You try to read it but are unable to piece it together. Through the east wall you hear the muffled sounds of a of a dot matrix printer. To the south you see a dark corridor and faintly hear running water.
 #+end_src
 
-*** Location Name
-#+name: nw-location
+*** Name
+#+name: nw-name
 #+begin_src text
 shredded paper pile room
 #+end_src
 ** North
-*** Long Description
+*** Description
 #+name: n-desc
 #+begin_src text
 You see a walled in room with a table in the center. On the table is a dot matrix printer constantly printing the same 10 digit number over and over again.
 #+end_src
 
-*** Location Name
-#+name: n-location
+*** Name
+#+name: n-name
 #+begin_src text
 printer room
 #+end_src
@@ -117,14 +120,14 @@ You feel a wall different from the rest. Perhaps there is a way to destroy this 
 #+end_src
 
 ** Northeast
-*** Long Description
+*** Description
 #+name: ne-desc
 #+begin_src text
 You enter a bright room filled with mist. The walls are glass and you can see the sun is out. In the center of the room is an odd tree with giant leaves.
 #+end_src
 
-*** Location Name
-#+name: ne-location
+*** Name
+#+name: ne-name
 #+begin_src text
 tree room
 #+end_src
@@ -136,52 +139,52 @@ You pull one of the leaves off the tree and place it in your bag.
 #+end_src
 
 ** West
-*** Long Description
+*** Description
 #+name: w-desc
 #+begin_src text
 The room is pitch black and it is hard to make anything out. You feel mist hitting your face from what sounds like a waterfall to the south. To the east you hear wind rustling and see a distant light.
 #+end_src
 
-*** Location Name
-#+name: w-location
+*** Name
+#+name: w-name
 #+begin_src text
 mist room
 #+end_src
 
 ** Center
-*** Long Description
+*** Description
 #+name: c-desc
 #+begin_src text
 You are at a central room and can move in each direction. You hear a crackling sound to the south. To the north you hear the muffled sound of a dot matrix printer. The east is an unlit corridor. You can hear what sounds like someone murmuring to themselves.
 #+end_src
 
-*** Location Name
-#+name: c-location
+*** Name
+#+name: c-name
 #+begin_src text
 central room
 #+end_src
 
 ** East
-*** Long Description
+*** Description
 #+name: e-desc
 #+begin_src text
 You crouch through a narrow doorway to enter a cramped hallway. The walls are painted with a black and white zigzag pattern. To the east you feel a cold wall, dead end. To the north you hear the sounds of birds chirping. The murmuring seems to be coming from the south. It sounds like they are answering questions to a quiz show but you can't hear any other voice.
 #+end_src
 
-*** Location Name
-#+name: e-location
+*** Name
+#+name: e-name
 #+begin_src text
 zigzag hallway
 #+end_src
 
 ** Southwest
-*** Long Description
+*** Description
 #+name: sw-desc
 #+begin_src text
 The ground is broken and covered with cracks blasting the room with green light. You see a small red tablet with gold lettering on the floor. You are unable to make out the writing.
 #+end_src
-*** Location Name
-#+name: sw-location
+*** Name
+#+name: sw-name
 #+begin_src text
 green cracked room
 #+end_src
@@ -204,13 +207,13 @@ You place the tablet in your bag.
 #+end_src
 
 ** South
-*** Long Description
+*** Description
 #+name: s-desc
 #+begin_src text
 You see a small rectangular hole in the south wall. On the other side all you can see are flames.
 #+end_src
-*** Location Name
-#+name: s-location
+*** Name
+#+name: s-name
 #+begin_src text
 flame access
 #+end_src
@@ -221,14 +224,14 @@ You pick up a branch from the floor and stick it in the hole. The branch is now 
 #+end_src
 
 ** Southeast
-*** Long Description
+*** Description
 #+name: se-desc
 #+begin_src text
 Inside the room is a disheveled person pacing back and forth. You notice an earpiece in their ear and realize they are using that to communicate with someone. They seem to be trying to find the right words to please their captor to release them from the conversation. They do not notice you. Behind them you see an open window you could climb through and escape.
 #+end_src
 
-*** Location Name
-#+name: se-location
+*** Name
+#+name: se-name
 #+begin_src text
 perplexer room
 #+end_src
@@ -246,14 +249,14 @@ The murmuring is definitely coming from behind the door. You twist the knob and 
 #+end_src
 
 ** Exit Room
-*** Long Description
+*** Description
 #+name: exit-desc
 #+begin_src text
 Outside you are greeted by a group of lab coat wearing scientists. One scientists starts slow clapping and they all join in quickly afterwards. The hoist you up on their shoulders and start singing. You are not sure what is happening or where they are taking you.\n\n\nThe end
 #+end_src
 
-*** Location Name
-#+name: exit-location
+*** Name
+#+name: exit-name
 #+begin_src text
 end
 #+end_src
@@ -284,226 +287,267 @@ Nothing happened
 * TODO Lisp Version
 ** Globals
 *** Rooms
+**** Names
 #+begin_src lisp :noweb yes
-(defparameter *rooms*
-  '((northwest
-     ("<<nw-desc>>"
-      "<<nw-location>>"
-      nil
-      nil
-      nil
-      nil
-      nil
-      nil))
-    (west
-     ("<<w-desc>>"
-      nil
-      nil
-      nil
-      nil
-      nil
-      nil))
-    (southwest
-     ("<<sw-desc>>"
-      "<<sw-location>>"
-      "<<sw-unlock-desc>>"
-      "<<sw-locked-desc>>"
-      "<<sw-interact>>"
-      umbrella
-      tablet
-      nil))
-    (north
-     ("<<n-desc>>"
-      "<<n-location>>"
-      "<<n-unlock-desc>>"
-      "<<n-locked-desc>>"
-      "<<n-interact>>"
-      torch
-      passcode
-      nil))
-    (central
-     ("<<c-desc>>"
-      "<<c-location>>"
-      nil
-      nil
-      nil
-      nil
-      nil
-      nil))
-    (south
-     ("<<s-desc>>"
-      "<<s-location>>"
-      nil
-      nil
-      "<<s-interact>>"
-      nil
-      torch
-      nil))
-    (northeast
-     ("<<ne-desc>>"
-      "<<ne-location>>"
-      nil
-      nil
-      "<<ne-interact>>"
-      nil
-      umbrella
-      nil))
-    (east
-     ("<<e-desc>>"
-      "<<e-location>>"
-      nil
-      nil
-      nil
-      nil
-      nil
-      nil))
-    (southeast
-     ("<<se-desc>>"
-      "<<se-location>>"
-      "<<se-unlock-desc>>"
-      "<<se-locked-desc>>"
-      nil
-      passcode
-      nil
-      nil))
-    (exit
-     ("<<exit-desc>>"
-      "<<exit-location>>"
-      "<<exit-unlock-desc>>"
-      "<<exit-locked-desc>>"
-      nil
-      tablet
-      nil
-      nil))))
+(defparameter *room-names*
+  '((northwest "<<nw-name>>")
+    (west "<<w-name>>")
+    (southwest "<<sw-name>>")
+    (north "<<n-name>>")
+    (central "<<c-name>>")
+    (south "<<s-name>>")
+    (northeast "<<ne-name>>")
+    (east "<<e-name>>")
+    (southest "<<se-name>>")
+    (exit "<<exit-name>>")))
+
 #+end_src
 
-#+RESULTS:
-: *ROOMS*
+**** Descriptions
+#+begin_src lisp :noweb yes
+(defparameter *room-descriptions*
+  '((northwest "<<nw-desc>>")
+    (west "<<w-desc>>")
+    (southwest "<<sw-desc>>")
+    (north "<<n-desc>>")
+    (central "<<c-desc>>")
+    (south "<<s-desc>>")
+    (northeast "<<ne-desc>>")
+    (east "<<e-desc>>")
+    (southeast "<<se-desc>>")
+    (exit "<<exit-desc>>")))
+#+end_src
+
+**** Locked Rooms
+- The =*locked-rooms*= alist is a list of all the locked rooms and what the needed key is
+- The =*room-unlock-descriptions*= contains the messages for when a room is unlocked by the player
+- Similarly the =*room-locked-descriptions*= contains the messages for when a player attempts to enter a room but does not have the needed key
+#+begin_src lisp :noweb yes
+(defparameter *locked-rooms*
+  '((southwest umbrella)
+    (north torch)
+    (southeast passcode)
+    (exit tablet)))
+
+(defparameter *room-unlock-descriptions*
+  '((southwest "<<sw-unlock-desc>>")
+    (north "<<n-unlock-desc>>")
+    (southeast "<<s-unlock-desc>>")
+    (exit "<<exit-unlock-desc>>")))
+
+(defparameter *room-locked-descriptions*
+  '((southwest "<<sw-locked-desc>>")
+    (north "<<n-locked-desc>>")
+    (southeast "<<se-locked-desc>>")
+    (exit "<<exit-locked-desc>>")))
+#+end_src
+
+
+**** Room Visited Status
+- The room visted status alist tracks whether or not a player has visited a room or not
+- If they have then then only the name is displayed
+- If they have not visited the room then the full description is displayed
+#+begin_src lisp
+(defparameter *rooms-visited*
+  '((northwest t)
+    (west nil)
+    (southwest nil)
+    (north nil)
+    (central nil)
+    (south nil)
+    (northeast nil)
+    (east nil)
+    (southest nil)
+    (exit nil)))
+
+#+end_src
+
 
 *** Edges
+- The edges represent the doors connecting the various rooms together
 #+begin_src lisp
 (defparameter *edges*
   '((northwest
-     (west south door))
+     (west south))
     (west
-     (northwest north door)
-     (southwest south door)
-     (central east door))
+     (northwest north)
+     (southwest south)
+     (central east))
     (southwest
-     (west north door))
+     (west north))
     (central
-     (north north door)
-     (east east door)
-     (south south door)
-     (west west door))
+     (north north)
+     (east east)
+     (south south)
+     (west west))
     (north
-     (central south door))
+     (central south))
     (south
-     (central north door))
+     (central north))
     (east
-     (central west door)
-     (northeast north door)
-     (southeast south door))
+     (central west)
+     (northeast north)
+     (southeast south))
     (northeast
-     (east south door))
+     (east south))
     (southeast
-     (east north door)
-     (exit south door))))
+     (east north)
+     (exit south))))
 
 #+end_src
 
-#+RESULTS:
-: *EDGES*
 
-*** TODO Objects
-- Should the keys be moved out of the rooms and into this?
-*** Location
+*** Current Room
 - This variable is the current location of the player
 - The game starts with the player in the =northwest= room
 #+begin_src lisp
-(defparameter *location* 'northwest)
+(defparameter *current-room* 'northwest)
 #+end_src
 
-#+RESULTS:
-: *LOCATION*
 
-** Actions
-*** Describe / Look
-- The describe function will return the string that is the long description for a room
-- It is a pure function so it doesn't use any globals
-- The look function wraps the describe function to use the globals =*location*= and =*rooms*=
+*** Objects
+- The objects alist represents the set of keys in the game and their current locations
+- Each key can either be in the initial room or in the player's bag
 #+begin_src lisp
-(defun describe-location (location rooms)
-  (caadr (assoc location rooms)))
-
-(defun look ()
-  (describe-location *location* *rooms*))
-#+end_src
-
-#+RESULTS:
-: LOOK
-
-*** Walk
-- This function takes a direction as an argument and potentially changes the =*location*= global to this new location
-- The move must be valid however, so if there isn't an edge between the rooms the player will not be able to travel to the room
-- If the edge is valid and locked then the key object must be on the player's body
-#+begin_src lisp :noweb yes
-(defun walk (direction)
-  (let ((next (find direction
-		    (cdr (assoc *location* *edges*))
-		    :key #'cadr)))
-    (if next
-	(progn (setf *location* (car next))
-	       (look))
-	"<<deadend-desc>>")))
-#+end_src
-
-#+RESULTS:
-: WALK
-
-*** Name
-#+begin_src lisp
-(defun name-location (location nodes)
-  (cadadr (assoc location nodes)))
-#+end_src
-
-#+RESULTS:
-: NAME-LOCATION
-
-*** Visit Node
-#+begin_src lisp
-(defun location-visited-p (location nodes)
-  (nth 7 (cadr (assoc location nodes))))
-
-(defun visit-location (location nodes)
-  (setf (nth 7 (cadr (assoc location nodes))) t))
-#+end_src
-
-#+RESULTS:
-: VISIT-LOCATION
-
-*** Interact
-#+begin_src lisp
-;; check if this contains a key AND it has an interact description
-;; if not the return "Nothing happened" (should this come from the script?)
-
-#+end_src
-
-#+RESULTS:
-: NIL
-
-** Objects
-#+begin_src lisp
-(defparameter *objects* '(torch umbrella passcode question))
+(defparameter *objects* '(torch umbrella passcode tablet))
 
 (defparameter *object-locations* '((torch south)
 				   (umbrella northeast)
 				   (passcode north)
-				   (question southwest)))
+				   (tablet southwest)))
+
 #+end_src
 
-#+RESULTS:
-: *OBJECT-LOCATIONS*
+
+*** Interaction Descriptions
+#+begin_src lisp :noweb yes
+(defparameter *room-interact*
+  '((south "<<s-interact>>")
+    (northeast "<<ne-interact>>")
+    (north "<<n-interact>>")
+    (southwest "<<se-interact>>")))
+#+end_src
+
+
+** Actions
+*** Object At
+#+begin_src lisp
+;; Borrowed from Land of Lisp
+(defun objects-at (loc objs obj-locs)
+    (labels ((at-loc-p (obj)
+	       (eq (cadr (assoc obj obj-locs)) loc)))
+      (remove-if-not #'at-loc-p objs)))
+#+end_src
+
+
+*** Visit Node
+#+begin_src lisp
+(defun location-visited-p (loc loc-visited)
+  (cadr (assoc loc loc-visited)))
+
+(defun visit-location (loc loc-visited)
+  (setf (cadr (assoc loc loc-visited)) t))
+#+end_src
+
+*** Describe / Look
+- The describe function will return the string that is the long description for a room
+- It is a pure function so it doesn't use any globals
+- The look function wraps the describe function to use the globals =*current-room*= and =*rooms*=
+- The quick look function will return the full description if the room hasn't been visited, otherwise it will return the name
+#+begin_src lisp
+(defun look ()
+  (cadr (assoc *current-room* *room-descriptions*)))
+
+(defun quick-look ()
+  (if (location-visited-p *current-room* *rooms-visited*)
+      (cadr (assoc *current-room* *room-names*))
+      (cadr (assoc *current-room* *room-descriptions*))))
+
+#+end_src
+
+*** Can Enter?
+- This predicate will return true if a room is unlocked or locked and the needed key is in the player's bag
+#+begin_src lisp
+(defun can-enter-p (loc)
+  (flet ((is-unlocked-p (loc)
+	   (not (assoc loc *locked-rooms*)))
+	 (needed-key-p (loc)
+	   (cadr (assoc loc *locked-rooms*)))
+	 (key-in-bag-p (key)
+	   (find key (objects-at 'bag *objects* *object-locations*))))
+
+    (or (is-unlocked-p loc)
+	(key-in-bag-p (needed-key-p loc)))))
+#+end_src
+
+
+*** Walk
+- This function takes a direction as an argument and potentially changes the =*current-room*= global to this new location
+- The move must be valid however, so if there isn't an edge between the rooms the player will not be able to travel to the room
+- If the edge is valid and locked then the key object must be in the player's bag
+#+begin_src lisp :noweb yes
+(defun walk (direction)
+  (let ((next (find direction
+		    (cdr (assoc *current-room* *edges*))
+		    :key #'cadr)))
+    (if next
+	(if (can-enter-p (car next))
+	    (progn
+	      (flet ((is-room-locked-p (loc)
+		       (assoc loc *locked-rooms*)))
+		(visit-location *current-room* *rooms-visited*)
+		(setf *current-room* (car next))
+		(if (is-room-locked-p (car next))
+		    (progn
+		      (setf *locked-rooms* (remove-if #'(lambda (loc)
+							  (eq loc (car next)))
+						      ,*locked-rooms*))
+		      (concatenate 'string
+				   (cadr (assoc *current-room*
+					       ,*room-unlock-descriptions*))
+				   " "
+				   (quick-look)))
+		    (quick-look))))
+	    (cadr (assoc (car next) *room-locked-descriptions*)))
+	"<<deadend-desc>>")))
+#+end_src
+
+
+*** Inventory
+- The inventory function will list all items that are located on the player
+- The has item predicate will return nil if the item is not in the inventory
+#+begin_src lisp
+(defun inventory ()
+  (objects-at 'bag *objects* *object-locations*))
+
+(defun has-object (object)
+  (find object (inventory)))
+#+end_src
+
+
+*** Name
+#+begin_src lisp
+(defun name-location (loc loc-names)
+  (cadr (assoc loc loc-names)))
+#+end_src
+
+
+*** Interact
+- The interact function uses the global =*current-room*= and adds any items in the room into the players bag
+- It will also display the room interaction message
+#+begin_src lisp :noweb yes
+(defun interact ()
+  (flet ((has-key-p (loc)
+	   (objects-at loc *objects* *object-locations*)))
+    (if (has-key-p *current-room*)
+	(progn
+	  (let ((obj (car (objects-at *current-room* *objects*
+				      ,*object-locations*))))
+	    (setf (cadr (assoc obj *object-locations*)) 'bag)
+	    (cadr (assoc *current-room* *room-interact*))))
+	"<<no-interact-desc>>")))
+#+end_src
+
 
 * C Version
 :PROPERTIES:
@@ -961,7 +1005,7 @@ int main (int argc, char **argv) {
 
   struct room nw = {
     .desc = "<<nw-desc>>",
-    .locationName = "<<nw-location>>",
+    .locationName = "<<nw-name>>",
     .unlockDesc = "",
     .lockedDesc = "",
     .interactDesc = "",
@@ -971,7 +1015,7 @@ int main (int argc, char **argv) {
 
   struct room n = {
     .desc = "<<n-desc>>",
-    .locationName = "<<n-location>>",
+    .locationName = "<<n-name>>",
     .unlockDesc = "<<n-unlock-desc>>",
     .lockedDesc = "<<n-locked-desc>>",
     .interactDesc = "<<n-interact>>",
@@ -981,7 +1025,7 @@ int main (int argc, char **argv) {
 
   struct room ne = {
     .desc = "<<ne-desc>>",
-    .locationName = "<<ne-location>>",
+    .locationName = "<<ne-name>>",
     .unlockDesc = "",
     .lockedDesc = "",
     .interactDesc = "<<ne-interact>>",
@@ -991,7 +1035,7 @@ int main (int argc, char **argv) {
 
   struct room w = {
     .desc = "<<w-desc>>",
-    .locationName = "<<w-location>>",
+    .locationName = "<<w-name>>",
     .unlockDesc = "",
     .lockedDesc = "",
     .interactDesc = "",
@@ -1001,7 +1045,7 @@ int main (int argc, char **argv) {
 
   struct room c = {
     .desc = "<<c-desc>>",
-    .locationName = "<<c-location>>",
+    .locationName = "<<c-name>>",
     .unlockDesc = "",
     .lockedDesc = "",
     .interactDesc = "",
@@ -1011,7 +1055,7 @@ int main (int argc, char **argv) {
 
   struct room e = {
     .desc = "<<e-desc>>",
-    .locationName = "<<e-location>>",
+    .locationName = "<<e-name>>",
     .unlockDesc = "",
     .lockedDesc = "",
     .interactDesc = "",
@@ -1021,7 +1065,7 @@ int main (int argc, char **argv) {
 
   struct room sw = {
     .desc = "<<sw-desc>>",
-    .locationName = "<<sw-location>>",
+    .locationName = "<<sw-name>>",
     .unlockDesc = "<<sw-unlock-desc>>",
     .lockedDesc = "<<sw-locked-desc>>",
     .interactDesc = "<<sw-interact>>",
@@ -1031,7 +1075,7 @@ int main (int argc, char **argv) {
 
   struct room s = {
     .desc = "<<s-desc>>",
-    .locationName = "<<s-location>>",
+    .locationName = "<<s-name>>",
     .unlockDesc = "",
     .lockedDesc = "",
     .interactDesc = "<<s-interact>>",
@@ -1041,7 +1085,7 @@ int main (int argc, char **argv) {
 
   struct room se = {
     .desc = "<<se-desc>>",
-    .locationName = "<<se-location>>",
+    .locationName = "<<se-name>>",
     .unlockDesc = "<<se-unlock-desc>>",
     .lockedDesc = "<<se-locked-desc>>",
     .interactDesc = "",
@@ -1051,7 +1095,7 @@ int main (int argc, char **argv) {
 
   struct room exitRoom = {
     .desc = "<<exit-desc>>",
-    .locationName = "<<exit-location>>",
+    .locationName = "<<exit-name>>",
     .unlockDesc = "<<exit-unlock-desc>>",
     .lockedDesc = "<<exit-locked-desc>>",
     .interactDesc = "",

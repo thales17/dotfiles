@@ -1,4 +1,5 @@
 #+title: notes/nethack
+<2022-03-08 Tue>
 * Version
 - Notes are based on the =3.6.x= version of NetHack
 
@@ -46,6 +47,11 @@ b j n
 - The =>= means a staircase going down
 - Use the greater than or less than symbols to go up or down a staircase
 - Pets will only follow you down the staircase if they are adjacent to the player
+
+* Doors
+- When you encounter a locked door you can sometimes kick it down
+- To kick use the =#kick= command or press =Ctrl-D=
+- It will ask you for a direction afterwards so push the movement key in the direction of the door
 
 * Pets
 - You will be granted a pet at the start of each game

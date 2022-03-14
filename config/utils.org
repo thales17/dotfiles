@@ -1,5 +1,5 @@
 #+title: config/utils
-<2022-03-03 Thu>
+<2022-03-11 Fri>
 * sus - Suspend
 sus is a small script that locks the screen and puts the computer into suspend mode
 #+name: sus
@@ -13,7 +13,8 @@ sleep 1 && systemctl suspend
 
 * backup
 - Backup script that rsyncs home dir to a remote server. Ideally a cron job is setup to run this automatically.
-- For example you could add this to your crontab =30 19 * * *	source $HOME/.bash_env && $HOME/.local/bin/backup >> $HOME/.local/log/backup.log 2>&1= to run the backup daily at 7:30pm
+- (Note: _cronie only_) For example you could add this to your crontab =30 19 * * *	source $HOME/.bash_env && $HOME/.local/bin/backup >> $HOME/.local/log/backup.log 2>&1= to run the backup daily at 7:30pm
+- When using =vixie-cron= you will not be able to use environment variables in the =crontab=, instead you might need to make a runner script that does the above.
 #+name: backup
 #+begin_src sh  :tangle ~/.local/bin/backup :tangle-mode (identity #o755) :mkdirp yes
 #!/bin/bash
