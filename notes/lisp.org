@@ -1,5 +1,5 @@
 #+title: notes/lisp
-<2022-03-17 Thu>
+<2022-03-19 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -280,6 +280,12 @@ and the third")
 - Replaces every item in a sequence with the first argument if it passes the second argument predicate
 - For instance, =(substitute-if 0 #'oddp '(1 2 3 4 5))= will return =(0 2 0 4 0)=
 
+*** Index of item in list
+- The index of the first instance of an item in a list can be found with the =position= function
+#+begin_src lisp
+(position 2 '(1 2 3 4 2))
+#+end_src
+- The above code will return =1= since that is the index of the first 2 in the list
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp

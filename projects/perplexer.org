@@ -3,7 +3,7 @@
 :end:
 #+title: projects/perplexer
 #+exclude_tags: noexport
-<2022-03-18 Fri>
+<2022-03-19 Sat>
 * What is "Perplexer"?
 - This is a simple text adventure game that I made
 - It involves collecting a few keys to exit a maze
@@ -57,6 +57,40 @@ se -> exit;
 
 #+RESULTS:
 [[file:perplexer_graph.png]]
+
+* Interface
+:PROPERTIES:
+:header-args: :eval no
+:END:
+- This is an example of what the interface should look like
+- The game should have prompt where the user enters commands
+#+begin_src text
+Escape the perplexity
+---------------------
+
+
+
+You are underneath a light dangling from the ceiling by a string.
+North, west and east are blocked by walls. You see a pile of
+shredded up paper in the corner. You try to read it but are unable
+to piece it together. Through the east wall you hear the muffled
+sounds of a of a dot matrix printer. To the south you see a dark
+corridor and faintly hear running water.
+> help
+Use commands north, south, east, west to explore. The first time
+you enter a room you get a long description. After that, you will
+get a short description. Use the look command to read the long
+description again. Use the interact command to try to interact
+with the room. Use the quit command to exit the game. To see this
+message again type help.
+> south
+The room is pitch black and it is hard to make anything out. You
+feel mist hitting your face from what sounds like a waterfall to
+the south. To the east you hear wind rustling and see a distant
+light.
+>
+#+end_src
+
 
 * Game Script                                                      :noexport:
 :PROPERTIES:
@@ -284,7 +318,28 @@ A cold wall prevents you from moving in this direction
 #+begin_src text
 Nothing happened
 #+end_src
-* TODO Lisp Version
+* Lisp Version
+** Interface
+#+begin_src text
+CL-USER> (perplexer)
+PERPLEXER> look
+You are underneath a light dangling from the ceiling by a string. North, west and east are blocked by walls. You see a pile of shredded up paper in the corner. You try to read it but are unable to piece it together. Through the east wall you hear the muffled sounds of a of a dot matrix printer. To the south you see a dark corridor and faintly hear running water.
+PERPLEXER> walk south
+The room is pitch black and it is hard to make anything out. You feel mist hitting your face from what sounds like a waterfall to the south. To the east you hear wind rustling and see a distant light.
+PERPLEXER> walk south
+You approach the falling water but despite being liquid it is far too cold to bear on your skin. You are unable to proceed.
+PERPLEXER> walk east
+You are at a central room and can move in each direction. You hear a crackling sound to the south. To the north you hear the muffled sound of a dot matrix printer. The east is an unlit corridor. You can hear what sounds like someone murmuring to themselves.
+PERPLEXER> walk south
+You see a small rectangular hole in the south wall. On the other side all you can see are flames.
+PERPLEXER> interact
+You pick up a branch from the floor and stick it in the hole. The branch is now a torch.
+PERPLEXER> walk north
+central room
+PERPLEXER> walk north
+You use your torch to burn a hole big enough to crawl through. You see a walled in room with a table in the center. On the table is a dot matrix printer constantly printing the same 10 digit number over and over again.
+PERPLEXER>
+#+end_src
 ** Globals
 *** Rooms
 **** Names
@@ -571,23 +626,10 @@ Nothing happened
       "I can't do that"))
 #+end_src
 
-*** TODO Print
-
-**** Fill Text
-- Reformat a string so that it does not exceed the argument column width
-#+begin_src lisp
-(defun fill-text (text width)
-  ;; find the indices of spaces in the string
-  ;; find the distance between the a given space and the nearest newline to the left
-  ;; if that distance is less than width go to the next space
-  ;; if that distance is more than width find the previous space and replace with newline
-  )
-#+end_src
-
-**** Print
+*** Print
 #+begin_src lisp
 (defun game-print (text)
-  (princ (fill-text text 55))
+  (princ text)
   (fresh-line))
 #+end_src
 
@@ -598,7 +640,7 @@ Nothing happened
   (let ((cmd (game-read)))
     (unless (eq (car cmd) 'quit)
       (game-print (game-eval cmd))
-      (game-repl))))
+      (perplexer))))
 
 #+end_src
 
