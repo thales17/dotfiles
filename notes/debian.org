@@ -1,5 +1,5 @@
 #+title: notes/debian
-<2022-03-07 Mon>
+<2022-03-18 Fri>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -114,7 +114,9 @@ sudo apt install \
      rsync \
      default-jre \
      graphviz \
-     info
+     info \
+     sbcl \
+     sbcl-doc
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.
@@ -124,11 +126,12 @@ sudo apt install \
 - [[https://michlstechblog.info/blog/debian-set-python-3-as-default/][Michls Tech Blog: Debian: set python3 default]]
 - Using =update-alternatives= we set the default
   - =sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.9 1=
-* TODO Suspending when closing the laptop lid
+* Suspending when closing the laptop lid
 - [[https://wiki.debian.org/SystemdSuspendSedation][Debian Wiki: Systemd Suspend Sedation]]
 - Edit =/etc/systemd/logind.conf=
 - Find the lines with =HandleLidSwitch= and ensure that they are set to =Suspend=
 - Restart the login service with =sudo systemctl restart systemd-logind=
+- When using XFCE4 this can be handled in the power management settings
 * Syncthing
 - Start syncthing as a user service =systemctl enable --now syncthing.service --user=
 * Isync

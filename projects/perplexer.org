@@ -3,7 +3,7 @@
 :end:
 #+title: projects/perplexer
 #+exclude_tags: noexport
-<2022-03-14 Mon>
+<2022-03-18 Fri>
 * What is "Perplexer"?
 - This is a simple text adventure game that I made
 - It involves collecting a few keys to exit a maze
@@ -428,7 +428,6 @@ Nothing happened
     (southwest "<<se-interact>>")))
 #+end_src
 
-
 ** Actions
 *** Object At
 #+begin_src lisp
@@ -548,6 +547,60 @@ Nothing happened
 	"<<no-interact-desc>>")))
 #+end_src
 
+** Game REPL
+- These functions are inspired by the text engine from Land of Lisp
+- That create a REPL that is the interface for the game
+*** Read
+#+begin_src lisp
+;; Borrowed from Land of Lisp
+(defun game-read ()
+  (let ((cmd (read-from-string
+	      (concatenate 'string "(" (read-line) ")"))))
+    (flet ((quote-it (x)
+	     (list 'quote x)))
+      (cons (car cmd) (mapcar #'quote-it (cdr cmd))))))
+#+end_src
+
+*** Eval
+#+begin_src lisp
+(defparameter *allowed-commands* '(look walk interact inventory))
+
+(defun game-eval (sexp)
+  (if (member (car sexp) *allowed-commands*)
+      (eval sexp)
+      "I can't do that"))
+#+end_src
+
+*** TODO Print
+
+**** Fill Text
+- Reformat a string so that it does not exceed the argument column width
+#+begin_src lisp
+(defun fill-text (text width)
+  ;; find the indices of spaces in the string
+  ;; find the distance between the a given space and the nearest newline to the left
+  ;; if that distance is less than width go to the next space
+  ;; if that distance is more than width find the previous space and replace with newline
+  )
+#+end_src
+
+**** Print
+#+begin_src lisp
+(defun game-print (text)
+  (princ (fill-text text 55))
+  (fresh-line))
+#+end_src
+
+*** REPL
+#+begin_src lisp
+(defun perplexer ()
+  (princ "PERPLEXER> ")
+  (let ((cmd (game-read)))
+    (unless (eq (car cmd) 'quit)
+      (game-print (game-eval cmd))
+      (game-repl))))
+
+#+end_src
 
 * C Version
 :PROPERTIES:

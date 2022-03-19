@@ -1,9 +1,8 @@
 :properties:
 :header-args: :tangle ~/.emacs :results none
 :end:
-<2022-03-05 Sat>
 #+title: config/emacs
-
+<2022-03-18 Fri>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -604,6 +603,32 @@ final argument to the program but this does not need to be in the list"
 		  ajr-emu-gba-program
 		  game)))
 #+end_src
+** Add timestamp above first org heading
+- These elisp functions add a timestamp above the first heading
+- I use them for this repo specifically to know when I have last updated something
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr-org-goto-first-heading()
+  (goto-char (point-min))
+  (unless (org-at-heading-p)
+    (org-next-visible-heading 1)))
+
+(defun ajr-org-add-edit-timestamp ()
+  (save-excursion
+    (ajr-org-goto-first-heading)
+    (if (eq (line-number-at-pos) 1)
+	(progn
+	  (newline)
+	  (previous-line))
+      (progn
+	(previous-line)
+	(if (org-at-timestamp-p)
+	    (kill-whole-line)
+	  (next-line))
+	(newline)
+	(previous-line)))
+    (org-insert-time-stamp (current-time))))
+#+end_src
+
 ** ajr.el
  Load the personal elisp files in init file
  #+begin_src elisp
@@ -781,7 +806,7 @@ Customizations and global keys for org mode
 
 * SLIME
 #+begin_src elisp
-(setq inferior-lisp-program "/usr/bin/clisp")
+(setq inferior-lisp-program "/usr/bin/sbcl")
 #+end_src
 * Hydra
 - Use the example hydra for zooming text

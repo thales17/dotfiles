@@ -1,24 +1,23 @@
 #+title: Adam Richardson's dotfiles, small projects and notes
-<2022-02-04 Fri>
-
 This repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
 I consider this a sandbox to play with literate programming and a constant work in progress.
 
+<2022-03-18 Fri>
 ** Dotfiles
 The config dir has various org mode files that can be tangled into their correct locations. For Linux systems run the default make target in the config directory. For OpenBSD run =make openbsd=.
 
 - [[file:config/emacs.org][Emacs]]
-- [[file:config/kitty.org][kitty]]
+- [[file:config/utils.org][Utility Scripts]]
 - [[file:config/tmux.org][tmux]]
 - [[file:config/git.org][git]]
 - [[file:config/bash.org][bash]]
-- [[file:config/xmodmap.org][xmodmap]]
+- [[file:config/cdripping.org][cd ripping]]
+- [[file:config/nethack.org][NetHack]]
 - [[file:config/xprofile.org][xprofile]]
 - [[file:config/dunst.org][dunst]]
-- [[file:config/cdripping.org][cd ripping]]
+- [[file:config/xmodmap.org][xmodmap]]
 - [[file:config/suckless.org][Suckless Programs]]
-- [[file:config/utils.org][Utility Scripts]]
-- [[file:config/nethack.org][NetHack]]
+- [[file:config/kitty.org][kitty]]
 
 ** Small Projects
 - [[file:projects/perplexer.org][Perplexer]]

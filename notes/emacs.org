@@ -1,5 +1,5 @@
 #+title: notes/emacs
-<2022-02-25 Fri>
+<2022-03-18 Fri>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
@@ -34,7 +34,9 @@ Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, fo
 - When you do this, Emacs will prompt you if you want to set those variables before actually doing it
 - This might be handy in an org mode file with a lot of code blocks, so you want to inhibit the evaluation check
 - Use =M-x add-file-local-variable= to interactively add a file local variabel to a buffer
-
+* Directory Local Variables
+- You can similarly add directory local variables with =M-x add-directory-local-variable=
+- This [[https://emacs.stackexchange.com/questions/12433/use-dir-locals-el-to-append-to-before-save-hook-as-a-buffer-local-variable][link]] covers using hooks with buffer / directory local variables
 * Dired Edit Mode
 - =C-x C-q= enters dired edit mode
 - In this mode you can edit the names of files as you would in a normal buffer

@@ -1,5 +1,8 @@
 #+title: notes/lisp
-<2022-01-31 Mon>
+<2022-03-17 Thu>
+* Resources
+- [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
+- [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm
@@ -17,7 +20,7 @@
 - Easy to use and portable common lisp compiler that runs on most operating systems
 - Also provides debugger and interpreter
 * SBCL
-- Steal Bank Common Lisp
+- Steel Bank Common Lisp descends from Carnegie Mellon, Steel being Andrew Carnegie's industry and Banking being Andrew Mellon's industry
 - Considered more heavy duty than CLISP
 - Also provides debugger and interpreter
 * Common Lisp Syntax
@@ -157,10 +160,39 @@
 - Use =coerce= with either the =list= or =string= type
 - =(coerce "ABC" 'list)= should return =(#\A #\B #\C)=
 - =(coerce '(#\A #\B #\C) 'string)= should return ="ABC"=
+- This can be used with =mapcar= to iterate over each character
+#+begin_src lisp
+(mapcar #'(lambda (c)
+	    (princ (format nil "char: ~C~C" c #\newline)))
+	(coerce "abc123" 'list))
+#+end_src
+
+#+RESULTS:
+| char: a |
+| char: b |
+| char: c |
+| char: 1 |
+| char: 2 |
+| char: 3 |
+
 *** Converting symbols to strings
 - Use =prin1-to-string= to convert symbols to strings
 - =(prin1-to-string 'abc)= should return "ABC"
 - The =write-to-string= function also can convert data to strings
+*** Multi Line Strings
+- Lisp will store the newline character in the string
+- So the =\n= character is not needed for multi line strings
+#+begin_src lisp
+(setq mystring "the first line
+the second line
+and the third")
+#+end_src
+- To insert a newline into a string use the =format= function and the =~C= control character
+- The =~C= control chacter means insert a character literal, you can use the =#\newline= character literal to get a new line
+#+begin_src lisp
+(format nil "hello~Cworld" #\newline)
+#+end_src
+
 ** Lists
 *** push
 - Adds item to the beginning of a list
@@ -382,3 +414,38 @@
 #+RESULTS:
 : #\Newline
 - There is a global stream =*standard-ouput*= that represents stdout of the lisp environment
+* Quick Lisp
+- [[https://www.quicklisp.org/beta/][Quicklisp]] is a library manager (package manager) for Common Lisp
+** Installation
+- Download =quicklisp.lisp= form their website, =curl -O https://beta.quicklisp.org/quicklisp.lisp=
+- Download the PGP signature from their website, =curl -O https://beta.quicklisp.org/quicklisp.lisp.asc=
+- Download the release signing public key, =curl -O https://beta.quicklisp.org/release-key.txt=
+- Import the release signing key, =gpg --import release-key.txt=
+- Verify the =quicklisp.lisp= file, =gpg --verify quicklisp.lisp.asc quicklisp.lisp=
+- Start up a Common Lisp environment
+- Inside the REPL run, =(load "quicklisp.lisp")= (Ensure the REPL was started in the same folder Quicklisp was downloaded to)
+- Run =(quicklisp-quickstart:install)= to install Quicklisp
+- This will create a =quicklisp= folder in your home directory
+- Normally when starting a new lisp session you would run =(load "~/quicklisp/setup.lisp)= to load Quicklisp into the running session
+- Use =(ql:add-to-init-file)= to have this happen automatically
+- Install the =slime helper=, =(ql:quickload "quicklisp-slime-helper")=
+  - Be sure to follow the instructions
+** Installing Libraries
+- This is an example of installing a package, =(ql:quickload "vecto")=
+- This is an example of uninstalling a package, =(ql:uninstall "vecto")=
+- To search for a library to install use apropos, =(ql:system-apropos "sdl2")=
+** Upgrading Quicklisp
+- Use =(ql:update-dist "quicklisp")= to update Quicklisp
+- Run =(ql:update-client)= to update the client
+** SDL2
+- [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
+  - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
+- Go into =~/quicklisp/local-projects= folder
+  - Clone =git clone https://github.com/rpav/cl-autowrap.git=
+  - Clone =git clone https://github.com/lispgames/cl-sdl2.git=
+- Inside the lisp repl install quick load sdl2, =(ql:quickload "sdl2")=
+- Try one of the example
+#+begin_src lisp :results none
+(ql:quickload :sdl2/examples)
+(sdl2-examples:basic-test)
+#+end_src
