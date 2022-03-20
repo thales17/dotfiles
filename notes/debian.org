@@ -120,7 +120,8 @@ sudo apt install \
      sbcl \
      sbcl-doc \
      gimp \
-     gimp-help-en
+     gimp-help-en \
+     libxml2-dev
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.
