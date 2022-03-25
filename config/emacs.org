@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: config/emacs
-<2022-03-18 Fri>
+<2022-03-20 Sun>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -540,6 +540,29 @@ final argument to the program but this does not need to be in the list"
   ".+\\.\\(gba\\)$"
   "Only matches files ending in `gba'"
   :type 'regexp)
+
+;; SNES
+(defcustom ajr-emu-snes-dir
+  (concat (getenv "HOME")
+	  "/games/snes/")
+  "Directory where your SNES games are kept. Used the
+`ajr-emu-snes-*' functions."
+  :type 'directory)
+
+(defcustom ajr-emu-snes-program
+  (list
+   "ares")
+  "Program used to play SNES games. The program should be the
+first item in the list. Any additional flags for the program should
+get there own list item. The path the game will be added as the
+final argument to the program but this does not need to be in the
+list"
+  :type '(repeat string))
+
+(defcustom ajr-emu-snes-regexp
+  ".+\\.\\(sfc\\)$"
+  "Only matches files ending in `sfc'"
+  :type 'regexp)
 #+end_src
 *** Prompting for a Game
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
@@ -601,6 +624,19 @@ final argument to the program but this does not need to be in the list"
 	       ajr-emu-gba-regexp)))
     (ajr--emu-run "*GBA*"
 		  ajr-emu-gba-program
+		  game)))
+#+end_src
+**** SNES
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr-emu-snes-play ()
+  "Prompts for a game in `ajr-emu-snes-dir' with
+`ajr-emu-snes-program'."
+  (interactive)
+  (let ((game (ajr--ask-emu
+	       ajr-emu-snes-dir
+	       ajr-emu-snes-regexp)))
+    (ajr--emu-run "*SNES*"
+		  ajr-emu-snes-program
 		  game)))
 #+end_src
 ** Add timestamp above first org heading
@@ -681,6 +717,7 @@ I use ivy for my completion framework
 (define-key global-map (kbd "C-c e") (make-sparse-keymap))
 (global-set-key (kbd "C-c e a") 'ajr-emu-gba-play)
 (global-set-key (kbd "C-c e g") 'ajr-emu-gameboy-play)
+(global-set-key (kbd "C-c e s") 'ajr-emu-snes-play)
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-c l") 'org-store-link)

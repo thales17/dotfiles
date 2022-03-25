@@ -1,5 +1,5 @@
 #+title: notes/lisp
-<2022-03-19 Sat>
+<2022-03-23 Wed>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -82,7 +82,14 @@
 - Another option to create globals is =defvar=
   - If the variable already exists =defvar= will not change the existing value
 *** Local variables
-- Use =let= function to define local variables
+- Use =let= function to define local variables, you cannot reference other variables in the list
+- The =let*= function is the same as =let= but it lets you reference preceding variable names
+#+begin_src lisp
+(let* ((x 10)
+       (y (* 2 x)))
+  (+ x y))
+#+end_src
+
 *** Mutating
 - Use =setf= to change the value of an existing variable
 ** Functions
@@ -286,6 +293,31 @@ and the third")
 (position 2 '(1 2 3 4 2))
 #+end_src
 - The above code will return =1= since that is the index of the first 2 in the list
+*** Difference between lists
+- To get a list of the items that are difference between a list use the =set-difference= function
+- This function gives you the items that are in the first list that are not in the second list
+- =(set-difference '(1 2 3) '(a 2 c))= should return the set =(3 1)=, the order in the set does not necessarily match the order in the first list
+- =(set-difference '(a 2 c) '(1 2 3))= should return the set =(c a)=
+
+*** Intersection between lists
+- To get the intersection of two lists use the =intersection= function
+- =(intersection '(1 2 3) '(a 2 c))= should return =(2)=
+
+*** Remove Duplicates
+- The =remove-duplicates= function will return a list where no item repeats
+- You can give it a custom =:test= function to use when comparing items
+- =(remove-duplicates '(1 1 2 2 3 3))= should return =(1 2 3)=
+*** Appling a predicate to a list with =some=
+- The =some= function will run a predicate on each item in a list in order
+- The first time the predicate returns true the it stops checking the list
+#+begin_src lisp
+(some #'oddp '(2 2 4 8 6))
+#+end_src
+- The above example will return =nil= since no members of the list are odd
+#+begin_src lisp
+(some #'oddp '(2 2 4 5 6))
+#+end_src
+- The above example will return =t= since there is one odd member
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp
@@ -420,6 +452,28 @@ and the third")
 #+RESULTS:
 : #\Newline
 - There is a global stream =*standard-ouput*= that represents stdout of the lisp environment
+*** Loop
+- Loop can be used to create lists
+- Loop has a few keywords that tell it how to behave
+- The =collect= keyword specifies what you want to put into the returned list for this iteration
+- The =repeat= keyword indicates how many times a loop should run
+#+begin_src lisp
+(loop repeat 10
+      collect 8)
+#+end_src
+- The =for= and =from= / =to= keywords let you specify a variable local to the loop that increments each loop iteraction
+- This is inclusive and on both ends
+#+begin_src lisp
+(loop for n from 1 to 10
+      collect n)
+#+end_src
+- The above example will return =(1 2 3 4 5 6 7 8 9 10)=
+- The =for= and =below= keywords start from 0 and iterate through every integer less than the value after =below=
+#+begin_src lisp
+(loop for i below 10
+      collect i)
+#+end_src
+- The above example will return =(0 1 2 3 4 5 6 7 8 9)=
 * Quick Lisp
 - [[https://www.quicklisp.org/beta/][Quicklisp]] is a library manager (package manager) for Common Lisp
 ** Installation
