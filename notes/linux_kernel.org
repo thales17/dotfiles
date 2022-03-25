@@ -1,0 +1,22 @@
+#+title: notes/linux_kernel
+<2022-03-25 Fri>
+* Logging i^2c traffic
+** Detecting i^2c devices
+- [[https://www.kernel.org/doc/html/v5.4/i2c/dev-interface.html][kernel.org: I2C Device Interface]]
+- On a Debian based system install =i2c-tools=
+- Once installed run =i2cdetect -l= to list the i^2c devices
+** Tracing I2C Events
+- [[https://riptutorial.com/linux-kernel/example/11983/tracing-i2c-events][riptutorial: Tracing i2c events]]
+- As root change to the =/sys/kernel/debug= directory
+  - If it is not mounted you can mount it with this command, =mount -t debugfs none /sys/kernel/debug=
+- Inside the =debug= directory switch to the =tracing= dir, =cd tracing=
+- Disable any current function tracer, =echo nop > current_tracer=
+- Enable all i^2c events with, =echo 1 > events/i2c/enable=
+- Ensure tracing is enabled, =echo 1 > tracing_on=
+- View logs with this, =tail -f /sys/kernel/debug/tracing/trace=
+#+begin_src text
+ irq/138-maxtouc-202     [000] ....  4415.870855: i2c_read: i2c-1 #0 a=04a f=0001 l=2
+ irq/138-maxtouc-202     [000] ....  4415.871066: i2c_reply: i2c-1 #0 a=04a f=0001 l=2 [01-5e]
+ irq/138-maxtouc-202     [000] ....  4415.871068: i2c_result: i2c-1 n=1 ret=1
+#+end_src
+- The above is an example of what the trace logs look like
