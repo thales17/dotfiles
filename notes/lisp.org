@@ -1,5 +1,5 @@
 #+title: notes/lisp
-<2022-03-23 Wed>
+<2022-03-29 Tue>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -141,6 +141,35 @@
 ** Nullary Functions (Thunks)
 - A nullary function is a function that has no arguments
 - They are also commonly known as thunks or suspensions
+** Generic Programming
+*** setf
+- In general the code for getting data out of something is the same as code for putting something in
+- The =setf= command is a generic setter that can put data into data structures using the accessor as an argument
+- The following =setf= example changes the third item of the list =foo=, =(setf (third foo) 'bar)=
+- The first parameter in =setf= is a generalized reference
+- A generalized reference parameter can be arbitrarily complicated, meaning whatever path needed to access the reference you will still be able to mutate it with =setf=
+** Functions returning multiple values
+- It is possible to write a function that returns multiple values
+- When returning multiple values the first value returned is given preference when chaining the function
+- This behavior could be achieved with a list but if it is a special case when you need more than one value this could be cleaner
+*** values
+- Use the =values= function to return multiple values from a function
+#+begin_src lisp
+(defun multi-v ()
+  (values 'foo 'bar))
+
+(multi-v)
+#+end_src
+- The above example will return ='foo; 'bar=
+*** multiple-value-bind
+- To access all of the values returned by a function use =multiple-value-bind=
+- This allows you to name the values returned by the function and access them in a =let= style block
+#+begin_src lisp
+(multiple-value-bind (x y) ((lambda ()
+			      (values 'foo 'bar)))
+  (list x y))
+#+end_src
+- The above example will return the list =(foo bar)=
 * Common Lisp Functions
 ** Math
 *** Incrementing
@@ -158,6 +187,10 @@
 - https://en.wikipedia.org/wiki/Arithmetic_shift
 - Use the =ash= function which takes two arguments, the number and the amount of bits to shift left
 - To shift right use a negative number
+*** Round
+- The =round= function will take a number and return the two values, the rounded integer and the remainder
+- For example, =(round 16.8)= returns =17; -0.2=
+- When rounding up the remainder will be negative
 ** Strings
 *** Concatenate
 - Use =concatenate= to join multiple strings together
@@ -223,6 +256,14 @@ and the third")
 - The =cdr= of the last element of a list is an empty list or =nil=
 - If you =push= into that empty list you will append to the list
 - For instance if =a= is =(1 2 3)= this should append 4 to the list =(push 4 (cdr (last a)))=
+*** pushnew
+- The =pushnew= function will only add an item to a list if it is not already in it
+#+begin_src lisp
+(defparameter *some-list* '(1 2 3))
+
+(pushnew 1 *some-list*)
+#+end_src
+- In the above example 1 is already in the list so the results of =pushnew= is the same list =(1 2 3)=
 *** member
 - Checks to see if an item is inside a list
 - =(member 1 '(1 2 3 4))=
@@ -240,11 +281,23 @@ and the third")
 - This will not work when searching for =nil= in a list
 *** mapcar
 - Use =mapcar= to run a function on each element of a list
-- =(mapcar #'(lambda (n) (1+ n)) '(1 2 3))= should return =(2 3 4)=
+- =(mapcar (lambda (n) (1+ n)) '(1 2 3))= should return =(2 3 4)=
 - You can also run =mapcar= over multiple sequences
-- =(mapcar #'(lambda (m n) (list m n)) '(1 2 3) '(a b c))= should return =((1 a) (2 b) (3 c))=
+- =(mapcar (lambda (m n) (list m n)) '(1 2 3) '(a b c))= should return =((1 a) (2 b) (3 c))=
 - =mapc= is a more efficient version of mapcar that does not return the list
 - =maplist= is another variant of =mapcar= that gives the remainder of the list as an argument to the function rather than a single item
+*** mapcan
+- Similar to =mapcar= but expends the lambda to return a list
+- The list values are all appended together in the result
+#+begin_src lisp
+(mapcan (lambda (v)
+	  (case v
+	    (a '(1 2 3))
+	    (b '(4 5 6 7))
+	    (c '(8 9 10 11 12))))
+	'(a c b))
+#+end_src
+- The above example will return =(1 2 3 8 9 10 11 12 4 5 6 7)=
 *** apply
 - Use =apply= to call a functions once with all the elements of a list as its arguments
 *** remove-if-not
@@ -474,6 +527,75 @@ and the third")
       collect i)
 #+end_src
 - The above example will return =(0 1 2 3 4 5 6 7 8 9)=
+** Arrays
+*** make-array
+- The =make-array= function is used to create an array
+- It takes an argument that specifies the size of the array
+- It will return an array that size with each element initialized to =nil=
+*** aref
+- To access a member of an array use =aref=
+- For example, say you have =some-list= that has this value, =#(1 2 3)= to access array index 1 with =aref= you would do this, =(aref some-list 1)=, this will return 2
+- =aref= can be combined with =setf= to mutate an array
+- =(setf (aref some-list 1) 5)= will mutate =some-list= into =#(1 5 3)=
+** Hash Tables
+*** make-hash-table
+- The =make-hash-table= function will create an empty hash table
+*** gethash
+- The =gethash= function is used to access items from a hash table
+- The first argument of the =gethash= function is the key, the second is the hash table
+- =(gethash 'foo some-hash-table)= will access the =foo= key in the hash table =some-hash-table=
+- This can also be used with =setf= to set values in the hash table, =(setf (gethash 'foo some-hash-table) 'bar)=
+- The =gethash= function returns multiple values, the first is the value stored in the hash-table for the key, the second is whether or not that key was in the table
+- This is needed since a key could be present in the table but have =nil= set as its value
+** Profiling
+*** time
+- The =time= function will perform the argument function and return a lot of use profile information
+#+begin_src text
+Real time: 0.73878 sec.
+Run time: 0.738236 sec.
+Space: 31004976 Bytes
+GC: 26, GC time: 0.098185 sec.
+#+end_src
+- The above is an example of some of the profile data that the =time= function will return
+
+* Common Lisp Data Structures
+** List
+- Most fundamental data structure in a lisp
+- A series of nested =cons= pairs terminated with nil
+- The access time for elements inside lists is not constant
+** Array
+- Arrays are like like lists except the access time for any element is constant
+- An array literal is preceded with a =#= to distinguish it from a list, for example, =#(1 2 3)=
+- Arrays are in general faster than lists when accessing or setting specific elements
+** Hash Table
+- A hash table is very similar to an alist
+- A hash table literal is preceded with a =#S= to distinguish it from a list and an array
+- Similar to arrays hash tables have a constant look up time
+- Hash tables are less efficient than alists for really small tables
+- Very large hash tables can be paged out to virtual memory which could have poor performance
+- Lisp will sometimes need to reallocate the memory for the hash table when inserting a key
+- This will cause an occasional slow key insertion
+- Both arrays and hash tables are not considered very lispy
+- They are best avoided until performance concerns arise
+** Structures
+- The =defstruct= macro is useful for building structured data out of lists
+- The =defstruct= macro will also create functions for building and accessing the data from the struct
+#+begin_src lisp
+(defstruct rectangle
+  x
+  y
+  width
+  height)
+
+(defparameter *my-rect* (make-rectangle :x 10 :y 10 :width 50 :height 25))
+
+(rectangle-height *my-rect*)
+(setf (rectangle-x *my-rect*) 85)
+*my-rect*
+#+end_src
+- The above example shows creating a structure with =defstruct= and building one with the =make-<STRUCT_NAME>= function
+- It also shows using a generated accessor function =<STRUCT_NAME>-<PROPERPTY_NAME>=
+- The above example produces the following struct literal, =#S(RECTANGLE :X 85 :Y 10 :WIDTH 50 :HEIGHT 25)=
 * Quick Lisp
 - [[https://www.quicklisp.org/beta/][Quicklisp]] is a library manager (package manager) for Common Lisp
 ** Installation

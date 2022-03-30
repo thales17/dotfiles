@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: config/emacs
-<2022-03-20 Sun>
+<2022-03-29 Tue>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -677,67 +677,86 @@ I use ivy for my completion framework
 (ivy-mode)
 #+end_src
 * Global Hotkeys
+** ivy
 #+begin_src elisp
 (global-set-key (kbd "C-M-s") 'swiper)
 (global-set-key (kbd "C-M-j") 'avy-goto-char)
 (global-set-key (kbd "C-c r") 'ivy-resume)
 (global-set-key (kbd "M-x") 'counsel-M-x)
 (global-set-key (kbd "C-x C-f") 'counsel-find-file)
+#+end_src
+
+** function keys
+#+begin_src elisp
+(global-set-key (kbd "<f5>") 'ajr-elfeed)
+(global-set-key (kbd "<f6>") 'ajr-scratch)
+(global-set-key (kbd "<f7>") 'shell)
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
 (global-set-key (kbd "<f10>") 'whitespace-cleanup)
+(global-set-key (kbd "<f12>") 'comment-dwim)
+#+end_src
+** mail
+#+begin_src elisp
 (global-set-key (kbd "C-c n n") 'notmuch)
 (global-set-key (kbd "C-c n u") 'ajr-sync-mail)
-(global-set-key (kbd "<f12>") 'comment-dwim)
-(global-set-key (kbd "<f5>") 'ajr-elfeed)
-(global-set-key (kbd "<f6>") 'ajr-scratch)
+#+end_src
 
-;; password-store
+** password-store
+#+begin_src elisp
 (global-set-key (kbd "C-c p c") 'password-store-copy)
 (global-set-key (kbd "C-c p o") 'password-store-otp-token-copy)
-
-;; music
+#+end_src
+** music and podcasts
+#+begin_src elisp
 (define-key global-map (kbd "C-c m") (make-sparse-keymap))
 (global-set-key (kbd "C-c m b") 'bongo-playlist)
 (global-set-key (kbd "C-c m a") 'ajr-bongo-play-album)
 (global-set-key (kbd "C-c m p") 'bongo-pause/resume)
 (global-set-key (kbd "C-c m <right>") 'bongo-next)
 (global-set-key (kbd "C-c m <left>") 'bongo-previous)
-
-;; podcasts
 (global-set-key (kbd "C-c m c") 'ajr-podcast-dired)
-
-;; videos
+#+end_src
+** videos
+#+begin_src elisp
 (define-key global-map (kbd "C-c v") (make-sparse-keymap))
 (global-set-key (kbd "C-c v p") 'ajr-video-play)
 (global-set-key (kbd "C-c v b") 'ajr-video-dired)
 (global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
-
-;; emulation
+#+end_src
+** emulation
+#+begin_src elisp
 (define-key global-map (kbd "C-c e") (make-sparse-keymap))
 (global-set-key (kbd "C-c e a") 'ajr-emu-gba-play)
 (global-set-key (kbd "C-c e g") 'ajr-emu-gameboy-play)
 (global-set-key (kbd "C-c e s") 'ajr-emu-snes-play)
-
-(global-set-key (kbd "C-x C-b") 'ibuffer)
+#+end_src
+** org capture
+#+begin_src elisp
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
-(global-set-key (kbd "C-x w") 'ajr-search-web)
+#+end_src
+** ace window
+#+begin_src elisp
 (global-set-key (kbd "M-o") 'other-window)
 (global-set-key (kbd "C-x o") 'ace-window)
+#+end_src
+** yafolding
+#+begin_src elisp
 (global-set-key (kbd "C-<return>") 'yafolding-toggle-element)
+#+end_src
 
-(pulseaudio-control-default-keybindings)
-
-;; mini scroll
-(global-set-key (kbd "C-S-v") 'ajr-mini-scroll-up)
-(global-set-key (kbd "M-S-v") 'ajr-mini-scroll-down)
-
-;; prompt before closing frame, only when connecting as a clientq
+** prompt before closing
+#+begin_src elisp
 (when (daemonp)
   (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))
-
+#+end_src
+** misc
+#+begin_src elisp
+(global-set-key (kbd "C-x C-b") 'ibuffer)
+(global-set-key (kbd "C-x w") 'webjump)
+(global-set-key (kbd "C-c f") 'find-file-at-point)
 #+end_src
 
 * Paredit
