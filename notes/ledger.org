@@ -1,4 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/ledger
+<2022-04-02 Sat>
 * What is...
 ** What is Plain Text Accounting?
 - https://plaintextaccounting.org/

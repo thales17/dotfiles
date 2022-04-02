@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/openbsd
-<2022-02-20 Sun>
+<2022-04-02 Sat>
 * Setup
 These are setup notes for setting up an OpenBSD workstation
 ** Full Disk Encryption

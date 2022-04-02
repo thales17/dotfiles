@@ -1,4 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/ubuntu
+<2022-04-02 Sat>
 * Ubuntu System Setup
 ** Packages
 #+begin_src sh

@@ -1,6 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/git
-<2022-01-30 Sun>
-
+<2022-04-02 Sat>
 * Resources
 - [[https://rogerdudler.github.io/git-guide/][Roger Rudler: git-guide]]
 - [[https://git-scm.com/book/en/v2][Pro Git book]]

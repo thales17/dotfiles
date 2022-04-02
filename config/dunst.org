@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/dunst
-<2022-01-13 Thu>
+<2022-04-02 Sat>
 * Config
 #+begin_src conf :tangle ~/.config/dunst/dunstrc :mkdirp yes
   [global]

@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/bash
-<2022-02-18 Fri>
+<2022-04-02 Sat>
 * Environment Variables
 #+name: env
 #+begin_src sh

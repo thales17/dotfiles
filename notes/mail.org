@@ -1,4 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/mail
+<2022-04-02 Sat>
 * Mail
 ** isync
 *** Gmail

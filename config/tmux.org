@@ -1,6 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/tmux
-<2022-01-13 Thu>
-
+<2022-04-02 Sat>
 * Config
 - [[https://man.openbsd.org/tmux][OpenBSD man page: tmux(1)]]
 #+begin_src conf :tangle ~/.tmux.conf
@@ -28,4 +29,3 @@
   set -g status-keys emacs
 #+end_src
 - If you want to change a running session to use emacs keys use =<PREFIX>:set-option status-keys emacs= and =<PREFIX>:set-option mode-keys emacs=.
-

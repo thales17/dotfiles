@@ -1,5 +1,5 @@
 #+title: notes/orgmode
-<2022-03-07 Mon>
+<2022-04-02 Sat>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -67,12 +67,17 @@
 	  bottom: 0;
 	  max-width: 25em;
 	  font-size: small;
+	  line-height: 1.5;
 	  overflow-x: hidden;
 	  overflow-y: auto;
       }
 
       #content {
 	  margin: auto auto auto 26em;
+      }
+
+      body {
+	  font-size: 1.25em;
       }
   }
 #+end_src
@@ -127,6 +132,8 @@
 	       :recursive t
 	       :base-directory "./"
 	       :publishing-directory "./public"
+	       :index-filename "README.org"
+	       :index-title "Home"
 	       :html-head-extra ajr-html-head-extra
 	       :publishing-function 'org-html-publish-to-html)
 	 (list "org-static"

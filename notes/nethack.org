@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/nethack
-<2022-03-08 Tue>
+<2022-04-02 Sat>
 * Version
 - Notes are based on the =3.6.x= version of NetHack
 

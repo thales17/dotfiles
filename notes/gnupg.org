@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/gnupg
-<2022-03-19 Sat>
+<2022-04-02 Sat>
 * Importing a backed up secret
 - Obtain you backed up gpg key
 - Run =gpg --import /path/to/secret-key-backup.asc=

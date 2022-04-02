@@ -1,6 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/xmodmap
-<2022-01-15 Sat>
-
+<2022-04-02 Sat>
 * Config
 - This turns the caps lock key into a control key. Sometimes this needs to be run manually after running xrandr. This can be a achieved with =xmodmap ~/.Xmodmap=
 #+name: .Xmodmap

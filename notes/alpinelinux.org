@@ -1,6 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/alpinelinux
-<2022-01-29 Sat>
-
+<2022-04-02 Sat>
 * Documentation
 - [[https://docs.alpinelinux.org/user-handbook/0.1a/index.html][Alpine User Handbook]]
 

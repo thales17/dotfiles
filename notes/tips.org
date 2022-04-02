@@ -1,6 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/tips
-<2022-01-30 Sun>
-
+<2022-04-02 Sat>
 * Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
 * JSON

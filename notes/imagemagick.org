@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/imagemagick
-<2022-03-19 Sat>
+<2022-04-02 Sat>
 * Get the size of an image
 - Use the =identify= command with a format. For example =identify -format "%wx%h\n" someimage.jpg=. This will print the width and height in the desired format.
 

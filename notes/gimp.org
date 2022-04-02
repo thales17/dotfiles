@@ -1,7 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/gimp
-
-<2022-02-14 Mon>
-
+<2022-04-02 Sat>
 * Hotkeys
 - =/= - Allows you to search for any command in the menus
 - =M= - for the move tool

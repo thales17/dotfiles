@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/git
-<2022-01-13 Thu>
+<2022-04-02 Sat>
 * Config
 All user information goes into the file .gitconfig-user, which is not part of this repo.
 #+name: .gitconfig

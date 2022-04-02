@@ -1,8 +1,11 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/lisp
-<2022-04-01 Fri>
+<2022-04-02 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
+- [[http://snowsyn.net/2020/01/01/local-clhs-access-in-emacs/][Nicolas Martyanoff: Local CLHS access in Emacs]]
 * Source Files
 - Common Lisp source files can have the =.lisp= extension
 * Multi-Paradigm

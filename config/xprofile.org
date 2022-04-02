@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/xprofile
-<2022-01-13 Thu>
+<2022-04-02 Sat>
 * Config
 This starts up various programs I want to run at login
 #+name: .xprofile

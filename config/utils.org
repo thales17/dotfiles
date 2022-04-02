@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: config/utils
-<2022-03-11 Fri>
+<2022-04-02 Sat>
 * sus - Suspend
 sus is a small script that locks the screen and puts the computer into suspend mode
 #+name: sus

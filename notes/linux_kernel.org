@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/linux_kernel
-<2022-03-25 Fri>
+<2022-04-02 Sat>
 * Logging i^2c traffic
 ** Detecting i^2c devices
 - [[https://www.kernel.org/doc/html/v5.4/i2c/dev-interface.html][kernel.org: I2C Device Interface]]

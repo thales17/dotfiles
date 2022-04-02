@@ -1,5 +1,7 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/jansson
-<2022-01-30 Sun>
+<2022-04-02 Sat>
 * What is =jansson=
 =jansson= is a C JSON library that is open sourced under the MIT
 license. The [[https://digip.org/jansson/][website]] contains lots of documentation on how to use it.
