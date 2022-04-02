@@ -1,3 +1,5 @@
+#+html_link_up: ../
+#+html_link_home: ../
 #+title: notes/orgmode
 <2022-04-02 Sat>
 * Plotting Data

@@ -1,10 +1,9 @@
-#+html_link_up: ../
-#+html_link_home: ../
 :properties:
-:title: config/nethack
 :header-args: :tangle ~/.nethackrc
 :end:
-
+#+html_link_up: ../
+#+html_link_home: ../
+#+title: config/nethack
 <2022-04-02 Sat>
 * Resources
 - [[https://nethackwiki.com/wiki/Options][Nethack Wiki]] page on options
