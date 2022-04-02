@@ -1,5 +1,5 @@
 #+title: notes/lisp
-<2022-03-29 Tue>
+<2022-04-01 Fri>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -232,7 +232,41 @@ and the third")
 #+begin_src lisp
 (format nil "hello~Cworld" #\newline)
 #+end_src
-
+- Another way to do this is with =~%=
+#+begin_src lisp
+(format nil "hello~%world")
+#+end_src
+*** format
+- [[https://en.wikipedia.org/wiki/Format_(Common_Lisp)][Wikipedia: Format (Common Lisp)]]
+**** format directives
+- =c= - single character
+- =r= - radix base
+- =d= - decimal (base 10) number
+- =b= - binary (base 2) number
+- =o= - octal (base 8) number
+- =x= - hexadecimal (base 16) number
+- =f= - floating point number
+- =e= - exponent notation for number
+- =g= - exponent or float, pickign automatically
+- =$= - print with monetary conventions
+- =a= - print in human friendly manner
+- =s= - print symbol in format compatible with read function
+- =w= - print with printer control characters
+- =i= - indent a logical block
+- =t= - move cursor to column
+- =p= - prints singular or plural suffix
+- =%= - newline
+**** Examples
+***** Strings
+#+begin_src lisp
+(format nil "Your message is: ~a~%"
+	"Hello, World")
+#+end_src
+***** Left pad zeroes
+#+begin_src lisp
+(format nil "You number is: ~3,'0d," 12)
+#+end_src
+- The above example will ensure that the decimal value is 3 digits long and will pad to the left with =0= if it is less than 3 digits
 ** Lists
 *** push
 - Adds item to the beginning of a list
@@ -371,6 +405,31 @@ and the third")
 (some #'oddp '(2 2 4 5 6))
 #+end_src
 - The above example will return =t= since there is one odd member
+*** reduce
+- Iterate through a sequence and reduce it down to a single value
+- The =reduce= function takes two arguments, a function that reduces two items to 1 and a sequence of items
+#+begin_src lisp
+(reduce #'* '(1 2 3 4 5 6 7))
+#+end_src
+- The above example will return 5040, which is 1 * 2 * 3 * 4 * 5 * 6 * 7
+- In the reducer function the first argument is the accumulated value and the second is the current item in the list
+- It is possible to set an initial value for the accumulated value with the =:initial-value= key
+#+begin_src lisp
+(reduce (lambda (acc i)
+	  (if (oddp i)
+	      (+ acc (* i 2))
+	      acc))
+	'(2 4 5 1)
+	:initial-value 100)
+#+end_src
+- The above example results in 112, since the initial value is 100 and the only two odd values in the list are 5 and 1 which * 2 are 12
+- The reduce function is generic and can be used on all sequence types (arrays, lists, strings)
+*** sort
+- The sort function allows you to arbitrarily sort a list
+#+begin_src lisp
+(sort '(1 2 3 4 5 6) #'>)
+#+end_src
+- The above example sorts the list in descending order
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp
@@ -557,6 +616,40 @@ Space: 31004976 Bytes
 GC: 26, GC time: 0.098185 sec.
 #+end_src
 - The above is an example of some of the profile data that the =time= function will return
+
+** Generics
+*** Type Predicates
+- Common Lisp has dynamic typing, so a symbol can be any type
+- This is a list of all the type predicates:
+  - =arrayp=
+  - =characterp=
+  - =consp=
+  - =functionp=
+  - =hash-table-p=
+  - =listp=
+  - =stringp=
+  - =symbolp=
+- These predicates an be used to implement generic functions
+*** defmethod
+- The =defmethod= macro will allow you to define separate functions for each supported argument type
+- This can help with code readability so you don't have have a long conditional that checks the type of the arguments
+- When using =defmethod= you need to explicitly state the type of each argument
+#+begin_src lisp :results raw
+(defmethod add ((x number) (y number))
+  (+ x y))
+
+(defmethod add ((x string) (y string))
+  (format nil "string add:~%~4tx: ~a~%~4ty: ~a~%" x y))
+
+(add (format nil "num add: ~d" (add 100 -100))
+     (format nil "num add: ~d" (add 2 2)))
+#+end_src
+- The above example will produce the following ouput
+#+begin_src text
+string add:
+    x: num add: 0
+    y: num add: 4
+#+end_src
 
 * Common Lisp Data Structures
 ** List
