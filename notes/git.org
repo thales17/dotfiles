@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/git
-<2022-04-02 Sat>
+<2022-04-05 Tue>
 * Resources
 - [[https://rogerdudler.github.io/git-guide/][Roger Rudler: git-guide]]
 - [[https://git-scm.com/book/en/v2][Pro Git book]]
@@ -17,3 +17,11 @@
 
 * Pull submodules
 - =git submodule update --init --recursive=
+* Magit
+** Resources
+- [[https://magit.vc/manual/magit/][Magit Manual]]
+** Checking out a file from another branch
+- From within the =magit= menu press =X= for =Reset= commands
+- From inside the =Reset= commands list press =f= for =File=
+- Next pick the source branch, then pick the file in the repo
+- This will revert that file in the current branch to the version from the other branch as a soft change
