@@ -4,7 +4,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: config/emacs
-<2022-04-02 Sat>
+<2022-04-08 Fri>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -371,14 +371,14 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 #+end_src
 *** Prompt user for video
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr--ask-video (is-by-date)
+(defun ajr--ask-video (is-by-date video-dir)
   (let ((videos (directory-files
-		 ajr-video-dir
+		 video-dir
 		 nil
 		 ajr-video-regexp))
 	(sorted-videos (mapcar 'car (sort
 				     (directory-files-and-attributes
-				      ajr-video-dir
+				      video-dir
 				      nil
 				      ajr-video-regexp)
 				     (lambda (x y)
@@ -394,19 +394,21 @@ Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds
 
 *** Video playback
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr-video-play (arg)
-  "Prompts the user for a video from `ajr-video-dir'.
-  Uses the `ajr-video-program' to play the video. Use C-u
-  to sort the videos by date (newest first)."
+(defun ajr-video-play (arg &optional video-dir)
+  "Prompts the user for a video from `ajr-video-dir'. If you pass a
+`video-dir' in it will use that instead of `ajr-video-dir'. Uses the
+`ajr-video-program' to play the video. Use C-u to sort the videos by
+date (newest first)."
   (interactive "P")
-  (let* ((video (ajr--ask-video arg))
+  (let* ((vdir (or video-dir ajr-video-dir))
+	 (video (ajr--ask-video arg vdir))
 	 (video-buffer (get-buffer-create "*video-player*"))
 	 (script-proc-buffer
 	  (make-comint-in-buffer "video-player"
 				 video-buffer
 				 ajr-video-program
 				 nil
-				 (string-join (list ajr-video-dir
+				 (string-join (list vdir
 						    "/"
 						    video))))
 	 (video-proc (get-buffer-process video-buffer)))

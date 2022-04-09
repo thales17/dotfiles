@@ -26,6 +26,8 @@ deb-src http://deb.debian.org/debian bullseye-updates main contrib non-free
 - Load the =iwlwifi= module, =sudo modprobe -r iwlwifi; modprobe iwlwifi=
 - This might also be a good time to install any needed non-free firmware for your hardware.  For example intel graphics i915
 - =sudo apt install firmware-misc-nonfree=
+* Bluetooth
+- Once the =non-free= packages are enabled you might need to install =bluez-firmware= to be able to connect to some bluetooth devices
 * Caps Lock / Control
 - To turn the caps lock key into control run this =setxkbmap= command when logging in, =/usr/bin/setxkbmap -option "ctrl:nocaps"=
 * Packages
@@ -124,7 +126,9 @@ sudo apt install \
      gimp \
      gimp-help-en \
      libxml2-dev \
-     libgtk2.0-dev
+     libgtk2.0-dev \
+     iperf3 \
+     python3-pip
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.

@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/lisp
-<2022-04-02 Sat>
+<2022-04-09 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -125,11 +125,57 @@
 *** Argument Limits
 - There is a limit on the number of arguments a function can have
 - You can check those limits in the Common Lisp REPL with =call-arguments-limit=
+**** Optional Arguments
+- Adding =&optional= before an argument marks it as optional
+- This means that when the function is evaluated if you do not supply that argument it will not error
+#+begin_src lisp
+(defun fn-opt (not-optional &optional (val 10))
+  (list not-optional val))
+
+(fn-opt 100)
+#+end_src
+- The above example shows an optional argument =val= with a default value of =10=
+- It returns =(100 10)=
+**** Variadic Arguments
+- Using =&rest= followed by a variable name collects a variable amount of arguments into a list
+#+begin_src lisp
+(defun fn-var (x &rest args)
+  (append
+   (if (listp x) x (list x))
+   args))
+
+(fn-var (fn-var 10) 100 10 10)
+#+end_src
+- The above example returns the list =(10 100 10 10)=
+**** Keyword Arguments
+- Using =&key= all of the arguments appearing after it will be named
+- To use a named argument it must be formatted with =:<NAME_OF_ARG=
+- The preceding colon is a keyword form
+#+begin_src lisp
+(defun fn-key (&key x y w h)
+  (list x y w h))
+
+(fn-key :w 20 :h 10 :x 5 :y 2)
+#+end_src
+- The above example returns the list =(5 2 20 10)=
+- It shows how when the arguments are used as keywords the order does not matter
+**** Default Values
+- Optional and keyword arguments can have a default value
+- To specify the default value you create a list with that starts with the local name of the argument followed by the default value
+- Additionally you can supply a third item to the list that is a boolean indicating if the value was set or not
+#+begin_src lisp
+(defun fn-default (&optional (val 12 val-set))
+  (list val val-set))
+
+(fn-default 100)
+#+end_src
+- The above example returns the list =(100 t)=
 ** Eval
 - You can evaluate a quoted symbol with =eval=
 - =(eval '(+ 2 2))= should return =4=
 - Like =eval= in JavaScript it can be a huge security risk in your program
 ** Loops
+*** loop
 - Loops can be a good alternative to recursion, especially when using an implementation that does not have tail recursion support
 - The most basic form of the =loop= is shown below
 #+begin_src lisp
@@ -141,16 +187,53 @@
       (return)))
 #+end_src
 - The =return= command exits the loop
+- Loop can be used to create lists
+- Loop has a few keywords that tell it how to behave
+- The =collect= keyword specifies what you want to put into the returned list for this iteration
+- The =repeat= keyword indicates how many times a loop should run
+#+begin_src lisp
+(loop repeat 10
+      collect 8)
+#+end_src
+- The =for= and =from= / =to= keywords let you specify a variable local to the loop that increments each loop iteraction
+- This is inclusive and on both ends
+#+begin_src lisp
+(loop for n from 1 to 10
+      collect n)
+#+end_src
+- The above example will return =(1 2 3 4 5 6 7 8 9 10)=
+- The =for= and =below= keywords start from 0 and iterate through every integer less than the value after =below=
+#+begin_src lisp
+(loop for i below 10
+      collect)
+#+end_src
+
+- The above example will return =(0 1 2 3 4 5 6 7 8 9)=
+- There are many special tokens that can be passed to the =loop= macro that do special things
+#+begin_src lisp :results raw
+(loop for y below 10
+      collect (loop for x below 10
+		    collect (cons x y)))
+#+end_src
+- The above example generates all of the 2d points between 0 - 10
+- Each row is a list of cons cells of points for a given y value
+*** dotimes
+- =dotimes= takes a variable and an upper bound
+- It will perform the actions inside the body up to the upper bound
+#+begin_src lisp
+(dotimes (i 4)
+  (princ (format nil "Loop #~d~%" i)))
+#+end_src
+- The above example will print the following output
+#+begin_src text
+Loop #0
+Loop #1
+Loop #2
+Loop #3
+#+end_src
 ** Nullary Functions (Thunks)
 - A nullary function is a function that has no arguments
 - They are also commonly known as thunks or suspensions
-** Generic Programming
-*** setf
-- In general the code for getting data out of something is the same as code for putting something in
-- The =setf= command is a generic setter that can put data into data structures using the accessor as an argument
-- The following =setf= example changes the third item of the list =foo=, =(setf (third foo) 'bar)=
-- The first parameter in =setf= is a generalized reference
-- A generalized reference parameter can be arbitrarily complicated, meaning whatever path needed to access the reference you will still be able to mutate it with =setf=
 ** Functions returning multiple values
 - It is possible to write a function that returns multiple values
 - When returning multiple values the first value returned is given preference when chaining the function
@@ -178,12 +261,22 @@
 *** Incrementing
 - You can use =1-= to decrement by 1, =(1- 10)= evaluates to 9
 - You can also use =1+= to increment by 1, =(1+ 9)= evaluates to 10
+- Additionally there are =incf= and =decf= to increment or decrement a value in place
+- Like =setf= the =incf= and =decf= functions must be called with a variable as a parameter
+#+begin_src lisp
+(defparameter n 0)
+(incf n)
+(incf n 2)
+(decf n 3)
+#+end_src
+- In the above example =n= starts at 0, then goes to =1=, then to =2= and finally back to =0=
+- The =incf= and =decf= functions also return the new value in addition to mutating the variable
 *** Exponent
 - Use =expt= to raise a number to an exponent, =(expt 53 53)= raises 53 to the 53rd power
 *** Random numbers
 - Use the =random= function to generate a random number
 - It takes the limit as an argument which can be either an int or a float
-- The returned number will be less than the limit
+- The returned number will be between 0 and the limit
 - If it is a float than the random number generated will also be a float
 - This has the side effect of changing the internal =random-state=
 *** Arithmetic Shift (bitwise shift)
@@ -337,6 +430,14 @@ and the third")
 - The above example will return =(1 2 3 8 9 10 11 12 4 5 6 7)=
 *** apply
 - Use =apply= to call a functions once with all the elements of a list as its arguments
+#+begin_src lisp
+(defparameter *rect* '(40 40 20 30))
+
+(defun rect-area (x y w h)
+  (* w h))
+
+(apply #'rect-area *rect*)
+#+end_src
 *** remove-if-not
 - Removes all items from the list that do not satisfy the predicate
 - =(remove-if-not #'oddp '(1 2 3 4 5))= should return =(1 3 5)=
@@ -567,29 +668,8 @@ and the third")
 #+RESULTS:
 : #\Newline
 - There is a global stream =*standard-ouput*= that represents stdout of the lisp environment
-*** Loop
-- Loop can be used to create lists
-- Loop has a few keywords that tell it how to behave
-- The =collect= keyword specifies what you want to put into the returned list for this iteration
-- The =repeat= keyword indicates how many times a loop should run
-#+begin_src lisp
-(loop repeat 10
-      collect 8)
-#+end_src
-- The =for= and =from= / =to= keywords let you specify a variable local to the loop that increments each loop iteraction
-- This is inclusive and on both ends
-#+begin_src lisp
-(loop for n from 1 to 10
-      collect n)
-#+end_src
-- The above example will return =(1 2 3 4 5 6 7 8 9 10)=
-- The =for= and =below= keywords start from 0 and iterate through every integer less than the value after =below=
-#+begin_src lisp
-(loop for i below 10
-      collect i)
-#+end_src
-- The above example will return =(0 1 2 3 4 5 6 7 8 9)=
 ** Arrays
+- Any one dimensional array is also known as a vector
 *** make-array
 - The =make-array= function is used to create an array
 - It takes an argument that specifies the size of the array
@@ -609,6 +689,20 @@ and the third")
 - This can also be used with =setf= to set values in the hash table, =(setf (gethash 'foo some-hash-table) 'bar)=
 - The =gethash= function returns multiple values, the first is the value stored in the hash-table for the key, the second is whether or not that key was in the table
 - This is needed since a key could be present in the table but have =nil= set as its value
+*** Key Equality
+- By default hash tables use =eq= to compare equality
+- This will cause issues when you want to use a symbol as a key
+- The equality function in a hash table can be changed using the =:test= key in =make-hash-table=
+- =(make-hash-table :test #'equal)= lets you define a table whose keys are compared with the =equal= function instead of =eq=
+- This is useful when you want to have keys are cons pairs
+*** Removing entries with remhash
+- The =remhash= function mirrors the =gethash= function but it removes the key from the table
+#+begin_src lisp
+(defparameter my-hash (make-hash-table))
+(setf (gethash 'foo my-hash) 'bar)
+(remhash 'foo my-hash)
+#+end_src
+- The above example adds and removes a key from the =my-hash= table
 ** Profiling
 *** time
 - The =time= function will perform the argument function and return a lot of use profile information
@@ -621,6 +715,12 @@ GC: 26, GC time: 0.098185 sec.
 - The above is an example of some of the profile data that the =time= function will return
 
 ** Generics
+*** setf
+- In general the code for getting data out of something is the same as code for putting something in
+- The =setf= command is a generic setter that can put data into data structures using the accessor as an argument
+- The following =setf= example changes the third item of the list =foo=, =(setf (third foo) 'bar)=
+- The first parameter in =setf= is a generalized reference
+- A generalized reference parameter can be arbitrarily complicated, meaning whatever path needed to access the reference you will still be able to mutate it with =setf=
 *** Type Predicates
 - Common Lisp has dynamic typing, so a symbol can be any type
 - This is a list of all the type predicates:
@@ -654,6 +754,10 @@ string add:
     y: num add: 4
 #+end_src
 
+*** type-of
+- The =type-of= function will return the type of the variable
+- For example, =(type-of 12)= will return =INTEGER=
+- =(type-of 'hello)= will return =SYMBOL=
 * Common Lisp Data Structures
 ** List
 - Most fundamental data structure in a lisp
@@ -674,6 +778,7 @@ string add:
 - Both arrays and hash tables are not considered very lispy
 - They are best avoided until performance concerns arise
 ** Structures
+*** defstruct
 - The =defstruct= macro is useful for building structured data out of lists
 - The =defstruct= macro will also create functions for building and accessing the data from the struct
 #+begin_src lisp
@@ -692,6 +797,36 @@ string add:
 - The above example shows creating a structure with =defstruct= and building one with the =make-<STRUCT_NAME>= function
 - It also shows using a generated accessor function =<STRUCT_NAME>-<PROPERPTY_NAME>=
 - The above example produces the following struct literal, =#S(RECTANGLE :X 85 :Y 10 :WIDTH 50 :HEIGHT 25)=
+*** Default Values
+- It is possible to provide default values to a struct by wrapping the slot with parenthesis and providing a value
+#+begin_src lisp
+(defstruct rectangle
+  (x 10)
+  (y 10)
+  (width 100)
+  (height 100))
+
+(make-rectangle)
+#+end_src
+- The above example shows defining a struct with default values
+- When initializing the struct the slots can be omitted and they will use the default values
+- The above example returns the following struct literal, =#S(RECTANGLE :X 10 :Y 10 :WIDTH 100 :HEIGHT 100)=
+*** Including Another Structure
+- It is possible to declare a struct that includes the slots from another struct
+- The syntax for doing this is to wrap the structure name in parenthesis then add a =(:include some-other-struct)= inside
+#+begin_src lisp
+(defstruct point
+  (x 5)
+  (y 5))
+
+(defstruct (circle (:include point))
+  (radius 4))
+
+(make-circle)
+#+end_src
+- The above example shows creating a =circle= structure that inherits all the slot from the =point= struct
+- This example returns this struct literal, =#S(CIRCLE :X 5 :Y 5 :RADIUS 4)=
+
 * Quick Lisp
 - [[https://www.quicklisp.org/beta/][Quicklisp]] is a library manager (package manager) for Common Lisp
 ** Installation
