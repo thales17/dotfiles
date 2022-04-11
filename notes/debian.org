@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/debian
-<2022-04-02 Sat>
+<2022-04-10 Sun>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -128,7 +128,8 @@ sudo apt install \
      libxml2-dev \
      libgtk2.0-dev \
      iperf3 \
-     python3-pip
+     python3-pip \
+     flac
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.

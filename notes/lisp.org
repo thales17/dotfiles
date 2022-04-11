@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/lisp
-<2022-04-09 Sat>
+<2022-04-10 Sun>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -125,7 +125,7 @@
 *** Argument Limits
 - There is a limit on the number of arguments a function can have
 - You can check those limits in the Common Lisp REPL with =call-arguments-limit=
-**** Optional Arguments
+*** Optional Arguments
 - Adding =&optional= before an argument marks it as optional
 - This means that when the function is evaluated if you do not supply that argument it will not error
 #+begin_src lisp
@@ -136,7 +136,7 @@
 #+end_src
 - The above example shows an optional argument =val= with a default value of =10=
 - It returns =(100 10)=
-**** Variadic Arguments
+*** Variadic Arguments
 - Using =&rest= followed by a variable name collects a variable amount of arguments into a list
 #+begin_src lisp
 (defun fn-var (x &rest args)
@@ -147,7 +147,7 @@
 (fn-var (fn-var 10) 100 10 10)
 #+end_src
 - The above example returns the list =(10 100 10 10)=
-**** Keyword Arguments
+*** Keyword Arguments
 - Using =&key= all of the arguments appearing after it will be named
 - To use a named argument it must be formatted with =:<NAME_OF_ARG=
 - The preceding colon is a keyword form
@@ -159,7 +159,7 @@
 #+end_src
 - The above example returns the list =(5 2 20 10)=
 - It shows how when the arguments are used as keywords the order does not matter
-**** Default Values
+*** Default Values
 - Optional and keyword arguments can have a default value
 - To specify the default value you create a list with that starts with the local name of the argument followed by the default value
 - Additionally you can supply a third item to the list that is a boolean indicating if the value was set or not
@@ -822,8 +822,9 @@ string add:
 (defstruct (circle (:include point))
   (radius 4))
 
-(make-circle)
+(make-circle :x 25 :y 30 :radius 10)
 #+end_src
+
 - The above example shows creating a =circle= structure that inherits all the slot from the =point= struct
 - This example returns this struct literal, =#S(CIRCLE :X 5 :Y 5 :RADIUS 4)=
 
@@ -850,15 +851,5 @@ string add:
 ** Upgrading Quicklisp
 - Use =(ql:update-dist "quicklisp")= to update Quicklisp
 - Run =(ql:update-client)= to update the client
-** SDL2
-- [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
-  - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
-- Go into =~/quicklisp/local-projects= folder
-  - Clone =git clone https://github.com/rpav/cl-autowrap.git=
-  - Clone =git clone https://github.com/lispgames/cl-sdl2.git=
-- Inside the lisp repl install quick load sdl2, =(ql:quickload "sdl2")=
-- Try one of the example
-#+begin_src lisp :results none
-(ql:quickload :sdl2/examples)
-(sdl2-examples:basic-test)
-#+end_src
+* Lisp Library Notes
+- [[file:cl-sdl2.org][cl-sdl2]]

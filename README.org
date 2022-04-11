@@ -2,7 +2,7 @@
 This repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
 I consider this a sandbox to play with literate programming and a constant work in progress.
 
-<2022-03-25 Fri>
+<2022-04-09 Sat>
 ** Dotfiles
 The config dir has various org mode files that can be tangled into their correct locations. For Linux systems run the default make target in the config directory. For OpenBSD run =make openbsd=.
 
@@ -47,8 +47,10 @@ The config dir has various org mode files that can be tangled into their correct
 
 *** Programming
 - [[file:notes/elisp.org][Emacs Lisp]]
-- [[file:notes/lisp.org][Common Lisp]]
 - [[file:notes/go.org][Go]]
+**** Common Lisp
+- [[file:notes/lisp.org][General Notes]]
+- [[file:notes/cl-sdl2.org][cl-sdl2]]
 **** C
 - [[file:notes/carguments.org][Program Arguments]]
 - [[file:notes/ncurses.org][ncurses]]
