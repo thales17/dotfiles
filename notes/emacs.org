@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/emacs
-<2022-04-02 Sat>
+<2022-04-11 Mon>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
@@ -92,3 +92,6 @@ Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, fo
 
 #+RESULTS:
 | higher | order | args | (1 2 3 4 5 6 7 8 ...) |
+* View Emacs Build Information
+- To view the version of Emacs you are current using run the =emacs-version= function
+- To view the features compiled in read the =system-configuration-features= variable

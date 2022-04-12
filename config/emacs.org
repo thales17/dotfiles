@@ -4,7 +4,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: config/emacs
-<2022-04-08 Fri>
+<2022-04-11 Mon>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -667,6 +667,24 @@ list"
 	(newline)
 	(previous-line)))
     (org-insert-time-stamp (current-time))))
+#+end_src
+
+** View Android Screenshot
+#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+(defun ajr-android-screenshot ()
+  "Uses adb to capture a screencap of the connected device.
+The screenshot is opened in the other window."
+  (interactive)
+  (let ((fname (expand-file-name
+		(concat
+		 "~/tmp/android-"
+		 (format-time-string "%Y%m%d%H%M%S")
+		 ".png"))))
+    (shell-command
+     (concat
+      "adb exec-out screencap -p > "
+      fname))
+    (find-file-other-window fname)))
 #+end_src
 
 ** ajr.el

@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/debian
-<2022-04-10 Sun>
+<2022-04-11 Mon>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -129,7 +129,8 @@ sudo apt install \
      libgtk2.0-dev \
      iperf3 \
      python3-pip \
-     flac
+     flac \
+     libmagickwand-dev
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.
@@ -179,7 +180,13 @@ sudo apt install \
 - clone emacs from [[http://savannah.gnu.org/projects/emacs/][savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
 - Releases are usually in a branch with the version number, for example =emacs-28=
 - Run the =./autogen.sh= to build the configure script
-- Use this command to configure with native compilation =./configure --with-native-compilation=
+- The below command shows the configure flags I like for Emacs
+#+begin_src sh
+./configure --with-native-compilation \
+	    --with-json \
+	    --with-rsvg \
+	    --with-imagemagick
+#+end_src
 - This will warn you about any missing dependencies, from there you should obtain them for your OS
 - Build emacs with =make -j <NUMBER_OF_CPU_CORES+1>=
 - Run =make install= with appropriate permissions to install the new version on the system
