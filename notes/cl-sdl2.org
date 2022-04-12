@@ -1,7 +1,10 @@
+:properties:
+:header-args: :results none
+:end:
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/cl-sdl2
-<2022-04-10 Sun>
+<2022-04-11 Mon>
 * Setup
 - [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
   - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
@@ -10,7 +13,7 @@
   - Clone =git clone https://github.com/lispgames/cl-sdl2.git=
 - Inside the lisp repl install quick load sdl2, =(ql:quickload "sdl2")=
 - Try one of the example
-#+begin_src lisp :results none :eval no
+#+begin_src lisp :eval no
 (ql:quickload :sdl2/examples)
 (sdl2-examples:basic-test)
 #+end_src
@@ -102,30 +105,44 @@
 (sdl2:push-event :quit)
 #+end_src
 
+* Timing
+** Delay
+- It is a good idea to add a delay to your event loop if you are not running in VSYNC mode
+- If you do not it will max out a CPU core
+- The delay function accepts a millisecond amount to sleep the thread
+#+begin_src lisp :eval no
+(sdl2:delay delay-ms)
+#+end_src
 * DVD Logo Example
 - This example displays a bouncing rectangle
 - It's aim is to be similar to this screen saver seen [[https://www.youtube.com/watch?v=QOtuX0jL85Y][here]] in The Office
 
 ** Structures
-#+begin_src lisp :results none
+*** Point
+#+begin_src lisp
 (defstruct point
   (x 0)
   (y 0))
+#+end_src
 
+*** Drawable
+#+begin_src lisp
 (defstruct (drawable (:include point))
   (r 0)
   (g 0)
   (b 0)
   (opacity 255))
+#+end_src
 
+*** Rectangle
+#+begin_src lisp
 (defstruct (rectangle (:include drawable))
   (w 0)
   (h 0))
-
 #+end_src
 
 ** Globals
-#+begin_src lisp :results none
+#+begin_src lisp
 (defparameter *world-width* 800)
 (defparameter *world-height* 600)
 
@@ -145,7 +162,8 @@
 #+end_src
 
 ** Utility Functions
-#+begin_src lisp :results none
+*** Apply Direction
+#+begin_src lisp
 (defun apply-dir (point dir)
   "Applies the direction vector `dir' to the `point'.
 Both `dir' and `point' are point structures."
@@ -153,7 +171,10 @@ Both `dir' and `point' are point structures."
 			   (point-x dir)))
   (setf (point-y point) (+ (point-y point)
 			   (point-y dir))))
+#+end_src
 
+*** Invert Point
+#+begin_src lisp
 (defun invert-point (point invert-x invert-y)
   "Multiplies the x value by -1 if `invert-x' is not nil.
 Multiplies the y value by -1 if the `invert-y' is not nil."
@@ -163,7 +184,10 @@ Multiplies the y value by -1 if the `invert-y' is not nil."
   (when invert-y
     (setf (point-y point)
 	  (* (point-y point) -1))))
+#+end_src
 
+*** Out of Bounds Predicate
+#+begin_src lisp
 (defun out-of-bounds-p (rectangle)
   "Checks to see if the rectangle is within the bounds of `*world-width*'
 and `*world-height'. If not it returns a cons pair of two numbers. The car
@@ -184,7 +208,10 @@ nil. The other digit in the pair is the same but for y axis."
 	(cons (if x-out-of-bounds 1 nil)
 	      (if y-out-of-bounds 1 nil))
 	nil)))
+#+end_src
 
+*** Randomize Drawable Color
+#+begin_src lisp
 (defun randomize-drawable-color (drawable)
   "Changes the color on the drawable to a random color"
   (setf (drawable-r drawable) (random 255))
@@ -192,8 +219,24 @@ nil. The other digit in the pair is the same but for y axis."
   (setf (drawable-b drawable) (random 255)))
 #+end_src
 
+*** Pattern To Rects
+#+begin_src lisp
+(defun pattern->rects (pattern row-stride scale
+		       &optional offset active-color inactive-color active-char inactive-char)
+  "A `pattern' is a string with two characters repeating. One character
+represents an active pixel the other character represents a blank
+pixel. This can be used to define monochrome sprites, such as bitmap
+fonts. By default the active pixel is '#' and the inactive pixel is '.'.
+The string represents a linearized 2d array. In order to size the rectangle
+a `row-stride' is needed. The `row-stride' indicates how wide each row is in
+the pattern. The `scale' indicates how large in pixels each square pixel of
+the pattern is. "
+  )
+#+end_src
+
+
 ** SDL Utility Functions
-#+begin_src lisp :results none
+#+begin_src lisp
 (defun rectangle->render (rectangle renderer)
   (sdl2:set-render-draw-color
    renderer
@@ -213,7 +256,7 @@ nil. The other digit in the pair is the same but for y axis."
 
 ** DVD Logo Life Cycle Functions
 *** Update
-#+begin_src lisp :results none
+#+begin_src lisp
 (defun update ()
   (apply-dir *dvd-rect* *dvd-dir*)
   (let ((out-of-bounds (out-of-bounds-p *dvd-rect*)))
@@ -225,7 +268,7 @@ nil. The other digit in the pair is the same but for y axis."
 #+end_src
 
 *** Draw
-#+begin_src lisp :results none
+#+begin_src lisp
 (defun draw (renderer)
   (sdl2:set-render-draw-color renderer 0 0 0 255)
   (sdl2:render-clear renderer)
@@ -234,7 +277,7 @@ nil. The other digit in the pair is the same but for y axis."
 #+end_src
 
 ** Main Loop
-#+begin_src lisp :results none
+#+begin_src lisp
 (defun dvd-logo ()
   "Bouncing DVD logo"
   (sdl2:with-init (:everything)
@@ -255,7 +298,8 @@ nil. The other digit in the pair is the same but for y axis."
 		    ,*update-usecs*)
 	     (update)
 	     (draw renderer)
-	     (setf *last-update* (get-internal-run-time))))
+	     (setf *last-update* (get-internal-run-time))
+	     (sdl2:delay 8)))
 	  (:quit () t))))))
 #+end_src
 
