@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/lisp
-<2022-04-10 Sun>
+<2022-04-13 Wed>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -217,6 +217,18 @@
 #+end_src
 - The above example generates all of the 2d points between 0 - 10
 - Each row is a list of cons cells of points for a given y value
+#+begin_src lisp
+(defparameter *test* '(1 2 3))
+(loop for i below (length *test*)
+	       do (princ (format nil "~d = ~d~%" i (nth i *test*))))
+#+end_src
+- The above example returns the following
+#+begin_src text
+0 = 1
+1 = 2
+2 = 3
+#+end_src
+
 *** dotimes
 - =dotimes= takes a variable and an upper bound
 - It will perform the actions inside the body up to the upper bound

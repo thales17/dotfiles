@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/debian
-<2022-04-11 Mon>
+<2022-04-13 Wed>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=
@@ -130,7 +130,9 @@ sudo apt install \
      iperf3 \
      python3-pip \
      flac \
-     libmagickwand-dev
+     libmagickwand-dev \
+     guile-3.0 \
+     guile-3.0-dev
 #+end_src
 ** Installing =.deb= files
 - You can use =apt= to install =deb= files.
@@ -150,7 +152,7 @@ sudo apt install \
 - Start syncthing as a user service =systemctl enable --now syncthing.service --user=
 - The syncthing web ui is normally accessed on port 8384
 * Isync
-- Clone the =isync= repo, =git clone https://git.code.sf.net/p/isync/isync isync-isync=
+- Clone the =isync= repo, =git clone https://git.code.sf.net/p/isync/isync isync=
 - Inside the =isync= code run =./autogen.sh=
 - Run =./configure= to create the =Makefile=
 - Then run =make= and =make install=

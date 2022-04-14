@@ -4,7 +4,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/cl-sdl2
-<2022-04-11 Mon>
+<2022-04-13 Wed>
 * Setup
 - [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
   - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
@@ -125,12 +125,19 @@
   (y 0))
 #+end_src
 
-*** Drawable
+*** Color
 #+begin_src lisp
-(defstruct (drawable (:include point))
+(defstruct color
   (r 0)
   (g 0)
   (b 0)
+  (opacity 255))
+#+end_src
+
+*** Drawable
+#+begin_src lisp
+(defstruct (drawable (:include point))
+  (color (make-color))
   (opacity 255))
 #+end_src
 
@@ -151,9 +158,10 @@
 			  :y (random (- *world-height* 75))
 			  :w 100
 			  :h 75
-			  :r #xFF
-			  :g #x00
-			  :b #x00))
+			  :color (make-color
+				  :r #xFF
+				  :g #x00
+				  :b #x00)))
 
 (defparameter *dvd-dir* (make-point :x 1 :y 1))
 
@@ -214,26 +222,57 @@ nil. The other digit in the pair is the same but for y axis."
 #+begin_src lisp
 (defun randomize-drawable-color (drawable)
   "Changes the color on the drawable to a random color"
-  (setf (drawable-r drawable) (random 255))
-  (setf (drawable-g drawable) (random 255))
-  (setf (drawable-b drawable) (random 255)))
+  (setf (drawable-color drawable)
+	(make-color
+	 :r (random 255)
+	 :g (random 255)
+	 :b (random 255))))
 #+end_src
 
 *** Pattern To Rects
 #+begin_src lisp
 (defun pattern->rects (pattern row-stride scale
 		       &optional offset active-color inactive-color active-char inactive-char)
-  "A `pattern' is a string with two characters repeating. One character
-represents an active pixel the other character represents a blank
-pixel. This can be used to define monochrome sprites, such as bitmap
-fonts. By default the active pixel is '#' and the inactive pixel is '.'.
-The string represents a linearized 2d array. In order to size the rectangle
-a `row-stride' is needed. The `row-stride' indicates how wide each row is in
-the pattern. The `scale' indicates how large in pixels each square pixel of
-the pattern is. "
-  )
-#+end_src
+  "A `pattern' is a string with two characters repeating. One
+character represents an active pixel the other character represents a
+blank pixel. This can be used to define monochrome sprites, such as
+bitmap fonts. The string represents a linearized 2D array. In order to
+size the rectangle a `row-stride' is needed. The `row-stride'
+indicates how wide each row is in the pattern. The `scale' indicates
+how large in pixels each square pixel of the pattern is. The
+`active-color' is an instance of the `color' struct and defaults to
+black. The `inactive-color' is also an instance of `color' and
+defaults to white. The `active-char' is the character in the pattern
+string that indicates the pixel should be active or on. By default the
+`active-char' is '#'. Similarly the `inactive-char' is the character
+that indicates a pixel is off and defaults to '.'.
 
+Example:
+
+'..#.....#..#..#...#..##.#######.####.###.##############.#########...#.....#...#.......#'
+
+The above pattern is on of the aliens from the game space
+invaders. The row stride is 11 which should have an 11x8 sized sprite."
+
+  (setf offset (or offset (make-point :x 0 :y 0)))
+  (setf active-color (or active-color
+			 (make-color :r #x00 :g #x00 :b #x00)))
+  (setf inactive-color (or inactive-color
+			   (make-color :r #xFF :g #xFF :b #xFF)))
+  (setf active-char (or active-char #\#))
+  (setf inactive-char (or inactive-char #\.))
+  (flet ((is-active-p (c)
+	   (equal c active-char)))
+    (let ((pattern-list (coerce pattern 'list)))
+      (loop for i below (length pattern-list)
+	    do ((let ((char (nth i pattern-list)))
+		  (make-rectangle
+		   :x ??
+		   :y ??
+		   :w scale
+		   :h scale
+		   :color (is-active-p char)))))))
+#+end_src
 
 ** SDL Utility Functions
 #+begin_src lisp
