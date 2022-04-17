@@ -1,7 +1,7 @@
-#+html_link_up: ../
+y#+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/git
-<2022-04-11 Mon>
+<2022-04-16 Sat>
 * Resources
 - [[https://rogerdudler.github.io/git-guide/][Roger Rudler: git-guide]]
 - [[https://git-scm.com/book/en/v2][Pro Git book]]
@@ -15,7 +15,12 @@
 - If current branch =git branch -m new-name=
 - If not current branch =git -m old-name new-name=
 
-* Pull submodules
+* Submodules
+- [[https://git-scm.com/book/en/v2/Git-Tools-Submodules][git-scm.org: Submodules]]
+** Adding a submodule
+- =git submodule add <GIT_REPO>=
+
+** Pull submodules
 - =git submodule update --init --recursive=
 
 * Delete Remote Branch

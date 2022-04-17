@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/orgmode
-<2022-04-02 Sat>
+<2022-04-17 Sun>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -44,44 +44,71 @@
 - This section walks through how this org repository is published into an html site
 ** CSS
 #+begin_src css :tangle ../css/main.css :mkdirp yes
-  .org-doc { color: blue; }
-  .org-keyword { color: red; }
-  .org-string { color: green; }
-  .org-variable-name { color: black; font-weight: bold; }
-  .org-function-name { color: mediumblue; }
-  .org-constant { color: purple; }
-  .org-comment { color: darkcyan; }
-  .org-type { color: orange; font-weight: bold; }
-  .org-warning { color: red; }
-  .timestamp { color: black; font-size: smaller; }
-  .timestamp { text-decoration: underline; }
-  .timestamp:before { content: "Last Updated: "; }
+.org-doc { color: blue; }
+.org-keyword { color: red; }
+.org-string { color: green; }
+.org-variable-name { color: black; font-weight: bold; }
+.org-function-name { color: mediumblue; }
+.org-constant { color: purple; }
+.org-comment { color: darkcyan; }
+.org-type { color: orange; font-weight: bold; }
+.org-warning { color: red; }
+.timestamp { color: black; font-size: smaller; }
+.timestamp { text-decoration: underline; }
+.timestamp:before { content: "Last Updated: "; }
 
-  table {
-      margin: auto;
-  }
+table {
+    margin: auto;
+}
 
-  @media only screen and (min-width: 1008px) {
-      #table-of-contents {
-	  position: fixed;
-	  left: 1em;
-	  top: 1em;
-	  bottom: 0;
-	  max-width: 25em;
-	  font-size: small;
-	  line-height: 1.5;
-	  overflow-x: hidden;
-	  overflow-y: auto;
-      }
+body {
+    color: black;
+    background-color: #eff4f3;
+    font-family:  "Liberation Sans", Helvetica, "Trebuchet MS", sans-serif;
+    margin: auto;
+    padding: 1em;
+    max-width: 72em;
+}
 
-      #content {
-	  margin: auto auto auto 26em;
-      }
+a {
+    font-weight: bold;
+    padding-right: .25em;
+}
 
-      body {
-	  font-size: 1.25em;
-      }
-  }
+a:visited {
+    color: black;
+}
+
+a:link {
+    color: black;
+}
+
+li {
+    margin-bottom: 1em;
+}
+
+
+@media only screen and (min-width: 1008px) {
+    #table-of-contents {
+	position: fixed;
+	left: 1em;
+	top: 1em;
+	bottom: 0;
+	max-width: 25em;
+	font-size: small;
+	line-height: 1.5;
+	overflow-x: hidden;
+	overflow-y: auto;
+    }
+
+    #content {
+	margin: auto auto auto 26em;
+    }
+
+    body {
+	font-size: 1.25em;
+    }
+}
 #+end_src
 
 ** Publish Script
@@ -115,35 +142,136 @@
 - I also create a head extra that includes the custom CSS
 - To get syntax highlighting for source code blocks I set the =htmlize= output type to CSS
 #+begin_src elisp :tangle ../build-site.el
-  (require 'ox-publish)
+(require 'ox-publish)
 
-  (setq org-html-validation-link nil)
-  (setq org-html-postamble nil)
-  (setq ajr-html-head-extra
-	(concat
-	 "<link rel='stylesheet' href='/css/main.css' />\n"))
+(setq ajr-html-preamble "
+<nav>
+  <a href=\"/\">Home</a>
+  <a href=\"/dotfiles/README.html\">Dotfiles</a>
+  <a href=\"/about.html\">About</a>
+</nav>
+")
 
-  (setq org-html-htmlize-output-type 'css)
+(setq ajr-html-top-preamble "
+<nav>
+  <a href=\"/dotfiles/README.html\">Dotfiles</a>
+  <a href=\"/about.html\">About</a>
+</nav>
+")
+
+(setq ajr-html-head-extra "
+<link rel='stylesheet' href='/css/main.css' />
+")
+
+
+(setq org-html-htmlize-output-type 'css)
 #+end_src
 
 **** Publish Project Alist
+***** Posts
+#+name: project-posts
 #+begin_src elisp :tangle ../build-site.el
+(list "org-site"
+      :recursive t
+      :base-directory "../"
+      :exclude "dotfiles\\|about"
+      :publishing-directory "./public"
+      :auto-sitemap t
+      :sitemap-title "Adam Richardson's Blog"
+      :sitemap-sort-files 'anti-chronologically
+      :sitemap-filename "index.org"
+      :sitemap-format-entry (lambda (file-or-dir style project)
+			      (if (equal file-or-dir "posts/")
+				  "Welcome to my personal blog"
+				(concat "[["
+					(concat "file:" file-or-dir)
+					"]["
+					(concat
+					 (car (org-publish-find-property file-or-dir :date project))
+					 " - "
+					 (org-publish-find-title file-or-dir project))
+					"]]")))
+      :html-head-extra ajr-html-head-extra
+      :html-preamble-format `(("en" ,ajr-html-preamble))
+      :html-preamble t
+      :html-postamble nil
+      :html-validation-link nil
+      :publishing-function 'org-html-publish-to-html)
+#+end_src
+
+***** Notes / Dotfiles
+#+name: project-dotfiles
+#+begin_src elisp :tangle ../build-site.el
+(list "org-site"
+      :recursive t
+      :base-directory "../"
+      :exclude "posts/"
+      :publishing-directory "./public/"
+      :html-head-extra ajr-html-head-extra
+      :html-preamble-format `(("en" ,ajr-html-preamble))
+      :html-preamble t
+      :html-postamble nil
+      :html-validation-link nil
+      :publishing-function 'org-html-publish-to-html)
+#+end_src
+
+***** Top Level
+#+name: project-top-level
+#+begin_src elisp :tangle ../build-site.el
+(list "org-site"
+      :recursive nil
+      :base-directory "../"
+      :publishing-directory "./public/"
+      :html-head-extra ajr-html-head-extra
+      :html-preamble-format `(("en" ,ajr-html-top-preamble))
+      :html-preamble t
+      :html-postamble nil
+      :html-validation-link nil
+      :publishing-function 'org-html-publish-to-html)
+#+end_src
+
+***** CSS
+#+name: project-css
+#+begin_src elisp :tangle ../build-site.el
+(list "org-static"
+      :recursive t
+      :base-directory "./dotfiles/css"
+      :base-extension "css"
+      :publishing-directory "../public/css"
+      :publishing-function 'org-publish-attachment)
+#+end_src
+
+***** Assets
+#+name: project-assets
+#+begin_src elisp :tangle ../build-site.el
+(list "org-static"
+      :recursive t
+      :base-directory "./assets"
+      :base-extension "png\\|gif\\|jpg\\|jpeg\\|svg"
+      :publishing-directory "./public/assets"
+      :publishing-function 'org-publish-attachment)
+#+end_src
+
+***** Static HTML
+#+name: project-static-html
+#+begin_src elisp :tangle ../build-site.el
+(list "org-static"
+      :recursive t
+      :base-directory "./static-html"
+      :base-extension "html\\|js"
+      :publishing-directory "./public/static-html"
+      :publishing-function 'org-publish-attachment)
+#+end_src
+***** Project alist
+#+begin_src elisp :tangle ../build-site.el :noweb yes
   (setq org-publish-project-alist
 	(list
-	 (list "org-site"
-	       :recursive t
-	       :base-directory "./"
-	       :publishing-directory "./public"
-	       :index-filename "README.org"
-	       :index-title "Home"
-	       :html-head-extra ajr-html-head-extra
-	       :publishing-function 'org-html-publish-to-html)
-	 (list "org-static"
-	       :recursive t
-	       :base-directory "./"
-	       :base-extension "css\\|png\\|gif\\|jpg\\|jpeg\\|svg"
-	       :publishing-directory "./public"
-	       :publishing-function 'org-publish-attachment)))
+	 <<project-posts>>
+	 <<project-dotfiles>>
+	 <<project-top-level>>
+	 <<project-css>>
+	 <<project-assets>>
+	 <<project-static-html>>))
 #+end_src
 
 **** Actually Publishing
