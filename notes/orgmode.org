@@ -1,7 +1,7 @@
 #+html_link_up: ../
 #+html_link_home: ../
 #+title: notes/orgmode
-<2022-04-17 Sun>
+<2022-04-18 Mon>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -29,11 +29,11 @@
 | 5 |  5 |  8 |
 
 #+begin_src gnuplot :exports both :var data=data-table :file example_plot.png
-  set title "Example Org Babel Plot"
-  set xlabel "X Axis"
-  set ylabel "Y Axis"
-  plot data using 1:2 with lp lw 2 title 'Series 1', \
-       data using 1:3 with lp lw 2 title 'Series 2'
+set title "Example Org Babel Plot"
+set xlabel "X Axis"
+set ylabel "Y Axis"
+plot data using 1:2 with lp lw 2 title 'Series 1', \
+     data using 1:3 with lp lw 2 title 'Series 2'
 #+end_src
 #+RESULTS:
 [[file:example_plot.png]]
@@ -122,24 +122,24 @@ nav {
 *** Straight.el
 **** Setup
 #+begin_src elisp :tangle ../build-site.el
-  (defvar bootstrap-version)
-  (let ((bootstrap-file
-	 (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
-	(bootstrap-version 5))
-    (unless (file-exists-p bootstrap-file)
-      (with-current-buffer
-	  (url-retrieve-synchronously
-	   "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
-	   'silent 'inhibit-cookies)
-	(goto-char (point-max))
-	(eval-print-last-sexp)))
-    (load bootstrap-file nil 'nomessage))
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+	(url-retrieve-synchronously
+	 "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+	 'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
 
-  (setq straight-base-dir ".packages/")
+(setq straight-base-dir ".packages/")
 #+end_src
 **** Packages
 #+begin_src elisp :tangle ../build-site.el
-  (straight-use-package 'htmlize)
+(straight-use-package 'htmlize)
 #+end_src
 
 *** Ox Publish
@@ -184,6 +184,7 @@ nav {
       :publishing-directory "./public"
       :auto-sitemap t
       :sitemap-title "Adam Richardson's Blog"
+      :sitemap-sort-folders 'ignore
       :sitemap-sort-files 'anti-chronologically
       :sitemap-filename "index.org"
       :sitemap-format-entry (lambda (file-or-dir style project)
@@ -193,9 +194,13 @@ nav {
 					(concat "file:" file-or-dir)
 					"]["
 					(concat
-					 (car (org-publish-find-property file-or-dir :date project))
+					 (format-time-string
+					  "%Y-%m-%d"
+					  (org-publish-find-date
+					   file-or-dir project))
 					 " - "
-					 (org-publish-find-title file-or-dir project))
+					 (org-publish-find-title
+					  file-or-dir project))
 					"]]")))
       :html-head-extra ajr-html-head-extra
       :html-preamble-format `(("en" ,ajr-html-preamble))
@@ -270,14 +275,14 @@ nav {
 #+end_src
 ***** Project alist
 #+begin_src elisp :tangle ../build-site.el :noweb yes
-  (setq org-publish-project-alist
-	(list
-	 <<project-posts>>
-	 <<project-dotfiles>>
-	 <<project-top-level>>
-	 <<project-css>>
-	 <<project-assets>>
-	 <<project-static-html>>))
+(setq org-publish-project-alist
+      (list
+       <<project-posts>>
+       <<project-dotfiles>>
+       <<project-top-level>>
+       <<project-css>>
+       <<project-assets>>
+       <<project-static-html>>))
 #+end_src
 
 **** Actually Publishing
@@ -316,7 +321,7 @@ nav {
 * LaTex
 - To view the Embedded LaTex section of the manual execute:
 #+begin_src elisp
-    (info "(org) Embedded LaTex")
+(info "(org) Embedded LaTex")
 #+end_src
 - [[https://orgmode.org/worg/org-contrib/babel/languages/ob-doc-LaTeX.html][Worg: LaTex Source Code Blocks in Org Mode]]
 - [[https://www.gnu.org/software/auctex/][AucTeX]] is an Emacs major mode for editing LaTex
