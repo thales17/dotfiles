@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/lisp
-<2022-04-13 Wed>
+<2022-04-19 Tue>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]

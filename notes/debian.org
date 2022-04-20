@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/debian
-<2022-04-13 Wed>
+<2022-04-19 Tue>
 * Sudo
 - Run =su= to become root
 - Add the user to the =sudo= group using the sudo command as root, =sudo usermod -a -G sudo <USER>=

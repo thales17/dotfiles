@@ -1,10 +1,8 @@
 :properties:
 :header-args: :tangle ~/.nethackrc
 :end:
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: config/nethack
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * Resources
 - [[https://nethackwiki.com/wiki/Options][Nethack Wiki]] page on options
 - [[http://nethack.org/v360/Guidebook.html#_TOCentry_41][Nethack Guidebook]] section on options

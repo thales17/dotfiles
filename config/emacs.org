@@ -1,10 +1,8 @@
 :properties:
 :header-args: :tangle ~/.emacs :results none
 :end:
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: config/emacs
-<2022-04-11 Mon>
+<2022-04-19 Tue>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes

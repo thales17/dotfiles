@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: config/suckless
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * dwm
 - [[https://ratfactor.com/dwm][Dave's Visual Guide to DWM]]
 - Make sure you run =cd ~/src/dwm && sudo make install= after tangling

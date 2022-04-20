@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/ncurses
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * What is =ncurses=
 "new curses" is a library that allows you to manipulate the character
 display of your terminal. Curses originally was pun on "cursor

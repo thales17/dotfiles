@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: projects/bullsandcows
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * Bulls and Cows
 - This code cracking logic game similar to Mastermind
 - The computer picks a random 4 digit number

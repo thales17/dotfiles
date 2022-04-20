@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/qemu
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * Documentation
 - [[https://www.qemu.org/docs/master/][Main Documentation]]
 - [[https://wiki.qemu.org/Main_Page][Community Wiki]]

@@ -1,7 +1,6 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/orgmode
-<2022-04-18 Mon>
+#+exclude_tags: noexport
+<2022-04-19 Tue>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -83,6 +82,11 @@ a:link {
     color: black;
 }
 
+ul {
+    list-style: none;
+    margin-top: 1em;
+}
+
 li {
     margin-bottom: 1em;
 }
@@ -95,22 +99,6 @@ nav {
 
 
 @media only screen and (min-width: 1008px) {
-    #table-of-contents {
-	position: fixed;
-	left: 1em;
-	top: 1em;
-	bottom: 0;
-	max-width: 25em;
-	font-size: small;
-	line-height: 1.5;
-	overflow-x: hidden;
-	overflow-y: auto;
-    }
-
-    #content {
-	margin: auto auto auto 26em;
-    }
-
     body {
 	font-size: 1.25em;
     }
@@ -189,7 +177,7 @@ nav {
       :sitemap-filename "index.org"
       :sitemap-format-entry (lambda (file-or-dir style project)
 			      (if (equal file-or-dir "posts/")
-				  "Welcome to my personal blog"
+				  "**Welcome to my personal blog**"
 				(concat "[["
 					(concat "file:" file-or-dir)
 					"]["
@@ -273,7 +261,7 @@ nav {
       :publishing-directory "./public/static-html"
       :publishing-function 'org-publish-attachment)
 #+end_src
-***** Project alist
+***** Project alist                                                :noexport:
 #+begin_src elisp :tangle ../build-site.el :noweb yes
 (setq org-publish-project-alist
       (list

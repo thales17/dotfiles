@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/emacs
-<2022-04-11 Mon>
+<2022-04-19 Tue>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp

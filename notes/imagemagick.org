@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/imagemagick
-<2022-04-03 Sun>
+<2022-04-19 Tue>
 * Resources
 - [[https://imagemagick.org/][imagemagick.org]]
 * Get the size of an image

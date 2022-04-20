@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: config/tmux
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * Config
 - [[https://man.openbsd.org/tmux][OpenBSD man page: tmux(1)]]
 #+begin_src conf :tangle ~/.tmux.conf

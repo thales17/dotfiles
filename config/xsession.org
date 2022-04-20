@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: config/xsession
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * Config
 - This is used primarily on OpenBSD systems
 - This file launches the window manager

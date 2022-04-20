@@ -1,11 +1,9 @@
 :properties:
 :header-args: :results none
 :end:
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: projects/perplexer
 #+exclude_tags: noexport
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * What is "Perplexer"?
 - This is a simple text adventure game that I made
 - It involves collecting a few keys to exit a maze

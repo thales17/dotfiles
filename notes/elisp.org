@@ -1,7 +1,5 @@
-#+html_link_up: ../
-#+html_link_home: ../
 #+title: notes/elisp
-<2022-04-02 Sat>
+<2022-04-19 Tue>
 * Lists
 ** Filtering a list
 - You can use the =mapcar= function to iterate through each item in the list
