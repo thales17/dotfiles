@@ -1,6 +1,6 @@
 #+title: notes/orgmode
 #+exclude_tags: noexport
-<2022-04-19 Tue>
+<2022-04-21 Thu>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -82,8 +82,11 @@ a:link {
     color: black;
 }
 
-ul {
+#content > ul {
     list-style: none;
+}
+
+ul {
     margin-top: 1em;
 }
 
@@ -132,33 +135,76 @@ nav {
 
 *** Ox Publish
 **** Setup
-- This disables the xhtml validation link and post amble
-- I also create a head extra that includes the custom CSS
-- To get syntax highlighting for source code blocks I set the =htmlize= output type to CSS
+***** Require Org Publish Features
 #+begin_src elisp :tangle ../build-site.el
 (require 'ox-publish)
+#+end_src
 
-(setq ajr-html-preamble "
-<nav>
-  <a href=\"/\">Home</a>
-  <a href=\"/dotfiles/README.html\">Dotfiles</a>
-  <a href=\"/about.html\">About</a>
-</nav>
-")
-
-(setq ajr-html-top-preamble "
-<nav>
-  <a href=\"/dotfiles/README.html\">Dotfiles</a>
-  <a href=\"/about.html\">About</a>
-</nav>
-")
-
-(setq ajr-html-head-extra "
-<link rel='stylesheet' href='/css/main.css' />
-")
-
-
+***** Syntax Highlighting
+- To get syntax highlighting for source code blocks I set the =htmlize= output type to CSS
+#+begin_src elisp :tangle ../build-site.el
 (setq org-html-htmlize-output-type 'css)
+#+end_src
+
+***** Link to Custom CSS
+- I also create a head extra that includes the custom CSS
+#+begin_src elisp :tangle ../build-site.el
+(defvar ajr-html-head-extra "\n<link rel='stylesheet' href='/css/main.css' />\n")
+#+end_src
+
+***** Nav Bar HTML Generation
+- Wrote a few functions that take a list of cons pairs and generate an html nav bar
+- The first element in the cons pair is the URL the second is the title
+#+begin_src elisp :tangle ../build-site.el
+(defun ajr-nav (items)
+  (let ((atags (apply #'concat
+		      (mapcar
+		       (lambda (item)
+			 (concat "  "
+				 (ajr-nav-item
+				  (car item)
+				  (cdr item))
+				 "\n"))
+		       items))))
+    (concat
+     "<nav>\n"
+     atags
+     "</nav>\n")))
+
+(defun ajr-nav-item (url title)
+  (concat
+   "<a href=\"" url "\">" title "</a>"))
+#+end_src
+
+***** Nav Bar Items
+- I created variables for each nav bar item so they can be reused across multiple navs
+#+begin_src elisp :tangle ../build-site.el
+(defvar ajr-nav-home
+  '("/" . "Home"))
+
+(defvar ajr-nav-dotfiles
+  '("/dotfiles/README.html" . "Notes and Dotfiles"))
+
+(defvar ajr-nav-about
+  '("/about" . "About"))
+
+#+end_src
+
+***** Defining Preamble Variables
+- The nav bars are going to be added to each page as =html-preamble=
+- This section of code creates variables that represent different nav bars for different sections of the published site
+#+begin_src elisp :tangle ../build-site.el
+(defvar ajr-html-preamble
+      (ajr-nav
+       (list ajr-nav-home
+	     ajr-nav-dotfiles
+	     ajr-nav-about)))
+
+(defvar ajr-html-top-preamble
+      (ajr-nav
+       (list ajr-nav-dotfiles
+	     ajr-nav-about)))
+
 #+end_src
 
 **** Publish Project alist
