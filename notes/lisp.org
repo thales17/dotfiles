@@ -1,5 +1,5 @@
 #+title: notes/lisp
-<2022-04-19 Tue>
+<2022-04-23 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -297,6 +297,18 @@ Loop #3
 - The =round= function will take a number and return the two values, the rounded integer and the remainder
 - For example, =(round 16.8)= returns =17; -0.2=
 - When rounding up the remainder will be negative
+*** Modulus (Remainder)
+- Use the =mod= function to get the remainder between two numbers
+#+begin_src lisp
+(mod 5 2)
+#+end_src
+- The above example returns 1
+*** Floor / Integer Truncation
+- To get the integer truncation between two numbers use the =floor= function
+#+begin_src lisp
+(floor 5 2)
+#+end_src
+- The above example returns 2
 ** Strings
 *** Concatenate
 - Use =concatenate= to join multiple strings together

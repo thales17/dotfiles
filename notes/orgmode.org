@@ -1,6 +1,6 @@
 #+title: notes/orgmode
 #+exclude_tags: noexport
-<2022-04-21 Thu>
+<2022-04-23 Sat>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -291,9 +291,9 @@ nav {
 #+begin_src elisp :tangle ../build-site.el
 (list "org-static"
       :recursive t
-      :base-directory "./assets"
-      :base-extension "png\\|gif\\|jpg\\|jpeg\\|svg"
-      :publishing-directory "./public/assets"
+      :base-directory "./"
+      :base-extension "png\\|gif\\|jpg\\|jpeg\\|svg\\|webm\\|webp"
+      :publishing-directory "./public/"
       :publishing-function 'org-publish-attachment)
 #+end_src
 

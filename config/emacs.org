@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: config/emacs
-<2022-04-19 Tue>
+<2022-04-22 Fri>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -591,7 +591,7 @@ list"
 		   (string-join emu-program " ")
 		   game)
 		  " ")))
-    (apply 'ajr-start-process-in-buffer
+    (apply #'ajr-start-process-in-buffer
 	   (append (list
 		    buffer-name
 		    (format "%s %s" emu game)

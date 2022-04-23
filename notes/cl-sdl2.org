@@ -2,7 +2,7 @@
 :header-args: :results none
 :end:
 #+title: notes/cl-sdl2
-<2022-04-19 Tue>
+<2022-04-23 Sat>
 * Setup
 - [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
   - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
@@ -114,6 +114,7 @@
 * DVD Logo Example
 - This example displays a bouncing rectangle
 - It's aim is to be similar to this screen saver seen [[https://www.youtube.com/watch?v=QOtuX0jL85Y][here]] in The Office
+[[file:cl-sdl2-dvd-logo.webm][DVD Logo Demonstration Video]]
 
 ** Structures
 *** Point
@@ -146,6 +147,39 @@
   (h 0))
 #+end_src
 
+*** Pattern
+#+begin_src lisp
+(defstruct pattern
+  "A `pattern' is a string with two characters repeating. One
+character represents an active pixel the other character represents a
+blank pixel. This can be used to define monochrome sprites, such as
+bitmap fonts. The string represents a linearized 2D array. In order to
+size the rectangle a `row-stride' is needed. The `row-stride'
+indicates how wide each row is in the pattern. The `scale' indicates
+how large in pixels each square pixel of the pattern is. The
+`active-color' is an instance of the `color' struct and defaults to
+black. The `inactive-color' is also an instance of `color' and
+defaults to white. The `active-char' is the character in the pattern
+string that indicates the pixel should be active or on. By default the
+`active-char' is '#'. Similarly the `inactive-char' is the character
+that indicates a pixel is off and defaults to '.'.
+
+Example:
+
+'..#.....#..#..#...#..##.#######.####.###.##############.#########...#.....#...#.......#'
+
+The above pattern is on of the aliens from the game space
+invaders. The row stride is 11 which should have an 11x8 sized sprite."
+  (pattern "#..#.##.#..#")
+  (row-stride 4)
+  (scale 1)
+  (offset (make-point))
+  (active-color (make-color :r #xFF :g #xFF :b #xFF))
+  (inactive-color (make-color :r #x00 :g #x00 :b #x00))
+  (active-char #\#)
+  (inactive-char #\.))
+#+end_src
+
 ** Globals
 #+begin_src lisp
 (defparameter *world-width* 800)
@@ -161,12 +195,11 @@
 				  :g #x00
 				  :b #x00)))
 
-(defparameter *dvd-dir* (make-point :x 1 :y 1))
+(defparameter *dvd-dir* (make-point :x 3 :y 3))
 
 (defparameter *last-update* 0)
 (defparameter *update-usecs* 16660)
 #+end_src
-
 ** Utility Functions
 *** Apply Direction
 #+begin_src lisp
@@ -222,64 +255,282 @@ nil. The other digit in the pair is the same but for y axis."
   "Changes the color on the drawable to a random color"
   (setf (drawable-color drawable)
 	(make-color
-	 :r (random 255)
-	 :g (random 255)
-	 :b (random 255))))
+	 :r (random #xFF)
+	 :g (random #xFF)
+	 :b (random #xFF))))
+#+end_src
+
+*** Invert Color
+- This function creates a new color that is the opposite of the argument color
+#+begin_src lisp
+(defun invert-color (color)
+  "Returns the complement color by subtracting 255 from each RGB
+value."
+  (make-color
+   :r (- #xFF (color-r color))
+   :g (- #xFF (color-g color))
+   :b (- #xFF (color-b color))))
 #+end_src
 
 *** Pattern To Rects
 #+begin_src lisp
-(defun pattern->rects (pattern row-stride scale
-		       &optional offset active-color inactive-color active-char inactive-char)
-  "A `pattern' is a string with two characters repeating. One
-character represents an active pixel the other character represents a
-blank pixel. This can be used to define monochrome sprites, such as
-bitmap fonts. The string represents a linearized 2D array. In order to
-size the rectangle a `row-stride' is needed. The `row-stride'
-indicates how wide each row is in the pattern. The `scale' indicates
-how large in pixels each square pixel of the pattern is. The
-`active-color' is an instance of the `color' struct and defaults to
-black. The `inactive-color' is also an instance of `color' and
-defaults to white. The `active-char' is the character in the pattern
-string that indicates the pixel should be active or on. By default the
-`active-char' is '#'. Similarly the `inactive-char' is the character
-that indicates a pixel is off and defaults to '.'.
-
-Example:
-
-'..#.....#..#..#...#..##.#######.####.###.##############.#########...#.....#...#.......#'
-
-The above pattern is on of the aliens from the game space
-invaders. The row stride is 11 which should have an 11x8 sized sprite."
-
-  (setf offset (or offset (make-point :x 0 :y 0)))
-  (setf active-color (or active-color
-			 (make-color :r #x00 :g #x00 :b #x00)))
-  (setf inactive-color (or inactive-color
-			   (make-color :r #xFF :g #xFF :b #xFF)))
-  (setf active-char (or active-char #\#))
-  (setf inactive-char (or inactive-char #\.))
+(defun pattern->rects (pattern)
+  "Returns a list of rects for the pattern"
   (flet ((is-active-p (c)
-	   (equal c active-char)))
-    (let ((pattern-list (coerce pattern 'list)))
+	   (equal c (pattern-active-char pattern))))
+    (let ((pattern-list (coerce (pattern-pattern pattern) 'list))
+	  (rects nil))
       (loop for i below (length pattern-list)
-	    do ((let ((char (nth i pattern-list)))
-		  (make-rectangle
-		   :x ??
-		   :y ??
-		   :w scale
-		   :h scale
-		   :color (is-active-p char)))))))
+	    do (let* ((char (nth i pattern-list))
+		      (x (+ (point-x (pattern-offset pattern))
+			    (* (mod i (pattern-row-stride pattern))
+			       (pattern-scale pattern))))
+		      (y (+ (point-y (pattern-offset pattern))
+			    (* (floor i (pattern-row-stride pattern))
+			       (pattern-scale pattern))))
+		      (rect (make-rectangle
+			     :x x
+			     :y y
+			     :w (pattern-scale pattern)
+			     :h (pattern-scale pattern)
+			     :color (if (is-active-p char)
+					(pattern-active-color pattern)
+					(pattern-inactive-color pattern)))))
+		 (if rects
+		     (push rect (cdr rects))
+		     (setf rects (list rect)))))
+      rects)))
+#+end_src
+
+*** String To Rects
+#+begin_src lisp
+(defun string->rects (string &optional
+			       (offset (make-point))
+			       (scale 1)
+			       (active-color (make-color))
+			       (inactive-color (make-color)))
+  "Returns a list of rects that make up the `string'. The `offset' is
+the top left corner of the first character. The `scale' represents the
+height of each character in the string. The `active-color' is the
+foreground color of the character. The `inactive-color' is the
+background color of the string."
+  (let ((char-pattern-table (make-hash-table))
+	(string-list (coerce string 'list)))
+    ;; Populate the hash table
+    (progn
+      (setf (gethash #\! char-pattern-table)
+	    "...##.....####....####.....##......##..............##...........")
+      (setf (gethash #\" char-pattern-table)
+	    ".##.##...##.##..................................................")
+      (setf (gethash #\# char-pattern-table)
+	    ".##.##...##.##..#######..##.##..#######..##.##...##.##..........")
+      (setf (gethash #\$ char-pattern-table)
+	    "..##.....#####..##.......####.......##..#####.....##............")
+      (setf (gethash #\% char-pattern-table)
+	    "........##...##.##..##.....##.....##.....##..##.##...##.........")
+      (setf (gethash #\& char-pattern-table)
+	    "..###....##.##....###....###.##.##.###..##..##...###.##.........")
+      (setf (gethash #\' char-pattern-table)
+	    ".##......##.....##..............................................")
+      (setf (gethash #\( char-pattern-table)
+	    "...##.....##.....##......##......##.......##.......##...........")
+      (setf (gethash #\) char-pattern-table)
+	    ".##.......##.......##......##......##.....##.....##.............")
+      (setf (gethash #\* char-pattern-table)
+	    ".........##..##...####..########..####...##..##.................")
+      (setf (gethash #\+ char-pattern-table)
+	    "..........##......##....######....##......##....................")
+      ;;				;
+      ;; "..........................................##......##.....##.....")
+      (setf (gethash #\- char-pattern-table)
+	    "........................######..................................")
+      (setf (gethash #\. char-pattern-table)
+	    "..........................................##......##............")
+      (setf (gethash #\/ char-pattern-table)
+	    ".....##.....##.....##.....##.....##.....##......#...............")
+      (setf (gethash #\0 char-pattern-table)
+	    ".#####..##...##.##..###.##.####.####.##.###..##..#####..........")
+      (setf (gethash #\1 char-pattern-table)
+	    "..##.....###......##......##......##......##....######..........")
+      (setf (gethash #\2 char-pattern-table)
+	    ".####...##..##......##....###....##.....##..##..######..........")
+      (setf (gethash #\3 char-pattern-table)
+	    ".####...##..##......##....###.......##..##..##...####...........")
+      (setf (gethash #\4 char-pattern-table)
+	    "...###....####...##.##..##..##..#######.....##.....####.........")
+      (setf (gethash #\5 char-pattern-table)
+	    "######..##......#####.......##......##..##..##...####...........")
+      (setf (gethash #\6 char-pattern-table)
+	    "..###....##.....##......#####...##..##..##..##...####...........")
+      (setf (gethash #\7 char-pattern-table)
+	    "######..##..##......##.....##.....##......##......##............")
+      (setf (gethash #\8 char-pattern-table)
+	    ".####...##..##..##..##...####...##..##..##..##...####...........")
+      (setf (gethash #\9 char-pattern-table)
+	    ".####...##..##..##..##...#####......##.....##....###............")
+      (setf (gethash #\: char-pattern-table)
+	    "..........##......##......................##......##............")
+      (setf (gethash #\; char-pattern-table)
+	    "..........##......##......................##......##.....##.....")
+      (setf (gethash #\< char-pattern-table)
+	    "...##.....##.....##.....##.......##.......##.......##...........")
+      (setf (gethash #\= char-pattern-table)
+	    "................######..................######..................")
+      (setf (gethash #\> char-pattern-table)
+	    ".##.......##.......##.......##.....##.....##.....##.............")
+      (setf (gethash #\? char-pattern-table)
+	    ".####...##..##......##.....##.....##..............##............")
+      (setf (gethash #\@ char-pattern-table)
+	    ".#####..##...##.##.####.##.####.##.####.##.......####...........")
+      (setf (gethash #\A char-pattern-table)
+	    "..##.....####...##..##..##..##..######..##..##..##..##..........")
+      (setf (gethash #\B char-pattern-table)
+	    "######...##..##..##..##..#####...##..##..##..##.######..........")
+      (setf (gethash #\C char-pattern-table)
+	    "..####...##..##.##......##......##.......##..##...####..........")
+      (setf (gethash #\D char-pattern-table)
+	    "#####....##.##...##..##..##..##..##..##..##.##..#####...........")
+      (setf (gethash #\E char-pattern-table)
+	    "#######..##...#..##.#....####....##.#....##...#.#######.........")
+      (setf (gethash #\F char-pattern-table)
+	    "#######..##...#..##.#....####....##.#....##.....####............")
+      (setf (gethash #\G char-pattern-table)
+	    "..####...##..##.##......##......##..###..##..##...#####.........")
+      (setf (gethash #\H char-pattern-table)
+	    "##..##..##..##..##..##..######..##..##..##..##..##..##..........")
+      (setf (gethash #\I char-pattern-table)
+	    ".####.....##......##......##......##......##.....####...........")
+      (setf (gethash #\J char-pattern-table)
+	    "...####.....##......##......##..##..##..##..##...####...........")
+      (setf (gethash #\K char-pattern-table)
+	    "###..##..##..##..##.##...####....##.##...##..##.###..##.........")
+      (setf (gethash #\L char-pattern-table)
+	    "####.....##......##......##......##...#..##..##.#######.........")
+      (setf (gethash #\M char-pattern-table)
+	    "##...##.###.###.#######.#######.##.#.##.##...##.##...##.........")
+      (setf (gethash #\N char-pattern-table)
+	    "##...##.###..##.####.##.##.####.##..###.##...##.##...##.........")
+      (setf (gethash #\O char-pattern-table)
+	    "..###....##.##..##...##.##...##.##...##..##.##....###...........")
+      (setf (gethash #\P char-pattern-table)
+	    "######...##..##..##..##..#####...##......##.....####............")
+      (setf (gethash #\Q char-pattern-table)
+	    ".####...##..##..##..##..##..##..##.###...####......###..........")
+      (setf (gethash #\R char-pattern-table)
+	    "######...##..##..##..##..#####...##.##...##..##.###..##.........")
+      (setf (gethash #\S char-pattern-table)
+	    ".####...##..##..###......###.......###..##..##...####...........")
+      (setf (gethash #\T char-pattern-table)
+	    "######..#.##.#....##......##......##......##.....####...........")
+      (setf (gethash #\U char-pattern-table)
+	    "##..##..##..##..##..##..##..##..##..##..##..##..######..........")
+      (setf (gethash #\V char-pattern-table)
+	    "##..##..##..##..##..##..##..##..##..##...####.....##............")
+      (setf (gethash #\W char-pattern-table)
+	    "##...##.##...##.##...##.##.#.##.#######.###.###.##...##.........")
+      (setf (gethash #\X char-pattern-table)
+	    "##...##.##...##..##.##....###.....###....##.##..##...##.........")
+      (setf (gethash #\Y char-pattern-table)
+	    "##..##..##..##..##..##...####.....##......##.....####...........")
+      (setf (gethash #\Z char-pattern-table)
+	    "#######.##...##.#...##.....##.....##..#..##..##.#######.........")
+      (setf (gethash #\[ char-pattern-table)
+	    ".####....##......##......##......##......##......####...........")
+      (setf (gethash #\" char-pattern-table)
+	    "##.......##.......##.......##.......##.......##.......#.........")
+      (setf (gethash #\] char-pattern-table)
+	    ".####......##......##......##......##......##....####...........")
+      (setf (gethash #\^ char-pattern-table)
+	    "...#......###....##.##..##...##.................................")
+      (setf (gethash #\_ char-pattern-table)
+	    "........................................................########")
+      (setf (gethash #\` char-pattern-table)
+	    "..##......##.......##...........................................")
+      (setf (gethash #\a char-pattern-table)
+	    ".................####.......##...#####..##..##...###.##.........")
+      (setf (gethash #\b char-pattern-table)
+	    "###......##......##......#####...##..##..##..##.##.###..........")
+      (setf (gethash #\c char-pattern-table)
+	    ".................####...##..##..##......##..##...####...........")
+      (setf (gethash #\d char-pattern-table)
+	    "...###......##......##...#####..##..##..##..##...###.##.........")
+      (setf (gethash #\e char-pattern-table)
+	    ".................####...##..##..######..##.......####...........")
+      (setf (gethash #\f char-pattern-table)
+	    "..###....##.##...##.....####.....##......##.....####............")
+      (setf (gethash #\g char-pattern-table)
+	    ".................###.##.##..##..##..##...#####......##..#####...")
+      (setf (gethash #\h char-pattern-table)
+	    "###......##......##.##...###.##..##..##..##..##.###..##.........")
+      (setf (gethash #\i char-pattern-table)
+	    "..##.............###......##......##......##.....####...........")
+      (setf (gethash #\j char-pattern-table)
+	    "....##..............##......##......##..##..##..##..##...####...")
+      (setf (gethash #\k char-pattern-table)
+	    "###......##......##..##..##.##...####....##.##..###..##.........")
+      (setf (gethash #\l char-pattern-table)
+	    ".###......##......##......##......##......##.....####...........")
+      (setf (gethash #\m char-pattern-table)
+	    "................##..##..#######.#######.##.#.##.##...##.........")
+      (setf (gethash #\n char-pattern-table)
+	    "................#####...##..##..##..##..##..##..##..##..........")
+      (setf (gethash #\o char-pattern-table)
+	    ".................####...##..##..##..##..##..##...####...........")
+      (setf (gethash #\p char-pattern-table)
+	    "................##.###...##..##..##..##..#####...##.....####....")
+      (setf (gethash #\q char-pattern-table)
+	    ".................###.##.##..##..##..##...#####......##.....####.")
+      (setf (gethash #\r char-pattern-table)
+	    "................##.###...###.##..##..##..##.....####............")
+      (setf (gethash #\s char-pattern-table)
+	    ".................#####..##.......####.......##..#####...........")
+      (setf (gethash #\t char-pattern-table)
+	    "...#......##.....#####....##......##......##.#.....##...........")
+      (setf (gethash #\u char-pattern-table)
+	    "................##..##..##..##..##..##..##..##...###.##.........")
+      (setf (gethash #\v char-pattern-table)
+	    "................##..##..##..##..##..##...####.....##............")
+      (setf (gethash #\w char-pattern-table)
+	    "................##...##.##.#.##.#######.#######..##.##..........")
+      (setf (gethash #\x char-pattern-table)
+	    "................##...##..##.##....###....##.##..##...##.........")
+      (setf (gethash #\y char-pattern-table)
+	    "................##..##..##..##..##..##...#####......##..#####...")
+      (setf (gethash #\z char-pattern-table)
+	    "................######..#..##.....##.....##..#..######..........")
+      (setf (gethash #\{ char-pattern-table)
+	    "...###....##......##....###.......##......##.......###..........")
+      (setf (gethash #\| char-pattern-table)
+	    "...##......##......##..............##......##......##...........")
+      (setf (gethash #\} char-pattern-table)
+	    "###.......##......##.......###....##......##....###.............")
+      (setf (gethash #\~ char-pattern-table)
+	    ".###.##.##.###.................................................."))
+    (let ((rects nil))
+      (loop for i below (length string-list)
+	    do (let ((pattern (make-pattern
+			       :pattern (gethash (nth i string-list)
+						 char-pattern-table)
+			       :row-stride 8
+			       :offset (make-point
+					:x (+ (* (* i 8) scale) (point-x offset))
+					:y (point-y offset))
+			       :scale scale
+			       :active-color active-color
+			       :inactive-color inactive-color)))
+		 (setf rects (append (pattern->rects pattern) rects))))
+      rects)))
 #+end_src
 
 ** SDL Utility Functions
+*** Render Rectangle
 #+begin_src lisp
-(defun rectangle->render (rectangle renderer)
+(defun rectangle->sdl-render (rectangle renderer)
   (sdl2:set-render-draw-color
    renderer
-   (rectangle-r rectangle)
-   (rectangle-g rectangle)
-   (rectangle-b rectangle)
+   (color-r (rectangle-color rectangle))
+   (color-g (rectangle-color rectangle))
+   (color-b (rectangle-color rectangle))
    (rectangle-opacity rectangle))
 
   (sdl2:render-fill-rect renderer
@@ -288,7 +539,14 @@ invaders. The row stride is 11 which should have an 11x8 sized sprite."
 			  (rectangle-y rectangle)
 			  (rectangle-w rectangle)
 			  (rectangle-h rectangle))))
+#+end_src
 
+*** Render Pattern
+#+begin_src lisp
+(defun render-rectangles (rects renderer)
+  (mapc (lambda (rect)
+	  (rectangle->sdl-render rect renderer))
+	rects))
 #+end_src
 
 ** DVD Logo Life Cycle Functions
@@ -309,10 +567,18 @@ invaders. The row stride is 11 which should have an 11x8 sized sprite."
 (defun draw (renderer)
   (sdl2:set-render-draw-color renderer 0 0 0 255)
   (sdl2:render-clear renderer)
-  (rectangle->render *dvd-rect* renderer)
+  (rectangle->sdl-render *dvd-rect* renderer)
+  (let ((rects (string->rects
+		"DVD"
+		(make-point
+		 :x (+ (point-x *dvd-rect*) 3)
+		 :y (+ (point-y *dvd-rect*) 22))
+		4
+		(invert-color (rectangle-color *dvd-rect*))
+		(rectangle-color *dvd-rect*))))
+    (render-rectangles rects renderer))
   (sdl2:render-present renderer))
 #+end_src
-
 ** Main Loop
 #+begin_src lisp
 (defun dvd-logo ()
