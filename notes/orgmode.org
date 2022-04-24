@@ -186,7 +186,7 @@ nav {
   '("/dotfiles/README.html" . "Notes and Dotfiles"))
 
 (defvar ajr-nav-about
-  '("/about" . "About"))
+  '("/about.html" . "About"))
 
 #+end_src
 
@@ -224,18 +224,17 @@ nav {
       :sitemap-format-entry (lambda (file-or-dir style project)
 			      (if (equal file-or-dir "posts/")
 				  "**Welcome to my personal blog**"
-				(concat "[["
-					(concat "file:" file-or-dir)
-					"]["
-					(concat
-					 (format-time-string
-					  "%Y-%m-%d"
-					  (org-publish-find-date
-					   file-or-dir project))
-					 " - "
-					 (org-publish-find-title
-					  file-or-dir project))
-					"]]")))
+				(concat
+				 (format-time-string
+				  "%Y-%m-%d"
+				  (org-publish-find-date
+				   file-or-dir project))
+				 ": [["
+				 (concat "file:" file-or-dir)
+				 "]["
+				 (org-publish-find-title
+				   file-or-dir project)
+				 "]]")))
       :html-head-extra ajr-html-head-extra
       :html-preamble-format `(("en" ,ajr-html-preamble))
       :html-preamble t
