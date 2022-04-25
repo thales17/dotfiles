@@ -2,7 +2,7 @@
 :header-args: :results none
 :end:
 #+title: notes/cl-sdl2
-<2022-04-23 Sat>
+<2022-04-24 Sun>
 * Setup
 - [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
   - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
@@ -186,10 +186,10 @@ invaders. The row stride is 11 which should have an 11x8 sized sprite."
 (defparameter *world-height* 600)
 
 (defparameter *dvd-rect* (make-rectangle
-			  :x (random (- *world-width* 100))
-			  :y (random (- *world-height* 75))
-			  :w 100
-			  :h 75
+			  :x (random (- *world-width* 150))
+			  :y (random (- *world-height* 100))
+			  :w 150
+			  :h 100
 			  :color (make-color
 				  :r #xFF
 				  :g #x00
@@ -568,14 +568,22 @@ background color of the string."
   (sdl2:set-render-draw-color renderer 0 0 0 255)
   (sdl2:render-clear renderer)
   (rectangle->sdl-render *dvd-rect* renderer)
-  (let ((rects (string->rects
-		"DVD"
-		(make-point
-		 :x (+ (point-x *dvd-rect*) 3)
-		 :y (+ (point-y *dvd-rect*) 22))
-		4
-		(invert-color (rectangle-color *dvd-rect*))
-		(rectangle-color *dvd-rect*))))
+  (let* ((scale 4)
+	 (msg "DVD")
+	 (rects (string->rects
+		 msg
+		 (make-point
+		  :x (+ (point-x *dvd-rect*)
+			(floor (- (rectangle-w *dvd-rect*)
+				  (* 8 scale (length msg)))
+			       2))
+		  :y (+ (point-y *dvd-rect*)
+			(floor (- (rectangle-h *dvd-rect*)
+				  (* 8 scale))
+			       2)))
+		 scale
+		 (invert-color (rectangle-color *dvd-rect*))
+		 (rectangle-color *dvd-rect*))))
     (render-rectangles rects renderer))
   (sdl2:render-present renderer))
 #+end_src
