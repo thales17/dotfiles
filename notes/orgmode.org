@@ -1,6 +1,6 @@
 #+title: notes/orgmode
 #+exclude_tags: noexport
-<2022-04-23 Sat>
+<2022-04-26 Tue>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=
@@ -84,10 +84,12 @@ a:link {
 
 #content > ul {
     list-style: none;
+    padding: none;
 }
 
 ul {
     margin-top: 1em;
+    padding-left: 1em;
 }
 
 li {
@@ -100,11 +102,54 @@ nav {
     margin-bottom: 2em;
 }
 
+img {
+    max-width: 100%;
+}
 
-@media only screen and (min-width: 1008px) {
+#table-of-contents {
+    display: none;
+}
+
+@media only screen and (min-width: 1200px) {
     body {
 	font-size: 1.25em;
     }
+
+    #table-of-contents {
+	position: fixed;
+	left: 0;
+	top: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+	color: white;
+	font-size: 0.75em;
+	padding: 1em;
+	z-index: 1;
+	display:flex;
+	flex-direction: column;
+    }
+
+    #table-of-contents:hover, #table-of-contents:active {
+	height: 100%;
+    }
+
+    #table-of-contents a:visited {
+	color: white;
+    }
+
+    #table-of-contents a:link {
+	color: white;
+    }
+
+    #text-table-of-contents {
+	display: none;
+    }
+
+    #table-of-contents:hover #text-table-of-contents, #table-of-contents:active #text-table-of-contents {
+	display: block;
+	overflow-y: auto;
+	flex: 1;
+    }
+
 }
 #+end_src
 
