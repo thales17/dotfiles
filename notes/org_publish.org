@@ -1,20 +1,20 @@
 #+title: notes/orgpublish
 
-<2022-04-27 Wed>
+<2022-04-28 Thu>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
 #+begin_src css :tangle ../css/main.css :mkdirp yes
-.org-doc { color: blue; }
-.org-keyword { color: red; }
-.org-string { color: green; }
-.org-variable-name { color: black; font-weight: bold; }
-.org-function-name { color: mediumblue; }
-.org-constant { color: purple; }
-.org-comment { color: darkcyan; }
-.org-type { color: orange; font-weight: bold; }
-.org-warning { color: red; }
-.timestamp { color: black; font-size: smaller; }
+.org-doc { color: #524CE6; }
+.org-keyword { color: #E63462; }
+.org-string { color: #C7EFCF; }
+.org-variable-name { color: #F8FBEF; font-weight: bold; }
+.org-function-name { color: #A8A6F2; }
+.org-constant { color: #F6B6C7; }
+.org-comment { color: #4E546A; }
+.org-type { color: #FE5F55; font-weight: bold; }
+.org-warning { color: #C81947; }
+.timestamp { color: #1A1C23; font-size: smaller; }
 .timestamp { text-decoration: underline; }
 .timestamp:before { content: "Last Updated: "; }
 
@@ -23,12 +23,17 @@ table {
 }
 
 body {
-    color: black;
-    background-color: #eff4f3;
+    color: #1A1C23;
+    background-color:  #f8fbef;
     font-family:  "Liberation Sans", Helvetica, "Trebuchet MS", sans-serif;
     margin: auto;
     padding: 1em;
     max-width: 72em;
+}
+
+pre {
+    background-color: #333745;
+    color:  #f8fbef;
 }
 
 a {
@@ -82,7 +87,7 @@ img {
 	left: 0;
 	top: 0;
 	background-color: rgba(0, 0, 0, 0.8);
-	color: white;
+	color:  #f8fbef;
 	font-size: 0.75em;
 	padding: 1em;
 	z-index: 1;
@@ -211,6 +216,13 @@ img {
 
 #+end_src
 
+*** Defining Postamble Format
+#+begin_src elisp :tangle ../build-site.el
+(defvar ajr-html-postamble "
+<p class=\"author\">Author: %a</p>
+<p class=\"date\">Date: %d</p>")
+#+end_src
+
 ** Publish Project alist
 *** Posts
 #+name: project-posts
@@ -220,6 +232,8 @@ img {
       :base-directory "./"
       :exclude "dotfiles\\|about"
       :publishing-directory "./public"
+      :with-author "Adam Richardson"
+      :with-email nil
       :auto-sitemap t
       :sitemap-title "Adam Richardson's Blog"
       :sitemap-sort-folders 'ignore
@@ -237,12 +251,13 @@ img {
 				 (concat "file:" file-or-dir)
 				 "]["
 				 (org-publish-find-title
-				   file-or-dir project)
+				  file-or-dir project)
 				 "]]")))
       :html-head-extra ajr-html-head-extra
       :html-preamble-format `(("en" ,ajr-html-preamble))
       :html-preamble t
-      :html-postamble nil
+      :html-postamble-format `(("en" ,ajr-html-postamble))
+      :html-postamble t
       :html-validation-link nil
       :publishing-function 'org-html-publish-to-html)
 #+end_src
