@@ -99,6 +99,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'lsp-ui)
 (straight-use-package 'sudoku)
 (straight-use-package 'plantuml-mode)
+(straight-use-package 'kotlin-mode)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter

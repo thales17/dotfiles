@@ -1,0 +1,31 @@
+#+title: notes/android
+
+<2022-04-29 Fri>
+* Open Settings with =adb=
+** Using =am=
+#+begin_src sh
+adb shell am start -a android.settings.SETTINGS
+#+end_src
+* Record the Screen on an Android Device
+** Starting the Recording
+#+begin_src sh
+adb shell screenrecord /sdcard/<MY_VIDEO>.mp4
+#+end_src
+** Pulling the Recording
+#+begin_src sh
+adb pull /sdcard/<MY_VIDEO>.mp4
+#+end_src
+* Take a Screenshot of an Attached Android Device
+#+begin_src sh
+adb exec-out screencap -p > <SCREENSHOT_NAME>.png
+#+end_src
+- [[file:~/code/dotfiles/config/emacs.org::*View Android Screenshot][View Android Screenshot in Emacs]]
+* View Partition Information
+#+begin_src sh
+adb shell cat /proc/partitions
+#+end_src
+* Make System Partition Re-writable
+#+begin_src sh
+adb root
+adb remount
+#+end_src
