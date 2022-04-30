@@ -2,7 +2,7 @@
 :header-args: :results none
 :end:
 #+title: notes/cl-sdl2
-<2022-04-24 Sun>
+<2022-04-30 Sat>
 * Setup
 - [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
   - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=
@@ -198,7 +198,7 @@ invaders. The row stride is 11 which should have an 11x8 sized sprite."
 (defparameter *dvd-dir* (make-point :x 3 :y 3))
 
 (defparameter *last-update* 0)
-(defparameter *update-usecs* 16660)
+(defparameter *update-per-sec* (/ 1.0 60))
 #+end_src
 ** Utility Functions
 *** Apply Direction
@@ -606,11 +606,13 @@ background color of the string."
 	   () ;; TODO: Not sure why I need this
 	   (when (> (- (get-internal-run-time)
 		       ,*last-update*)
-		    ,*update-usecs*)
+		    (* internal-time-units-per-second
+		       ,*update-per-sec*))
 	     (update)
 	     (draw renderer)
 	     (setf *last-update* (get-internal-run-time))
-	     (sdl2:delay 8)))
+	     (sdl2:delay 1)
+	     ))
 	  (:quit () t))))))
 #+end_src
 
