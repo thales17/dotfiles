@@ -1,0 +1,96 @@
+#+title: notes/fedora
+<2022-04-30 Sat>
+* Package Management
+- [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
+- *DNF* stands for Dandified YUM
+- Packages are =rpm= files
+- Users use the =dnf= tool to manage packages
+
+** Updating Packages
+- Run =dnf check-update= to see a list of packages that need updating
+- To upgrade an individual package run =dnf upgrade <PACKAGE>=
+- To upgrade all packages run =dnf upgrade=
+
+** Finding Packages
+- To search through =rpm=s run =dnf search <PACKAGE>=
+- To search through all sources run =dnf search all <PACKAGE>=
+
+** Listing Packages
+- =dnf list= will list all available and installed packages
+- =dnf list installed <PACKAGE>=
+- The list command uses GLOB patterns, for example, =dnf list installed python*=
+- To list all installed packages run =dnf list installed=
+- To view all of the install repos and packages installed from those repos run =dnf repolist=
+
+** Getting Package Info
+- =dnf info <PACKAGE>= will give you info about a package
+
+** Installing a Package
+- =dnf install <PACKAGE>=
+
+** Removing a Package
+- =dnf remove <PACKAGE>=
+
+** Viewing =dnf= History
+- =dnf= will record history of packages added and removed
+- To view the history run =sudo dnf history list=
+
+** Enabling RPM Fusion
+- [[https://docs.fedoraproject.org/en-US/quick-docs/setup_rpmfusion/][Fedora Docs: Enabling RPM Fusion]]
+- RPM Fusion is a community repository of packages that are not distributed with Fedora
+#+begin_src sh
+sudo dnf install \
+  https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm
+#+end_src
+
+** Installing RPM files
+- =sudo dnf install <PACKAGE>.rpm=
+** Package List
+#+begin_src sh
+sudo dnf install \
+	mg \
+	gnome-tweaks \
+	autoconf \
+	texinfo \
+	ImageMagick-devel \
+	glib2-devel \
+	gtk3-devel \
+	libgccjit-devel \
+	jansson-devel \
+	gnutls-devel \
+	ncurses-devel \
+	htop \
+	mosh \
+	pass \
+	pass-otp \
+	syncthing \
+	lua-devel \
+	libass-devel \
+	ledger \
+	isync \
+	notmuch
+#+end_src
+
+* Wayland
+- To see if you are in a Wayland session run =echo $WAYLAND_DISPLAY=S
+
+* Building Emacs
+- clone Emacs from [[http://savannah.gnu.org/projects/emacs/][Savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
+- Run the =./autogen.sh= to build the configure script
+- The below command shows the configure flags I like for Emacs
+#+begin_src sh
+./configure --with-native-compilation \
+	    --with-json \
+	    --with-rsvg \
+	    --with-imagemagick \
+	    --with-pgtk
+#+end_src
+
+* Hack Font
+- Download the latest release of the font from the [[https://github.com/source-foundry/Hack][Hack GitHub]] page.
+- Extract the zip and copy the files to =/usr/share/fonts= in a folder named =Hack=
+- Download the font config file from [[https://raw.githubusercontent.com/source-foundry/Hack/master/config/fontconfig/45-Hack.conf][GitHub]]
+- Create a user local font config dir if it doesn't exist, =mkdir -p ~/.config/fontconfig/conf.d=
+- Copy the downloaded font config into that folder, =cp 45-Hack.conf ~/.config/fontconfig/conf.d=
+- Regenerate your font cache, =fc-cache -f -v=
+- Verify it is installed with, =fc-list | grep Hack=
