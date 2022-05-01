@@ -1,6 +1,6 @@
 #+title: notes/orgpublish
 
-<2022-04-28 Thu>
+<2022-04-30 Sat>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
@@ -191,8 +191,11 @@ img {
 (defvar ajr-nav-home
   '("/" . "Home"))
 
+(defvar ajr-nav-notes
+  '("/dotfiles/notes/index.html" . "Notes"))
+
 (defvar ajr-nav-dotfiles
-  '("/dotfiles/README.html" . "Notes and Dotfiles"))
+  '("/dotfiles/config/index.html" . "Dotfiles"))
 
 (defvar ajr-nav-about
   '("/about.html" . "About"))
@@ -206,12 +209,14 @@ img {
 (defvar ajr-html-preamble
       (ajr-nav
        (list ajr-nav-home
+	     ajr-nav-notes
 	     ajr-nav-dotfiles
 	     ajr-nav-about)))
 
 (defvar ajr-html-top-preamble
       (ajr-nav
-       (list ajr-nav-dotfiles
+       (list ajr-nav-notes
+	     ajr-nav-dotfiles
 	     ajr-nav-about)))
 
 #+end_src
@@ -262,14 +267,38 @@ img {
       :publishing-function 'org-html-publish-to-html)
 #+end_src
 
-*** Notes / Dotfiles
-#+name: project-dotfiles
+*** Notes
+#+name: project-notes
 #+begin_src elisp :tangle ../build-site.el
 (list "org-site"
       :recursive t
-      :base-directory "./"
+      :base-directory "./dotfiles/notes"
       :exclude "posts/"
-      :publishing-directory "./public/"
+      :publishing-directory "./public/dotfiles/notes"
+      :auto-sitemap t
+      :sitemap-title "Adam Richardson's Notes"
+      :sitemap-sort-files 'alphabetically
+      :sitemap-filename "index.org"
+      :html-head-extra ajr-html-head-extra
+      :html-preamble-format `(("en" ,ajr-html-preamble))
+      :html-preamble t
+      :html-postamble nil
+      :html-validation-link nil
+      :publishing-function 'org-html-publish-to-html)
+#+end_src
+
+*** Config
+#+name: project-config
+#+begin_src elisp :tangle ../build-site.el
+(list "org-site"
+      :recursive t
+      :base-directory "./dotfiles/config"
+      :exclude "posts/"
+      :publishing-directory "./public/dotfiles/config"
+      :sitemap-title "Adam Richardson's Dotfiles"
+      :auto-sitemap t
+      :sitemap-sort-files 'alphabetically
+      :sitemap-filename "index.org"
       :html-head-extra ajr-html-head-extra
       :html-preamble-format `(("en" ,ajr-html-preamble))
       :html-preamble t
@@ -330,7 +359,8 @@ img {
 (setq org-publish-project-alist
       (list
        <<project-posts>>
-       <<project-dotfiles>>
+       <<project-notes>>
+       <<project-config>>
        <<project-top-level>>
        <<project-css>>
        <<project-assets>>

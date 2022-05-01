@@ -19,7 +19,6 @@ adb pull /sdcard/<MY_VIDEO>.mp4
 #+begin_src sh
 adb exec-out screencap -p > <SCREENSHOT_NAME>.png
 #+end_src
-- [[file:~/code/dotfiles/config/emacs.org::*View Android Screenshot][View Android Screenshot in Emacs]]
 * View Partition Information
 #+begin_src sh
 adb shell cat /proc/partitions

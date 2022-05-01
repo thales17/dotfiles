@@ -1,60 +1,10 @@
 #+options: toc:nil
 #+options: num:nil
 #+title: Notes and Dotfiles
+
+<2022-04-30 Sat>
+* Overview
 This repo is my literate config made in Emacs org mode. It is available on [[https://git.sr.ht/~thales17/dotfiles][sourcehut]] and [[https://github.com/thales17/dotfiles][GitHub]].
-I consider this a sandbox to play with literate programming and a constant work in progress.
-
-<2022-04-27 Wed>
-** Dotfiles
-The config dir has various org mode files that can be tangled into their correct locations. For Linux systems run the default make target in the config directory. For OpenBSD run =make openbsd=.
-
-- [[file:config/emacs.org][Emacs]]
-- [[file:config/utils.org][Utility Scripts]]
-- [[file:config/tmux.org][tmux]]
-- [[file:config/git.org][git]]
-- [[file:config/bash.org][bash]]
-- [[file:config/cdripping.org][cd ripping]]
-- [[file:config/nethack.org][NetHack]]
-- [[file:config/xprofile.org][xprofile]]
-- [[file:config/dunst.org][dunst]]
-- [[file:config/xmodmap.org][xmodmap]]
-- [[file:config/suckless.org][Suckless Programs]]
-- [[file:config/kitty.org][kitty]]
-
-** Notes
-*** Tools
-- [[file:notes/linux_kernel.org][Linux Kernel]]
-- [[file:notes/git.org][Git]]
-- [[file:notes/tips.org][Tips]]
-- [[file:notes/gnupg.org][GnuPG]]
-- [[file:notes/mail.org][Mail]]
-- [[file:notes/nethack.org][NetHack]]
-- [[file:notes/ledger.org][Ledger]]
-- [[file:notes/imagemagick.org][ImageMagick]]
-- [[file:notes/gimp.org][Gimp]]
-
-*** Emacs
-- [[file:notes/emacs.org][General Notes]]
-- [[file:notes/orgmode.org][Org Mode]]
-- [[file:notes/org_publish.org][Org Publish]]
-
-*** Operating Systems
-- [[file:notes/debian.org][Debian]]
-- [[file:notes/qemu.org][QEMU]]
-- [[file:notes/alpinelinux.org][Alpine Linux]]
-- [[file:notes/openbsd.org][OpenBSD]]
-- [[file:notes/archlinux.org][Arch Linux]]
-- [[file:notes/ubuntu.org][Ubuntu]]
-
-*** Programming
-- [[file:notes/elisp.org][Emacs Lisp]]
-- [[file:notes/go.org][Go]]
-
-**** Common Lisp
-- [[file:notes/lisp.org][General Notes]]
-- [[file:notes/cl-sdl2.org][cl-sdl2]]
-
-**** C
-- [[file:notes/carguments.org][Program Arguments]]
-- [[file:notes/ncurses.org][ncurses]]
-- [[file:notes/jansson.org][jansson]]
+I consider this a sandbox to play with literate programming and is a constant work in progress.
+- [[file:config/index.org][Dotfiles]]
+- [[file:notes/index.org][Notes]]

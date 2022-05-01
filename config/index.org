@@ -1,0 +1,15 @@
+#+TITLE: Adam Richardson's Dotfiles
+
+- [[file:bash.org][config/bash]]
+- [[file:cdripping.org][config/cdripping]]
+- [[file:dunst.org][config/dunst]]
+- [[file:emacs.org][config/emacs]]
+- [[file:git.org][config/git]]
+- [[file:kitty.org][config/kitty]]
+- [[file:nethack.org][config/nethack]]
+- [[file:suckless.org][config/suckless]]
+- [[file:tmux.org][config/tmux]]
+- [[file:utils.org][config/utils]]
+- [[file:xmodmap.org][config/xmodmap]]
+- [[file:xprofile.org][config/xprofile]]
+- [[file:xsession.org][config/xsession]]
