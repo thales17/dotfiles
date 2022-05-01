@@ -1,6 +1,9 @@
-#+title: notes/orgpublish
+:properties:
+:header-args: :tangle ../../build-site.el
+:end:
+#+title: Org Publish
 
-<2022-04-30 Sat>
+<2022-05-01 Sun>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
@@ -145,26 +148,26 @@ img {
 * Ox Publish
 ** Setup
 *** Require Org Publish Features
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (require 'ox-publish)
 #+end_src
 
 *** Syntax Highlighting
 - To get syntax highlighting for source code blocks I set the =htmlize= output type to CSS
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (setq org-html-htmlize-output-type 'css)
 #+end_src
 
 *** Link to Custom CSS
 - I also create a head extra that includes the custom CSS
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (defvar ajr-html-head-extra "\n<link rel='stylesheet' href='/css/main.css' />\n")
 #+end_src
 
 *** Nav Bar HTML Generation
 - Wrote a few functions that take a list of cons pairs and generate an html nav bar
 - The first element in the cons pair is the URL the second is the title
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (defun ajr-nav (items)
   (let ((atags (apply #'concat
 		      (mapcar
@@ -187,7 +190,7 @@ img {
 
 *** Nav Bar Items
 - I created variables for each nav bar item so they can be reused across multiple navs
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (defvar ajr-nav-home
   '("/" . "Home"))
 
@@ -205,7 +208,7 @@ img {
 *** Defining Preamble Variables
 - The nav bars are going to be added to each page as =html-preamble=
 - This section of code creates variables that represent different nav bars for different sections of the published site
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (defvar ajr-html-preamble
       (ajr-nav
        (list ajr-nav-home
@@ -222,7 +225,7 @@ img {
 #+end_src
 
 *** Defining Postamble Format
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (defvar ajr-html-postamble "
 <p class=\"author\">Author: %a</p>
 <p class=\"date\">Date: %d</p>")
@@ -231,7 +234,7 @@ img {
 ** Publish Project alist
 *** Posts
 #+name: project-posts
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-site"
       :recursive t
       :base-directory "./"
@@ -269,7 +272,7 @@ img {
 
 *** Notes
 #+name: project-notes
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-site"
       :recursive t
       :base-directory "./dotfiles/notes"
@@ -289,7 +292,7 @@ img {
 
 *** Config
 #+name: project-config
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-site"
       :recursive t
       :base-directory "./dotfiles/config"
@@ -309,7 +312,7 @@ img {
 
 *** Top Level
 #+name: project-top-level
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-site"
       :recursive nil
       :base-directory "./"
@@ -324,7 +327,7 @@ img {
 
 *** CSS
 #+name: project-css
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-static"
       :recursive t
       :base-directory "./dotfiles/css"
@@ -335,7 +338,7 @@ img {
 
 *** Assets
 #+name: project-assets
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-static"
       :recursive t
       :base-directory "./"
@@ -346,7 +349,7 @@ img {
 
 *** Static HTML
 #+name: project-static-html
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (list "org-static"
       :recursive t
       :base-directory "./static-html"
@@ -355,7 +358,7 @@ img {
       :publishing-function 'org-publish-attachment)
 #+end_src
 *** Project alist                                                  :noexport:
-#+begin_src elisp :tangle ../build-site.el :noweb yes
+#+begin_src elisp :noweb yes
 (setq org-publish-project-alist
       (list
        <<project-posts>>
@@ -368,7 +371,7 @@ img {
 #+end_src
 
 ** Actually Publishing
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (org-publish-all t)
 
 (message "Build Complete")

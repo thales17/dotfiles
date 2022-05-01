@@ -1,5 +1,5 @@
-#+title: notes/fedora
-<2022-04-30 Sat>
+#+title: Fedora Notes
+<2022-05-01 Sun>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -68,7 +68,9 @@ sudo dnf install \
 	libass-devel \
 	ledger \
 	isync \
-	notmuch
+	notmuch \
+	sbcl \
+	nethack
 #+end_src
 
 * Wayland
@@ -94,3 +96,13 @@ sudo dnf install \
 - Copy the downloaded font config into that folder, =cp 45-Hack.conf ~/.config/fontconfig/conf.d=
 - Regenerate your font cache, =fc-cache -f -v=
 - Verify it is installed with, =fc-list | grep Hack=
+* Flatpak
+- Flatpak is preinstalled on Fedora
+- The Flathub repository needs to be enabled in order to use software from it
+- [[https://flatpak.org/setup/Fedora][Flatpak: Fedora Setup]]
+#+begin_src sh
+flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+#+end_src
+** Various Flatpaks
+- =flatpak install flathub dev.ares.ares=
+- =flatpak install flathub org.signal.Signal=
