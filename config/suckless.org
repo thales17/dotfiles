@@ -1,5 +1,5 @@
-#+title: config/suckless
-<2022-04-19 Tue>
+#+title: Suckless Patches
+<2022-05-01 Sun>
 * dwm
 - [[https://ratfactor.com/dwm][Dave's Visual Guide to DWM]]
 - Make sure you run =cd ~/src/dwm && sudo make install= after tangling

@@ -1,5 +1,5 @@
-#+title: config/bash
-<2022-04-19 Tue>
+#+title: Bash Config
+<2022-05-01 Sun>
 * Environment Variables
 #+name: env
 #+begin_src sh

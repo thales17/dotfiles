@@ -1,5 +1,5 @@
-#+title: config/kitty
-<2022-04-19 Tue>
+#+title: Kitty Config
+<2022-05-01 Sun>
 * Config
 - This simple config sets the font in kitty terminal to 12 point =Hack=
 - [[https://sw.kovidgoyal.net/kitty/conf/][kitty.conf docs]]

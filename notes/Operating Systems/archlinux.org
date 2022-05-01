@@ -1,5 +1,5 @@
-#+title: notes/archlinux
-<2022-04-19 Tue>
+#+title: Arch Linux Notes
+<2022-05-01 Sun>
 * Resources
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]

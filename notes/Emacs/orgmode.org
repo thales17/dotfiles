@@ -1,6 +1,6 @@
-#+title: notes/orgmode
+#+title: Org Mode Notes
 #+exclude_tags: noexport
-<2022-04-27 Wed>
+<2022-05-01 Sun>
 * Plotting Data
 - You need =gnuplot= and the =gnuplot= emacs package installed
 - To plot the below example table from the manual use =C-c " g=

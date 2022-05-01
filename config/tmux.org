@@ -1,5 +1,5 @@
-#+title: config/tmux
-<2022-04-19 Tue>
+#+title: Tmux Config
+<2022-05-01 Sun>
 * Config
 - [[https://man.openbsd.org/tmux][OpenBSD man page: tmux(1)]]
 #+begin_src conf :tangle ~/.tmux.conf

@@ -1,5 +1,5 @@
-#+title: notes/emacs
-<2022-04-19 Tue>
+#+title: Emacs Notes
+<2022-05-01 Sun>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp

@@ -1,5 +1,5 @@
-#+title: notes/ledger
-<2022-04-19 Tue>
+#+title: Ledger Notes
+<2022-05-01 Sun>
 * What is...
 ** What is Plain Text Accounting?
 - https://plaintextaccounting.org/

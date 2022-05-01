@@ -1,5 +1,5 @@
-#+title: notes/openbsd
-<2022-04-19 Tue>
+#+title: OpenBSD Notes
+<2022-05-01 Sun>
 * Setup
 These are setup notes for setting up an OpenBSD workstation
 ** Full Disk Encryption

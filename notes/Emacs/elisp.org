@@ -1,5 +1,5 @@
-#+title: notes/elisp
-<2022-04-19 Tue>
+#+title: Emacs Lisp Notes
+<2022-05-01 Sun>
 * Lists
 ** Filtering a list
 - You can use the =mapcar= function to iterate through each item in the list

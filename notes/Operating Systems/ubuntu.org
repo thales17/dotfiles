@@ -1,5 +1,5 @@
-#+title: notes/ubuntu
-<2022-04-19 Tue>
+#+title: Ubuntu Notes
+<2022-05-01 Sun>
 * Ubuntu System Setup
 ** Packages
 #+begin_src sh

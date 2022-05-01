@@ -1,6 +1,6 @@
-#+title: notes/android
+#+title: Android Notes
 
-<2022-04-29 Fri>
+<2022-05-01 Sun>
 * Open Settings with =adb=
 ** Using =am=
 #+begin_src sh

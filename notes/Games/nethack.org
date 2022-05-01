@@ -1,5 +1,5 @@
-#+title: notes/nethack
-<2022-04-19 Tue>
+#+title: Nethack Notes
+<2022-05-01 Sun>
 * Version
 - Notes are based on the =3.6.x= version of NetHack
 

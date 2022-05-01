@@ -1,5 +1,5 @@
-#+title: notes/ncurses
-<2022-04-19 Tue>
+#+title: =ncurses= Notes
+<2022-05-01 Sun>
 * What is =ncurses=
 "new curses" is a library that allows you to manipulate the character
 display of your terminal. Curses originally was pun on "cursor

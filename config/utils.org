@@ -1,5 +1,5 @@
-#+title: config/utils
-<2022-04-19 Tue>
+#+title: Utility Scripts
+<2022-05-01 Sun>
 * sus - Suspend
 sus is a small script that locks the screen and puts the computer into suspend mode
 #+name: sus

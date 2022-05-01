@@ -1,5 +1,5 @@
-#+title: notes/alpinelinux
-<2022-04-19 Tue>
+#+title: Alpine Linux Notes
+<2022-05-01 Sun>
 * Documentation
 - [[https://docs.alpinelinux.org/user-handbook/0.1a/index.html][Alpine User Handbook]]
 

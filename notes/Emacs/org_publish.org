@@ -1,20 +1,20 @@
 :properties:
 :header-args: :tangle ../../build-site.el
 :end:
-#+title: Org Publish
+#+title: Org Publish Notes
 
 <2022-05-01 Sun>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
-#+begin_src css :tangle ../css/main.css :mkdirp yes
+#+begin_src css :tangle ../../css/main.css :mkdirp yes
 .org-doc { color: #524CE6; }
 .org-keyword { color: #E63462; }
 .org-string { color: #C7EFCF; }
 .org-variable-name { color: #F8FBEF; font-weight: bold; }
 .org-function-name { color: #A8A6F2; }
 .org-constant { color: #F6B6C7; }
-.org-comment { color: #4E546A; }
+.org-comment { color: #7E85A0; }
 .org-type { color: #FE5F55; font-weight: bold; }
 .org-warning { color: #C81947; }
 .timestamp { color: #1A1C23; font-size: smaller; }
@@ -52,11 +52,6 @@ a:link {
     color: black;
 }
 
-#content > ul {
-    list-style: none;
-    padding: none;
-}
-
 ul {
     margin-top: 1em;
     padding-left: 1em;
@@ -89,13 +84,17 @@ img {
 	position: fixed;
 	left: 0;
 	top: 0;
-	background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(0, 0, 0, 0.7);
 	color:  #f8fbef;
 	font-size: 0.75em;
 	padding: 1em;
 	z-index: 1;
 	display:flex;
 	flex-direction: column;
+    }
+
+    #table-of-contents h2 {
+	font-size: 1em;
     }
 
     #table-of-contents:hover, #table-of-contents:active {
@@ -124,7 +123,7 @@ img {
 #+end_src
 * Straight.el
 ** Setup
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -141,7 +140,10 @@ img {
 (setq straight-base-dir ".packages/")
 #+end_src
 ** Packages
-#+begin_src elisp :tangle ../build-site.el
+#+begin_src elisp
+(straight-use-package 'ledger-mode)
+(straight-use-package 'lua-mode)
+(straight-use-package 'go-mode)
 (straight-use-package 'htmlize)
 #+end_src
 
@@ -156,6 +158,16 @@ img {
 - To get syntax highlighting for source code blocks I set the =htmlize= output type to CSS
 #+begin_src elisp
 (setq org-html-htmlize-output-type 'css)
+#+end_src
+
+*** Disable Heading Numbers
+#+begin_src elisp
+(setq org-export-with-section-numbers nil)
+#+end_src
+
+*** Table of Contents Heading Depth
+#+begin_src elisp
+(setq org-export-with-toc 1)
 #+end_src
 
 *** Link to Custom CSS

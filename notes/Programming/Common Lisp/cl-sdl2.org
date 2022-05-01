@@ -1,8 +1,8 @@
 :properties:
 :header-args: :results none
 :end:
-#+title: notes/cl-sdl2
-<2022-04-30 Sat>
+#+title: =cl-sdl2= Notes
+<2022-05-01 Sun>
 * Setup
 - [[https://github.com/lispgames/cl-sdl2][Github: cl-sdl2]]
   - I was unable to get =defpackage-plus= to work in =clisp=, it does work with =sbcl=

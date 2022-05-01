@@ -1,5 +1,5 @@
-#+title: config/git
-<2022-04-19 Tue>
+#+title: Git Config
+<2022-05-01 Sun>
 * Config
 All user information goes into the file .gitconfig-user, which is not part of this repo.
 #+name: .gitconfig

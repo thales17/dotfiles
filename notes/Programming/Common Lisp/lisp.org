@@ -1,5 +1,5 @@
-#+title: notes/lisp
-<2022-04-23 Sat>
+#+title: Common Lisp Notes
+<2022-05-01 Sun>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]

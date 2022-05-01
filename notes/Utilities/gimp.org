@@ -1,5 +1,5 @@
-#+title: notes/gimp
-<2022-04-19 Tue>
+#+title: Gimp Notes
+<2022-05-01 Sun>
 * Hotkeys
 - =/= - Allows you to search for any command in the menus
 - =M= - for the move tool

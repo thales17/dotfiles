@@ -1,5 +1,5 @@
-#+title: notes/qemu
-<2022-04-19 Tue>
+#+title: QEMU Notes
+<2022-05-01 Sun>
 * Documentation
 - [[https://www.qemu.org/docs/master/][Main Documentation]]
 - [[https://wiki.qemu.org/Main_Page][Community Wiki]]

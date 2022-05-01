@@ -1,5 +1,5 @@
-#+title: notes/tips
-<2022-04-19 Tue>
+#+title: Miscellaneous Tips
+<2022-05-01 Sun>
 * Screenshots
 - =scrot= is a decent tool for taking screenshots of you entire desktop or just a particular window
 * JSON

@@ -1,5 +1,5 @@
-#+title: notes/git
-<2022-04-19 Tue>
+#+title: Git Notes
+<2022-05-01 Sun>
 * Resources
 - [[https://rogerdudler.github.io/git-guide/][Roger Rudler: git-guide]]
 - [[https://git-scm.com/book/en/v2][Pro Git book]]

@@ -1,5 +1,5 @@
-#+title: notes/go
-<2022-04-19 Tue>
+#+title: Go Notes
+<2022-05-01 Sun>
 * Setup
 ** Getting the latest release
 - [[https://www.digitalocean.com/community/tutorials/how-to-install-go-on-debian-10][Digital Ocean: How to install Go on Debian 10]]
