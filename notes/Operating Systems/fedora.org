@@ -70,7 +70,8 @@ sudo dnf install \
 	isync \
 	notmuch \
 	sbcl \
-	nethack
+	nethack \
+	openttd
 #+end_src
 
 * Wayland
