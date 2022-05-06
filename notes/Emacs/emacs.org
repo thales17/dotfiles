@@ -1,5 +1,5 @@
 #+title: Emacs Notes
-<2022-05-01 Sun>
+<2022-05-05 Thu>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
@@ -93,3 +93,11 @@ Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, fo
 * View Emacs Build Information
 - To view the version of Emacs you are current using run the =emacs-version= function
 - To view the features compiled in read the =system-configuration-features= variable
+
+* Convert from decimal to hex
+#+begin_src elisp
+(format "%x" 123)
+#+end_src
+
+#+RESULTS:
+: 7b

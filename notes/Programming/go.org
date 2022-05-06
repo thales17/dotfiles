@@ -63,6 +63,19 @@ Hello, Go!
 - You can install it with, =go install golang.org/x/tools/gopls@latest=
 - As far as I can tell the language server does not work in org babel source blocks
 
+* Appending to a list
+#+begin_src go
+package main
+
+import "fmt"
+
+func main() {
+	x := []int{}
+	x = append(x, 10)
+	fmt.Println(x)
+}
+#+end_src
+
 * Generics
 - [[https://go.dev/blog/why-generics][go.dev: Why Generics]]
 - [[https://go.dev/doc/tutorial/generics][go.dev: Go Generics Tutorial]]
