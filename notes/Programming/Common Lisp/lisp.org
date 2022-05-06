@@ -1,5 +1,5 @@
 #+title: Common Lisp Notes
-<2022-05-01 Sun>
+<2022-05-05 Thu>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -59,6 +59,8 @@
 - =#\space=
 *** nil
 - nil can be represented with =nil=, ='nil=, =()=, or ='()=
+*** Hex Numbers
+- =#xFF=
 ** Symbols
 - Symbols in Common Lisp are case insensitive
 - It is *common* to only use lowercase when writing common lisp source code
@@ -356,6 +358,10 @@ and the third")
 #+end_src
 *** format
 - [[https://en.wikipedia.org/wiki/Format_(Common_Lisp)][Wikipedia: Format (Common Lisp)]]
+- The =format= function takes 3 parameters, destination, control string and variadic values
+- The destination =nil=, =t= or some stream
+- When the destination is =nil= the =format= function returns the formatted string
+- When it is not nil it will return nil and send the output to either =stdout= with =t= or some other stream specified
 **** format directives
 - =c= - single character
 - =r= - radix base

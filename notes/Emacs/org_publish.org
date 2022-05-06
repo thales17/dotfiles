@@ -3,7 +3,7 @@
 :end:
 #+title: Org Publish Notes
 
-<2022-05-01 Sun>
+<2022-05-05 Thu>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
@@ -30,8 +30,8 @@ body {
     background-color:  #f8fbef;
     font-family:  "Liberation Sans", Helvetica, "Trebuchet MS", sans-serif;
     margin: auto;
-    padding: 1em;
     max-width: 72em;
+    padding: 0 1em 0 1em;
 }
 
 pre {
@@ -61,10 +61,15 @@ li {
     margin-bottom: 1em;
 }
 
-nav {
-    width: 100%;
+#preamble {
     text-align: right;
     margin-bottom: 2em;
+}
+
+#preamble h4 {
+    margin-bottom: 0.2em;
+    padding-bottom: 0.2em;
+    border-bottom: solid;
 }
 
 img {
@@ -78,6 +83,10 @@ img {
 @media only screen and (min-width: 1200px) {
     body {
 	font-size: 1.25em;
+    }
+
+    p {
+	line-height: 1.5em;
     }
 
     #table-of-contents {
@@ -189,8 +198,10 @@ img {
 				  (car item)
 				  (cdr item))
 				 "\n"))
+
 		       items))))
     (concat
+     "<h4>Adam Richardson's Site</h4>\n"
      "<nav>\n"
      atags
      "</nav>\n")))
@@ -203,8 +214,8 @@ img {
 *** Nav Bar Items
 - I created variables for each nav bar item so they can be reused across multiple navs
 #+begin_src elisp
-(defvar ajr-nav-home
-  '("/" . "Home"))
+(defvar ajr-nav-blog
+  '("/" . "Blog"))
 
 (defvar ajr-nav-notes
   '("/dotfiles/notes/index.html" . "Notes"))
@@ -223,17 +234,10 @@ img {
 #+begin_src elisp
 (defvar ajr-html-preamble
       (ajr-nav
-       (list ajr-nav-home
+       (list ajr-nav-blog
 	     ajr-nav-notes
 	     ajr-nav-dotfiles
 	     ajr-nav-about)))
-
-(defvar ajr-html-top-preamble
-      (ajr-nav
-       (list ajr-nav-notes
-	     ajr-nav-dotfiles
-	     ajr-nav-about)))
-
 #+end_src
 
 *** Defining Postamble Format
@@ -255,7 +259,7 @@ img {
       :with-author "Adam Richardson"
       :with-email nil
       :auto-sitemap t
-      :sitemap-title "Adam Richardson's Blog"
+      :sitemap-title "Blog Posts"
       :sitemap-sort-folders 'ignore
       :sitemap-sort-files 'anti-chronologically
       :sitemap-filename "index.org"
@@ -291,7 +295,7 @@ img {
       :exclude "posts/"
       :publishing-directory "./public/dotfiles/notes"
       :auto-sitemap t
-      :sitemap-title "Adam Richardson's Notes"
+      :sitemap-title "Notes"
       :sitemap-sort-files 'alphabetically
       :sitemap-filename "index.org"
       :html-head-extra ajr-html-head-extra
@@ -310,7 +314,7 @@ img {
       :base-directory "./dotfiles/config"
       :exclude "posts/"
       :publishing-directory "./public/dotfiles/config"
-      :sitemap-title "Adam Richardson's Dotfiles"
+      :sitemap-title "Dotfiles"
       :auto-sitemap t
       :sitemap-sort-files 'alphabetically
       :sitemap-filename "index.org"
@@ -330,7 +334,7 @@ img {
       :base-directory "./"
       :publishing-directory "./public/"
       :html-head-extra ajr-html-head-extra
-      :html-preamble-format `(("en" ,ajr-html-top-preamble))
+      :html-preamble-format `(("en" ,ajr-html-preamble))
       :html-preamble t
       :html-postamble nil
       :html-validation-link nil

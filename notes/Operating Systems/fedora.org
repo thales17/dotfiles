@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-05-01 Sun>
+<2022-05-03 Tue>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -31,6 +31,8 @@
 ** Removing a Package
 - =dnf remove <PACKAGE>=
 
+** Upgrading Installed Packages
+- =sudo dnf upgrade=
 ** Viewing =dnf= History
 - =dnf= will record history of packages added and removed
 - To view the history run =sudo dnf history list=

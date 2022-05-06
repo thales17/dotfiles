@@ -1,4 +1,4 @@
-#+TITLE: Adam Richardson's Dotfiles
+#+TITLE: Dotfiles
 
 - [[file:bash.org][Bash Config]]
 - [[file:cdripping.org][CD Ripping Config]]
