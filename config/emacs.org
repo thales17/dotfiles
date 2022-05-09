@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-05-01 Sun>
+<2022-05-07 Sat>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -778,6 +778,7 @@ I use ivy for my completion framework
 (global-set-key (kbd "C-x C-b") 'ibuffer)
 (global-set-key (kbd "C-x w") 'webjump)
 (global-set-key (kbd "C-c f") 'find-file-at-point)
+(global-set-key (kbd "C-x l") 'slime-repl)
 #+end_src
 ** Disable C-z
 #+begin_src elisp

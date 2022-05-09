@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-05-03 Tue>
+<2022-05-07 Sat>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -73,7 +73,8 @@ sudo dnf install \
 	notmuch \
 	sbcl \
 	nethack \
-	openttd
+	openttd \
+	python3-pip
 #+end_src
 
 * Wayland

@@ -3,7 +3,7 @@
 :end:
 #+title: Org Publish Notes
 
-<2022-05-05 Thu>
+<2022-05-09 Mon>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
@@ -63,7 +63,9 @@ li {
 
 #preamble {
     text-align: right;
+    margin-left: auto;
     margin-bottom: 2em;
+    max-width: 16em;
 }
 
 #preamble h4 {
@@ -72,12 +74,19 @@ li {
     border-bottom: solid;
 }
 
+#postamble {
+    max-width: 13.5em;
+    margin-left: auto;
+    margin-top: 4em;
+    font-size: 0.7em;
+}
+
 img {
     max-width: 100%;
 }
 
-#table-of-contents {
-    display: none;
+#content {
+    max-width: 48em;
 }
 
 @media only screen and (min-width: 1200px) {
@@ -93,36 +102,21 @@ img {
 	position: fixed;
 	left: 0;
 	top: 0;
-	background-color: rgba(0, 0, 0, 0.7);
-	color:  #f8fbef;
 	font-size: 0.75em;
 	padding: 1em;
 	z-index: 1;
 	display:flex;
 	flex-direction: column;
+	height: 100%;
+	max-width: 14em;
+	background-color: #f8fbef;
     }
 
     #table-of-contents h2 {
 	font-size: 1em;
     }
 
-    #table-of-contents:hover, #table-of-contents:active {
-	height: 100%;
-    }
-
-    #table-of-contents a:visited {
-	color: white;
-    }
-
-    #table-of-contents a:link {
-	color: white;
-    }
-
-    #text-table-of-contents {
-	display: none;
-    }
-
-    #table-of-contents:hover #text-table-of-contents, #table-of-contents:active #text-table-of-contents {
+    #text-table-of-contents, #table-of-contents:active #text-table-of-contents {
 	display: block;
 	overflow-y: auto;
 	flex: 1;
@@ -226,6 +220,9 @@ img {
 (defvar ajr-nav-about
   '("/about.html" . "About"))
 
+(defvar ajr-nav-rss
+  '("/rss.xml" . "RSS"))
+
 #+end_src
 
 *** Defining Preamble Variables
@@ -237,7 +234,8 @@ img {
        (list ajr-nav-blog
 	     ajr-nav-notes
 	     ajr-nav-dotfiles
-	     ajr-nav-about)))
+	     ajr-nav-about
+	     ajr-nav-rss)))
 #+end_src
 
 *** Defining Postamble Format
@@ -281,7 +279,7 @@ img {
       :html-preamble-format `(("en" ,ajr-html-preamble))
       :html-preamble t
       :html-postamble-format `(("en" ,ajr-html-postamble))
-      :html-postamble t
+      :html-postamble nil
       :html-validation-link nil
       :publishing-function 'org-html-publish-to-html)
 #+end_src
@@ -391,4 +389,139 @@ img {
 (org-publish-all t)
 
 (message "Build Complete")
+#+end_src
+* Generate RSS
+- This series of Elisp will generate an rss.xml file in the public directory
+** Dependencies
+#+begin_src elisp :tangle ../../gen-rss.el
+(require 'org)
+#+end_src
+
+** Constants
+- These constants define the location of published html posts as well as the path to the org files for those posts
+#+begin_src elisp :tangle ../../gen-rss.el
+(defconst posts-html-dir "public/posts")
+(defconst posts-org-dir "posts")
+(defconst post-url-root "https://thales17.srht.site")
+(defconst channel-title "Adam Richardson's Site")
+(defconst channel-description "RSS feed of blog posts from Adam Richardson's site")
+(defconst rss-file "public/rss.xml")
+(defconst rfc-822-format "%a, %d %b %y %H:%M:%S %z")
+#+end_src
+
+** Get RSS Link for a Post
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun post--link (post-file)
+  "Gets the RSS link for a post html file. The file is assumed to be
+just the name of the html file. No path is necessary."
+  (concat
+   post-url-root
+   "/posts/"
+   post-file))
+#+end_src
+
+** Get the Org Path for a Post
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun post--org-path (post-file)
+  "Returns the relative path to the org file that corresponds to the
+html file."
+  (concat
+   posts-org-dir
+   "/"
+   (file-name-sans-extension post-file)
+   ".org"))
+#+end_src
+
+** Get the Date / Title / Description for a Post
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun post--keyword-values (post-org-file)
+  "Returns a list of keywords from the post org file. This looks for
+`date', `title' and `description' keyword values from the
+`post-org-file'.  The format of the results list will match what
+`org-collect-keywords' returns."
+  (with-temp-buffer
+    (insert-file-contents post-org-file)
+    (org-collect-keywords '("date" "title" "description"))))
+#+end_src
+
+** Get the RSS Item Tag for a Post
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun post--rss-item (post-file)
+  "Returns the rss xml formatted item for a post html file. The
+`post-file' should just be the name of the file and not have any
+directory pathing."
+  (let* ((keyword-alist (post--keyword-values
+			 (post--org-path post-file)))
+	 (title (cadr (assoc "TITLE" keyword-alist)))
+	 (org-date (org-timestamp-from-string
+		    (cadr (assoc "DATE" keyword-alist))))
+	 (description (cadr (assoc "DESCRIPTION" keyword-alist))))
+    (concat
+     "    <item>\n"
+     "      <title>"
+     title
+     "</title>\n"
+     "      <link>"
+     (post--link post-file)
+     "</link>\n"
+     "      <pubDate>"
+     (org-timestamp-format org-date rfc-822-format)
+     "</pubDate>\n"
+     "      <description>"
+     description
+     "</description>\n"
+     "    </item>\n")))
+#+end_src
+
+** Get the Emacs Internal Time for A Post
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun post--date (post-file)
+  "Returns the date property set in the corresponding org file for the
+`post-file'. The `post-file' is assumed to be an html file in the
+`posts-html-dir'."
+  (let* ((keyword-alist (post--keyword-values
+			 (post--org-path post-file)))
+	 (org-date (cadr (assoc "DATE" keyword-alist))))
+
+    (org-timestamp-to-time
+     (org-timestamp-from-string org-date))))
+#+end_src
+
+** Generate the Full RSS XML
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun post-gen-rss ()
+  (let ((sorted-posts (sort (directory-files
+			     posts-html-dir
+			     nil
+			     "\\.html$")
+			    (lambda (a b)
+			      (let ((a-date (post--date a))
+				    (b-date (post--date b)))
+				(time-less-p b-date a-date))))))
+    (concat
+     "<rss version=\"2.0\">\n"
+     "  <channel>\n"
+     "    <title>"
+     channel-title
+     "</title>\n"
+     "    <description>"
+     channel-description
+     "</description>\n"
+     (apply #'concat
+	    (mapcar #'post--rss-item sorted-posts))
+     "  </channel>\n"
+     "</rss>")))
+#+end_src
+
+** Save the Contents of a String to File
+#+begin_src elisp :tangle ../../gen-rss.el
+(defun save-file (contents filename)
+  (with-temp-buffer
+    (insert contents)
+    (write-file filename)))
+#+end_src
+
+** Actually Generate RSS
+#+begin_src elisp :tangle ../../gen-rss.el
+(save-file (post-gen-rss) rss-file)
 #+end_src

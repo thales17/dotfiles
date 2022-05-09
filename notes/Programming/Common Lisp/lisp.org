@@ -1,5 +1,5 @@
 #+title: Common Lisp Notes
-<2022-05-05 Thu>
+<2022-05-07 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -356,13 +356,13 @@ and the third")
 #+begin_src lisp
 (format nil "hello~%world")
 #+end_src
-*** format
+** Format
 - [[https://en.wikipedia.org/wiki/Format_(Common_Lisp)][Wikipedia: Format (Common Lisp)]]
 - The =format= function takes 3 parameters, destination, control string and variadic values
 - The destination =nil=, =t= or some stream
 - When the destination is =nil= the =format= function returns the formatted string
 - When it is not nil it will return nil and send the output to either =stdout= with =t= or some other stream specified
-**** format directives
+*** Format Directives
 - =c= - single character
 - =r= - radix base
 - =d= - decimal (base 10) number
@@ -379,18 +379,24 @@ and the third")
 - =i= - indent a logical block
 - =t= - move cursor to column
 - =p= - prints singular or plural suffix
-- =%= - newline
-**** Examples
-***** Strings
+- =%= - newline unconditionally, similar to =terpi=
+- =&= - newline conditionally, similar to =fresh-line=
+*** Examples
+**** Strings
 #+begin_src lisp
 (format nil "Your message is: ~a~%"
 	"Hello, World")
 #+end_src
-***** Left pad zeroes
+**** Left pad zeroes
 #+begin_src lisp
 (format nil "You number is: ~3,'0d," 12)
 #+end_src
 - The above example will ensure that the decimal value is 3 digits long and will pad to the left with =0= if it is less than 3 digits
+**** Looping with Format
+- You can loop through lists with format using =~{= and =~}=
+#+begin_src lisp
+(format nil "~{The list has: ~a~%~}" '("abc" "def" "ghi"))
+#+end_src
 ** Lists
 *** push
 - Adds item to the beginning of a list
@@ -678,7 +684,8 @@ and the third")
   - You can use this to assign the value into a variable: =(let ((user-input (read))))=
 - Both =print= and =read= can handle any Lisp data type, including symbols
 - Use =read-line= to read the input as a string only rather than any valid Lisp data
-- Use the function =fresh-line= to print a new line: =(fresh-line)=
+- Use the function =fresh-line= to print a new line if the cursor is not at the beginning of a line: =(fresh-line)=
+- The =terpri= function will always print a new line even if the cursor is at the beginning of the line
 *** Files
 - =with-open-file= optionally accepts a steam and file name to open a file
 - If you do not pass in an existing stream a new one is created
@@ -879,5 +886,23 @@ string add:
 ** Upgrading Quicklisp
 - Use =(ql:update-dist "quicklisp")= to update Quicklisp
 - Run =(ql:update-client)= to update the client
+* Examples
+** Split String into List of Words
+- [[http://cl-cookbook.sourceforge.net/strings.html#reverse][cl-cookbook: Reversing a String by Word or Character]]
+#+begin_src lisp
+(defun split-by-one-space (string)
+    "Returns a list of substrings of string
+divided by ONE space each.
+Note: Two consecutive spaces will be seen as
+if there were an empty string between them."
+    (loop for i = 0 then (1+ j)
+	  as j = (position #\Space string :start i)
+	  collect (subseq string i j)
+	  while j))
+#+end_src
+
+#+RESULTS:
+: SPLIT-BY-ONE-SPACE
+
 * Lisp Library Notes
 - [[file:cl-sdl2.org][cl-sdl2]]
