@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-05-07 Sat>
+<2022-05-16 Mon>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -91,6 +91,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'gnuplot)
 (straight-use-package 'graphviz-dot-mode)
 (straight-use-package 'go-mode)
+(straight-use-package 'ob-go)
 (straight-use-package 'olivetti)
 (straight-use-package 'auctex)
 (straight-use-package 'lsp-mode)

@@ -1,5 +1,5 @@
 #+title: Go Notes
-<2022-05-01 Sun>
+<2022-05-16 Mon>
 * Setup
 ** Getting the latest release
 - [[https://www.digitalocean.com/community/tutorials/how-to-install-go-on-debian-10][Digital Ocean: How to install Go on Debian 10]]
@@ -62,6 +62,11 @@ Hello, Go!
 - [[https://pkg.go.dev/golang.org/x/tools/gopls#section-readme][gopls]] is the official Go language server
 - You can install it with, =go install golang.org/x/tools/gopls@latest=
 - As far as I can tell the language server does not work in org babel source blocks
+
+** Emacs Org Babel Support
+- [[https://github.com/pope/ob-go][Emacs Package: ob-go]]
+- Manually edit =org-babel-load-languages= to include Go by adding it to the hash table =(go . t)=
+- This is an example using the =args= header argument, =:args '("-count=5" "-msg=Hola")=
 
 * Appending to a list
 #+begin_src go
@@ -209,3 +214,37 @@ go1.18rc1 run .
 Non-Generic Sums: 46 and 62.97
 Generic Sums: 46 and 62.97
 Generic Sums with Constraint: 46 and 62.97
+* Using =flag= package
+- [[https://pkg.go.dev/flag][go.dev docs: flag]]
+#+begin_src go :args '("-count=5" "-msg=Hola")
+package main
+
+import (
+	"flag"
+	"fmt"
+)
+
+func main() {
+	var msg string
+	var count int64
+
+	flag.StringVar(&msg, "msg", "hello world", "message to show the user")
+	flag.Int64Var(&count, "count", 1, "number of times to show the message")
+
+	flag.Parse()
+
+	for i := 0; i < int(count); i++ {
+		fmt.Println(msg)
+	}
+}
+#+end_src
+
+#+RESULTS:
+: Hola
+: Hola
+: Hola
+: Hola
+: Hola
+
+* Recommended Packages
+- [[https://github.com/tarm/serial][tarm/serial]] - Great cross platform serial communication library
