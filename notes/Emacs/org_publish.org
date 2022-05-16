@@ -3,7 +3,7 @@
 :end:
 #+title: Org Publish Notes
 
-<2022-05-09 Mon>
+<2022-05-14 Sat>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
@@ -89,7 +89,7 @@ img {
     max-width: 48em;
 }
 
-@media only screen and (min-width: 1200px) {
+@media only screen and (min-width: 1450px) {
     body {
 	font-size: 1.25em;
     }

@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-05-07 Sat>
+<2022-05-14 Sat>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -32,7 +32,16 @@
 - =dnf remove <PACKAGE>=
 
 ** Upgrading Installed Packages
-- =sudo dnf upgrade=
+- =sudo dnf update=
+** Upgrading to Latest Fedora Release
+- [[https://docs.fedoraproject.org/en-US/quick-docs/dnf-system-upgrade/#sect-performing-system-upgrade][Performing System Upgrade with dnf]]
+#+begin_src sh
+sudo dnf upgrade --refresh
+# reboot if there are any changes
+sudo dnf install dnf-plugin-system-upgrade
+sudo dnf system-upgrade download --releasever=36
+sudo dnf system-upgrade reboot
+#+end_src
 ** Viewing =dnf= History
 - =dnf= will record history of packages added and removed
 - To view the history run =sudo dnf history list=
@@ -72,14 +81,14 @@ sudo dnf install \
 	isync \
 	notmuch \
 	sbcl \
+	clisp \
 	nethack \
 	openttd \
 	python3-pip
 #+end_src
 
 * Wayland
-- To see if you are in a Wayland session run =echo $WAYLAND_DISPLAY=S
-
+- To see if you are in a Wayland session run =echo $WAYLAND_DISPLAY=
 * Building Emacs
 - clone Emacs from [[http://savannah.gnu.org/projects/emacs/][Savannah]] =git clone -b master git://git.sv.gnu.org/emacs.git=
 - Run the =./autogen.sh= to build the configure script
@@ -110,3 +119,6 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 ** Various Flatpaks
 - =flatpak install flathub dev.ares.ares=
 - =flatpak install flathub org.signal.Signal=
+** Issue where SDL2 Apps Crash on Exit
+- This is probably due to the wayland video driver in SDL2
+- A workaround is to set the environment variable =SDL_VIDEODRIVER= to use =x11= rather than =wayland=

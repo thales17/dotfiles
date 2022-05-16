@@ -1,5 +1,5 @@
 #+title: Common Lisp Notes
-<2022-05-07 Sat>
+<2022-05-14 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -356,6 +356,45 @@ and the third")
 #+begin_src lisp
 (format nil "hello~%world")
 #+end_src
+*** Parsing an Integer from a String
+- The =parse-integer= function can be used to parse an integer from a string
+- The =:radix= keyword lets you specify the base of the number
+- The =:junk-allowed= keyword lets you indicate you want to just return nil if there is junk in the string
+#+begin_src lisp
+(parse-integer
+ "beef"
+ :radix 16
+ :junk-allowed t)
+#+end_src
+- The above example returns the integer 48879
+
+*** Getting the Integer Code of an Char
+- The =char-code= function will return the integer ASCII code for the char
+- The =code-char= will give you the char for an integer ASCII code of a char
+#+begin_src lisp
+(code-char (char-code #\A))
+#+end_src
+- The above example will return the character =A=
+#+RESULTS:
+: #\A
+
+*** Turning a String into a Lisp Symbol
+- The =intern= function can turn a string into a Lisp symbol
+#+begin_src lisp
+(intern "abc")
+#+end_src
+- The above example returns the symbol =abc=
+- There is some overlap between =read= and =intern=, in general if the =intern= functions does what you need then it is preferable since it is safer than the =read= function
+*** Getting the Position of Char in String
+- The =position= function can be used to get the index of a char in a string, since a string is a sequence of characters
+- See [[*Index of item in list][Index of item in list]]
+*** Creating a Fixed Size String
+- The =make-string= function will create a string with a given length
+#+begin_src lisp
+(make-string 10 :initial-element #\x)
+#+end_src
+- The above example creates a string of length 10 filled with the char =x=
+
 ** Format
 - [[https://en.wikipedia.org/wiki/Format_(Common_Lisp)][Wikipedia: Format (Common Lisp)]]
 - The =format= function takes 3 parameters, destination, control string and variadic values
@@ -659,6 +698,18 @@ and the third")
 
 #+RESULTS:
 : WORK-OR
+*** Using =case= to switch through multiple options
+- The =case= function can be used to handle multiple conditionals for a single value
+- A conditional named =otherwise=
+#+begin_src lisp
+(defvar x 1234)
+
+(case x
+  (123 (princ "x is 123"))
+  (456 (princ "x is 456"))
+  (otherwise (princ "beats me")))
+#+end_src
+- The above example prints "beats me" since =x= does not match any of the conditionals
 ** Equality
 - Use =eq= for comparing symbols
   - =eq= returns true when two symbols point to the same =cons=
@@ -686,6 +737,7 @@ and the third")
 - Use =read-line= to read the input as a string only rather than any valid Lisp data
 - Use the function =fresh-line= to print a new line if the cursor is not at the beginning of a line: =(fresh-line)=
 - The =terpri= function will always print a new line even if the cursor is at the beginning of the line
+- The =read-sequence= function will fill a sequence with items from a stream
 *** Files
 - =with-open-file= optionally accepts a steam and file name to open a file
 - If you do not pass in an existing stream a new one is created
@@ -791,8 +843,40 @@ string add:
 
 *** type-of
 - The =type-of= function will return the type of the variable
-- For example, =(type-of 12)= will return =INTEGER=
-- =(type-of 'hello)= will return =SYMBOL=
+- For example, =(type-of 12)= will return =integer=
+- =(type-of 'hello)= will return =symbol=
+** Exceptions / Errors
+- To generate an exception or error use the =error= function
+#+begin_src lisp
+(error "this will generate an error")
+#+end_src
+- The above example shows generating a simple error with a custom error message
+*** Custom Error Conditions
+- The function =define-condition= allows you to define a custom error condition
+#+begin_src lisp
+(define-condition my-error-condition () ()
+  (:report (lambda (condition stream)
+	     (princ "custom report message for `my-error-condition'" stream))))
+
+(error 'my-error-condition)
+#+end_src
+- The above example creates a custom error condition with a customized report
+- Use the =error= function and the symbol of the condition to trigger it
+*** Handling Errors
+- The =handler-case= function allows you to intercept an error
+#+begin_src lisp
+(define-condition my-error-condition () ()
+  (:report (lambda (condition stream)
+	     (princ "custom report message for `my-error-condition'" stream))))
+
+(defun going-to-error ()
+  (error 'my-error-condition))
+
+(handler-case (going-to-error)
+  (my-error-condition () "Intercepted `my-error-condition'"))
+#+end_src
+- The above example shows using =handler-case= to intercept a particular error symbol
+
 * Common Lisp Data Structures
 ** List
 - Most fundamental data structure in a lisp
@@ -863,6 +947,12 @@ string add:
 - The above example shows creating a =circle= structure that inherits all the slot from the =point= struct
 - This example returns this struct literal, =#S(CIRCLE :X 5 :Y 5 :RADIUS 4)=
 
+** Streams
+- There are two types of streams =input= and =output=
+- The predicates =input-stream-p= and =output-stream-p= will indicate which direction a stream is
+- The standard =print= and =read= functions work with streams
+- Streams support most of the functions that lists do with the exception of =setf=
+- A string stream is useful for testing code that operates on streams
 * Quick Lisp
 - [[https://www.quicklisp.org/beta/][Quicklisp]] is a library manager (package manager) for Common Lisp
 ** Installation
