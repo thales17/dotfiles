@@ -1,5 +1,5 @@
 #+title: Common Lisp Notes
-<2022-05-14 Sat>
+<2022-05-25 Wed>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -76,6 +76,7 @@
   - This means it has *2* separate scope for functions and data
   - You can have a function and data with the same symbol name
   - The caveat is you must use the =#= when quoting a function
+- When quasiquoting use a splicing command =,@= lists are spread when the quoted code is expanded
 ** Variables
 *** Globals
 - Use =defparameter= to create global variables
@@ -159,6 +160,9 @@
 #+end_src
 - The above example returns the list =(5 2 20 10)=
 - It shows how when the arguments are used as keywords the order does not matter
+*** Body Argument
+- The =&body= is the same as =&rest= but it allows editors to indent differently for the remainder since it is a =body=
+- =&body= can only be used with macros
 *** Default Values
 - Optional and keyword arguments can have a default value
 - To specify the default value you create a list with that starts with the local name of the argument followed by the default value
@@ -170,6 +174,58 @@
 (fn-default 100)
 #+end_src
 - The above example returns the list =(100 t)=
+*** Closures
+- Referencing variables in a lambda expression can prevent values from being garbage collected
+- This can be useful for memoizing functions
+#+begin_src lisp
+(let ((count 0))
+  (defun say-hello-count ()
+    (incf count)
+    (format nil "Hello, for the ~a time" count)))
+
+(say-hello-count)
+(say-hello-count)
+
+#+end_src
+- The above example shows using lexical binding to capture a closure variable inside the function
+- The count variable is incremented each time you call =say-hello-count=
+- The =defun= macro will allow you to call =say-hello-count= outside of the =let=
+*** Get the function bound to a symbol
+- Use the =symbol-function= function to get the function bound to a symbol
+- This is useful if you want to create a higher order function that wraps an existing function and you need to store the original function
+*** Tail Call Optimization
+- Tail call optimization is a way to get additional performance with recursive functions
+- Normally when a function has a recursive call it will add to the stack
+- If the function has too many recursive calls it can lead to a stack overflow
+- If the recursive call is the final statement in the function the lisp compiler can recognize this as a candidate for tail call optimization
+- The tail call optimization is the compiler not adding to the stack since you are already at the correct location
+- Not all lisp compilers support this since it is not part of the standard, unlike Scheme which requires tail call optimization
+- In clisp you need to explicitly =compile= the function to get the tail call optimization
+*** Nullary Functions (Thunks)
+- A nullary function is a function that has no arguments
+- They are also commonly known as thunks or suspensions
+*** Returning multiple values
+- It is possible to write a function that returns multiple values
+- When returning multiple values the first value returned is given preference when chaining the function
+- This behavior could be achieved with a list but if it is a special case when you need more than one value this could be cleaner
+*** values
+- Use the =values= function to return multiple values from a function
+#+begin_src lisp
+(defun multi-v ()
+  (values 'foo 'bar))
+
+(multi-v)
+#+end_src
+- The above example will return ='foo; 'bar=
+*** multiple-value-bind
+- To access all of the values returned by a function use =multiple-value-bind=
+- This allows you to name the values returned by the function and access them in a =let= style block
+#+begin_src lisp
+(multiple-value-bind (x y) ((lambda ()
+			      (values 'foo 'bar)))
+  (list x y))
+#+end_src
+- The above example will return the list =(foo bar)=
 ** Eval
 - You can evaluate a quoted symbol with =eval=
 - =(eval '(+ 2 2))= should return =4=
@@ -243,31 +299,13 @@ Loop #1
 Loop #2
 Loop #3
 #+end_src
-** Nullary Functions (Thunks)
-- A nullary function is a function that has no arguments
-- They are also commonly known as thunks or suspensions
-** Functions returning multiple values
-- It is possible to write a function that returns multiple values
-- When returning multiple values the first value returned is given preference when chaining the function
-- This behavior could be achieved with a list but if it is a special case when you need more than one value this could be cleaner
-*** values
-- Use the =values= function to return multiple values from a function
-#+begin_src lisp
-(defun multi-v ()
-  (values 'foo 'bar))
-
-(multi-v)
-#+end_src
-- The above example will return ='foo; 'bar=
-*** multiple-value-bind
-- To access all of the values returned by a function use =multiple-value-bind=
-- This allows you to name the values returned by the function and access them in a =let= style block
-#+begin_src lisp
-(multiple-value-bind (x y) ((lambda ()
-			      (values 'foo 'bar)))
-  (list x y))
-#+end_src
-- The above example will return the list =(foo bar)=
+** Macros
+- Use =defmacro= to define a lisp macro
+- Macro definition is similar to function definition
+- A macro usually return a quoted or quasi-quoted lisp expression that is expanded during compile time
+- In order to view an expanded use the =macroexpand= function
+- It is possible to define a macro that adds lexical variables, macros that do this are called /anaphoric macros/
+-
 * Common Lisp Functions
 ** Math
 *** Incrementing
@@ -490,7 +528,7 @@ and the third")
 - =mapc= is a more efficient version of mapcar that does not return the list
 - =maplist= is another variant of =mapcar= that gives the remainder of the list as an argument to the function rather than a single item
 *** mapcan
-- Similar to =mapcar= but expends the lambda to return a list
+- Similar to =mapcar= but allows the lambda to return a list
 - The list values are all appended together in the result
 #+begin_src lisp
 (mapcan (lambda (v)
@@ -610,9 +648,9 @@ and the third")
 ** Association Lists (alists)
 - Use =assoc= to find the value of a key in an alist
 #+begin_src lisp
-  (assoc 'mykey '((somekey (some-value))
-		  (mykey (my-value))
-		  (otherkey (other-value))))
+(assoc 'mykey '((somekey (some-value))
+		(mykey (my-value))
+		(otherkey (other-value))))
 #+end_src
 #+RESULTS:
 | MYKEY | (MY-VALUE) |
@@ -621,6 +659,13 @@ and the third")
 - If you push new keys into the alist you can overwrite the value of a key while preserving the previous value
 - You can use =setf= to change the value of an list, =(setf (cadr (assoc '2 alist)) t)=
 - alists are not very efficient beyond a dozen items
+- alists can also be implemented using cons pairs
+#+begin_src lisp
+(assoc 'mykey '((somekey . somevalue)
+		(mykey . myvalue)
+		(otherkey . othervalue)))
+#+end_src
+
 ** Logic / Conditionals
 *** Complementing Predicates
 - If you have a predicate and you want the opposite of it or complement you can use the higher order function =complement= to achieve that
@@ -877,6 +922,10 @@ string add:
 #+end_src
 - The above example shows using =handler-case= to intercept a particular error symbol
 
+** Generate Random Symbols
+- Sometimes its useful to generate a random symbol
+- This can be handy for macros that need to lexically bind a value but don't want to accidentally have variables shadowed by lisp forms supplied by the user
+- The =gensym= function will return a random unique symbol
 * Common Lisp Data Structures
 ** List
 - Most fundamental data structure in a lisp
@@ -953,6 +1002,11 @@ string add:
 - The standard =print= and =read= functions work with streams
 - Streams support most of the functions that lists do with the exception of =setf=
 - A string stream is useful for testing code that operates on streams
+#+begin_src lisp
+(with-output-to-string (*standard-output*)
+  (princ "Hello world!"))
+#+end_src
+- The above example shows a with form that will collect anything that would normally be sent to standard output and instead return it as a string
 * Quick Lisp
 - [[https://www.quicklisp.org/beta/][Quicklisp]] is a library manager (package manager) for Common Lisp
 ** Installation

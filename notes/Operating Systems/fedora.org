@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-05-14 Sat>
+<2022-05-30 Mon>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -12,7 +12,7 @@
 - To upgrade all packages run =dnf upgrade=
 
 ** Finding Packages
-- To search through =rpm=s run =dnf search <PACKAGE>=
+- To search through =rpms= run =dnf search <PACKAGE>=
 - To search through all sources run =dnf search all <PACKAGE>=
 
 ** Listing Packages
@@ -84,7 +84,22 @@ sudo dnf install \
 	clisp \
 	nethack \
 	openttd \
-	python3-pip
+	python3-pip \
+	ncdu \
+	retroarch \
+	inkscape \
+	picocom  \
+	abcde \
+	beets \
+	beets-plugins \
+	fluidsynth \
+	fluid-soundfont-gm \
+	fluid-soundfont-gs \
+	gimp \
+	automake \
+	SDL2-devel \
+	SDL2_mixer-devel \
+	SDL2_net-devel
 #+end_src
 
 * Wayland
@@ -122,3 +137,14 @@ flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flat
 ** Issue where SDL2 Apps Crash on Exit
 - This is probably due to the wayland video driver in SDL2
 - A workaround is to set the environment variable =SDL_VIDEODRIVER= to use =x11= rather than =wayland=
+* Crispy Doom
+- Clone the Crispy Doom Source from [[https://github.com/fabiangreffrath/crispy-doom][GitHub]]
+- Inside the folder run the following:
+#+begin_src sh
+autoreconf -fiv
+./configure
+make
+sudo make install
+#+end_src
+- =crispy-doom -iwad DOOM.WAD -file SIGIL_v1_21.wad= is an example running the game with a particular iwad and pwad
+- More info on command line arguments can be found here, [[https://www.chocolate-doom.org/wiki/index.php/Command_line_arguments][Chocolate Doom Wiki: Command Line Arguments]]

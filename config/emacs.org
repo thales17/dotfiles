@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-05-16 Mon>
+<2022-05-19 Thu>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -841,6 +841,7 @@ Customizations and global keys for org mode
 (yas-global-mode)
 (yafolding-mode)
 (add-hook 'prog-mode-hook 'linum-mode)
+(add-hook 'prog-mode-hook 'company-mode)
 (add-hook 'prog-mode-hook 'hl-line-mode)
 (coterm-mode)
 (require 'elfeed)
