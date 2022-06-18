@@ -1,5 +1,5 @@
 #+title: Common Lisp Notes
-<2022-05-25 Wed>
+<2022-06-18 Sat>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -59,6 +59,7 @@
 - =#\space=
 *** nil
 - nil can be represented with =nil=, ='nil=, =()=, or ='()=
+- =nil= is the only Lisp object that is both a symbol and a list
 *** Hex Numbers
 - =#xFF=
 ** Symbols
@@ -349,6 +350,13 @@ Loop #3
 (floor 5 2)
 #+end_src
 - The above example returns 2
+*** Largest and Smallest Integers
+- The Common Lisp standard defines variables for the largest and smallest integers
+- =most-positive-fixnum= is the largest integer
+- =most-negative-fixnum= is the smallest integer
+*** Using =/= to get the reciprocal
+- When you use the =/= function with only a single value it will return the reciprocal
+- For example =(/ 4)= returns =1/4=
 ** Strings
 *** Concatenate
 - Use =concatenate= to join multiple strings together
@@ -796,7 +804,21 @@ and the third")
     (princ "Hello World!" stream)
     (princ #\newline stream))
 #+end_src
-
+- The below example shows routing standard output to a file and appending to the file
+- The =finish-output= function will empty the buffers into the file
+#+begin_src lisp
+(with-open-file (*standard-output*
+		 "~/tmp/test.log"
+		 :direction :output
+		 :if-does-not-exist :create
+		 :if-exists :append)
+  (loop repeat 100 for x from 0
+	do (progn
+	     (fresh-line)
+	     (format t "loop #~d" x)
+	     (finish-output)
+	     (sleep 1))))
+#+end_src
 #+RESULTS:
 : #\Newline
 - There is a global stream =*standard-ouput*= that represents stdout of the lisp environment
@@ -864,6 +886,8 @@ GC: 26, GC time: 0.098185 sec.
   - =listp=
   - =stringp=
   - =symbolp=
+  - =atom= (this is the opposite of =consp=, anything that is not a cons cell matches)
+  - =null= Only returns true if input is =nil=, same as the =not= predicate
 - These predicates an be used to implement generic functions
 *** defmethod
 - The =defmethod= macro will allow you to define separate functions for each supported argument type
@@ -926,6 +950,8 @@ string add:
 - Sometimes its useful to generate a random symbol
 - This can be handy for macros that need to lexically bind a value but don't want to accidentally have variables shadowed by lisp forms supplied by the user
 - The =gensym= function will return a random unique symbol
+** Sleeping
+- Common Lisp has a =sleep= function that takes the number of seconds you want to sleep as an argument
 * Common Lisp Data Structures
 ** List
 - Most fundamental data structure in a lisp

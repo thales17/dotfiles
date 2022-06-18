@@ -3,12 +3,12 @@
 :end:
 #+title: Org Publish Notes
 
-<2022-05-14 Sat>
+<2022-06-13 Mon>
 * Publish Script
 - [[https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html][Worg: Org Publish HTML Tutorial]]
 * CSS
 #+begin_src css :tangle ../../css/main.css :mkdirp yes
-.org-doc { color: #524CE6; }
+.org-doc { color: #7E85A0; }
 .org-keyword { color: #E63462; }
 .org-string { color: #C7EFCF; }
 .org-variable-name { color: #F8FBEF; font-weight: bold; }

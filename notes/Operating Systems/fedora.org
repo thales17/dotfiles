@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-05-30 Mon>
+<2022-06-12 Sun>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -99,7 +99,8 @@ sudo dnf install \
 	automake \
 	SDL2-devel \
 	SDL2_mixer-devel \
-	SDL2_net-devel
+	SDL2_net-devel \
+	glibc-doc
 #+end_src
 
 * Wayland
