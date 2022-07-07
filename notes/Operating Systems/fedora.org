@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-06-12 Sun>
+<2022-07-05 Tue>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -100,7 +100,8 @@ sudo dnf install \
 	SDL2-devel \
 	SDL2_mixer-devel \
 	SDL2_net-devel \
-	glibc-doc
+	glibc-doc \
+	p7zip
 #+end_src
 
 * Wayland
@@ -149,3 +150,15 @@ sudo make install
 #+end_src
 - =crispy-doom -iwad DOOM.WAD -file SIGIL_v1_21.wad= is an example running the game with a particular iwad and pwad
 - More info on command line arguments can be found here, [[https://www.chocolate-doom.org/wiki/index.php/Command_line_arguments][Chocolate Doom Wiki: Command Line Arguments]]
+* Intel Performance Support
+- [[https://wiki.archlinux.org/title/intel_graphics#Enable_performance_support][ArchWiki: Intel Performance Support]]
+- By default applications cannot access Intel GPU performance counters
+- You might see the below warning
+#+begin_src text
+MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf_stream_paranoid=0
+#+end_src
+- To enable this feature add the above line to =/etc/sysctl.conf=
+* Disable Super+P in GNOME
+#+begin_src sh
+gsettings set org.gnome.mutter.keybindings switch-monitor '[]'
+#+end_src

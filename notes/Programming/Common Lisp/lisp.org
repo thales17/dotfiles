@@ -1,5 +1,5 @@
 #+title: Common Lisp Notes
-<2022-06-18 Sat>
+<2022-06-26 Sun>
 * Resources
 - [[https://lispcookbook.github.io/cl-cookbook/][Common Lisp Cook Book]]
 - [[http://www.lispworks.com/documentation/HyperSpec/Front/index.htm][Common Lisp Hyper Spec]]
@@ -68,6 +68,13 @@
 - To make a symbol that is case sensitive surround it with pipe, =|=, characters
   - This also allows you to use punctuation in a symbol name
   - =|Ca$e mATT3rz|= is an example
+- There are a variety of functions that can look up specific properties of a symbols
+- They all start with the =symbol-= prefix
+- For example =symbol-value= will show the value associated with a symbol
+- =symbol-function= will return the reference to the function a symbol points to
+- Be sure to quote the symbol name when using these functions, i.e. =(symbol-value 'my-symbol)=
+- Symbols are really just blocks of pointers that point to values, and functions
+- Because a symbol can have a value and function that allows functions and variables to not have name collisions
 ** Quoting
 - Use the single quote ='= to quote a list
 - To quasiquote use the backtick =`= and the comma to unquote =,=
@@ -441,6 +448,16 @@ and the third")
 #+end_src
 - The above example creates a string of length 10 filled with the char =x=
 
+*** Changing capitalization of strings
+#+begin_src lisp
+(string-upcase "abc")
+(string-downcase "ABC")
+#+end_src
+- The =string-upcase= and =string-downcase= functions will change all letters in a string to desired capitalization
+#+begin_src lisp
+(string-capitalize "hello world")
+#+end_src
+- The =string-capitalize= function wil capitalize the first letter of each word, the above example produces "Hello World"
 ** Format
 - [[https://en.wikipedia.org/wiki/Format_(Common_Lisp)][Wikipedia: Format (Common Lisp)]]
 - The =format= function takes 3 parameters, destination, control string and variadic values
@@ -466,6 +483,7 @@ and the third")
 - =p= - prints singular or plural suffix
 - =%= - newline unconditionally, similar to =terpi=
 - =&= - newline conditionally, similar to =fresh-line=
+- =v= - iteration quantity, use this when you don't want to put the number in the format string
 *** Examples
 **** Strings
 #+begin_src lisp
@@ -482,6 +500,26 @@ and the third")
 #+begin_src lisp
 (format nil "~{The list has: ~a~%~}" '("abc" "def" "ghi"))
 #+end_src
+**** Create a string of n length with repeated strings
+#+begin_src lisp
+(format t "~v@{~a~:*~}" 20 "*")
+#+end_src
+- The above example prints a string of 20 asterisks to standard output
+- The =~v= tells format to get the quantity from the argument list
+- The =~@{= starts the loop but the =@= means that the remaining arguments will be treated as a list, rather than expecting a list
+- The =~a= prints the most appropriate string for the data element following the quantity, in this case =*=
+- The =~:*= instructs format to go back one element in the argument list
+  - This is needed since we don't have 20 different elements in the argument list
+  - Going back after printing one causes it to continue to print the same string over and over
+- The =~}= closes out the loop block
+#+begin_src lisp
+(format t "~v@{~a~a~2:*~}" 20 "*" "_")
+#+end_src
+- The modified above example will repeat =*_= 20 times
+- The only change is that inside the loop we consume 2 items
+- Because we consume 2 we need to move back 2 and we do that with =~2:*=
+- The =:= tells the =*= directive to move backwards
+- The quantity =2= before that tells it to move back that many items
 ** Lists
 *** push
 - Adds item to the beginning of a list
@@ -1056,6 +1094,12 @@ string add:
 ** Upgrading Quicklisp
 - Use =(ql:update-dist "quicklisp")= to update Quicklisp
 - Run =(ql:update-client)= to update the client
+* Debugging
+- [[https://malisper.me/debugging-lisp-part-1-recompilation/][malisper: Debugging Lisp Part 1: Recompilation]]
+- When using SBCL you need to adjust the optimization flags to enable debugging
+#+begin_src lisp
+(declaim (optimize (debug 3)))
+#+end_src
 * Examples
 ** Split String into List of Words
 - [[http://cl-cookbook.sourceforge.net/strings.html#reverse][cl-cookbook: Reversing a String by Word or Character]]

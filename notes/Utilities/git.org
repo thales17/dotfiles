@@ -1,10 +1,11 @@
 #+title: Git Notes
-<2022-05-01 Sun>
+<2022-06-29 Wed>
 * Resources
 - [[https://rogerdudler.github.io/git-guide/][Roger Rudler: git-guide]]
 - [[https://git-scm.com/book/en/v2][Pro Git book]]
 - [[https://ohshitgit.com/][Oh Shit, Git!?!]]
 - [[https://www.w3schools.com/git/][w3schools: git tutorial]] (Has a cool teach yourself with exercises section)
+- [[https://jwiegley.github.io/git-from-the-bottom-up/][Git from the Bottom Up]]
 
 * Change remote URL
 - =git remote set-url <REMOTE_NAME> <REMOTE_URL>=
