@@ -1,6 +1,6 @@
 #+title: Android Notes
 
-<2022-05-01 Sun>
+<2022-07-18 Mon>
 * Open Settings with =adb=
 ** Using =am=
 #+begin_src sh
@@ -28,3 +28,6 @@ adb shell cat /proc/partitions
 adb root
 adb remount
 #+end_src
+* Stop a Running App
+- [[https://www.sisik.eu/blog/android/adb/killing-current-foreground-app][sisik: Killing Current Foreground App with ADB]]
+- =adb shell am force-stop my.package.appname=
