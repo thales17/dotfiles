@@ -1,5 +1,5 @@
 #+title: Arch Linux Notes
-<2022-05-01 Sun>
+<2022-07-31 Sun>
 * Resources
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
@@ -203,6 +203,7 @@ keycode 58 = Control
 * Populate and refresh pacman keys
 - Sometimes package signatures are out of date
 - To update them run =sudo pacman-key --populate= and =sudo pacman-key --refresh-keys=
+- You might also need to reinstall the key ring, =sudo pacman -S archlinux-keyring=
 * Printing
 - [[https://wiki.archlinux.org/title/CUPS][ArchWiki]]
 - Install =cups=
