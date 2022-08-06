@@ -1,5 +1,5 @@
 #+title: Arch Linux Notes
-<2022-07-31 Sun>
+<2022-08-02 Tue>
 * Resources
 - [[https://wiki.archlinux.org/index.php/Installation_guide][ArchWiki Installation Guide]]
 - [[https://whhone.com/posts/arch-linux-full-disk-encryption/][Wai Hon's Installing Arch Linux with Full Disk Encryption Guide]]
@@ -235,3 +235,31 @@ keycode 58 = Control
 * XFCE4
 - [[https://wiki.archlinux.org/title/Xfce][ArchWiki: XFCE4]]
 - Install =xfce4= and =xfce4-goodies=
+* miniflux
+** Resources
+- https://miniflux.app/
+- [[https://miniflux.app/docs/configuration.html][miniflux docs: Configuration]]
+- [[https://wiki.archlinux.org/title/PostgreSQL][ArchWiki: PostgreSQL]]
+** Install
+*** PostgreSQL
+- miniflux requires PostgreSQL, =sudo pacman -Sy postgresql=
+- Become the =postgres= user =sudo -iu postgres=
+- Initialize the DB as the =postgres= user, =initdb -D /var/lib/postgres/data=
+- Return to the normal user with =exit=
+- Enable and start the PostgreSQL systemd service, =sudo systemctl enable --now postgresql.service=
+- Verify it is running with =systemctl status postgresql=
+- Become the =postgres= user again, =sudo -iu postgres=
+- Create the miniflux user, =createuser -P miniflux=  (you will need to set the password)
+- Create the miniflux2 database owned by the miniflux user, =createdb -O miniflux miniflux2=
+- Enabled the =HSTORE= extension the =miniflux2= db, =psql miniflux2 -c 'create extension hstore'=
+*** miniflux
+- There is a community package in arch for miniflux called =miniflux=
+- Become the =postgres= user, =sudo -iu postgres= and run =psql=
+- Alter the =miniflux= user temporarily to have =SUPERUSER= priviledges to run the migration, =ALTER USER miniflux WITH SUPERUSER;=
+- Type =exit= to leave =psql= then become the normal user with =exit=
+- Run =miniflux -migrate= to prepare the database
+- Become the =postgres= user again and remove the =SUPERUSER= permissions on the =miniflux= user, =ALTER USER miniflux with NOSUPERUSER;=
+- Become the normal user again and create the admin account, =miniflux -create-admin=
+- Enable and start the miniflux systemd service, =sudo systemctl enable --now miniflux.service=
+- You can set the port in =/etc/miniflux.conf=, =PORT=8081= or whatever you want
+- You might want to adjust the polling frequency to be faster than 60 minutes, =POLLING_FREQUENCY=15=

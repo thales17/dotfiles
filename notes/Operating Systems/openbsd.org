@@ -1,5 +1,10 @@
 #+title: OpenBSD Notes
-<2022-05-01 Sun>
+<2022-08-06 Sat>
+* Resources
+- [[https://www.c0ffee.net/blog/openbsd-on-a-laptop/][c0ffee.net: openbsd on a laptop]]
+- [[https://paedubucher.ch/articles/2020-09-05-openbsd-on-the-desktop-part-i.html][paedubucher.ch: OpenBSD on the desktop pt1]]
+- [[https://paedubucher.ch/articles/2020-09-12-openbsd-on-the-desktop-part-ii.html][paedubucher.ch: OpenBSD on the desktop pt2]]
+
 * Setup
 These are setup notes for setting up an OpenBSD workstation
 ** Full Disk Encryption
@@ -167,7 +172,73 @@ These are setup notes for setting up an OpenBSD workstation
   }
 #+end_src
 - Once you are finished editing the =dhcpd.conf= restart the service with =rcctl restart dhcpd=
-* Resources
-- [[https://www.c0ffee.net/blog/openbsd-on-a-laptop/][c0ffee.net: openbsd on a laptop]]
-- [[https://paedubucher.ch/articles/2020-09-05-openbsd-on-the-desktop-part-i.html][paedubucher.ch: OpenBSD on the desktop pt1]]
-- [[https://paedubucher.ch/articles/2020-09-12-openbsd-on-the-desktop-part-ii.html][paedubucher.ch: OpenBSD on the desktop pt2]]
+* Wireguard
+** Resources
+- [[https://lipidity.com/openbsd/wireguard/][lipidity: OpenBSD Router: VPN]]
+- [[https://www.openbsd.org/faq/pf/config.html][openbsd.org: PF - Getting Started]]
+- [[https://git.zx2c4.com/wireguard-tools/about/src/man/wg.8][zx2c4: wg man page]]
+** Hostname
+- Create a wireguard interface on the server, in =/etc/hostname.wg0=
+- The following example uses the 10.0.0.0/24 subnet and manually sets the servers IP to 10.0.0.1.
+- It also uses the =wg= command to setup the config stored in =/etc/wireguard/server.conf=
+#+begin_src conf
+inet 10.0.0.1 255.255.255.0
+!/usr/local/bin/wg setconf wg0 /etc/wireguard/server.conf
+#+end_src
+
+** pf
+- Modify the =/etc/pf.conf= file to skip the wg0 and lg0 interface
+#+begin_src conf
+set skip on { lo0 wg0 }
+#+end_src
+- Open the wireguard port, =51820= for UDP packets
+#+begin_src conf
+pass in quick on egress proto udp to port 51820
+#+end_src
+
+** unbound
+- Update the unbound DNS server config (=/var/unbound/etc/unbound.conf=) to allow the wireguard IP
+#+begin_src conf
+access-control: 10.0.0.1/24 allow
+#+end_src
+
+** Wireguard Setup
+- Install the Wireguard software with =pkg_add wireguard-tools=
+*** Generating Keys
+- Wireguard has the =genkey= and =pubkey= subcommands to generate keys
+- Set the =umask= before generating the key files, =umask 077=
+- =wg genkey > server.key=
+- Use the =pubkey= subcommand to derive the public key from the private, =wg pubkey < server.key > server.pub.key=
+*** Config
+- Create the Wireguard server conf file, =/etc/wireguard/server.conf=
+#+begin_src conf
+[Interface]
+PrivateKey = <<server_private_key>>
+ListenPort = 51820
+
+[Peer]
+PublicKey = <<client_public_key>>
+AllowedIPs = 10.0.0.2/32
+
+[Peer]
+PublicKey = <<client_public_key>>
+AllowedIPs = 10.0.0.3/32
+
+....
+#+end_src
+- This conf file is where the clients are registered with the server
+- You will need to manually specify the IP to associate with a client public key
+
+*** Bring Up the Wireguard Interface
+- =sh /etc/netstart wg0=
+
+*** View Wireguard Status
+- Use the =wg= command without any args to view the configuration
+- Check =ifconfig= to verify the =wg0= interface
+
+** Reboot
+- Reboot the server for all the changes to take effect
+
+** Client Setup
+- Generate keys on client devices and ensure that each are setup as a peer on the server
+- Add the servers public key as a peer on the clients

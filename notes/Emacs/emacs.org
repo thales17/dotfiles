@@ -1,5 +1,5 @@
 #+title: Emacs Notes
-<2022-07-27 Wed>
+<2022-08-03 Wed>
 * Linking to info pages
 - The info function passed with the file or node will load the info section
 #+begin_src elisp
@@ -104,5 +104,5 @@ Use =M-x rgrep= it wil prompt for the thing you are looking for in the files, fo
 * Using Emacs Serial Terminal
 - [[https://www.masteringemacs.org/article/running-shells-in-emacs-overview][Mastering Emacs: Running Shells in Emacs Overview]]
 - Emacs has a serial terminal capable of talking to serial devices on your computer
-- Use the function =serial-process-configure= to set the port and baud rate
 - To start the serial terminal use =M-x serial-term=
+- This will use =term= mode so you will need to use =C-c C-j= to enter line mode and =C-c C-k= to return to char mode
