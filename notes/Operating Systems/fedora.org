@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-08-04 Thu>
+<2022-08-15 Mon>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -103,7 +103,9 @@ sudo dnf install \
 	glibc-doc \
 	p7zip \
 	fzf \
-	lm_sensors
+	lm_sensors \
+	vlc \
+	foliate
 #+end_src
 
 * Wayland
