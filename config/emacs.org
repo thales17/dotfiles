@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-08-18 Thu>
+<2022-09-16 Fri>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -102,6 +102,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'plantuml-mode)
 (straight-use-package 'kotlin-mode)
 (straight-use-package 'ef-themes)
+(straight-use-package 'restclient)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
