@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-09-17 Sat>
+<2022-09-20 Tue>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -74,7 +74,6 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'bongo)
 (straight-use-package 'speed-type)
 (straight-use-package 'paredit)
-(straight-use-package 'elfeed)
 (straight-use-package 'password-store)
 (straight-use-package 'password-store-otp)
 (straight-use-package 'lua-mode)
@@ -104,6 +103,8 @@ This code is from the straight.el README.md in the github repo [[https://github.
 (straight-use-package 'ef-themes)
 (straight-use-package 'restclient)
 (straight-use-package 'which-key)
+(straight-use-package 'dart-mode)
+(straight-use-package 'eglot)
 #+end_src
 * Personal Elisp Files
 ** shelllike filter
@@ -176,48 +177,6 @@ in buffer function.
  "-t")
 #+end_src
 
-** elfeed
-*** Syncing
-Info on how to sync elfeed [[http://pragmaticemacs.com/emacs/read-your-rss-feeds-in-emacs-with-elfeed/][here]].
-#+name: elfeed
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr-elfeed ()
-  "My command to start and update elfeed"
-  (interactive)
-  (elfeed)
-  (elfeed-search-clear-filter)
-  (elfeed-search-update--force)
-  (beginning-of-buffer))
-
-(defun ajr-elfeed-save-db-and-bury ()
-  "Wrapper to save the efleed db to disk before burying buffer"
-  (interactive)
-  (elfeed-db-save)
-  (quit-window))
-#+end_src
-
-*** Make org mode link
-#+begin_src elisp
-(defun ajr-elfeed-copy-org-link ()
-  "Generates an org mode link from an elfeed entry"
-  (interactive)
-  (kill-new "[[")
-  (save-excursion
-    (let ((kill-elfeed-entry-field
-	   (lambda (field-name)
-	     (goto-char (point-min))
-	     (search-forward field-name)
-	     (set-mark-command nil)
-	     (move-end-of-line nil)
-	     (kill-ring-save (mark) (point))
-	     (deactivate-mark))))
-      (append-next-kill)
-      (funcall kill-elfeed-entry-field "Link: ")
-      (kill-append "][" nil)
-      (append-next-kill)
-      (funcall kill-elfeed-entry-field "Title: ")
-      (kill-append "]]" nil))))
-#+end_src
 ** org capture
 #+name: org-capture
 #+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
@@ -500,152 +459,6 @@ Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-promp
   (switch-to-buffer "*scratch*"))
 #+end_src
 
-** Emulation
-*** Variables
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-;; Game Boy
-(defcustom ajr-emu-gameboy-dir
-  (concat (getenv "HOME")
-	  "/games/gb/")
-  "Directory where your Game Boy games are kept. Used the
-`ajr-emu-gameboy-*' functions."
-  :type 'directory)
-
-(defcustom ajr-emu-gameboy-program
-  (list
-   "gambatte")
-  "Program used to play Game Boy games. The program should be the
-first item in the list. Any additional flags for the program should
-get there own list item. The path the game will be added as the
-final argument to the program but this does not need to be in the
-list"
-  :type '(repeat string))
-
-(defcustom ajr-emu-gameboy-regexp
-  ".+\\.\\(gbc\\|gb\\)$"
-  "Only matches files ending in `gbc' or `gb'"
-  :type 'regexp)
-
-;; GBA
-(defcustom ajr-emu-gba-dir
-  (concat (getenv "HOME")
-	  "/games/gba/")
-  "Directory where your Game Boy Advance games are kept. Used the
-`ajr-emu-gba-*' functions."
-  :type 'directory)
-
-(defcustom ajr-emu-gba-program
-  (list
-   "mgba")
-  "Program used to play Game Boy Advance games. The program should be
-the first item in the list. Any additional flags for the program
-should get there own list item. The path the game will be added as the
-final argument to the program but this does not need to be in the list"
-  :type '(repeat string))
-
-(defcustom ajr-emu-gba-regexp
-  ".+\\.\\(gba\\)$"
-  "Only matches files ending in `gba'"
-  :type 'regexp)
-
-;; SNES
-(defcustom ajr-emu-snes-dir
-  (concat (getenv "HOME")
-	  "/games/snes/")
-  "Directory where your SNES games are kept. Used the
-`ajr-emu-snes-*' functions."
-  :type 'directory)
-
-(defcustom ajr-emu-snes-program
-  (list
-   "ares")
-  "Program used to play SNES games. The program should be the
-first item in the list. Any additional flags for the program should
-get there own list item. The path the game will be added as the
-final argument to the program but this does not need to be in the
-list"
-  :type '(repeat string))
-
-(defcustom ajr-emu-snes-regexp
-  ".+\\.\\(sfc\\)$"
-  "Only matches files ending in `sfc'"
-  :type 'regexp)
-#+end_src
-*** Prompting for a Game
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr--ask-emu (dir regexp)
-  (let ((games (directory-files
-		dir
-		nil
-		regexp)))
-    (concat dir
-	    (completing-read "Which Game? "
-			     games))))
-
-#+end_src
-
-*** Running the Emulators
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr--emu-run (buffer-name
-		     emu-program
-		     game)
-  (let ((emu (car emu-program))
-	(args (cdr emu-program))
-	(cmd-str (string-join
-		  (list
-		   (string-join emu-program " ")
-		   game)
-		  " ")))
-    (apply #'ajr-start-process-in-buffer
-	   (append (list
-		    buffer-name
-		    (format "%s %s" emu game)
-		    emu
-		    nil
-		    cmd-str)
-		   args
-		   (list game)))))
-
-#+end_src
-**** Game Boy
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr-emu-gameboy-play ()
-  "Prompts for a game in `ajr-emu-gameboy-dir' with
-`ajr-emu-gameboy-program'."
-  (interactive)
-  (let ((game (ajr--ask-emu
-	       ajr-emu-gameboy-dir
-	       ajr-emu-gameboy-regexp)))
-    (ajr--emu-run "*Game Boy*"
-		  ajr-emu-gameboy-program
-		  game)))
-#+end_src
-**** GBA
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr-emu-gba-play ()
-  "Prompts for a game in `ajr-emu-gba-dir' with
-`ajr-emu-gba-program'."
-  (interactive)
-  (let ((game (ajr--ask-emu
-	       ajr-emu-gba-dir
-	       ajr-emu-gba-regexp)))
-    (ajr--emu-run "*GBA*"
-		  ajr-emu-gba-program
-		  game)))
-#+end_src
-**** SNES
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
-(defun ajr-emu-snes-play ()
-  "Prompts for a game in `ajr-emu-snes-dir' with
-`ajr-emu-snes-program'."
-  (interactive)
-  (let ((game (ajr--ask-emu
-	       ajr-emu-snes-dir
-	       ajr-emu-snes-regexp)))
-    (ajr--emu-run "*SNES*"
-		  ajr-emu-snes-program
-		  game)))
-#+end_src
 ** Add timestamp above first org heading
 - These elisp functions add a timestamp above the first heading
 - I use them for this repo specifically to know when I have last updated something
@@ -696,6 +509,20 @@ The screenshot is opened in the other window."
 (load "~/.emacs.d/ajr")
  #+end_src
 
+* Global Modes
+#+begin_src elisp
+  (yas-global-mode)
+  (yafolding-mode)
+  (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'prog-mode-hook 'company-mode)
+  (add-hook 'prog-mode-hook 'hl-line-mode)
+  (add-hook 'dart-mode-hook 'eglot-ensure)
+  (add-hook 'go-mode-hook 'eglot-ensure)
+  (coterm-mode)
+  (which-key-mode 1)
+
+  (require 'flymake)
+#+end_src
 * Completion
 I use ivy for my completion framework
 #+begin_src elisp
@@ -714,7 +541,6 @@ I use ivy for my completion framework
 
 ** function keys
 #+begin_src elisp
-(global-set-key (kbd "<f5>") 'ajr-elfeed)
 (global-set-key (kbd "<f6>") 'ajr-scratch)
 (global-set-key (kbd "<f7>") 'shell)
 (global-set-key (kbd "<f8>") 'compile)
@@ -750,13 +576,6 @@ I use ivy for my completion framework
 (global-set-key (kbd "C-c v b") 'ajr-video-dired)
 (global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
 #+end_src
-** emulation
-#+begin_src elisp
-(define-key global-map (kbd "C-c e") (make-sparse-keymap))
-(global-set-key (kbd "C-c e a") 'ajr-emu-gba-play)
-(global-set-key (kbd "C-c e g") 'ajr-emu-gameboy-play)
-(global-set-key (kbd "C-c e s") 'ajr-emu-snes-play)
-#+end_src
 ** org capture
 #+begin_src elisp
 (global-set-key (kbd "C-c l") 'org-store-link)
@@ -789,6 +608,14 @@ I use ivy for my completion framework
 #+begin_src elisp
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
+#+end_src
+
+** Flymake
+#+begin_src elisp
+(define-key flymake-mode-map (kbd "C-c f") (make-sparse-keymap))
+(define-key flymake-mode-map (kbd "C-c f n") 'flymake-goto-next-error)
+(define-key flymake-mode-map (kbd "C-c f p") 'flymake-goto-prev-error)
+(define-key flymake-mode-map (kbd "C-c f a") 'flymake-show-project-diagnostics)
 #+end_src
 
 * Paredit
@@ -839,17 +666,6 @@ Customizations and global keys for org mode
 	  (lambda ()
 	    (setq indent-tabs-mode nil)))
 #+end_src
-* Global Modes
-#+begin_src elisp
-(yas-global-mode)
-(yafolding-mode)
-(add-hook 'prog-mode-hook 'linum-mode)
-(add-hook 'prog-mode-hook 'company-mode)
-(add-hook 'prog-mode-hook 'hl-line-mode)
-(coterm-mode)
-(require 'elfeed)
-(which-key-mode 1)
-#+end_src
 * Emacs Server Mode
 - You can enable the emacs server to start at login with =systemctl --user enable emacs=
 - You can connect to the server with =emacsclient -c=
@@ -857,42 +673,6 @@ Customizations and global keys for org mode
 - From the [[https://wiki.archlinux.org/title/Emacs#As_a_systemd_unit][ArchWiki]] when emacs is started from systemd it doesn't source =.bash_profile=
 - Another option is the start it in your =.Xprofile= with =emacs --fg-daemon=
 - This way would inherit the environment variables
-
-* lsp-mode
-- [[https://emacs-lsp.github.io/lsp-mode/page/performance/][lsp-mode performance docs]]
-- In addition to native compilation the =--with-json= flag can result in an almost 15x performance increase
-- This flag requires =libjansson= to be installed
-- Increasing the amount of garbage collection =cons= threshold (=gc-cons-threshold=) to 100Mb =(setq gc-cons-threshold 100000000)=
-- Increase the read brocess buffer from 4k to 1mb =(setq read-process-output-max (* 5 1024 1024)) ;; 5mb=
-** lsp-dart
-#+begin_src elisp :tangle no
-;; Dart Stuff
-(straight-use-package 'dart-mode)
-(straight-use-package 'lsp-mode)
-(straight-use-package 'lsp-dart)
-(straight-use-package 'lsp-treemacs)
-(straight-use-package 'flycheck)
-(straight-use-package 'company)
-(straight-use-package 'lsp-ui)
-(straight-use-package 'hover)
-(straight-use-package 'lsp-ivy)
-
-(add-hook 'dart-mode-hook 'lsp)
-
-(setq lsp-keymap-prefix "C-c n")
-
-(defun ajr-lsp-format-on-save-hook ()
-  (when (bound-and-true-p lsp-mode)
-    (lsp-format-buffer)))
-
-(add-hook 'before-save-hook 'ajr-lsp-format-on-save-hook)
-#+end_src
-
-** Go
-- Install the go language server =gopls=, =go get golang.org/x/tools/gopls@latest=
-#+begin_src elisp
-(add-hook 'go-mode-hook 'lsp-deferred)
-#+end_src
 
 * SLIME
 ** Inferior Lisp Program
@@ -948,23 +728,13 @@ Customizations and global keys for org mode
 (setq org-src-tab-acts-natively t)
 #+end_src
 
-* Elfeed
-** Elfeed Key Map
-#+begin_src elisp
-(with-eval-after-load 'elfeed
-  (define-key elfeed-show-mode-map (kbd "TAB") #'shr-next-link)
-  (define-key elfeed-show-mode-map (kbd "o") #'ajr-elfeed-copy-org-link))
-#+end_src
 * Customizations
 - Customizations should be stored in a separate file =~/.emacs-custom.el=
 - This should be last to ensure that the =~/.emacs-custom.el= can do any local overrides that might be needed
-- Elfeed feeds are defined in =~/.elfeed-feeds.el=
 - This should be loaded last to allow for overrides in the the =.emacs-custom.el=
 #+begin_src elisp
   (setq custom-file "~/.emacs-custom.el")
   (load custom-file)
-
-  (load "~/.elfeed-feeds.el")
 #+end_src
 ** Common Customizations
 - =confirm-kill-emacs= - =y-or-n-p=
