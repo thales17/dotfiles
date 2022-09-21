@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-09-20 Tue>
+<2022-09-21 Wed>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -513,7 +513,7 @@ The screenshot is opened in the other window."
 #+begin_src elisp
   (yas-global-mode)
   (yafolding-mode)
-  (add-hook 'prog-mode-hook 'linum-mode)
+  (add-hook 'prog-mode-hook 'display-line-numbers-mode)
   (add-hook 'prog-mode-hook 'company-mode)
   (add-hook 'prog-mode-hook 'hl-line-mode)
   (add-hook 'dart-mode-hook 'eglot-ensure)
