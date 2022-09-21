@@ -648,7 +648,12 @@ Customizations and global keys for org mode
 #+end_src
 * Before Save Hook
 #+begin_src elisp
+(defun ajr-eglot-format-before-save ()
+  (when (eglot-managed-p)
+    (eglot-format-buffer)))
+
 (add-hook 'before-save-hook 'whitespace-cleanup)
+(add-hook 'before-save-hook 'ajr-eglot-format-before-save)
 #+end_src
 * Bongo
 #+begin_src elisp
