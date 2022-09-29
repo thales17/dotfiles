@@ -1,5 +1,5 @@
 #+title: CD Ripping Config
-<2022-05-28 Sat>
+<2022-09-24 Sat>
 * abcde
 #+begin_src conf :tangle ~/.abcde.conf
   LOWDISK=y
@@ -39,7 +39,7 @@
 #+end_src
 * beets
 #+begin_src conf :tangle ~/.config/beets/config.yaml :mkdirp yes
-  directory: ~/Music/
+  directory: ~/music/
   library: ~/.config/beets/data/library.db
   import:
     move: yes

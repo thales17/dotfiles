@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-09-21 Wed>
+<2022-09-29 Thu>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -649,10 +649,10 @@ Customizations and global keys for org mode
 * Before Save Hook
 #+begin_src elisp
 (defun ajr-eglot-format-before-save ()
+  (whitespace-cleanup)
   (when (eglot-managed-p)
     (eglot-format-buffer)))
 
-(add-hook 'before-save-hook 'whitespace-cleanup)
 (add-hook 'before-save-hook 'ajr-eglot-format-before-save)
 #+end_src
 * Bongo
