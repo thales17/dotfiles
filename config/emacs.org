@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-10-04 Tue>
+<2022-10-13 Thu>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -620,8 +620,9 @@ I use ivy for my completion framework
 
 ** Eglot
 #+begin_src elisp
-(define-key eglot-mode-map (kbd "C-c e") (make-sparse-keymap))
-(define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
+  (require 'eglot)
+  (define-key eglot-mode-map (kbd "C-c e") (make-sparse-keymap))
+  (define-key eglot-mode-map (kbd "C-c e a") 'eglot-code-actions)
 #+end_src
 
 * Paredit
