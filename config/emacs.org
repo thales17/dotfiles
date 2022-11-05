@@ -2,7 +2,7 @@
 :header-args: :tangle ~/.emacs :results none
 :end:
 #+title: Emacs Config
-<2022-10-21 Fri>
+<2022-11-04 Fri>
 * Early Init
 Disable package.el since I use straight.el
 #+begin_src elisp :tangle ~/.config/emacs/early-init.el :mkdirp yes
@@ -109,7 +109,7 @@ This code is from the straight.el README.md in the github repo [[https://github.
 ** shelllike filter
 This is a process filter that handles carriage returns and newlines. From this, [[https://stackoverflow.com/questions/19407278/emacs-overwrite-with-carriage-return][using process filter for carriage returns]], stack overflow.
 #+name: shelllike-filter
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-shelllike-filter (proc string)
   (let* ((buffer (process-buffer proc))
 	 (window (get-buffer-window buffer)))
@@ -132,7 +132,7 @@ This is a process filter that handles carriage returns and newlines. From this, 
 #+end_src
 
 ** Start Process in Buffer
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-start-process-in-buffer (buffer-name
 				    program-name
 				    program
@@ -178,7 +178,7 @@ in buffer function.
 
 ** org capture
 #+name: org-capture
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-org-basic-capture (key name filename)
   "Generates a basic capture template. It will
   prompt you for the title of the heading and place
@@ -193,7 +193,7 @@ in buffer function.
 
 ** web search
 #+name: web-search
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-search-web (term)
   "Prompts the user for a search TERM. Searches
   duckduckgo with eww for the term. Inspired by
@@ -205,7 +205,7 @@ in buffer function.
 
 ** mail
 #+name: mail
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defcustom ajr-sync-mail-program
   "syncmail"
   "Program that syncs mail and updates notmuch")
@@ -223,7 +223,7 @@ in buffer function.
 
 ** music
 #+name: music
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defcustom ajr-music-dir
   (concat (getenv "HOME")
 	  "/music")
@@ -293,7 +293,7 @@ in buffer function.
 #+end_src
 ** podcasts
 *** Variables
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defcustom ajr-podcast-dir
   (concat (getenv "HOME")
 	  "/podcasts")
@@ -301,7 +301,7 @@ in buffer function.
   Used the `ajr-podcast-*' functions.")
 #+end_src
 *** Podcast dired
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-podcast-dired ()
   "Opens dired buffer to `ajr-podcast-dir' in other window"
   (interactive)
@@ -310,7 +310,7 @@ in buffer function.
 
 ** video
 *** Variables
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defcustom ajr-video-dir
   (concat (getenv "HOME")
 	  "/videos")
@@ -331,7 +331,7 @@ in buffer function.
 
 #+end_src
 *** Prompt user for video
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr--ask-video (is-by-date video-dir)
   (let ((videos (directory-files
 		 video-dir
@@ -354,7 +354,7 @@ in buffer function.
 #+end_src
 
 *** Video playback
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-video-play (arg &optional video-dir)
   "Prompts the user for a video from `ajr-video-dir'. If you pass a
 `video-dir' in it will use that instead of `ajr-video-dir'. Uses the
@@ -384,7 +384,7 @@ date (newest first)."
 #+end_src
 
 *** Video dired
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-video-dired ()
   "Opens dired buffer to `ajr-video-dir' in other window"
   (interactive)
@@ -392,7 +392,7 @@ date (newest first)."
 #+end_src
 
 *** Video download
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (require 'url-util)
 (defun ajr-video-youtube-dl-at-point ()
   (interactive)
@@ -410,7 +410,7 @@ date (newest first)."
 
 ** mini scroll
 Based on [[https://emacsnyc.org/2021/12/06/may-2021-lightning-talks.html][2021 Emacs lightning talk, "Transient Key Maps" - Zachary Kanfer]]
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defvar ajr-mini-scroll-amount 5
   "Scroll lines used by ajr-mini-scroll.")
 
@@ -439,7 +439,7 @@ Based on [[https://emacsnyc.org/2021/12/06/may-2021-lightning-talks.html][2021 E
 
 ** Prompt before closing frame in daemon mode
 Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-prompt-me-before-closing-the-last-emacs-gui-frame-when-running
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-ask-before-closing ()
   "Close frame only if y was pressed"
   (interactive)
@@ -451,7 +451,7 @@ Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-promp
 
 ** Switch to Scratch
 - Function that allows me to bind switching to the scratch buffer to a key
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-scratch ()
   "Switch to the scratch buffer"
   (interactive)
@@ -461,7 +461,7 @@ Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-promp
 ** Add timestamp above first org heading
 - These elisp functions add a timestamp above the first heading
 - I use them for this repo specifically to know when I have last updated something
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-org-goto-first-heading()
   (goto-char (point-min))
   (unless (org-at-heading-p)
@@ -485,7 +485,7 @@ Based on https://emacs.stackexchange.com/questions/30454/how-to-make-emacs-promp
 #+end_src
 
 ** View Android Screenshot
-#+begin_src elisp :tangle ~/.emacs.d/ajr.el :mkdirp yes
+#+begin_src elisp :tangle ~/.emacs.d/ajr-1.el :mkdirp yes
 (defun ajr-android-screenshot ()
   "Uses adb to capture a screencap of the connected device.
 The screenshot is opened in the other window."
@@ -502,10 +502,10 @@ The screenshot is opened in the other window."
     (find-file-other-window fname)))
 #+end_src
 
-** ajr.el
+** ajr-1.el
  Load the personal elisp files in init file
  #+begin_src elisp
-(load "~/.emacs.d/ajr")
+(load "~/.emacs.d/ajr-1")
  #+end_src
 
 * Global Modes
@@ -567,13 +567,6 @@ I use ivy for my completion framework
 (global-set-key (kbd "C-c m <right>") 'bongo-next)
 (global-set-key (kbd "C-c m <left>") 'bongo-previous)
 (global-set-key (kbd "C-c m c") 'ajr-podcast-dired)
-#+end_src
-** videos
-#+begin_src elisp
-(define-key global-map (kbd "C-c v") (make-sparse-keymap))
-(global-set-key (kbd "C-c v p") 'ajr-video-play)
-(global-set-key (kbd "C-c v b") 'ajr-video-dired)
-(global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
 #+end_src
 ** org capture
 #+begin_src elisp
