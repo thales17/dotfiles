@@ -1,17 +1,12 @@
 #+title: Bash Config
-<2022-05-01 Sun>
+<2022-11-09 Wed>
 * Environment Variables
 #+name: env
 #+begin_src sh
-export GOPATH=$HOME/go
-
 export PATH=$PATH:$HOME/.local/bin
 export PATH=$PATH:$GOPATH/bin
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
-
-export GOROOT=/usr/local/go
-export PATH=$PATH:$GOROOT/bin
 
 source $HOME/.bash_env
 #+end_src
