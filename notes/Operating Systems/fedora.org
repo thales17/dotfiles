@@ -1,5 +1,5 @@
 #+title: Fedora Notes
-<2022-10-16 Sun>
+<2022-11-18 Fri>
 * Package Management
 - [[https://docs.fedoraproject.org/en-US/fedora/latest/system-administrators-guide/package-management/DNF/][Fedora Docs: Package Management]]
 - *DNF* stands for Dandified YUM
@@ -167,3 +167,41 @@ MESA-INTEL: warning: Performance support disabled, consider sysctl dev.i915.perf
 #+begin_src sh
 gsettings set org.gnome.mutter.keybindings switch-monitor '[]'
 #+end_src
+* Docker
+** Resources
+- [[https://docs.docker.com/desktop/install/fedora/][Docker Docs: Install Fedora]]
+- [[https://docs.docker.com/desktop/install/fedora/#install-docker-desktop][Docker Docs: Install Fedora Docker Desktop]]
+** Setup
+*** RPM Repository
+- Install =dnf-plugins-core=, =sudo dnf install dnf-plugins-core=
+- Add repository, =sudo dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo=
+*** Docker Desktop
+- Docker desktop is free to use for personal non-commercial use
+- Download the latest docker desktop rpm from [[https://desktop.docker.com/linux/main/amd64/docker-desktop-4.14.1-x86_64.rpm][here]]
+- Install the rpm =sudo dnf install ./docker-desktop-VERSION-ARCH.rpm=
+* Jellyfin
+** Resoureces
+- [[https://jellyfin.org/docs/][Jellyfin docs]]
+** Setup
+*** Docker Image
+- Install docker
+- Pull the image with =docker pull jellyfin/jellyfin=
+*** Docker Compose Yaml
+- Create config and cache dirs, =mkdir ~/jellyfin-{config,cache}=
+#+begin_src yaml
+version: '3.5'
+services:
+  jellyfin:
+    image: jellyfin/jellyfin
+    container_name: jellyfin
+    network_mode: "bridge"
+    volumes:
+      - ~/jellyfin-config:/config
+      - ~/jellyfin-cache:/cache
+      - ~/Music:/music
+    restart: 'unless-stopped'
+    ports:
+      - "8096:8096"
+#+end_src
+- Start the container with =docker compose up=
+- Access the server at =127.0.0.1:8096=
