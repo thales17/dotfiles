@@ -1,8 +1,0 @@
-#+title: Ubuntu Notes
-<2022-05-01 Sun>
-* Ubuntu System Setup
-** Packages
-#+begin_src sh
-  sudo apt install \
-       redshift
-#+end_src
