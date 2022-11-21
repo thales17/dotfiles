@@ -1,0 +1,15 @@
+#!/bin/sh
+
+set -e
+
+USB_PATH="/run/media/adam/CRV Audio/"
+PROBABLE_DRIVE=/dev/sdb1
+MP3_MUSIC_PATH=~/mp3_music/
+
+mp3_music
+
+echo "Syncing Music"
+rsync -a --progress -W "$MP3_MUSIC_PATH" "$USB_PATH"
+
+sudo umount /dev/sdb1
+sudo fatsort -f /dev/sdb1

@@ -1,0 +1,26 @@
+#!/bin/bash
+
+set -e
+
+FLAC_MUSIC_DIR=~/music
+MP3_MUSIC_DIR=~/mp3_music
+
+find $FLAC_MUSIC_DIR -name "*.flac" | while read flac_file_path; do
+    mp3_file_path=${flac_file_path%.flac}.mp3
+    mp3_file_path="$MP3_MUSIC_DIR/${mp3_file_path#$FLAC_MUSIC_DIR}"
+
+    if [ -f "$flac_file_path" ]; then
+
+	if [ -f "$mp3_file_path" ]; then
+	    echo "$mp3_file_path found skipping"
+	else
+	    echo "Converting $flac_file_path to $mp3_file_path"
+	    mp3_dir=`dirname "$mp3_file_path"`
+	    mkdir -pv "$mp3_dir"
+
+	    ffmpeg -nostdin -v quiet -i "$flac_file_path" -ab 320k "$mp3_file_path"
+	fi
+
+    fi
+
+done

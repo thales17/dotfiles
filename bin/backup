@@ -1,0 +1,11 @@
+#!/bin/bash
+
+TIME=$(date); echo "backup starting at $TIME"
+
+echo "Pushing password store"
+cd $HOME/.password-store/ && git pull && git push
+
+echo "rsyncing home folder"
+rsync --recursive --exclude-from $HOME/.backup_exclude $HOME $BACKUP_SERVER:$BACKUP_SERVER_PATH/$HOSTNAME/
+
+TIME=$(date); echo "backup done at $TIME"

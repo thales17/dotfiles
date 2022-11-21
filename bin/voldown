@@ -1,0 +1,8 @@
+#!/bin/bash
+
+pamixer -d 5
+
+VOL=`pamixer --get-volume`
+BAR=$(seq --separator="─" 0 "$((VOL / 5))" | sed 's/[0-9]//g')
+
+dunstify -i "audio-volume-high" -r 2593 -u normal "$BAR"" $VOL%"

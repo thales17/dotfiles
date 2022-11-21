@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# This file is an example and should be renamed to .bash_env
+# Fill in values for each of the variables
+
+# server used by the backup script
+export BACKUP_SERVER=
+
+# location on the server where the backups should go
+export BACKUP_SERVER_PATH=
+
+# latitude and longitude used for redshift
+# use geonames.org to find a given locations latitude and longitude
+# example, using Louisville, KY lat/lon: `export RED_SHIFT_LAT_LONG=38.25424:-85.75941`
+export RED_SHIFT_LAT_LONG=

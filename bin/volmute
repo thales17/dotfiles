@@ -1,0 +1,13 @@
+#!/bin/bash
+
+pamixer -t
+
+if [ `pamixer --get-mute` == "true" ];
+then
+    dunstify -i "audio-volume-muted" -r 2593 -u normal " Mute"
+else
+    VOL=`pamixer --get-volume`
+    BAR=$(seq --separator="─" 0 "$((VOL / 5))" | sed 's/[0-9]//g')
+
+    dunstify -i "audio-volume-high" -r 2593 -u normal "$BAR"" $VOL%"
+fi

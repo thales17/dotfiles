@@ -1,0 +1,10 @@
+#!/bin/sh
+TIME=$(date); echo "syncmail starting at $TIME"
+
+# Sync all mailboxes
+mbsync -a -q
+
+# Reindex mail with notmuch
+notmuch new
+
+TIME=$(date); echo "syncmail ending at $TIME"

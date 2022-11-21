@@ -1,0 +1,10 @@
+#!/bin/bash
+
+xbacklight -dec 5
+
+LIGHT=`xbacklight`
+LIGHT=`printf "%.0f" $LIGHT`
+
+BAR=$(seq --separator="─" 0 "$((LIGHT / 5))" | sed 's/[0-9]//g')
+
+dunstify -i "system" -r 2593 -u normal "$BAR"" $LIGHT%"
