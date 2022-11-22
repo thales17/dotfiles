@@ -82,8 +82,7 @@
 (add-hook 'prog-mode-hook 'display-line-numbers-mode)
 (add-hook 'prog-mode-hook 'company-mode)
 (add-hook 'prog-mode-hook 'hl-line-mode)
-(add-hook 'dart-mode-hook 'eglot-ensure)
-(add-hook 'go-mode-hook 'eglot-ensure)
+
 (coterm-mode)
 (which-key-mode 1)
 
