@@ -52,6 +52,7 @@ clean-abcde:
 beets:
 	@echo "beets"
 	@echo "##############################"
+	@mkdir -pv ${HOME}/.config/beets/data
 	@stow -t ${HOME} -R beets
 
 clean-beets:

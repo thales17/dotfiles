@@ -1,5 +1,5 @@
-directory: ~/music/
+directory: ~/Music/
 library: ~/.config/beets/data/library.db
 import:
   move: yes
-plugins: fetchart ftintitle smartplaylist random
+plugins: ftintitle smartplaylist random
