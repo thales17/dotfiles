@@ -136,16 +136,11 @@ will be pass as PROGRAM-ARGS to the PROGRAM."
 		     "/"
 		     (cdr album))))
 
-(defun ajr-bongo-play-album ()
+(defun ajr-play-album ()
   "Prompts the user for an album and starts playing it"
   (interactive)
   (let ((album (ajr--ask-album)))
-    (with-bongo-playlist-buffer
-      (bongo-stop)
-      (bongo-erase-buffer)
-      (bongo-insert-directory-tree (ajr--album-path album))
-      (goto-char (point-min))
-      (bongo-play))))
+    (emms-play-directory (ajr--album-path album))))
 
 (defcustom ajr-podcast-dir
   (concat (getenv "HOME")

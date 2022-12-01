@@ -11,9 +11,6 @@
 	  (lambda ()
 	    (dired-hide-details-mode)))
 
-(let ((map dired-mode-map))
-  (define-key map (kbd "C-b") #'bongo-dired-append-enqueue-lines))
-
 (setq x-alt-keysym 'meta)
 
 (add-hook 'text-mode-hook 'turn-on-visual-line-mode)
@@ -40,7 +37,7 @@
 (straight-use-package 'markdown-mode)
 (straight-use-package 'geiser)
 (straight-use-package 'geiser-guile)
-(straight-use-package 'bongo)
+(straight-use-package 'emms)
 (straight-use-package 'speed-type)
 (straight-use-package 'paredit)
 (straight-use-package 'password-store)
@@ -90,6 +87,13 @@
 
 (ivy-mode)
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; EMMS
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+(require 'emms-setup)
+(emms-all)
+(emms-default-players)
+
 (global-set-key (kbd "C-M-s") 'swiper)
 (global-set-key (kbd "C-M-j") 'avy-goto-char)
 (global-set-key (kbd "C-c r") 'ivy-resume)
@@ -111,12 +115,11 @@
 (global-set-key (kbd "C-c p o") 'password-store-otp-token-copy)
 
 (define-key global-map (kbd "C-c m") (make-sparse-keymap))
-(global-set-key (kbd "C-c m b") 'bongo-playlist)
-(global-set-key (kbd "C-c m a") 'ajr-bongo-play-album)
-(global-set-key (kbd "C-c m p") 'bongo-pause/resume)
-(global-set-key (kbd "C-c m <right>") 'bongo-next)
-(global-set-key (kbd "C-c m <left>") 'bongo-previous)
-(global-set-key (kbd "C-c m c") 'ajr-podcast-dired)
+(global-set-key (kbd "C-c m b") 'emms-playlist-mode-go)
+(global-set-key (kbd "C-c m a") 'ajr-play-album)
+(global-set-key (kbd "C-c m p") 'emms-pause)
+(global-set-key (kbd "C-c m <right>") 'emms-next)
+(global-set-key (kbd "C-c m <left>") 'emms-previous)
 
 (global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
@@ -173,7 +176,6 @@
 
 (add-hook 'before-save-hook 'ajr-eglot-format-before-save)
 
-(require 'bongo)
 
 (add-hook 'artist-mode-hook
 	  (lambda ()
