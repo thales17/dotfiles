@@ -17,7 +17,8 @@
 
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+	     '("melpa" . "https://melpa.org/packages/") t)
+(package-initialize)
 
 (require 'use-package)
 
@@ -100,9 +101,6 @@
   :init (setq graphviz-dot-indent-width 4))
 
 (use-package gnuplot
-  :ensure)
-
-(use-package auctex
   :ensure)
 
 (use-package password-store
