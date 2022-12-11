@@ -17,7 +17,8 @@
   :custom
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
-  (dired-recursive-deletes 'top))
+  (dired-recursive-deletes 'top)
+  (dired-listing-switches "-alFh"))
 
 (use-package simple
   :hook (text-mode . turn-on-visual-line-mode))
@@ -28,6 +29,9 @@
 (use-package yasnippet
   :ensure t
   :config (yas-global-mode))
+
+(use-package yasnippet-snippets
+  :ensure t)
 
 (use-package which-key
   :ensure t
@@ -55,7 +59,9 @@
 	 ("C-c m a" . ajr-play-album)
 	 ("C-c m p" . emms-pause)
 	 ("C-c m <right>" . emms-next)
-	 ("C-c m <left>" . emms-previous)))
+	 ("C-c m <left>" . emms-previous))
+  :custom
+  (emms-player-list '(emms-player-vlc emms-player-vlc-playlist)))
 
 (use-package company
   :ensure t
@@ -113,7 +119,6 @@
 	 ("C-c n u" . ajr-sync-mail)))
 
 (use-package eglot
-  :init
   :bind (("C-c e a" . eglot-code-actions)
 	 ("C-c f n" . flymake-goto-next-error)
 	 ("C-c f p" . flymake-goto-prev-error)
@@ -137,16 +142,55 @@
 	     :prepend t))))
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
-	 ("C-c c" . org-capture)))
+	 ("C-c c" . org-capture))
+  :custom
+  (org-hide-emphasis-markers nil)
+  (org-src-preserve-indentation t)
+  (org-src-tab-acts-natively t)
+  (org-startup-folded 'content)
+  (org-todo-keyword-faces '(("IN PROGRESS" . "cyan")))
+  (org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
+  (org-ditaa-jar-path "~/.local/lib/ditaa0_9.jar")
+  (org-directory "~/org")
+  (org-agenda-files '("~/org"))
+  (org-babel-load-languages
+   '((latex . t)
+     (shell . t)
+     (ditaa . t)
+     (C . t)
+     (dot . t)
+     (lisp . t)
+     (emacs-lisp . t)
+     (plantuml . t))))
+
+(use-package project
+  :custom
+  (project-switch-commands
+   '((project-find-file "Find file" nil)
+     (project-find-regexp "Find regexp" nil)
+     (project-find-dir "Find directory" nil)
+     (project-shell "Shell" nil)
+     (project-compile "Compile" nil)
+     (magit-project-status "Magit" 109))))
 
 (use-package display-line-numbers
   :hook (prog-mode . display-line-numbers-mode))
 
 (use-package hideshow
-  :hook (prog-mode . hs-minor-mode))
+  :hook (prog-mode . hs-minor-mode)
+  :bind (("C-<return>" . hs-toggle-hiding)))
 
 (use-package hl-line
   :hook (prog-mode . hl-line-mode))
+
+(defun ajr-disable-tabs ()
+  (setq indent-tabs-mode nil))
+
+(use-package artist
+  :hook (artist-mode . ajr-disable-tabs))
+
+(use-package js
+ :hook (js-mode . ajr-disable-tabs))
 
 (defun ajr-before-save ()
   (whitespace-cleanup)
@@ -161,10 +205,7 @@
 (global-set-key (kbd "<f7>") 'shell)
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
-
 (global-set-key (kbd "M-o") 'other-window)
-
-(global-set-key (kbd "C-<return>") 'hs-toggle-hiding)
 
 (when (daemonp)
   (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))
@@ -175,14 +216,6 @@
 
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
-
-(add-hook 'artist-mode-hook
-	  (lambda ()
-	    (setq indent-tabs-mode nil)))
-
-(add-hook 'js-mode-hook
-	  (lambda ()
-	    (setq indent-tabs-mode nil)))
 
 (setq custom-file "~/.emacs-custom.el")
 (load custom-file)
