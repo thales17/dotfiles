@@ -3,16 +3,7 @@
 	 (getenv "HOME")
 	 "/.local/lib"))
 
-(require 'dired)
-(setq dired-dwim-target t)
-(setq dired-recursive-copies (quote always))
-(setq dired-recursive-deletes (quote top))
-(add-hook 'dired-mode-hook
-	  (lambda ()
-	    (dired-hide-details-mode)))
-
 (setq x-alt-keysym 'meta)
-(add-hook 'text-mode-hook 'turn-on-visual-line-mode)
 
 (require 'package)
 (add-to-list 'package-archives
@@ -20,6 +11,16 @@
 (package-initialize)
 
 (require 'use-package)
+
+(use-package dired
+  :hook (dired-mode . dired-hide-details-mode)
+  :custom
+  (dired-dwim-target t)
+  (dired-recursive-copies 'always)
+  (dired-recursive-deletes 'top))
+
+(use-package simple
+  :hook (text-mode . turn-on-visual-line-mode))
 
 (use-package magit
   :ensure t)
@@ -41,7 +42,7 @@
 (use-package counsel
   :ensure t
   :bind (("M-x" . counsel-M-x)
-	 ("C-x C-f" . 'counsel-find-file)
+	 ("C-x C-f" . counsel-find-file)
 	 ("C-x b" . 'counsel-switch-buffer)))
 
 (use-package emms
@@ -58,16 +59,14 @@
 
 (use-package company
   :ensure t
-  :commands company-mode
-  :init
-  (add-hook 'prog-mode-hook #'company-mode))
+  :hook prog-mode)
 
 (use-package paredit
   :ensure t
-  :hook ((emacs-lisp-mode . paredit-mode)
-	 (scheme-mode . paredit-mode)
-	 (lisp-mode . paredit-mode)
-	 (lisp-interaction-mode . paredit-mode)))
+  :hook (emacs-lisp-mode
+	 scheme-mode
+	 lisp-mode
+	 lisp-interaction-mode))
 
 (use-package markdown-mode
   :ensure t)
