@@ -129,6 +129,7 @@
 
 (use-package slime
   :ensure t
+  :demand t
   :bind (("C-x l" . slime-repl)))
 
 (use-package org
