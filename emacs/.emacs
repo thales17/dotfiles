@@ -115,7 +115,10 @@
 
 (use-package eglot
   :init
-  :bind (("C-c e a" . eglot-code-actions)))
+  :bind (("C-c e a" . eglot-code-actions)
+	 ("C-c f n" . flymake-goto-next-error)
+	 ("C-c f p" . flymake-goto-prev-error)
+	 ("C-c f a" . flymake-show-project-diagnostics)))
 
 (use-package ef-themes
   :ensure t)
@@ -123,11 +126,6 @@
 (use-package slime
   :ensure t
   :bind (("C-x l" . slime-repl)))
-
-(use-package flymake
-  :bind (("C-c f n" . flymake-goto-next-error)
-	 ("C-c f p" . flymake-goto-prev-error)
-	 ("C-c f a" . flymake-show-project-diagnostics)))
 
 (use-package org
   :init
@@ -142,19 +140,21 @@
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture)))
 
+(use-package display-line-numbers
+  :hook (prog-mode . display-line-numbers-mode))
+
+(use-package hideshow
+  :hook (prog-mode . hs-minor-mode))
+
+(use-package hl-line
+  :hook (prog-mode . hl-line-mode))
+
 (defun ajr-before-save ()
   (whitespace-cleanup)
   (when (eglot-managed-p)
     (eglot-format-buffer)))
 
 (add-hook 'before-save-hook 'ajr-before-save)
-
-(defun ajr-prog-hook ()
-  (display-line-numbers-mode)
-  (hs-minor-mode)
-  (hl-line-mode))
-
-(add-hook 'prog-mode-hook 'ajr-prog-hook)
 
 (load "~/.emacs.d/ajr-1")
 
