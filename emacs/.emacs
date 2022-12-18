@@ -132,15 +132,14 @@
   :demand t
   :bind (("C-x l" . slime-repl)))
 
-(use-package org
-  :init
-  (progn
-    (setq org-capture-templates
+(setq org-capture-templates
 	  '(("t" "TODO")
 	    ("ti" "Misc TODO" entry
 	     (file+headline "todos.org" "Misc")
 	     "* TODO %?\n"
-	     :prepend t))))
+	     :prepend t)))
+
+(use-package org
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
 	 ("C-c c" . org-capture))
