@@ -192,7 +192,8 @@
 (use-package js
  :hook (js-mode . ajr-disable-tabs))
 
-(use-package gruvbox-theme)
+(use-package gruvbox-theme
+  :ensure t)
 
 (defun ajr-before-save ()
   (whitespace-cleanup)
