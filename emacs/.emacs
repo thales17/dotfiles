@@ -192,6 +192,8 @@
 (use-package js
  :hook (js-mode . ajr-disable-tabs))
 
+(use-package gruvbox-theme)
+
 (defun ajr-before-save ()
   (whitespace-cleanup)
   (when (eglot-managed-p)
