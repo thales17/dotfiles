@@ -207,6 +207,7 @@
 
 (load "~/.emacs.d/ajr-1")
 
+(global-set-key (kbd "<f5>") 'redraw-display)
 (global-set-key (kbd "<f6>") 'ajr-scratch)
 (global-set-key (kbd "<f7>") 'shell)
 (global-set-key (kbd "<f8>") 'compile)
