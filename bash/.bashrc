@@ -18,3 +18,5 @@ export DOTNET_CLI_TELEMETRY_OPTOUT=1
 source $HOME/.bash_env
 
 export EDITOR=mg
+
+alias e='emacs -nw'

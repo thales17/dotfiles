@@ -1,4 +1,4 @@
-all: git tmux nethack abcde beets bash dunst bin emacs xmodmap
+all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty
 
 clean: clean-git
 clean: clean-tmux
@@ -10,6 +10,7 @@ clean: clean-dunst
 clean: clean-bin
 clean: clean-emacs
 clean: clean-xmodmap
+clean: clean-alacritty
 
 .PHONY: git
 git:
@@ -122,3 +123,12 @@ xmodmap:
 
 clean-xmodmap:
 	@rm -fv ${HOME}/.Xmodmap
+
+clean-alacritty:
+	@rm -rfv ${HOME}/.config/alacritty
+
+.PHONY: alacritty
+alacritty:
+	@echo "alacritty"
+	@echo "##############################"
+	@stow -t ${HOME} alacritty
