@@ -1,4 +1,4 @@
-all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty
+all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty gnupg
 
 clean: clean-git
 clean: clean-tmux
@@ -11,6 +11,7 @@ clean: clean-bin
 clean: clean-emacs
 clean: clean-xmodmap
 clean: clean-alacritty
+clean: clean-gnupg
 
 .PHONY: git
 git:
@@ -132,3 +133,12 @@ alacritty:
 	@echo "alacritty"
 	@echo "##############################"
 	@stow -t ${HOME} alacritty
+
+clean-gnupg:
+	@rm -rfv ${HOME}/.gnupg/gpg-agent.conf
+
+.PHONY: gnupg
+gnupg:
+	@echo "gnupg"
+	@echo "##############################"
+	@stow -t ${HOME} gnupg

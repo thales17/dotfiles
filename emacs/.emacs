@@ -202,6 +202,9 @@
 
 (add-hook 'before-save-hook 'ajr-before-save)
 
+(require 'epg)
+(setq epg-pinentry-mode 'loopback)
+
 (load "~/.emacs.d/ajr-1")
 
 (global-set-key (kbd "<f6>") 'ajr-scratch)
