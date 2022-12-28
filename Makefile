@@ -1,4 +1,4 @@
-all: git tmux nethack abcde beets bash dunst bin emacs
+all: git tmux nethack abcde beets bash dunst bin emacs xmodmap
 
 clean: clean-git
 clean: clean-tmux
@@ -9,6 +9,7 @@ clean: clean-bash
 clean: clean-dunst
 clean: clean-bin
 clean: clean-emacs
+clean: clean-xmodmap
 
 .PHONY: git
 git:
@@ -112,3 +113,12 @@ clean-emacs:
 	@rm -fv ${HOME}/.emacs
 	@rm -Rfv ${HOME}/.emacs.d/ajr.el
 	@rm -fv ${HOME}/.emacs.d/ajr-1.el
+
+.PHONY: xmodmap
+xmodmap:
+	@echo "xmodmap"
+	@echo "##############################"
+	@stow -t ${HOME} xmodmap
+
+clean-xmodmap:
+	@rm -fv ${HOME}/.Xmodmap
