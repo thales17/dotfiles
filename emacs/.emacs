@@ -119,6 +119,8 @@
 	 ("C-c n u" . ajr-sync-mail)))
 
 (use-package eglot
+  :init
+  (unbind-key (kbd "C-c f"))
   :bind (("C-c e a" . eglot-code-actions)
 	 ("C-c f n" . flymake-goto-next-error)
 	 ("C-c f p" . flymake-goto-prev-error)
@@ -218,8 +220,6 @@
   (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))
 
 (global-set-key (kbd "C-x C-b") 'ibuffer)
-(global-set-key (kbd "C-x w") 'webjump)
-(global-set-key (kbd "C-c f") 'find-file-at-point)
 
 (global-unset-key (kbd "C-z"))
 (global-unset-key (kbd "C-x C-z"))
