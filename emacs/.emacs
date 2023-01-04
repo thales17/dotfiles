@@ -59,9 +59,7 @@
 	 ("C-c m a" . ajr-play-album)
 	 ("C-c m p" . emms-pause)
 	 ("C-c m <right>" . emms-next)
-	 ("C-c m <left>" . emms-previous))
-  :custom
-  (emms-player-list '(emms-player-vlc emms-player-vlc-playlist)))
+	 ("C-c m <left>" . emms-previous)))
 
 (use-package company
   :ensure t
