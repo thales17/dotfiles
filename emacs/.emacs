@@ -59,7 +59,9 @@
 	 ("C-c m a" . ajr-play-album)
 	 ("C-c m p" . emms-pause)
 	 ("C-c m <right>" . emms-next)
-	 ("C-c m <left>" . emms-previous)))
+	 ("C-c m <left>" . emms-previous)
+	 ("C-c m i" . emms-show-all)
+	 ("C-c m r" . ajr-play-random-album)))
 
 (use-package company
   :ensure t
@@ -205,7 +207,7 @@
 (require 'epg)
 (setq epg-pinentry-mode 'loopback)
 
-(load "~/.emacs.d/ajr-1")
+(load "~/.emacs.d/ajr")
 
 (global-set-key (kbd "<f5>") 'redraw-display)
 (global-set-key (kbd "<f6>") 'ajr-scratch)
