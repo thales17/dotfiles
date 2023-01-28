@@ -1,4 +1,4 @@
-all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty gnupg
+all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty gnupg sway
 
 clean: clean-git
 clean: clean-tmux
@@ -12,6 +12,7 @@ clean: clean-emacs
 clean: clean-xmodmap
 clean: clean-alacritty
 clean: clean-gnupg
+clean: clean-sway
 
 .PHONY: git
 git:
@@ -142,3 +143,12 @@ gnupg:
 	@echo "gnupg"
 	@echo "##############################"
 	@stow -t ${HOME} gnupg
+
+clean-sway:
+	@rm -rfv ${HOME}/.config/sway
+
+.PHONY: sway
+sway:
+	@echo "sway"
+	@echo "##############################"
+	@stow -t ${HOME} sway
