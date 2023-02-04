@@ -142,6 +142,7 @@ clean-gnupg:
 gnupg:
 	@echo "gnupg"
 	@echo "##############################"
+	@mkdir -pv ${HOME}/.emacs.d
 	@stow -t ${HOME} gnupg
 
 clean-sway:
