@@ -143,6 +143,7 @@ gnupg:
 	@echo "gnupg"
 	@echo "##############################"
 	@mkdir -pv ${HOME}/.gnupg
+	@chmod 700 ${HOME}/.gnupg
 	@stow -t ${HOME} gnupg
 
 clean-sway:
