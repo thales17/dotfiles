@@ -15,6 +15,10 @@ export PATH=$PATH:$HOME/.local/bin
 
 export DOTNET_CLI_TELEMETRY_OPTOUT=1
 
+export GOPROXY=direct
+export GOSUMDB=off
+export GOTELEMETRY=off
+
 source $HOME/.bash_env
 
 export EDITOR=mg
