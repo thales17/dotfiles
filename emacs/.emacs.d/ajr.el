@@ -379,3 +379,25 @@ The screenshot is opened in the other window."
 		     (interactive)
 		     (ajr---cl-shutdown ,(concat (expand-file-name project-dir)
 						 startup-file))))))
+(defun ajr-home ()
+  "Opens the home file in a read only buffer. Press \"q\" to exit the
+home buffer. <tab> and <backtab> selects the next or previous
+link. <return> will open the currently selected link. The home file is
+located in ~/org/home.org. It is an org mode file that has links to
+various things."
+  (interactive)
+  (find-file "~/org/home.org")
+  (org-fold-show-all)
+  (text-scale-set 3)
+  (read-only-mode)
+  (local-set-key (kbd "q")
+		 (lambda ()
+		   (interactive)
+		   (local-unset-key (kbd "q"))
+		   (local-unset-key (kbd "<return>"))
+		   (local-unset-key (kbd "<tab>"))
+		   (local-unset-key (kbd "<backtab>"))
+		   (bury-buffer)))
+  (local-set-key (kbd "<tab>") 'org-next-link)
+  (local-set-key (kbd "<backtab>") 'org-previous-link)
+  (local-set-key (kbd "<return>") 'org-open-at-point))
