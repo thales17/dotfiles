@@ -401,3 +401,30 @@ various things."
   (local-set-key (kbd "<tab>") 'org-next-link)
   (local-set-key (kbd "<backtab>") 'org-previous-link)
   (local-set-key (kbd "<return>") 'org-open-at-point))
+
+(defun ajr--slop ()
+  "Runs slop to capture a region from the user. Returns a list of 4
+integers: x, y, w, h"
+  (mapcar #'string-to-number
+	  (split-string
+	   (shell-command-to-string "slop -f \"%x %y %w %h\"")
+	   " ")))
+
+(defun ajr-capture-screenshot ()
+  (interactive)
+  (let ((fname (expand-file-name
+		(concat
+		 "~/tmp/screenshot-"
+		 (format-time-string "%Y%m%d%H%M%S")
+		 ".jpg")))
+	(region (ajr--slop)))
+    (shell-command
+     (format
+      "ffmpeg -f x11grab -draw_mouse 0 -video_size %dx%d -i %s+%d,%d -vframes 1 %s"
+	     (nth 2 region)
+	     (nth 3 region)
+	     (getenv "DISPLAY")
+	     (nth 0 region)
+	     (nth 1 region)
+	     fname))
+    (find-file-other-window fname)))
