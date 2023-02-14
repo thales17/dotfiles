@@ -411,6 +411,9 @@ integers: x, y, w, h"
 	   " ")))
 
 (defun ajr-capture-screenshot ()
+  "Draw a box to capture a screenshot. Click the window to select the
+whole window. This will save the screenshot in the ~/tmp directory
+with the prefix screenshot- followed by the timestamp."
   (interactive)
   (let ((fname (expand-file-name
 		(concat
@@ -428,3 +431,28 @@ integers: x, y, w, h"
 	     (nth 1 region)
 	     fname))
     (find-file-other-window fname)))
+
+(defun ajr-capture-gif ()
+  "Draw a box to capture a gif of a region. Click a window to just
+select the whole window. This saves the gif in the ~/tmp directory
+with the prefix gifcapture-"
+  (interactive)
+  (let ((base-fname (expand-file-name
+		     (concat
+		      "~/tmp/gifcapture-"
+		      (format-time-string "%Y%m%d%H%M%S"))))
+	(region (ajr--slop))
+	(framerate 25)
+	;; TODO read this in from the universal argument
+	(duration-seconds 5))
+    (shell-command
+     (format
+      "ffmpeg -f x11grab -draw_mouse 0 -video_size %dx%d -i %s+%d,%d -framerate %d -vframes %d %s"
+      (nth 2 region)
+      (nth 3 region)
+      (getenv "DISPLAY")
+      (nth 0 region)
+      (nth 1 region)
+      framerate
+      (* framerate duration-seconds)
+      (concat base-fname ".gif")))))
