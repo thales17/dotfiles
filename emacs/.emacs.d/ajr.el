@@ -456,3 +456,8 @@ with the prefix gifcapture-"
       framerate
       (* framerate duration-seconds)
       (concat base-fname ".gif")))))
+
+(defun ajr-x-capslock-ctrl ()
+  "Sets the caps lock key as a control in x-windows"
+  (interactive)
+  (shell-command "/usr/bin/setxkbmap -option \"ctrl:nocaps\""))
