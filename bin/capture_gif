@@ -1,0 +1,20 @@
+#!/bin/bash
+
+DURATION=5
+FRAMERATE=25
+FRAMES=$((DURATION * FRAMERATE))
+GIF_PATH=~/tmp
+BASENAME="gifcapture"
+read -r TIMESTAMP < <(date +"%Y%m%d%H%M%S")
+FNAME=$GIF_PATH/$BASENAME-$TIMESTAMP.gif
+read -r X Y W H < <(slop -f "%x %y %w %h")
+
+echo "Recording $DURATION seconds"
+
+ffmpeg -loglevel quiet -f x11grab -draw_mouse 0 -video_size "$W"x"$H" -i "$DISPLAY"+$X,$Y -framerate $FRAMERATE -vframes $FRAMES $FNAME
+
+echo "Optimizing...."
+
+gifsicle -O3 $FNAME -o $FNAME
+
+echo $FNAME

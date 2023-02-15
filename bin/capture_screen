@@ -1,0 +1,11 @@
+#!/bin/bash
+
+SCREENSHOT_PATH=~/tmp
+BASENAME="screenshot"
+read -r TIMESTAMP < <(date +"%Y%m%d%H%M%S")
+FNAME=$SCREENSHOT_PATH/$BASENAME-$TIMESTAMP.jpg
+read -r X Y W H < <(slop -f "%x %y %w %h")
+
+ffmpeg -loglevel quiet -f x11grab -draw_mouse 0 -video_size "$W"x"$H" -i "$DISPLAY"+$X,$Y -vframes 1 $FNAME
+
+echo $FNAME

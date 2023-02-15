@@ -402,60 +402,27 @@ various things."
   (local-set-key (kbd "<backtab>") 'org-previous-link)
   (local-set-key (kbd "<return>") 'org-open-at-point))
 
-(defun ajr--slop ()
-  "Runs slop to capture a region from the user. Returns a list of 4
-integers: x, y, w, h"
-  (mapcar #'string-to-number
-	  (split-string
-	   (shell-command-to-string "slop -f \"%x %y %w %h\"")
-	   " ")))
-
 (defun ajr-capture-screenshot ()
   "Draw a box to capture a screenshot. Click the window to select the
 whole window. This will save the screenshot in the ~/tmp directory
 with the prefix screenshot- followed by the timestamp."
   (interactive)
-  (let ((fname (expand-file-name
-		(concat
-		 "~/tmp/screenshot-"
-		 (format-time-string "%Y%m%d%H%M%S")
-		 ".jpg")))
-	(region (ajr--slop)))
-    (shell-command
-     (format
-      "ffmpeg -f x11grab -draw_mouse 0 -video_size %dx%d -i %s+%d,%d -vframes 1 %s"
-	     (nth 2 region)
-	     (nth 3 region)
-	     (getenv "DISPLAY")
-	     (nth 0 region)
-	     (nth 1 region)
-	     fname))
-    (find-file-other-window fname)))
+  (ajr-start-process-in-buffer
+   "*screenshot*"
+   "screenshot"
+   "capture_screen"
+   nil))
 
 (defun ajr-capture-gif ()
   "Draw a box to capture a gif of a region. Click a window to just
 select the whole window. This saves the gif in the ~/tmp directory
 with the prefix gifcapture-"
   (interactive)
-  (let ((base-fname (expand-file-name
-		     (concat
-		      "~/tmp/gifcapture-"
-		      (format-time-string "%Y%m%d%H%M%S"))))
-	(region (ajr--slop))
-	(framerate 25)
-	;; TODO read this in from the universal argument
-	(duration-seconds 5))
-    (shell-command
-     (format
-      "ffmpeg -f x11grab -draw_mouse 0 -video_size %dx%d -i %s+%d,%d -framerate %d -vframes %d %s"
-      (nth 2 region)
-      (nth 3 region)
-      (getenv "DISPLAY")
-      (nth 0 region)
-      (nth 1 region)
-      framerate
-      (* framerate duration-seconds)
-      (concat base-fname ".gif")))))
+  (ajr-start-process-in-buffer
+   "*capture gif*"
+   "capture_gif"
+   "capture_gif"
+   nil))
 
 (defun ajr-x-capslock-ctrl ()
   "Sets the caps lock key as a control in x-windows"

@@ -103,6 +103,8 @@ clean-bin:
 	@rm -fv ${HOME}/.local/bin/lightdown
 	@rm -fv ${HOME}/.local/bin/ec
 	@rm -fv ${HOME}/.local/bin/backup
+	@rm -fv ${HOME}/.local/bin/capture_screen
+	@rm -fv ${HOME}/.local/bin/capture_gif
 
 .PHONY: emacs
 emacs:
