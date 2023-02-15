@@ -413,16 +413,20 @@ with the prefix screenshot- followed by the timestamp."
    "capture_screen"
    nil))
 
-(defun ajr-capture-gif ()
+(defun ajr-capture-gif (duration)
   "Draw a box to capture a gif of a region. Click a window to just
 select the whole window. This saves the gif in the ~/tmp directory
 with the prefix gifcapture-"
-  (interactive)
+  (interactive "nGIF Duration? ")
+  (message (format "You picked: %d" duration))
   (ajr-start-process-in-buffer
    "*capture gif*"
    "capture_gif"
    "capture_gif"
-   nil))
+   nil
+   nil
+   "-d"
+   (format "%d" duration)))
 
 (defun ajr-x-capslock-ctrl ()
   "Sets the caps lock key as a control in x-windows"
