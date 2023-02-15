@@ -1,21 +1,49 @@
 #!/bin/bash
 
-
 DURATION=5
-FRAMERATE=25
-FRAMES=$((DURATION * FRAMERATE))
+
+while getopts ":d:" opt; do
+	case ${opt} in
+	d)
+	    DURATION=$OPTARG
+	;;
+	\?)
+	    echo "Invalid option: $OPTARG" 1>&2
+	    exit 1
+	;;
+	esac
+done
+
+FRAMERATE=15
 GIF_PATH=~/tmp
-BASENAME="gifcapture"
+
 read -r TIMESTAMP < <(date +"%Y%m%d%H%M%S")
-FNAME=$GIF_PATH/$BASENAME-$TIMESTAMP.gif
+
+BASENAME=$GIF_PATH/gifcapture-$TIMESTAMP
+FILTERS="fps=15"
+
+
 read -r X Y W H < <(slop -f "%x %y %w %h")
 
-echo "Recording $DURATION seconds"
+echo "Recording video for $DURATION seconds"
 
-ffmpeg -loglevel quiet -f x11grab -draw_mouse 0 -video_size "$W"x"$H" -i "$DISPLAY"+$X,$Y -framerate $FRAMERATE -vframes $FRAMES $FNAME
+ffmpeg -loglevel quiet -f x11grab -draw_mouse 0 -video_size "$W"x"$H" -i "$DISPLAY"+$X,$Y -t $DURATION $BASENAME.mp4
 
-echo "Optimizing...."
+echo "Generating palette..."
 
-gifsicle -O3 $FNAME -o $FNAME
+ffmpeg -loglevel quiet -i $BASENAME.mp4 -vf "$FILTERS,palettegen=stats_mode=diff" -y $BASENAME.palette.png
 
-echo $FNAME
+echo "Generating gif..."
+
+ffmpeg -loglevel quiet -i $BASENAME.mp4 -i $BASENAME.palette.png -lavfi "$FILTERS,paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle" -y $BASENAME.gif
+
+echo "Optimizing gif...."
+
+gifsicle -O3 $BASENAME.gif -o $BASENAME.gif
+
+echo "Removing incremental files"
+rm -v $BASENAME.mp4
+rm -v $BASENAME.palette.png
+
+
+echo $BASENAME.gif
