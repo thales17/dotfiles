@@ -208,7 +208,8 @@
 	 ("w" . ajr-elfeed-search-star)
 	 ("W" . ajr-elfeed-search-star-filter)
 	 :map elfeed-show-mode-map
-	 ("w" . ajr-elfeed-show-star))
+	 ("w" . ajr-elfeed-show-star)
+	 ("TAB" . shr-next-link))
   :custom
   (elfeed-sort-order 'ascending)
   (elfeed-search-filter "+unread"))
@@ -234,6 +235,10 @@
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
 (global-set-key (kbd "M-o") 'other-window)
+
+(global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
+(global-set-key (kbd "C-c v p") 'ajr-video-play)
+(global-set-key (kbd "C-c v b") 'ajr-video-dired)
 
 (when (daemonp)
   (global-set-key (kbd "C-x C-c") 'ajr-ask-before-closing))

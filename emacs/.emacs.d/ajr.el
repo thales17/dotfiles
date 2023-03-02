@@ -244,7 +244,7 @@ date (newest first)."
      ajr-video-dir
      yt-url
      "-f"
-     "best[height<=1080]"
+     "244+140"
      yt-url)))
 
 (defvar ajr-mini-scroll-amount 5
