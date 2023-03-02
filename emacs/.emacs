@@ -3,6 +3,9 @@
 	 (getenv "HOME")
 	 "/.local/lib"))
 
+
+(load "~/.emacs.d/ajr")
+
 (setq x-alt-keysym 'meta)
 
 (require 'package)
@@ -197,6 +200,23 @@
 (use-package gruvbox-theme
   :ensure t)
 
+(use-package elfeed
+  :ensure t
+  :bind (("<f11>" . elfeed)
+	 :map elfeed-search-mode-map
+	 ("a" . ajr-elfeed-search-mark-read)
+	 ("w" . ajr-elfeed-search-star)
+	 ("W" . ajr-elfeed-search-star-filter)
+	 :map elfeed-show-mode-map
+	 ("w" . ajr-elfeed-show-star))
+  :custom
+  (elfeed-sort-order 'ascending))
+
+(use-package elfeed-org
+  :ensure t
+  :init (progn
+	  (elfeed-org)))
+
 (defun ajr-before-save ()
   (whitespace-cleanup)
   (when (eglot-managed-p)
@@ -206,8 +226,6 @@
 
 (require 'epg)
 (setq epg-pinentry-mode 'loopback)
-
-(load "~/.emacs.d/ajr")
 
 (global-set-key (kbd "<f5>") 'redraw-display)
 (global-set-key (kbd "<f6>") 'ajr-scratch)

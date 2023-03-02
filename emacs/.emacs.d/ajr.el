@@ -166,7 +166,7 @@ will be pass as PROGRAM-ARGS to the PROGRAM."
 
 (defcustom ajr-video-dir
   (concat (getenv "HOME")
-	  "/videos")
+	  "/Videos/yt-dlp")
   "Directory where your videos are kept.
   Used the `ajr-video-*' functions."
   :type 'directory)
@@ -238,9 +238,9 @@ date (newest first)."
   (interactive)
   (let ((yt-url (url-get-url-at-point)))
     (ajr-start-process-in-buffer
-     "*youtube-dl*"
+     "*yt-dlp*"
      (format "youtube-dl %s" yt-url)
-     "youtube-dl"
+     "yt-dlp"
      ajr-video-dir
      yt-url
      "-f"
@@ -432,3 +432,23 @@ with the prefix gifcapture-"
   "Sets the caps lock key as a control in x-windows"
   (interactive)
   (shell-command "/usr/bin/setxkbmap -option \"ctrl:nocaps\""))
+
+(defun ajr-elfeed-search-mark-read ()
+  "Removes the unread tag from selected feed"
+  (interactive)
+  (elfeed-search-untag-all 'unread))
+
+(defun ajr-elfeed-show-star ()
+  "Adds star tag to the currently viewed item"
+  (interactive)
+  (elfeed-show-tag 'star))
+
+(defun ajr-elfeed-search-star ()
+  "Adds the star tag to selected feed"
+  (interactive)
+  (elfeed-search-tag-all 'star))
+
+(defun ajr-elfeed-search-star-filter ()
+  "Sets the search filter to only show star label items"
+  (interactive)
+  (elfeed-search-set-filter "+star"))
