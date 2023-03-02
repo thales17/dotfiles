@@ -210,7 +210,8 @@
 	 :map elfeed-show-mode-map
 	 ("w" . ajr-elfeed-show-star))
   :custom
-  (elfeed-sort-order 'ascending))
+  (elfeed-sort-order 'ascending)
+  (elfeed-search-filter "+unread"))
 
 (use-package elfeed-org
   :ensure t
