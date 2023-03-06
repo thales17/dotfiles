@@ -207,6 +207,7 @@
 	 ("a" . ajr-elfeed-search-mark-read)
 	 ("w" . ajr-elfeed-search-star)
 	 ("W" . ajr-elfeed-search-star-filter)
+	 ("G" . ajr-elfeed-search-fetch)
 	 :map elfeed-show-mode-map
 	 ("w" . ajr-elfeed-show-star)
 	 ("TAB" . shr-next-link))

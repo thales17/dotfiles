@@ -1,3 +1,5 @@
+-*- lexical-binding: t -*-
+
 (defun ajr--random-list-item (list)
   "Returns random item from `list'"
   (nth (random (length list)) list))
@@ -320,7 +322,7 @@ The screenshot is opened in the other window."
       fname))
     (find-file-other-window fname)))
 
-;; -*- lexical-binding: t -*-
+
 
 
 ;;; Helpers for creating easy startup and shutdown method for Common
@@ -452,3 +454,28 @@ with the prefix gifcapture-"
   "Sets the search filter to only show star label items"
   (interactive)
   (elfeed-search-set-filter "+star"))
+
+(let ((last-run nil))
+  (defun ajr-make-throttled-thunk (thunk &optional throttle-seconds)
+    (let ((throttle-seconds (or throttle-seconds 30)))
+      (lambda ()
+	(if (or (null last-run)
+		  (>= (time-convert (time-since last-run)
+				    'integer)
+		      throttle-seconds))
+	    (progn
+	      (setq last-run (current-time))
+	      (funcall thunk))
+	  (message "Throttled!"))))))
+
+(let ((throttled-elfeed-search-fetch
+       (ajr-make-throttled-thunk
+	#'(lambda ()
+	    (elfeed-search-fetch nil))
+	(* 60 60))))
+
+  (defun ajr-elfeed-search-fetch ()
+    "Throttled wrapper for elfeed-search-fetch. I wrote this to ensure
+that I don't accidentally hammer RSS feeds."
+    (interactive)
+    (funcall throttled-elfeed-search-fetch)))
