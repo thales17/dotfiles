@@ -1,4 +1,4 @@
--*- lexical-binding: t -*-
+;; -*- lexical-binding: t -*-
 
 (defun ajr--random-list-item (list)
   "Returns random item from `list'"
