@@ -241,7 +241,7 @@ date (newest first)."
   (let ((yt-url (url-get-url-at-point)))
     (ajr-start-process-in-buffer
      "*yt-dlp*"
-     (format "youtube-dl %s" yt-url)
+     (format "yt-dlp %s" yt-url)
      "yt-dlp"
      ajr-video-dir
      yt-url
