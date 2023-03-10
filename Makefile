@@ -116,8 +116,7 @@ emacs:
 
 clean-emacs:
 	@rm -fv ${HOME}/.emacs
-	@rm -Rfv ${HOME}/.emacs.d/ajr.el
-	@rm -fv ${HOME}/.emacs.d/ajr-1.el
+	@rm -fv ${HOME}/.emacs.d/lisp/ajr.el
 
 .PHONY: xmodmap
 xmodmap:

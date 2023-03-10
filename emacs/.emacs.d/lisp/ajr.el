@@ -479,3 +479,5 @@ with the prefix gifcapture-"
 that I don't accidentally hammer RSS feeds."
     (interactive)
     (funcall throttled-elfeed-search-fetch)))
+
+(provide 'ajr)

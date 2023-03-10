@@ -4,7 +4,7 @@
 	 "/.local/lib"))
 
 
-(load "~/.emacs.d/ajr")
+(load "~/.emacs.d/lisp/ajr")
 
 (setq x-alt-keysym 'meta)
 
@@ -230,7 +230,7 @@
 (require 'epg)
 (setq epg-pinentry-mode 'loopback)
 
-(global-set-key (kbd "<f5>") 'redraw-display)
+(global-set-key (kbd "<f5>") 'ajr-x-capslock-ctrl)
 (global-set-key (kbd "<f6>") 'ajr-scratch)
 (global-set-key (kbd "<f7>") 'shell)
 (global-set-key (kbd "<f8>") 'compile)
