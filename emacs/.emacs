@@ -144,10 +144,20 @@
 	     "* TODO %?\n"
 	     :prepend t)))
 
+(defun ajr-org-jump-to-heading-beginning ()
+  "Taken from Emacs Elements (Emacs org-speed commands: WOW!),
+https://www.youtube.com/watch?v=v-jLg1VaYzo. Jump to the beginning of
+the current heading. Good to use with org speed commands."
+  (interactive)
+  (org-back-to-heading)
+  (org-beginning-of-line))
+
 (use-package org
   :bind (("C-c l" . org-store-link)
 	 ("C-c a" . org-agenda)
-	 ("C-c c" . org-capture))
+	 ("C-c c" . org-capture)
+	 :map org-mode-map
+	 ("&*" . ajr-org-jump-to-heading-beginning))
   :custom
   (org-hide-emphasis-markers nil)
   (org-src-preserve-indentation t)
@@ -166,7 +176,8 @@
      (dot . t)
      (lisp . t)
      (emacs-lisp . t)
-     (plantuml . t))))
+     (plantuml . t)))
+  (org-use-speed-commands t))
 
 (use-package project
   :custom
