@@ -162,7 +162,6 @@ the current heading. Good to use with org speed commands."
   (org-hide-emphasis-markers nil)
   (org-src-preserve-indentation t)
   (org-src-tab-acts-natively t)
-  (org-startup-folded 'content)
   (org-todo-keyword-faces '(("IN PROGRESS" . "cyan")))
   (org-todo-keywords '((sequence "TODO" "IN PROGRESS" "DONE")))
   (org-ditaa-jar-path "~/.local/lib/ditaa0_9.jar")
