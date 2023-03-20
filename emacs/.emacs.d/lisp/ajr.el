@@ -155,16 +155,25 @@ will be pass as PROGRAM-ARGS to the PROGRAM."
 			(ajr--random-list-item
 			 (ajr--all-albums)))))
 
-(defcustom ajr-podcast-dir
-  (concat (getenv "HOME")
-	  "/podcasts")
-  "Directory where your podcasts are kept.
-  Used the `ajr-podcast-*' functions.")
+(setq ajr--podcast-playing-p nil)
 
-(defun ajr-podcast-dired ()
-  "Opens dired buffer to `ajr-podcast-dir' in other window"
+(defun ajr-play-pause-toggle ()
+  "Toggles the play state for music. If any podcast is playing it
+pauses that and switches to music"
   (interactive)
-  (find-file-other-window ajr-podcast-dir))
+  (when ajr--podcast-playing-p
+    (ajr-podcast))
+  (emms-pause))
+
+(defun ajr-podcast ()
+  "Toggles the current podcast. Runs the podcast script which opens a
+browser to pocketcasts and presses space to toggle the playback. If
+any music is playing it pauses that."
+  (interactive)
+  (when (and emms-player-playing-p (not emms-player-paused-p))
+    (emms-pause))
+  (setq ajr--podcast-playing-p (if ajr--podcast-playing-p nil t))
+  (shell-command "podcast"))
 
 (defcustom ajr-video-dir
   (concat (getenv "HOME")

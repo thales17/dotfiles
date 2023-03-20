@@ -17,6 +17,9 @@
 
 (use-package dired
   :hook (dired-mode . dired-hide-details-mode)
+  :bind
+  (:map dired-mode-map
+   ("F" . counsel-fzf))
   :custom
   (dired-dwim-target t)
   (dired-recursive-copies 'always)
@@ -60,11 +63,12 @@
 	    (emms-default-players))
   :bind (("C-c m b" . emms-playlist-mode-go)
 	 ("C-c m a" . ajr-play-album)
-	 ("C-c m p" . emms-pause)
+	 ("C-c m p" . ajr-play-pause-toggle)
 	 ("C-c m <right>" . emms-next)
 	 ("C-c m <left>" . emms-previous)
 	 ("C-c m i" . emms-show-all)
-	 ("C-c m r" . ajr-play-random-album)))
+	 ("C-c m r" . ajr-play-random-album)
+	 ("C-c m c" . ajr-podcast)))
 
 (use-package company
   :ensure t
@@ -137,12 +141,17 @@
   :demand t
   :bind (("C-x l" . slime-repl)))
 
+(use-package dumb-jump
+  :ensure t
+  :init
+  (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
+
 (setq org-capture-templates
-	  '(("t" "TODO")
-	    ("ti" "Misc TODO" entry
-	     (file+headline "todos.org" "Misc")
-	     "* TODO %?\n"
-	     :prepend t)))
+      '(("t" "TODO")
+	("ti" "Misc TODO" entry
+	 (file+headline "todos.org" "Misc")
+	 "* TODO %?\n"
+	 :prepend t)))
 
 (defun ajr-org-jump-to-heading-beginning ()
   "Taken from Emacs Elements (Emacs org-speed commands: WOW!),
