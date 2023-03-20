@@ -105,6 +105,7 @@ clean-bin:
 	@rm -fv ${HOME}/.local/bin/backup
 	@rm -fv ${HOME}/.local/bin/capture_screen
 	@rm -fv ${HOME}/.local/bin/capture_gif
+	@rm -fv ${HOME}/.local/bin/podcast
 
 .PHONY: emacs
 emacs:

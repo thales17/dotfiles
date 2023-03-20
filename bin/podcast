@@ -1,0 +1,42 @@
+#!/bin/bash
+
+URL="play.pocketcasts.com"
+WIN="Pocket Casts"
+
+start () {
+    wmctrl -a $WIN
+
+    if [ $? -eq 0 ]; then
+	return
+    fi
+
+    # Assumes you are logged in
+    firefox -new-window $URL
+
+    # Wait for the browser to open
+    sleep 0.5
+
+    # Make sure the window is not maximized
+    wmctrl -r $WIN -b remove,maximized_horz,maximized_vert
+
+    # Set the size of the window to be small
+    wmctrl -r $WIN -e 0,0,10,320,480
+
+    # Wait for the JavaScript to load
+    sleep 1.5
+}
+
+toggle () {
+    # Raise the window
+    wmctrl -a $WIN
+
+    # Press space to start the podcasts
+    xdotool key "space"
+
+    # Minimize the window
+    wmctrl -r $WIN -b add,hidden
+}
+
+
+start
+toggle
