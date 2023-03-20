@@ -1,7 +1,7 @@
 #!/bin/bash
 
 URL="play.pocketcasts.com"
-WIN="Pocket Casts"
+WIN="ajr-pocketcasts"
 
 start () {
     wmctrl -a $WIN
@@ -10,11 +10,23 @@ start () {
 	return
     fi
 
+    wmctrl -a "Firefox"
+
+    if [ $? -eq 1 ]; then
+	echo "Starting firefox"
+	firefox &
+	sleep 2
+	wmctrl -r "Firefox" -b add,maximized_vert,maximized_horz
+	wmctrl -r "Firefox" -t 1
+    fi
+
     # Assumes you are logged in
     firefox -new-window $URL
 
     # Wait for the browser to open
-    sleep 0.5
+    sleep 1.5
+
+    wmctrl -r "Pocket Casts" -N $WIN
 
     # Make sure the window is not maximized
     wmctrl -r $WIN -b remove,maximized_horz,maximized_vert
@@ -24,6 +36,8 @@ start () {
 
     # Wait for the JavaScript to load
     sleep 1.5
+
+    wmctrl -a "Emacs"
 }
 
 toggle () {
@@ -35,8 +49,10 @@ toggle () {
 
     # Minimize the window
     wmctrl -r $WIN -b add,hidden
-}
 
+    wmctrl -a "Firefox"
+    wmctrl -a "Emacs"
+}
 
 start
 toggle
