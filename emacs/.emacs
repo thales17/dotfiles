@@ -272,5 +272,7 @@ the current heading. Good to use with org speed commands."
 (global-unset-key (kbd "C-x C-z"))
 
 (setq custom-file "~/.emacs-custom.el")
-(load custom-file)
+(when (file-exists-p custom-file)
+  (load custom-file))
+
 (put 'downcase-region 'disabled nil)
