@@ -255,6 +255,9 @@ the current heading. Good to use with org speed commands."
 (global-set-key (kbd "<f8>") 'compile)
 (global-set-key (kbd "<f9>") 'whitespace-mode)
 (global-set-key (kbd "M-o") 'other-window)
+(global-set-key (kbd "M-O") (lambda ()
+			      (interactive)
+			      (other-window -1)))
 
 (global-set-key (kbd "C-c v d") 'ajr-video-youtube-dl-at-point)
 (global-set-key (kbd "C-c v p") 'ajr-video-play)
