@@ -157,6 +157,12 @@ will be pass as PROGRAM-ARGS to the PROGRAM."
 
 (setq ajr--podcast-playing-p nil)
 
+(defun ajr-podcast-reset ()
+  "Sets the podcast playing state to nil. Useful when the podcast is
+closed externally."
+  (interactive)
+  (setq ajr--podcast-playing-p nil))
+
 (defun ajr-play-pause-toggle ()
   "Toggles the play state for music. If any podcast is playing it
 pauses that and switches to music"
