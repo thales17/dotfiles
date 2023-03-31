@@ -498,7 +498,6 @@ that I don't accidentally hammer RSS feeds."
 (defun ajr-project-view (default-file)
   "Jump to the default view of a project. The `default-file' is
 whichever code file in the project makes sense to load first."
-  (interactive)
   (delete-other-windows)
   (find-file default-file)
   (magit-status)
