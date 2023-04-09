@@ -2,7 +2,7 @@
 
 set -e
 
-FLAC_MUSIC_DIR=~/music
+FLAC_MUSIC_DIR=~/Music
 MP3_MUSIC_DIR=~/mp3_music
 
 find $FLAC_MUSIC_DIR -name "*.flac" | while read flac_file_path; do
