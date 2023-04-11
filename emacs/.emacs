@@ -3,17 +3,6 @@
 	 (getenv "HOME")
 	 "/.local/lib"))
 
-(setenv "DYLD_LIBRARY_PATH"
-	(concat
-	 (getenv "HOME")
-	 "/.local/lib"))
-
-(setenv "DYLD_FALLBACK_LIBRARY_PATH"
-	(concat
-	 (getenv "HOME")
-	 "/.local/lib"))
-
-
 (load "~/.emacs.d/lisp/ajr")
 
 (setq x-alt-keysym 'meta)
