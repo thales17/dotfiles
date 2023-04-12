@@ -145,6 +145,9 @@
   :init
   (add-hook 'xref-backend-functions #'dumb-jump-xref-activate))
 
+(use-package vterm
+  :ensure t)
+
 (setq org-capture-templates
       '(("t" "TODO")
 	("ti" "Misc TODO" entry
