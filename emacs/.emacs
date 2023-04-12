@@ -246,7 +246,7 @@ the current heading. Good to use with org speed commands."
   (when (eglot-managed-p)
     (eglot-format-buffer)))
 
-(add-hook 'before-save-hook 'ajr-before-save)
+;; (add-hook 'before-save-hook 'ajr-before-save)
 
 (require 'epg)
 (setq epg-pinentry-mode 'loopback)
