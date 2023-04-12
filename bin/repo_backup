@@ -1,7 +1,7 @@
 #!/bin/bash
 
 REPO_BACKUP_DIR=~/repos
-REPO_REMOTE_PATH=adam@present:/ext2/code/
+REPO_REMOTE_PATH=adam@raccoon:~/repos
 
 echo "creating local backup of remote repos in $REPO_BACKUP_DIR"
 
