@@ -241,12 +241,14 @@ the current heading. Good to use with org speed commands."
   :init (progn
 	  (elfeed-org)))
 
+(require 'eglot)
+
 (defun ajr-before-save ()
   (whitespace-cleanup)
   (when (eglot-managed-p)
     (eglot-format-buffer)))
 
-;; (add-hook 'before-save-hook 'ajr-before-save)
+(add-hook 'before-save-hook 'ajr-before-save)
 
 (require 'epg)
 (setq epg-pinentry-mode 'loopback)
@@ -278,3 +280,7 @@ the current heading. Good to use with org speed commands."
   (load custom-file))
 
 (put 'downcase-region 'disabled nil)
+
+(setq c-default-style '((java-mode . "java")
+			(awk-mode . "awk")
+			(other . "linux")))
