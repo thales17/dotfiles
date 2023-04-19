@@ -66,8 +66,7 @@
 	 ("C-c m <right>" . emms-next)
 	 ("C-c m <left>" . emms-previous)
 	 ("C-c m i" . emms-show-all)
-	 ("C-c m r" . ajr-play-random-album)
-	 ("C-c m c" . ajr-podcast)))
+	 ("C-c m r" . ajr-play-random-album)))
 
 (use-package company
   :ensure t

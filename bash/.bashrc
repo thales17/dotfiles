@@ -23,4 +23,4 @@ source $HOME/.bash_env
 
 export EDITOR=mg
 
-alias e='emacs -nw'
+alias e='emacsclient -t'
