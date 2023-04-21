@@ -2,7 +2,7 @@
 
 set -e
 
-USB_PATH="/run/media/adam/CRV Audio/"
+USB_PATH="/media/adam/CRV Audio/"
 PROBABLE_DRIVE=/dev/sdb1
 MP3_MUSIC_PATH=~/mp3_music/
 
