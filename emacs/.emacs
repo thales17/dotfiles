@@ -242,6 +242,10 @@ the current heading. Good to use with org speed commands."
   :init (progn
 	  (elfeed-org)))
 
+(use-package isearch
+  :custom
+  (isearch-lazy-count t))
+
 (require 'eglot)
 
 (defun ajr-before-save ()
