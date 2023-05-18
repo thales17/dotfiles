@@ -185,6 +185,7 @@ the current heading. Good to use with org speed commands."
      (ditaa . t)
      (C . t)
      (dot . t)
+     (go . t)
      (lisp . t)
      (emacs-lisp . t)
      (plantuml . t)))
@@ -289,3 +290,5 @@ the current heading. Good to use with org speed commands."
 (setq c-default-style '((java-mode . "java")
 			(awk-mode . "awk")
 			(other . "linux")))
+
+(add-hook 'before-save-hook #'gofmt-before-save)
