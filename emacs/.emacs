@@ -185,7 +185,6 @@ the current heading. Good to use with org speed commands."
      (ditaa . t)
      (C . t)
      (dot . t)
-     (go . t)
      (lisp . t)
      (emacs-lisp . t)
      (plantuml . t)))

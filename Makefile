@@ -1,4 +1,4 @@
-all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty gnupg sway kitty
+all: git tmux nethack abcde beets bash dunst bin emacs xmodmap alacritty gnupg sway kitty environment.d
 
 clean: clean-git
 clean: clean-tmux
@@ -14,6 +14,7 @@ clean: clean-alacritty
 clean: clean-gnupg
 clean: clean-sway
 clean: clean-kitty
+clean: clean-environment.d
 
 .PHONY: git
 git:
@@ -166,3 +167,13 @@ kitty:
 	@echo "kitty"
 	@echo "##############################"
 	@stow -t ${HOME} kitty
+
+
+clean-environment.d:
+	@rm -rfv ${HOME}/.config/environment.d
+
+.PHONY: environment.d
+environment.d:
+	@echo "environment.d"
+	@echo "##############################"
+	@stow -t ${HOME} environment.d
