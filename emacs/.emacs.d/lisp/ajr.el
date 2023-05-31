@@ -505,4 +505,13 @@ whichever code file in the project makes sense to load first."
   (other-window 1)
   (project-shell))
 
+(defun ajr-todo ()
+  "Opens a buffer to a todo file named after the current date. The
+default path for the todo file is `~/org/<DATE>_todo.org'"
+  (interactive)
+  (find-file (concat
+	      "~/org/"
+	      (format-time-string "%Y-%m-%d")
+	      "_todo.org")))
+
 (provide 'ajr)
