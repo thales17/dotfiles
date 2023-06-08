@@ -514,4 +514,21 @@ default path for the todo file is `~/org/<DATE>_todo.org'"
 	      (format-time-string "%Y-%m-%d")
 	      "_todo.org")))
 
+(defun ajr-git-show ()
+  "Prompts user for branch and views current file in that branch"
+  (interactive)
+  (let* ((all-branches (split-string
+			(shell-command-to-string "git --no-pager branch")))
+	 (branch (completing-read "Which Branch? " all-branches))
+	 (file-name (file-name-nondirectory (buffer-file-name)))
+	 (git-file-name (shell-command-to-string
+			 (concat
+			  "git ls-files --full-name "
+			  file-name)))
+	 (branch-path (concat branch ":" git-file-name)))
+    (other-window-prefix)
+    (shell-command (concat
+		    "git --no-pager show " branch-path)
+		   branch-path)))
+
 (provide 'ajr)
