@@ -531,4 +531,16 @@ default path for the todo file is `~/org/<DATE>_todo.org'"
 		    "git --no-pager show " branch-path)
 		   branch-path)))
 
+(defcustom ajr-web-urls
+  '(("LWN" . "https://lwn.net"))
+  "List of urls accessible via ajr-web command"
+  :type '(alist :key-type string
+		:value-type string))
+
+(defun ajr-web ()
+  (interactive)
+  (browse-url
+   (cdr (assoc (completing-read "URL? " ajr-web-urls)
+	       ajr-web-urls))))
+
 (provide 'ajr)
