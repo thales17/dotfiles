@@ -291,3 +291,5 @@ the current heading. Good to use with org speed commands."
 			(other . "linux")))
 
 (add-hook 'before-save-hook #'gofmt-before-save)
+
+(global-set-key (kbd "<f12>") 'ajr-web)
